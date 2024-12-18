@@ -1,16 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.FloatType;
-import fr.ensimag.deca.context.IntType;
+import java.io.PrintStream;
+import java.util.Iterator;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
-import java.io.PrintStream;
-import org.apache.commons.lang.Validate;
 
 /**
  * Print statement (print, println, ...).
@@ -39,8 +39,20 @@ public abstract class AbstractPrint extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Iterator<AbstractExpr> iterator = arguments.getList().iterator(); 
+    
+        while (iterator.hasNext()) {
+            AbstractExpr argument = iterator.next(); 
+            Type argType = argument.verifyExpr(compiler, localEnv, currentClass);
+    
+            if (!argType.isString()) {
+                throw new ContextualError("Unsupported type in hello_world language: " +
+                        argType + " is not printable", argument.getLocation());
+            }
+        }
+    
     }
+    
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
