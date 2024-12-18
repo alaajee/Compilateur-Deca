@@ -97,7 +97,7 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 
 list_inst returns[ListInst tree]
 @init {
-    $tree=new ListInt();
+    $tree=new ListInst();
 }
     : (inst {
         assert($inst.tree!=null);
@@ -383,8 +383,6 @@ literal returns[AbstractExpr tree]
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
-        $tree=new Identifier(tableSymboles.create($IDENT.text));
-        setLocation($tree, $IDENT);
         }
     ;
 

@@ -9,10 +9,11 @@ options {
 }
 
 @members {
+
 }
 
 // Deca lexer rules.
-DUMMY_TOKEN: .; // A FAIRE : Règle bidon qui reconnait tous les caractères.
+ // A FAIRE : Règle bidon qui reconnait tous les caractères.
                 // A FAIRE : Il faut la supprimer et la remplacer par les vraies règles.
 
                //Mots reserves
@@ -75,7 +76,7 @@ DUMMY_TOKEN: .; // A FAIRE : Règle bidon qui reconnait tous les caractères.
                INT : ('0' | POSITIVE_DIGIT DIGIT*);
 
                /*
-               Une erreur de compilation est levée si un littéral entier n’est pas 
+               Une erreur de compilation est levée si un littéral entier n’est pas
                codable comme un entier signé positif sur 32 bits
                */
 
@@ -86,9 +87,9 @@ DUMMY_TOKEN: .; // A FAIRE : Règle bidon qui reconnait tous les caractères.
 
                //Littéraux flottants
 
-               fragment SIGN : [+-];    
-               fragment DIGITHEX : [0-9a-fA-F];  
-               NUM : DIGIT+ ;    
+               fragment SIGN : [+-];
+               fragment DIGITHEX : [0-9a-fA-F];
+               NUM : DIGIT+ ;
                EXP : ('E' | 'e') SIGN? NUM ;
                DEC : NUM '.' NUM ;
                FLOATDEC : DEC EXP? [Ff]?;
@@ -96,7 +97,7 @@ DUMMY_TOKEN: .; // A FAIRE : Règle bidon qui reconnait tous les caractères.
                FLOATHEX : ('0x' | '0X') NUMHEX '.' NUMHEX [Pp] SIGN? NUM [Ff]?;
                FLOAT : FLOATDEC | FLOATHEX;
 
-               /* 
+               /*
                Une erreur de compilation est levée si un littéral est trop grand et que l’arrondi se fait
 vers l’infini, ou bien qu’un littéral non nul est trop petit et que l’arrondi se fait vers zéro.
 */
@@ -105,17 +106,9 @@ vers l’infini, ou bien qu’un littéral non nul est trop petit et que l’arr
 
                fragment EOL : '\r'? '\n';
                fragment STRING_CAR : ~['"\\\r\n];
-               STRING : '"' (STRING_CAR | '\\"' | '\\\\')* ;
+               STRING : '"' (STRING_CAR | '\\"' | '\\\\')* '"';
                MULTI_LINE_STRING : '"' (STRING_CAR | EOL | '\\"' |'\\\\')* '"' ;
+               WS : [ \t\r\n]+ -> skip;
 
-
-
-
-
-
-
-
-
-
-
-
+               LINE_COMMENT : '//' ~[\r\n]* -> skip ;
+               BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
