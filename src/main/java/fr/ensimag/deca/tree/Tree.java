@@ -223,6 +223,7 @@ public abstract class Tree {
      */
     protected void checkDecoration() {
         // Nothing by default. Override to add checks for specific nodes.
+
     }
 
     /**
@@ -232,6 +233,7 @@ public abstract class Tree {
      *
      * @return true. Raises an exception in case of error. The return value is
      * meant to allow assert(tree.checkAllLocations()), to enable the defensive
+     * check only if assertions are enabled.
      * check only if assertions are enabled.
      */
     public boolean checkAllDecorations() {

@@ -14,11 +14,16 @@ import org.apache.log4j.Logger;
 
 /**
  * Driver to test the contextual analysis (together with lexer/parser)
- * 
+ *
  * @author Ensimag
- * @date 01/01/2025
+ * @date 01/01/2017
  */
 public class ManualTestContext {
+    public static String gencodeSource(AbstractProgram source) {
+        DecacCompiler compiler = new DecacCompiler(null,null);
+        source.codeGenProgram(compiler);
+        return compiler.displayIMAProgram();
+    }
     public static void main(String[] args) throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex = AbstractDecaLexer.createLexerFromArgs(args);
@@ -38,5 +43,8 @@ public class ManualTestContext {
             System.exit(1);
         }
         prog.prettyPrint(System.out);
+        prog.checkAllDecorations();
+        String result = gencodeSource(prog);
+        System.out.println(result);
     }
 }
