@@ -44,6 +44,27 @@ public class CompilerOptions {
     
     public void parseArgs(String[] args) throws CLIException {
         // A FAIRE : parcourir args pour positionner les options correctement.
+        if (args.length == 0) {
+            displayUsage();
+            return;
+        }
+        for (String arg : args) {
+            switch (arg) {
+                case "-b":
+                    System.out.println("Nom de l'équipe :gl02");
+                default:
+                    File file = new File(arg);
+                    if (file.exists() && file.isFile()) {
+                        sourceFiles.add(file);
+                    } else {
+                        throw new CLIException("Invalid file path: " + arg);
+                    }
+                    break;
+           }
+        }
+        if (sourceFiles.isEmpty() && !printBanner) {
+            throw new CLIException("No source files provided");
+        }
         Logger logger = Logger.getRootLogger();
         // map command-line debug option to log4j's level.
         switch (getDebug()) {
@@ -67,10 +88,28 @@ public class CompilerOptions {
             logger.info("Java assertions disabled");
         }
 
-        throw new UnsupportedOperationException("not yet implemented");
     }
 
     protected void displayUsage() {
-        throw new UnsupportedOperationException("not yet implemented");
+        System.out.println("Usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] [-w] <fichier deca>...] | [-b]");
+        System.out.println("Options:");
+        System.out.println(" -b (banner) : affiche une bannière indiquant le nom de l'équipe");
+        System.out.println(" -p (parse) : arrête decac après l'étape de construction de" + 
+                        "l'arbre, et affiche la décompilation de ce dernier" +
+                        "(i.e. s'il n'y a qu'un fichier source à" +
+                        "compiler, la sortie doit être un programme" +
+                        "deca syntaxiquement correct)");
+        System.out.println("  -v (verification) : arrête decac après l'étape de vérifications" + 
+                        "(ne produit aucune sortie en l'absence d'erreur)");
+        System.out.println(" -n (no check) : supprime les tests à l'exécution spécifiés dans" +
+                        "les points 11.1 et 11.3 de la sémantique de Deca");
+        System.out.println(" -r X (registers) : limite les registres banalisés disponibles à" +
+                        "R0 ... R{X-1}, avec 4 <= X <= 16");
+        System.out.println(" -d (debug) : active les traces de debug. Répéter" +
+                        "l'option plusieurs fois pour avoir plus de" +
+                        "traces");
+        System.out.println(" -P (parallel) : s'il y a plusieurs fichiers sources," +
+                        "lance la compilation des fichiers en" +
+                        "parallèle (pour accélérer la compilation)");
     }
 }
