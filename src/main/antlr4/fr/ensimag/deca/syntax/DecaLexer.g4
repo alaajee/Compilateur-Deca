@@ -76,7 +76,11 @@ options {
                INT : ('0' | POSITIVE_DIGIT DIGIT*);
 
                /*
+<<<<<<< HEAD
                Une erreur de compilation est levée si un littéral entier n’est pas
+=======
+               Une erreur de compilation est levée si un littéral entier n’est pas 
+>>>>>>> aff9700f74a0a2ea349182e7f0903c359360d873
                codable comme un entier signé positif sur 32 bits
                */
 
@@ -87,9 +91,15 @@ options {
 
                //Littéraux flottants
 
+<<<<<<< HEAD
                fragment SIGN : [+-];
                fragment DIGITHEX : [0-9a-fA-F];
                NUM : DIGIT+ ;
+=======
+               fragment SIGN : [+-];    
+               fragment DIGITHEX : [0-9a-fA-F];  
+               NUM : DIGIT+ ;    
+>>>>>>> aff9700f74a0a2ea349182e7f0903c359360d873
                EXP : ('E' | 'e') SIGN? NUM ;
                DEC : NUM '.' NUM ;
                FLOATDEC : DEC EXP? [Ff]?;
@@ -97,7 +107,11 @@ options {
                FLOATHEX : ('0x' | '0X') NUMHEX '.' NUMHEX [Pp] SIGN? NUM [Ff]?;
                FLOAT : FLOATDEC | FLOATHEX;
 
+<<<<<<< HEAD
                /*
+=======
+               /* 
+>>>>>>> aff9700f74a0a2ea349182e7f0903c359360d873
                Une erreur de compilation est levée si un littéral est trop grand et que l’arrondi se fait
 vers l’infini, ou bien qu’un littéral non nul est trop petit et que l’arrondi se fait vers zéro.
 */
@@ -106,9 +120,26 @@ vers l’infini, ou bien qu’un littéral non nul est trop petit et que l’arr
 
                fragment EOL : '\r'? '\n';
                fragment STRING_CAR : ~['"\\\r\n];
+<<<<<<< HEAD
                STRING : '"' (STRING_CAR | '\\"' | '\\\\')* '"';
                MULTI_LINE_STRING : '"' (STRING_CAR | EOL | '\\"' |'\\\\')* '"' ;
                WS : [ \t\r\n]+ -> skip;
 
                LINE_COMMENT : '//' ~[\r\n]* -> skip ;
                BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
+=======
+               STRING : '"' (STRING_CAR | '\\"' | '\\\\')* ;
+               MULTI_LINE_STRING : '"' (STRING_CAR | EOL | '\\"' |'\\\\')* '"' ;
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> aff9700f74a0a2ea349182e7f0903c359360d873
