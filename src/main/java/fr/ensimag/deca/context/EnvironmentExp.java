@@ -1,9 +1,5 @@
 package fr.ensimag.deca.context;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 /**
@@ -29,33 +25,9 @@ public class EnvironmentExp {
     // d'empilement).
 
     EnvironmentExp parentEnvironment;
-    private  Map<Symbol, ExpDefinition> envExp;
-    private LinkedList<MethodDefinition> methods;
     
-    public EnvironmentExp(EnvironmentExp parentEnvironment){
+    public EnvironmentExp(EnvironmentExp parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
-        this.envExp = new HashMap<>();
-        this.methods = new LinkedList<>();  
-    }
-
-    public void addMethode(MethodDefinition method)
-    {
-        this.methods.add(method);
-    }
-
-    public void add(Symbol symbol,ExpDefinition exp)
-    {
-        this.envExp.put(symbol, exp);
-    }
-
-    public Map<Symbol, ExpDefinition> getEnvExp()
-    {
-        return this.envExp;
-    }
-
-    public LinkedList getMethods()
-    {
-        return this.methods;
     }
 
     public static class DoubleDefException extends Exception {

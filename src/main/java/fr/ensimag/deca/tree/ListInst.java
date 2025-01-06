@@ -1,13 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import java.util.Iterator;
-
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
 
 /**
  * 
@@ -24,18 +23,12 @@ public class ListInst extends TreeList<AbstractInst> {
      *          corresponds to "class" attribute (null in the main bloc).
      * @param returnType
      *          corresponds to "return" attribute (void in the main bloc).
-     */   
-     
+     */    
     public void verifyListInst(DecacCompiler compiler, EnvironmentExp localEnv,
-    ClassDefinition currentClass, Type returnType)
-    throws ContextualError {
-        Iterator<AbstractInst> iterator = this.iterator(); 
-
-        while (iterator.hasNext()) {
-            AbstractInst instruction = iterator.next(); // Récupère l'élément suivant
-            instruction.verifyInst(compiler, localEnv, currentClass, returnType);
-        }
-        }
+            ClassDefinition currentClass, Type returnType)
+            throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
     public void codeGenListInst(DecacCompiler compiler) {
         for (AbstractInst i : getList()) {
