@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -13,7 +14,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
  * @author gl02
  * @date 01/01/2025
  */
-public class Assign extends AbstractBinaryExpr {
+public class
+Assign extends AbstractBinaryExpr {
 
     @Override
     public AbstractLValue getLeftOperand() {
@@ -25,6 +27,8 @@ public class Assign extends AbstractBinaryExpr {
     public Assign(AbstractLValue leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
+
+
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,

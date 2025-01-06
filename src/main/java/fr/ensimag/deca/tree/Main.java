@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.deca.context.VariableDefinition;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
