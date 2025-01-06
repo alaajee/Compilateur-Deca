@@ -40,12 +40,14 @@ public class EnvironmentType {
         // not added to envTypes, it's not visible for the user.
         
     }
+    
 
     private final Map<Symbol, TypeDefinition> envTypes;
 
     public TypeDefinition defOfType(Symbol s) {
         return envTypes.get(s);
     }
+
 
     public final VoidType    VOID;
     public final IntType     INT;
