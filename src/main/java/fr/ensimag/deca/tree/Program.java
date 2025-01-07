@@ -40,8 +40,10 @@ public class Program extends AbstractProgram {
 
         try {
             this.main.verifyMain(compiler);
+            
         
         } catch (ContextualError e) { this.main.verifyMain(compiler);
+            System.out.println("wtff1");
             throw e;
         }
         LOG.debug("verify program: end");

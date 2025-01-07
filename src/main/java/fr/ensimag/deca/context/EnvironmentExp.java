@@ -67,7 +67,19 @@ public class EnvironmentExp {
      * symbol is undefined.
      */
     public ExpDefinition get(Symbol key) {
-        throw new UnsupportedOperationException("not yet implemented");
+        
+        if (envExp.containsKey(key)) {
+            return envExp.get(key);
+        }    
+
+        if (parentEnvironment != null) {
+            return parentEnvironment.get(key);
+        }
+
+        return null;
+    
+    
+    
     }
 
     /**
@@ -86,7 +98,12 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-        throw new UnsupportedOperationException("not yet implemented");
+        
+        if (envExp.containsKey(name))
+        {
+            throw new DoubleDefException();
+        }
+        envExp.put(name, def);
     }
 
 }

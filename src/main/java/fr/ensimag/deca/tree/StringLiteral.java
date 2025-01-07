@@ -8,6 +8,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.StringType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.ImmediateString;
@@ -36,7 +37,9 @@ public class StringLiteral extends AbstractStringLiteral {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-            return compiler.environmentType.STRING;
+            Type stringType = new StringType(compiler.createSymbol("string"));
+            this.setType(stringType);
+            return stringType;
 
     }
 

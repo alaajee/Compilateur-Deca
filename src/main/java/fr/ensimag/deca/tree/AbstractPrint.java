@@ -45,9 +45,8 @@ public abstract class AbstractPrint extends AbstractInst {
             AbstractExpr argument = iterator.next(); 
             Type argType = argument.verifyExpr(compiler, localEnv, currentClass);
     
-            if (!argType.isString()) {
-                throw new ContextualError("Unsupported type in hello_world language: " +
-                        argType + " is not printable", argument.getLocation());
+            if (!argType.isString() && !argType.isInt() && !argType.isFloat()) {
+                throw new ContextualError("illegal argument for print", argument.getLocation());
             }
         }
     

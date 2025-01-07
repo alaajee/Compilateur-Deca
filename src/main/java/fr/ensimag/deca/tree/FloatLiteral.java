@@ -1,13 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import java.io.PrintStream;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
-import org.apache.commons.lang.Validate;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 /**
  * Single precision, floating-point literal
@@ -34,8 +37,12 @@ public class FloatLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");        
+                Symbol symbolFloat = compiler.createSymbol("float");
+                Type typeFloat = compiler.environmentType.getEnvtypes().get(symbolFloat).getType();       
+                this.setType(typeFloat);
+                return typeFloat;  
     }
+    
 
 
     @Override

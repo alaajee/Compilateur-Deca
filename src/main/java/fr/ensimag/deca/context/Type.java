@@ -1,7 +1,5 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.context.ClassType;
-import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -19,6 +17,9 @@ public abstract class Type {
      * True if this and otherType represent the same type (in the case of
      * classes, this means they represent the same class).
      */
+    
+    
+    
     public abstract boolean sameType(Type otherType);
 
     private final Symbol name;
