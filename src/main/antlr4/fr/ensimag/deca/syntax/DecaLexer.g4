@@ -48,15 +48,15 @@ options {
 
                //Symboles speciaux
 
-               DIVIDE : '/';
-               GREATER : '>';
-               GREATEROREQUALS: '>=';
-               LOWER : '<';
-               LOWEROREQUALS: '<=';
-               MODULO : '%';
-               MULTIPLY : '*';
-               NOT: '!';
-               NOTEQUALS: '!=';
+               SLASH : '/';
+               GT : '>';
+               GEQ: '>=';
+               LT : '<';
+               LEQ: '<=';
+               PERCENT : '%';
+               TIMES : '*';
+               EXCLAM: '!';
+               NEQ: '!=';
                AND : '&&';
                OR : '||';
                OPARENT : '(';
@@ -66,7 +66,7 @@ options {
                SEMI : ';';
                COMMA: ',';
                DOT : '.';
-               EQUALS_EQUALS: '==';
+               EQEQ: '==';
                PLUS : '+';
                MINUS : '-';
                EQUALS : '=';
