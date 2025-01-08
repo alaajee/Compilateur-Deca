@@ -90,6 +90,23 @@ public class DecacCompiler {
 
     /**
      * @see
+     * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction)
+     */
+    public void addFirst(Instruction i) {
+        program.addFirst(i);
+    }
+    
+    /**
+     * @see
+     * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction,
+     * java.lang.String)
+     */
+    public void addFirst(Instruction i, String comment) {
+        program.addFirst(i,comment);
+    }
+
+    /**
+     * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
      */
     public void addInstruction(Instruction instruction) {
