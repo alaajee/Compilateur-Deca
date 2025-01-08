@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+
 /**
  *
  * @author gl02
@@ -17,5 +20,11 @@ public class And extends AbstractOpBool {
         return "&&";
     }
 
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        return null;
+    }
 
 }

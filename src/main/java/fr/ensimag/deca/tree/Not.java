@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.DVal;
 
 /**
  *
@@ -27,5 +28,10 @@ public class Not extends AbstractUnaryExpr {
     @Override
     protected String getOperatorName() {
         return "!";
+    }
+
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        return null;
     }
 }

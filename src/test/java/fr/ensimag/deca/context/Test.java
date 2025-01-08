@@ -9,41 +9,60 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Assign;
 import fr.ensimag.deca.tree.DeclVar;
+import fr.ensimag.deca.tree.FloatLiteral;
 import fr.ensimag.deca.tree.Identifier;
 import fr.ensimag.deca.tree.ListDeclClass;
 import fr.ensimag.deca.tree.ListDeclVar;
+import fr.ensimag.deca.tree.ListExpr;
 import fr.ensimag.deca.tree.ListInst;
+import fr.ensimag.deca.tree.Location;
+import fr.ensimag.deca.tree.LocationException;
+import fr.ensimag.deca.tree.Main;
+import fr.ensimag.deca.tree.Multiply;
 import fr.ensimag.deca.tree.NoInitialization;
+import fr.ensimag.deca.tree.Println;
 import fr.ensimag.deca.tree.Program;
 import fr.ensimag.deca.tree.ReadInt;
-import fr.ensimag.deca.tree.Main;
+
 /**
- * Driver to test only code generation from a manually built AST.
+ * Driver to test the contextual analysis (together with lexer/parser)
+ *
+ * @author Ensimag
+ * @date 01/01/2025
  */
-public class ManualTestContext {
+public class Test {
     public static void main(String[] args) throws IOException {
 
-        // Création du compilateur
+        // CrÃ©ation du compilateur
         DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
 
-        // Récupération de l'environnement des types prédéfinis
+        // RÃ©cupÃ©ration de l'environnement des types prÃ©dÃ©finis
         EnvironmentType envTypes = compiler.environmentType;
         ListDeclClass listClasses = new ListDeclClass();
 
-        // Liste des déclarations de variables
+        // Liste des dÃ©clarations de variables
         ListDeclVar listDeclVar = new ListDeclVar();
 
-        // Création de la table des symboles et des identifiants
+        // CrÃ©ation de la table des symboles et des identifiants
         SymbolTable symbolTable = compiler.symbolTable;
         Symbol symbolX = symbolTable.create("x");
 
-        // Création de l'identifiant x
+        // CrÃ©ation de l'identifiant x avec sa location
         Identifier idX = new Identifier(symbolX);
+        //idX.setLocation(new Location(1, 5, "test.deca"));
 
-        // Utilisation du type prédéfini int
+        Identifier idX1 = new Identifier(idX.getName());
+        //idX1.setLocation(idX.getLocation());
+
+        Identifier idX2 = new Identifier(idX.getName());
+        //idX2.setLocation(idX.getLocation());
+
+
+        // Utilisation du type prÃ©dÃ©fini int
         Identifier intType = new Identifier(envTypes.INT.getName());
+        //intType.setLocation(new Location(1, 1, "test.deca"));
 
-        // Déclaration de la variable : int x;
+        // DÃ©claration de la variable : int x;
         listDeclVar.add(new DeclVar(intType, idX, new NoInitialization()));
 
         // Liste des instructions
@@ -51,18 +70,17 @@ public class ManualTestContext {
 
         // Instruction : x = readInt();
         ReadInt readInt = new ReadInt();
+        //readInt.setLocation(new Location(2, 5, "test.deca"));
         listInst.add(new Assign(idX, readInt));
 
-        // Création du bloc main avec les déclarations et les instructions
+        // CrÃ©ation du bloc main avec les dÃ©clarations et les instructions
         Main mainBlock = new Main(listDeclVar, listInst);
 
-        // Création du programme complet
+        // CrÃ©ation du programme complet
         AbstractProgram source = new Program(listClasses, mainBlock);
 
-        // Génération du code
         source.codeGenProgram(compiler);
 
-        // Affichage du programme généré
-        source.prettyPrint(System.out);
+        // Affichage du programme vÃ©rifiÃ©
     }
 }

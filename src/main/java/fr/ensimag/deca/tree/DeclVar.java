@@ -4,7 +4,11 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
  * @author gl02
@@ -53,10 +57,21 @@ public class DeclVar extends AbstractDeclVar {
         initialization.prettyPrint(s, prefix, true);
     }
 
-    protected void codegenV(DecacCompiler compiler){
-        // Je dois normalement generer LOAD x(GB) , Rx alors je dois initialiser les variables et changer le soperandes etcc ?
+    protected void codegenVar(DecacCompiler compiler) {
+        // Je dois normalement generer LOAD valeur , Rx alors je dois initialiser les variables et changer les operandes etcc ?
+        // Je dois generer aussi STORE RX , x(GB)
+        VariableDefinition variable = new VariableDefinition(type.getDefinition().getType(), this.getLocation());
+        // Setoperand ?
+        DAddr adresse = compiler.associerAdresse();
+        variable.setOperand(adresse);
+        if (this.initialization.initialization()) {
+            // Générer le code pour initialiser la variable
+            // La normalement on a tout initialisé
+            compiler.isVar = true;
+            DVal valeur = this.initialization.codeGenExpr(compiler);
 
 
+        }
     }
 
 }

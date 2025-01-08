@@ -1,12 +1,13 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -57,5 +58,22 @@ public class FloatLiteral extends AbstractExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
+
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler) {
+        DAddr adresse = compiler.getCurrentAdresse();
+        DVal res = new ImmediateFloat(value);
+        GPRegister reg = compiler.associerReg();
+        if (compiler.isVar == true){
+            compiler.addInstruction(new LOAD(res, reg));
+            compiler.addInstruction(new STORE(reg, adresse));
+            res.isRegistre = true;
+        }
+       else {
+          compiler.addInstruction(new LOAD(res,reg));
+        }
+        return reg;
+    }
+
 
 }

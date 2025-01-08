@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+
 import java.io.PrintStream;
 
 /**
@@ -48,4 +50,13 @@ public class NoInitialization extends AbstractInitialization {
         // leaf node => nothing to do
     }
 
+    @Override
+    public boolean initialization(){
+        return false;
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
 }

@@ -1,6 +1,8 @@
 package fr.ensimag.deca;
 
+
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -8,10 +10,8 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,11 +43,17 @@ public class DecacCompiler {
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
+    private int adressVar;
+    public int adresseReg;
+    public boolean isVar;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        this.adressVar = 0;
+        this.adresseReg = 0;
+        this.isVar = false;
     }
 
     /**
@@ -241,5 +247,35 @@ public class DecacCompiler {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
+
+    /**
+    * Cette fonction permet d'associer une valeur à chaque variable et modifier setOperand pour cette variable
+    * */
+    public DAddr associerAdresse(){
+        this.adressVar = this.adressVar++;
+        DAddr adresse = new RegisterOffset(adressVar,Register.GB);
+        return adresse;
+    }
+
+    public GPRegister associerReg() {
+        this.adresseReg = this.adresseReg++;
+        Register reg = new Register("R");
+        // A revoir
+        return reg.getR(adresseReg);
+    }
+
+    public DAddr getCurrentAdresse(){
+        return new RegisterOffset(adressVar,Register.GB);
+    }
+
+    public void libererReg(){
+        this.adresseReg = this.adresseReg--;
+    }
+
+    public void libererAdresse(){
+        this.adressVar = this.adressVar--;
+    }
+
+
 
 }

@@ -7,5 +7,9 @@ package fr.ensimag.ima.pseudocode;
  * @date 01/01/2025
  */
 public abstract class DVal extends Operand {
+    public boolean isRegistre;
+    public void DVal() {
+        isRegistre = false;
+    }
 
 }

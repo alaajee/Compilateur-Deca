@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.DVal;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -27,5 +28,7 @@ public class ConvFloat extends AbstractUnaryExpr {
     protected String getOperatorName() {
         return "/* conv float */";
     }
-
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
 }

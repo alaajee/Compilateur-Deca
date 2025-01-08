@@ -1,12 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -53,5 +53,20 @@ public class Initialization extends AbstractInitialization {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         expression.prettyPrint(s, prefix, true);
+    }
+
+    @Override
+    // On vérifie si elle est initalisee ou non
+    public boolean initialization(){
+        if (this.getExpression() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        DVal valeur = getExpression().codeGenExpr(compiler);
+        return valeur;
     }
 }

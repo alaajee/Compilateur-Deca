@@ -11,6 +11,7 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.ima.pseudocode.DAddr;
 
 /**
  *
@@ -93,4 +94,10 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      *         (corresponds to the "type" attribute)
      */
     public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
+
+    @Override
+    public DAddr getAddr(DecacCompiler compiler) {
+        VariableDefinition def = getVariableDefinition();
+        return def.getOperand();
+    }
 }

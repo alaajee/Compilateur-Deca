@@ -1,11 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.Definition;
-import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 
 /**
@@ -42,4 +43,12 @@ Assign extends AbstractBinaryExpr {
         return "=";
     }
 
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        DVal val = getRightOperand().codeGenExpr(compiler);
+        DAddr addr = getLeftOperand().getAddr(compiler);
+        // Il faut s'assurer que c'est un registre ou non
+        compiler.addInstruction(new STORE((GPRegister) val, addr));
+        return val;
+    }
 }
