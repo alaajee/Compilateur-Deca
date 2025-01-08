@@ -41,7 +41,8 @@ public class ManualTestContext {
         Identifier idX = new Identifier(symbolX);
 
         // Utilisation du type prédéfini int
-        Identifier intType = new Identifier(envTypes.INT.getName());
+        Symbol name = envTypes.INT.getName();
+        Identifier intType = new Identifier(name);
 
         // Déclaration de la variable : int x;
         listDeclVar.add(new DeclVar(intType, idX, new NoInitialization()));

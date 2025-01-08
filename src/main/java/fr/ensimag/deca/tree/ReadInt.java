@@ -7,6 +7,10 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.REM;
+import fr.ensimag.ima.pseudocode.instructions.RINT;
 
 import java.io.PrintStream;
 
@@ -41,6 +45,9 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        return null;
+        compiler.addInstruction(new RINT());
+        Register reg = new Register("R");
+        GPRegister register = reg.getR(1);
+        return register;
     }
 }
