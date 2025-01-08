@@ -58,7 +58,7 @@ public class CompilerOptions {
                     printBanner = true;
                     System.out.println("Nom de l'équipe :gl02");
                     if (i!=args.length-1){
-                        throw new CLIException("-b should be the last option")
+                        throw new CLIException("-b should be the last option");
                     }
                     break;
                 case "-p":
