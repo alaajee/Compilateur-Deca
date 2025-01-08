@@ -40,6 +40,9 @@ public class CompilerOptions {
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
+    private boolean parseStep = false;
+    private boolean verificationStep = false;
+    private boolean noCheck = false;
 
     
     public void parseArgs(String[] args) throws CLIException {
@@ -48,11 +51,43 @@ public class CompilerOptions {
             displayUsage();
             return;
         }
-        for (String arg : args) {
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
             switch (arg) {
                 case "-b":
+                    printBanner = true;
                     System.out.println("Nom de l'équipe :gl02");
+                    if (i!=args.length-1){
+                        throw new CLIException("-b should be the last option")
+                    }
+                    break;
+                case "-p":
+                    if (verificationStep){
+                        throw new CLIException("choose betweetn -p or -v");
+                }   
+                    parseStep = true;
+                    break;
+                case "-v":
+                    if (parseStep){
+                        throw new CLIException("choose betweetn -p or -v");
+                    }
+                    verificationStep = true;
+                    break;
+                case "-n":
+                    noCheck = true;
+                    break;
+                case "-P":
+                    parallel = true;
+                    //TODO
+                    break;
+                case "-d":
+                    // TODO
+                    break;
+                case "-r":
+                    //TODO
+                    break;
                 default:
+                    // If the argument is a source file, add it to the list
                     File file = new File(arg);
                     if (file.exists() && file.isFile()) {
                         sourceFiles.add(file);
@@ -60,7 +95,7 @@ public class CompilerOptions {
                         throw new CLIException("Invalid file path: " + arg);
                     }
                     break;
-           }
+            }
         }
         if (sourceFiles.isEmpty() && !printBanner) {
             throw new CLIException("No source files provided");
