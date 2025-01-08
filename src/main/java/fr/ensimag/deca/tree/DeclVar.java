@@ -8,6 +8,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /**
@@ -34,15 +36,34 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-                this.type.verifyType(compiler);
-                this.varName.verifyExpr(compiler, localEnv, currentClass);
-                this.initialization.verifyInitialization(compiler, this.type.verifyType(compiler), localEnv, currentClass);                
+        Type t=this.type.verifyType(compiler);
+        VariableDefinition varDef = new VariableDefinition(t, this.varName.getLocation());
+        try {
+            localEnv.declare(this.varName.getName(), varDef);
+        } catch ( EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError("Variable '" + this.varName.getName() + "' is already declared in this scope", this.varName.getLocation());
+
+        }
+        this.setLocation(localEnv.getEnvExp().get(varName.getName()).getLocation());
+        this.initialization.verifyInitialization(compiler, this.type.verifyType(compiler), localEnv, currentClass);
+        this.varName.verifyExpr(compiler, localEnv, currentClass);
     }
+
+
 
     
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.type.decompile(s);
+        this.varName.decompile(s);
+        if (this.initialization instanceof Initialization)
+        {
+            s.print(" = ");
+            initialization.decompile(s);
+        }
+        s.println(";");
+      
+
     }
 
     @Override

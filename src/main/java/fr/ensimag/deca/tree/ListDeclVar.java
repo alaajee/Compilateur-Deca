@@ -18,8 +18,11 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        for (AbstractDeclVar declVar : this.getList()) {
+            declVar.decompile(s);  // Décompiler chaque déclaration de variable
+        }
     }
+    
 
     /**
      * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3

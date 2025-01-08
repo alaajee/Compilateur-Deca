@@ -66,8 +66,22 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        // Choisir le type d'instruction : print ou println
+        s.print("print" + getSuffix() + "(");
+        
+        // Décompiler chaque argument de la liste
+        Iterator<AbstractExpr> iterator = arguments.iterator();
+        while (iterator.hasNext()) {
+            AbstractExpr argument = iterator.next();
+            argument.decompile(s);
+            if (iterator.hasNext()) {
+                s.print(", ");  // Ajouter une virgule entre les arguments
+            }
+        }
+        
+        s.print(");");
     }
+    
 
     @Override
     protected void iterChildren(TreeFunction f) {

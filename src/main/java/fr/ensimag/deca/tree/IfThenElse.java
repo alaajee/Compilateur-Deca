@@ -38,8 +38,11 @@ public class IfThenElse extends AbstractInst {
             throws ContextualError {
                 this.condition.verifyCondition(compiler, localEnv, currentClass);
                 this.thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
-                this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
-                
+                if (this.elseBranch!=null)
+                {
+                    this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
+                }
+
     }
 
     @Override
@@ -49,8 +52,23 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        s.print("if (");
+        condition.decompile(s);
+        s.println(") {");
+        s.indent();
+        thenBranch.decompile(s);
+        s.unindent();
+        s.println("}");
+        
+        if (elseBranch != null) {
+            s.println("else {");
+            s.indent();
+            elseBranch.decompile(s);
+            s.unindent();
+            s.println("}");
+        }
     }
+    
 
     @Override
     protected
