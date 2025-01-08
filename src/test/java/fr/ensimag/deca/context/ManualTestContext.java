@@ -1,17 +1,28 @@
 package fr.ensimag.deca.context;
+
+import java.io.IOException;
+
 import fr.ensimag.deca.CompilerOptions;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
+import fr.ensimag.deca.tree.Assign;
+import fr.ensimag.deca.tree.DeclVar;
+import fr.ensimag.deca.tree.FloatLiteral;
+import fr.ensimag.deca.tree.Identifier;
 import fr.ensimag.deca.tree.ListDeclClass;
 import fr.ensimag.deca.tree.ListDeclVar;
 import fr.ensimag.deca.tree.ListExpr;
 import fr.ensimag.deca.tree.ListInst;
+import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.deca.tree.Main;
+import fr.ensimag.deca.tree.Multiply;
+import fr.ensimag.deca.tree.NoInitialization;
 import fr.ensimag.deca.tree.Println;
 import fr.ensimag.deca.tree.Program;
-import fr.ensimag.deca.tree.StringLiteral;
-import java.io.IOException;
+import fr.ensimag.deca.tree.ReadInt;
 
 /**
  * Driver to test the contextual analysis (together with lexer/parser)
@@ -21,42 +32,81 @@ import java.io.IOException;
  */
 public class ManualTestContext {
     public static void main(String[] args) throws IOException {
-           
-        ListDeclClass listClasses = new ListDeclClass(); 
+
+        // Création du compilateur
+        DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
+
+        // Récupération de l'environnement des types prédéfinis
+        EnvironmentType envTypes = compiler.environmentType;
+        ListDeclClass listClasses = new ListDeclClass();
+
+        // Liste des déclarations de variables
         ListDeclVar listDeclVar = new ListDeclVar();
 
-ListInst listInst = new ListInst();
+        // Création de la table des symboles et des identifiants
+        SymbolTable symbolTable = compiler.symbolTable;
+        Symbol symbolX = symbolTable.create("x");
 
-// CrÃ©er l'instruction print("Hello")
-StringLiteral hello = new StringLiteral("Helloworld");
-ListExpr listExpr = new ListExpr();
-listExpr.add(hello);
-Println printInst = new Println(false, listExpr);
+        // Création de l'identifiant x avec sa location
+        Identifier idX = new Identifier(symbolX);
+        idX.setLocation(new Location(1, 5, "test.deca"));
 
-// Ajouter l'instruction print Ã  la liste d'instructions
-listInst.add(printInst);
+        Identifier idX1 = new Identifier(idX.getName());
+        idX1.setLocation(idX.getLocation());
 
-// CrÃ©er le bloc main
-Main mainBlock = new Main(listDeclVar, listInst);
+        Identifier idX2 = new Identifier(idX.getName());
+        idX2.setLocation(idX.getLocation());
 
-// CrÃ©er le programme complet
-AbstractProgram source = new Program(listClasses, mainBlock);
+// Instruction : xSquared = x * x;
 
-// CrÃ©er le compilateur (si nÃ©cessaire pour la vÃ©rification ou l'exÃ©cution)
-DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
+        // Utilisation du type prédéfini int
+        Identifier intType = new Identifier(envTypes.INT.getName());
+        intType.setLocation(new Location(1, 1, "test.deca"));
 
-        
-        
-     
+        // Déclaration de la variable : int x;
+        listDeclVar.add(new DeclVar(intType, idX, new NoInitialization()));
 
-        AbstractProgram prog = source;
-        
+        // Liste des instructions
+        ListInst listInst = new ListInst();
+
+        // Instruction : x = readInt();
+        ReadInt readInt = new ReadInt();
+        //readInt.setLocation(new Location(2, 5, "test.deca"));
+        listInst.add(new Assign(idX, readInt));
+
+        // Instruction : println(0.5 * (x * x));
+        FloatLiteral half = new FloatLiteral(0.5f);
+        half.setLocation(new Location(3, 8, "test.deca"));
+
+        Multiply xSquared = new Multiply(idX1, idX2);
+        xSquared.setLocation(new Location(3, 14, "test.deca"));
+
+        Multiply halfTimesXSquared = new Multiply(half, xSquared);
+        halfTimesXSquared.setLocation(new Location(3, 8, "test.deca"));
+
+        ListExpr listExpr = new ListExpr();
+        listExpr.add(halfTimesXSquared);
+
+        Println printInst = new Println(false, listExpr);
+        printInst.setLocation(new Location(3, 1, "test.deca"));
+        listInst.add(printInst);
+
+        // Création du bloc main avec les déclarations et les instructions
+        Main mainBlock = new Main(listDeclVar, listInst);
+
+        // Création du programme complet
+        AbstractProgram source = new Program(listClasses, mainBlock);
+
         try {
-            prog.verifyProgram(compiler);
+            // Vérification contextuelle
+            source.verifyProgram(compiler);
         } catch (LocationException e) {
             e.display(System.err);
             System.exit(1);
         }
-        prog.prettyPrint(System.out);
+                // Affichage du programme vérifié
+
+        source.prettyPrint(System.out);
+
     }
 }
