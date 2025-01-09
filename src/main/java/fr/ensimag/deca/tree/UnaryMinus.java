@@ -1,13 +1,11 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.OPP;
 
 /**
  * @author gl02
@@ -22,7 +20,13 @@ public class UnaryMinus extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+            Type t = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
+            if (!t.isFloat() && !t.isInt())
+            {
+                throw new ContextualError("Type mismatch:the operand must be float or int" , this.getLocation());             
+            }
+            this.setType(t);
+            return t;
     }
 
 
@@ -32,10 +36,8 @@ public class UnaryMinus extends AbstractUnaryExpr {
     }
 
     @Override
-    protected DVal codeGenExpr(DecacCompiler compiler){
-        DVal operand = getOperand().codeGenExpr(compiler);
-        GPRegister registre = compiler.associerReg();
-        compiler.addInstruction(new OPP(operand,registre));
-        return registre;
+    public DVal codeGenExpr(DecacCompiler compiler){
+        return null;
     }
+
 }

@@ -1,6 +1,5 @@
 package fr.ensimag.deca;
 
-
 import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
@@ -9,14 +8,19 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
+import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.GPRegister;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
@@ -38,32 +42,38 @@ import org.apache.log4j.Logger;
  */
 public class DecacCompiler {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
-
+    
     /**
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
-    private int adressVar;
-    public int adresseReg;
-    public boolean isVar;
-    public Register register;
+
     public final SymbolTable symbolTable;
     public final EnvironmentType environmentType;
+
+    public int adresseReg;
+    public boolean isVar;
+    private int adressVar;
+
+    private Map<String, VariableDefinition> varTab = new HashMap<>();
+    private Map<Location,String> nameVal = new HashMap<>();
+    private Map<String ,GPRegister> regUn = new HashMap<>();
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-        this.adressVar = 1;
-        this.adresseReg = 1;
+
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
 
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
 
-        this.register = new Register("R");
+        this.adressVar = 2;
+        this.adresseReg = 2;
         this.isVar = false;
+
 
     }
 
@@ -121,33 +131,29 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
-
+    
     /**
-     * @see
+     * @see 
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {
         return program.display();
     }
-
+    
     private final CompilerOptions compilerOptions;
     private final File source;
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
+ 
+    /** The global environment for types (and the symbolTable) */
+    // public final EnvironmentType environmentType = new EnvironmentType(this);
+    // public final SymbolTable symbolTable = new SymbolTable();
 
-
-
-
-    public Symbol createSymbol(String name){
-        if (symbolTable == null) {
-            throw new NullPointerException("symbolTable is null");
-        }
-        Symbol symbol = symbolTable.create(name);
-        return symbol;
+    public Symbol createSymbol(String name) {
+        return symbolTable.create(name);
     }
-
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -156,7 +162,7 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = sourceFile.substring(0, sourceFile.length() - 4) + "ass";
+        String destFile = null;
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
         PrintStream err = System.err;
@@ -262,17 +268,18 @@ public class DecacCompiler {
     }
 
     /**
-    * Cette fonction permet d'associer une valeur à chaque variable et modifier setOperand pour cette variable
-    * */
+     * Cette fonction permet d'associer une valeur à chaque variable et modifier setOperand pour cette variable
+     * */
+
     public DAddr associerAdresse(){
-        this.adressVar = this.adressVar++;
+        this.adressVar++;
         DAddr adresse = new RegisterOffset(adressVar,Register.GB);
         return adresse;
     }
 
     public GPRegister associerReg() {
-        this.adresseReg = this.adresseReg++;
-        return register.getR(adresseReg);
+        this.adresseReg++;
+        return Register.getR(adresseReg);
     }
 
     public DAddr getCurrentAdresse(){
@@ -287,6 +294,39 @@ public class DecacCompiler {
         this.adressVar = this.adressVar--;
     }
 
+    public void addVar(VariableDefinition variableDefinition , String name){
+        this.varTab.put(name,variableDefinition);
+    }
 
+    public Map<String,VariableDefinition> getVarTab(){
+        return varTab;
+    }
 
+    public void addNameVal(Location location, String name){
+        this.nameVal.put(location,name);
+    }
+
+    public String getNameVal(String name){
+        return this.nameVal.get(name).toString();
+    }
+
+    public Map<Location,String> getNameValTab(){
+        return nameVal;
+    }
+
+    public Map<String , GPRegister> getRegUn(){
+        return regUn;
+    }
+
+    public GPRegister getRegUn(String name){
+        return this.regUn.get(name);
+    }
+
+    public void addRegUn(String name, GPRegister reg){
+        this.regUn.put(name,reg);
+    }
+
+    public void modifierRegun(GPRegister reg, String name){
+        this.regUn.put(name,reg);
+    }
 }

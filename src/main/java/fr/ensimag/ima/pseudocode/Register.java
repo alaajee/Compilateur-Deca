@@ -8,7 +8,7 @@ package fr.ensimag.ima.pseudocode;
  */
 public class Register extends DVal {
     private String name;
-    public Register(String name) {
+    protected Register(String name) {
         this.name = name;
     }
 
@@ -16,6 +16,7 @@ public class Register extends DVal {
     public String toString() {
         return name;
     }
+
 
     /**
      * Global Base register
@@ -48,7 +49,6 @@ public class Register extends DVal {
      * Convenience shortcut for R[1]
      */
     public static final GPRegister R1 = R[1];
-
     static private GPRegister[] initRegisters() {
         GPRegister [] res = new GPRegister[16];
         for (int i = 0; i <= 15; i++) {
@@ -56,6 +56,4 @@ public class Register extends DVal {
         }
         return res;
     }
-
-
 }

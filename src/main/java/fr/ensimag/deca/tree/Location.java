@@ -52,11 +52,11 @@ public class Location implements Serializable {
     private final int positionInLine;
     private final String filename;
 
-    public Location(int line, int positionInLine, String filename) {
-        super();
-        this.line = line;
-        this.positionInLine = positionInLine;
-        this.filename = filename;
-    }
+        public Location(int line, int positionInLine, String filename) {
+            super();
+            this.line = line;
+            this.positionInLine = positionInLine;
+            this.filename = filename;
+        }
 
 }

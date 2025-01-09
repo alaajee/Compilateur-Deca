@@ -21,8 +21,9 @@ public class Or extends AbstractOpBool {
     }
 
     @Override
-    protected DVal codeGenExpr(DecacCompiler compiler){
+    public DVal codeGenExpr(DecacCompiler compiler){
         return null;
     }
+
 
 }

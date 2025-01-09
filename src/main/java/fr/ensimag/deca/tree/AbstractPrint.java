@@ -22,7 +22,7 @@ public abstract class AbstractPrint extends AbstractInst {
 
     private boolean printHex;
     private ListExpr arguments = new ListExpr();
-
+    
     abstract String getSuffix();
 
     public AbstractPrint(boolean printHex, ListExpr arguments) {
@@ -37,22 +37,21 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-                              ClassDefinition currentClass, Type returnType)
+            ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        Iterator<AbstractExpr> iterator = arguments.getList().iterator();
-
+        Iterator<AbstractExpr> iterator = arguments.getList().iterator(); 
+    
         while (iterator.hasNext()) {
-            AbstractExpr argument = iterator.next();
+            AbstractExpr argument = iterator.next(); 
             Type argType = argument.verifyExpr(compiler, localEnv, currentClass);
-
-            if (!argType.isString()) {
-                throw new ContextualError("Unsupported type in hello_world language: " +
-                        argType + " is not printable", argument.getLocation());
+    
+            if (!argType.isString() && !argType.isInt() && !argType.isFloat()) {
+                throw new ContextualError("illegal argument for print", argument.getLocation());
             }
         }
-
+    
     }
-
+    
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
@@ -67,8 +66,22 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        // Choisir le type d'instruction : print ou println
+        s.print("print" + getSuffix() + "(");
+        
+        // Décompiler chaque argument de la liste
+        Iterator<AbstractExpr> iterator = arguments.iterator();
+        while (iterator.hasNext()) {
+            AbstractExpr argument = iterator.next();
+            argument.decompile(s);
+            if (iterator.hasNext()) {
+                s.print(", ");  // Ajouter une virgule entre les arguments
+            }
+        }
+        
+        s.print(");");
     }
+    
 
     @Override
     protected void iterChildren(TreeFunction f) {

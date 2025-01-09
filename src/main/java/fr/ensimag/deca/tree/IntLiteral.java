@@ -1,17 +1,20 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
 
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
-
-import java.io.PrintStream;
 
 /**
  * Integer literal
@@ -33,7 +36,10 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                Symbol symbolInt = compiler.createSymbol("int");
+                Type typeInt = compiler.environmentType.getEnvtypes().get(symbolInt).getType();       
+                this.setType(typeInt);
+                return typeInt;  
     }
 
 
@@ -61,15 +67,19 @@ public class IntLiteral extends AbstractExpr {
     protected DVal codeGenExpr(DecacCompiler compiler) {
         DAddr adresse = compiler.getCurrentAdresse();
         DVal res = new ImmediateInteger(value);
-        GPRegister reg = compiler.associerReg();
+
         if (compiler.isVar == true){
+            GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
+            compiler.isVar = false;
+            return reg;
         }
         else {
-            compiler.addInstruction(new LOAD(res,reg));
+            return res;
         }
-        return reg;
+
     }
+
 }

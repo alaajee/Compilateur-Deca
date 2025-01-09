@@ -1,9 +1,10 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
 
 /**
@@ -19,8 +20,12 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) {
-        throw new UnsupportedOperationException("not yet implemented");
+            ClassDefinition currentClass)  {
+                Symbol symbolFloat = compiler.createSymbol("float");
+                Type typeFloat = compiler.environmentType.getEnvtypes().get(symbolFloat).getType();       
+                this.setType(typeFloat);
+                return typeFloat;        
+
     }
 
 
@@ -28,7 +33,9 @@ public class ConvFloat extends AbstractUnaryExpr {
     protected String getOperatorName() {
         return "/* conv float */";
     }
+
     protected DVal codeGenExpr(DecacCompiler compiler){
         return null;
     }
+
 }

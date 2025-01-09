@@ -1,10 +1,6 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DAddr;
 
 /**
@@ -15,4 +11,5 @@ import fr.ensimag.ima.pseudocode.DAddr;
  */
 public abstract class AbstractLValue extends AbstractExpr {
     public abstract DAddr getAddr(DecacCompiler compiler);
+
 }

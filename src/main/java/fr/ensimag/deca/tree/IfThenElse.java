@@ -1,13 +1,15 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import java.io.PrintStream;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
-import org.apache.commons.lang.Validate;
 
 /**
  * Full if/else if/else statement.
@@ -34,6 +36,13 @@ public class IfThenElse extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
+                this.condition.verifyCondition(compiler, localEnv, currentClass);
+                this.thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
+                if (this.elseBranch!=null)
+                {
+                    this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
+                }
+
     }
 
     @Override
@@ -43,8 +52,23 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        s.print("if (");
+        condition.decompile(s);
+        s.println(") {");
+        s.indent();
+        thenBranch.decompile(s);
+        s.unindent();
+        s.println("}");
+        
+        if (elseBranch != null) {
+            s.println("else {");
+            s.indent();
+            elseBranch.decompile(s);
+            s.unindent();
+            s.println("}");
+        }
     }
+    
 
     @Override
     protected

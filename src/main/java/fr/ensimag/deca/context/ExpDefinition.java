@@ -6,7 +6,7 @@ import fr.ensimag.ima.pseudocode.DAddr;
 /**
  * Definition associated to identifier in expressions.
  *
- * @author gl02'
+ * @author gl02
  * @date 01/01/2025
  */
 public abstract class ExpDefinition extends Definition {

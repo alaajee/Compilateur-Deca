@@ -1,14 +1,13 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
-import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.DAddr;
@@ -96,8 +95,8 @@ public abstract class AbstractIdentifier extends AbstractLValue {
     public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
 
     @Override
-    public DAddr getAddr(DecacCompiler compiler) {
-        VariableDefinition def = getVariableDefinition();
-        return def.getOperand();
-    }
+    public abstract DAddr getAddr(DecacCompiler compiler);
+
+
+
 }

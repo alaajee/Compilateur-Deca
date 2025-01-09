@@ -1,7 +1,8 @@
 package fr.ensimag.deca.tree;
 
+import java.util.Iterator;
+
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.DecacMain;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -17,8 +18,11 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        for (AbstractDeclVar declVar : this.getList()) {
+            declVar.decompile(s);  // Décompiler chaque déclaration de variable
+        }
     }
+    
 
     /**
      * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3
@@ -34,11 +38,19 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
      */    
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
+
+
+        Iterator<AbstractDeclVar> iterator = this.iterator(); 
+
+        while (iterator.hasNext()) {
+            AbstractDeclVar declVar = iterator.next(); // Récupère l'élément suivant
+            declVar.verifyDeclVar(compiler,localEnv,currentClass);
+        }
     }
 
     public void codeGen(DecacCompiler compiler){
-        for (AbstractDeclVar var : getList()  ){
-            var.codeGenDeclVar(compiler);
+        for (AbstractDeclVar declVar : this.getList()) {
+            declVar.codegenVar(compiler);
         }
     }
 }

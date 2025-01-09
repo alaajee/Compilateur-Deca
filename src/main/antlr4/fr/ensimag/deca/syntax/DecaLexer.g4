@@ -12,7 +12,7 @@ options {
 }
 
 // Deca lexer rules.
- // A FAIRE : Règle bidon qui reconnait tous les caractères.
+DUMMY_TOKEN: .; // A FAIRE : Règle bidon qui reconnait tous les caractères.
                 // A FAIRE : Il faut la supprimer et la remplacer par les vraies règles.
 
                //Mots reserves
@@ -105,12 +105,8 @@ vers l’infini, ou bien qu’un littéral non nul est trop petit et que l’arr
 
                fragment EOL : '\r'? '\n';
                fragment STRING_CAR : ~['"\\\r\n];
-               STRING : '"' (STRING_CAR | '\\"' | '\\\\')* '"' ;
+               STRING : '"' (STRING_CAR | '\\"' | '\\\\')* ;
                MULTI_LINE_STRING : '"' (STRING_CAR | EOL | '\\"' |'\\\\')* '"' ;
-               LINE_COMMENT : '//' ~[\r\n]* -> skip;
-               BLOCK_COMMENT : '/*' .*? '*/' -> skip;
-
-               WS : [ \t\r\n]+ -> skip;
 
 
 

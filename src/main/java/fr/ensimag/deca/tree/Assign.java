@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.*;
+
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
@@ -13,8 +16,7 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
  * @author gl02
  * @date 01/01/2025
  */
-public class
-Assign extends AbstractBinaryExpr {
+public class Assign extends AbstractBinaryExpr {
 
     @Override
     public AbstractLValue getLeftOperand() {
@@ -27,13 +29,14 @@ Assign extends AbstractBinaryExpr {
         super(leftOperand, rightOperand);
     }
 
-
-
-
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type leftType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, leftType);
+        this.setType(leftType);
+        return leftType;
+
     }
 
 
@@ -45,9 +48,28 @@ Assign extends AbstractBinaryExpr {
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal val = getRightOperand().codeGenExpr(compiler);
-        DAddr addr = getLeftOperand().getAddr(compiler);
+        DVal resultat = getLeftOperand().codeGenExpr(compiler);
+        Location location = getLeftOperand().getLocation();
+        String name = compiler.getNameValTab().get(location);
+        //        System.out.println(name);
+        System.out.println(compiler.getRegUn());
+//        System.out.println(compiler.getVarTab().get(name).getOperand());
+        DAddr addr = compiler.getVarTab().get(name).getOperand();
         // Il faut s'assurer que c'est un registre ou non
-        compiler.addInstruction(new STORE((GPRegister) val, addr));
-        return val;
+//        System.out.println(addr.toString());
+        System.out.println(compiler.getRegUn().get(name));
+        if (compiler.getRegUn().get(name) != null){
+            compiler.addInstruction(new LOAD(val,compiler.getRegUn().get(name)));
+            compiler.addInstruction(new STORE(compiler.getRegUn().get(name), addr));
+            return compiler.getRegUn().get(name);
+        }
+        else {
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(val, reg));
+            compiler.addInstruction(new STORE(reg, addr));
+            return reg;
+        }
     }
+
+
 }

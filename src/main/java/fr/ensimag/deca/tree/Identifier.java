@@ -1,16 +1,25 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.*;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tools.SymbolTable;
-import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
+
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.Definition;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.FieldDefinition;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.deca.context.VariableDefinition;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 /**
  * Deca Identifier
@@ -153,7 +162,7 @@ public class Identifier extends AbstractIdentifier {
 
     private Symbol name;
 
-    public
+    public 
     Identifier(Symbol name) {
         Validate.notNull(name);
         this.name = name;
@@ -161,19 +170,19 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-                           ClassDefinition currentClass) throws ContextualError {
-        ExpDefinition definitionExp=localEnv.get(name);
-        if(definitionExp == null){
-            throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
-        }
-        if(!(definitionExp instanceof VariableDefinition)){
-            throw new ContextualError("Identifier '" + this.name + "' is not a variable", this.getLocation());
-        }
+            ClassDefinition currentClass) throws ContextualError {
+                ExpDefinition definitionExp=localEnv.get(name);
+                if(definitionExp == null){
+                    throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
+                }
+                if(!(definitionExp instanceof VariableDefinition)){
+                    throw new ContextualError("Identifier '" + this.name + "' is not a variable", this.getLocation());
+                }
 
-        this.setDefinition(definitionExp);
-        this.setType(definitionExp.getType());
-        this.setLocation(localEnv.getEnvExp().get(name).getLocation());
-        return definitionExp.getType();
+                this.setDefinition(definitionExp);
+                this.setType(definitionExp.getType());
+                this.setLocation(localEnv.getEnvExp().get(name).getLocation());
+                return definitionExp.getType();            
     }
 
     /**
@@ -188,12 +197,13 @@ public class Identifier extends AbstractIdentifier {
         {
             throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
         }
-        this.setDefinition(definitionT);
+        this.setDefinition(definitionT); 
         this.setType(definitionT.getType());
         return definitionT.getType();
-
+        
     }
-
+    
+    
     private Definition definition;
 
 
@@ -220,17 +230,28 @@ public class Identifier extends AbstractIdentifier {
     @Override
     protected void prettyPrintType(PrintStream s, String prefix) {
         Definition d = getDefinition();
+        
         if (d != null) {
             s.print(prefix);
             s.print("definition: ");
             s.print(d);
             s.println();
         }
+
+        else 
+        {
+            System.out.println("lllll");
+        }
+    }
+
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        return null;
     }
 
 
     @Override
-    protected DVal codeGenExpr(DecacCompiler compiler){
+    public DAddr getAddr(DecacCompiler compiler) {
         return null;
     }
 }
