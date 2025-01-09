@@ -44,7 +44,7 @@ public class Test {
         ListDeclVar listDeclVar = new ListDeclVar();
 
         // CrÃ©ation de la table des symboles et des identifiants
-        SymbolTable symbolTable = compiler.getSymbolTable();
+        SymbolTable symbolTable = compiler.symbolTable;
         Symbol symbolX = symbolTable.create("x");
 
         // CrÃ©ation de l'identifiant x avec sa location

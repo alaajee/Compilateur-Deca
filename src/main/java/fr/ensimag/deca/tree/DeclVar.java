@@ -32,11 +32,25 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                 EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        Type t=this.type.verifyType(compiler);
+        VariableDefinition varDef = new VariableDefinition(t, this.varName.getLocation());
+        try {
+            localEnv.declare(this.varName.getName(), varDef);
+        } catch ( EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError("Variable '" + this.varName.getName() + "' is already declared in this scope", this.varName.getLocation());
+
+        }
+
+        this.setLocation(localEnv.getEnvExp().get(varName.getName()).getLocation());
+        this.initialization.verifyInitialization(compiler, this.type.verifyType(compiler), localEnv, currentClass);
+        this.varName.verifyExpr(compiler, localEnv, currentClass);
     }
 
-    
+
+
+
     @Override
     public void decompile(IndentPrintStream s) {
         throw new UnsupportedOperationException("not yet implemented");
@@ -61,7 +75,7 @@ public class DeclVar extends AbstractDeclVar {
     protected void codeGenDeclVar(DecacCompiler compiler) {
         // Je dois normalement generer LOAD valeur , Rx alors je dois initialiser les variables et changer les operandes etcc ?
         // Je dois generer aussi STORE RX , x(GB)
-        VariableDefinition variable = new VariableDefinition(type.getDefinition().getType(), this.getLocation());
+        VariableDefinition variable = new VariableDefinition( this.type.getDefinition().getType(), this.getLocation() );
         // Setoperand ?
         DAddr adresse = compiler.associerAdresse();
         variable.setOperand(adresse);

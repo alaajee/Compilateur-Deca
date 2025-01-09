@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
  */
 public class DecacCompiler {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
-    
+
     /**
      * Portable newline character.
      */
@@ -47,6 +47,8 @@ public class DecacCompiler {
     public int adresseReg;
     public boolean isVar;
     public Register register;
+    public final SymbolTable symbolTable;
+    public final EnvironmentType environmentType;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -54,6 +56,12 @@ public class DecacCompiler {
         this.source = source;
         this.adressVar = 1;
         this.adresseReg = 1;
+        // Initialisation de symbolTable
+        this.symbolTable = new SymbolTable();
+
+        // Initialisation de environmentType après symbolTable
+        this.environmentType = new EnvironmentType(this);
+
         this.register = new Register("R");
         this.isVar = false;
 
@@ -113,28 +121,26 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
-    
+
     /**
-     * @see 
+     * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {
         return program.display();
     }
-    
+
     private final CompilerOptions compilerOptions;
     private final File source;
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
 
-    /** The global environment for types (and the symbolTable) */
-    public final EnvironmentType environmentType = new EnvironmentType(this);
-    public final SymbolTable symbolTable = new SymbolTable();
 
-    public Symbol createSymbol(String name) {
+
+
+    public Symbol createSymbol(String name){
         if (symbolTable == null) {
             throw new NullPointerException("symbolTable is null");
         }

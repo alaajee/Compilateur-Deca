@@ -28,7 +28,7 @@ public class ManualTestContext {
         ListDeclVar listDeclVar = new ListDeclVar();
 
         // Création de la table des symboles et des identifiants
-        SymbolTable symbolTable = compiler.getSymbolTable();
+        SymbolTable symbolTable = compiler.symbolTable;
         Symbol symbolX = symbolTable.create("x");
 
         // Création de l'identifiant x avec sa location
@@ -53,8 +53,14 @@ public class ManualTestContext {
         // Création du programme complet
         AbstractProgram source = new Program(listClasses, mainBlock);
 
+        try {
+            source.verifyProgram(compiler);
+            source.codeGenProgram(compiler);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
 
-        source.codeGenProgram(compiler);
 
         source.prettyPrint(System.out);
     }
