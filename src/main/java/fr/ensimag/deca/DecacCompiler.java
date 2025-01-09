@@ -54,17 +54,18 @@ public class DecacCompiler {
     public int adresseReg;
     public boolean isVar;
     private int adressVar;
-
+    private int Overflow;
     private Map<String, VariableDefinition> varTab = new HashMap<>();
     private Map<Location,String> nameVal = new HashMap<>();
     private Map<String ,GPRegister> regUn = new HashMap<>();
     private Boolean [] GP;
+    public Boolean Offset;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-
+        this.Offset = false;
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
 
@@ -74,7 +75,7 @@ public class DecacCompiler {
         for(int i = 0 ; i < 16 ; i++){
             GP[i] = false;
         }
-
+        this.Overflow = 15;
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
@@ -296,10 +297,20 @@ public class DecacCompiler {
                 continue;
             }
         }
-        return null;
+        return associerRegOffset();
 
     }
 
+    public GPRegister associerRegOffset(){
+        this.adresseReg--;
+        DVal reg = Register.getR(this.adresseReg);
+        reg.isOffSet = true;
+        return  (GPRegister) reg;
+    }
+
+    public int getAdresseReg(){
+        return this.adresseReg;
+    }
     public DAddr getCurrentAdresse(){
         return new RegisterOffset(adressVar,Register.GB);
     }
@@ -351,4 +362,14 @@ public class DecacCompiler {
     public void modifierRegun(GPRegister reg, String name){
         this.regUn.put(name,reg);
     }
+
+    public int getOverflow(){
+        return this.Overflow;
+    }
+
+    public GPRegister getRegister(int adresse){
+        return Register.getR(adresse);
+    }
+
+
 }

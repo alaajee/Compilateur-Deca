@@ -8,8 +8,10 @@ package fr.ensimag.ima.pseudocode;
  */
 public abstract class DVal extends Operand {
     public boolean isRegistre;
+    public boolean isOffSet;
     public void DVal() {
         isRegistre = false;
+        isOffSet = false;
     }
 
 }

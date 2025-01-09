@@ -7,9 +7,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.QUO;
-import fr.ensimag.ima.pseudocode.instructions.REM;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  *
@@ -58,7 +57,31 @@ public class Modulo extends AbstractOpArith {
             return reg;
         }
         else {
+            // IL doit y avoir une erreur
             return null;
         }
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        // Je dois savoir si le leftOperand est stocké dans un registre ou non ?
+        // DVal to reg ?
+        Type typeLeft = getLeftOperand().getType();
+        Type typeRight = getRightOperand().getType();
+        if (typeRight.isInt() && typeLeft.isInt()){
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(leftOperand,reg));
+            compiler.addInstruction(new REM(rightOperand,reg));
+            compiler.addInstruction(new WINT());
+
+        }
+        else {
+            // IL doit y avoir une erreur
+            return;
+        }
+
+
     }
 }

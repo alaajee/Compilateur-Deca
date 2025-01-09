@@ -6,23 +6,7 @@ import fr.ensimag.deca.CompilerOptions;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.deca.tree.AbstractProgram;
-import fr.ensimag.deca.tree.Assign;
-import fr.ensimag.deca.tree.DeclVar;
-import fr.ensimag.deca.tree.FloatLiteral;
-import fr.ensimag.deca.tree.Identifier;
-import fr.ensimag.deca.tree.ListDeclClass;
-import fr.ensimag.deca.tree.ListDeclVar;
-import fr.ensimag.deca.tree.ListExpr;
-import fr.ensimag.deca.tree.ListInst;
-import fr.ensimag.deca.tree.Location;
-import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.deca.tree.Main;
-import fr.ensimag.deca.tree.Multiply;
-import fr.ensimag.deca.tree.NoInitialization;
-import fr.ensimag.deca.tree.Println;
-import fr.ensimag.deca.tree.Program;
-import fr.ensimag.deca.tree.ReadInt;
+import fr.ensimag.deca.tree.*;
 
 import static fr.ensimag.deca.tree.ManualTestInitialGencode.gencodeSource;
 
@@ -83,7 +67,7 @@ public class ManualTestContext {
         Multiply xSquared = new Multiply(idX1, idX2);
         xSquared.setLocation(new Location(3, 14, "test.deca"));
 
-        Multiply halfTimesXSquared = new Multiply(half, xSquared);
+        Plus halfTimesXSquared = new Plus(half, xSquared);
         halfTimesXSquared.setLocation(new Location(3, 8, "test.deca"));
 
         ListExpr listExpr = new ListExpr();
