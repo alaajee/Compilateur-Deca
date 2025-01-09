@@ -46,14 +46,17 @@ public class DecacCompiler {
     private int adressVar;
     public int adresseReg;
     public boolean isVar;
+    public Register register;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-        this.adressVar = 0;
-        this.adresseReg = 0;
+        this.adressVar = 1;
+        this.adresseReg = 1;
+        this.register = new Register("R");
         this.isVar = false;
+
     }
 
     /**
@@ -132,9 +135,13 @@ public class DecacCompiler {
     public final SymbolTable symbolTable = new SymbolTable();
 
     public Symbol createSymbol(String name) {
-        return null; // A FAIRE: remplacer par la ligne en commentaire ci-dessous
-        // return symbolTable.create(name);
+        if (symbolTable == null) {
+            throw new NullPointerException("symbolTable is null");
+        }
+        Symbol symbol = symbolTable.create(name);
+        return symbol;
     }
+
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -259,9 +266,7 @@ public class DecacCompiler {
 
     public GPRegister associerReg() {
         this.adresseReg = this.adresseReg++;
-        Register reg = new Register("R");
-        // A revoir
-        return reg.getR(adresseReg);
+        return register.getR(adresseReg);
     }
 
     public DAddr getCurrentAdresse(){

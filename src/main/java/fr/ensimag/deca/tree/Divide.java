@@ -28,6 +28,7 @@ public class Divide extends AbstractOpArith {
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         // Je dois savoir si le leftOperand est stocké dans un registre ou non ?
         // DVal to reg ?
+        // Difference entre quotient entier et quotient flottant
         compiler.addInstruction(new QUO(leftOperand,(GPRegister) rightOperand));
         return rightOperand;
     }

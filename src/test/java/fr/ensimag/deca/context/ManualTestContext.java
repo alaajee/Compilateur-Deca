@@ -6,19 +6,13 @@ import fr.ensimag.deca.CompilerOptions;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.deca.tree.AbstractProgram;
-import fr.ensimag.deca.tree.Assign;
-import fr.ensimag.deca.tree.DeclVar;
-import fr.ensimag.deca.tree.Identifier;
-import fr.ensimag.deca.tree.ListDeclClass;
-import fr.ensimag.deca.tree.ListDeclVar;
-import fr.ensimag.deca.tree.ListInst;
-import fr.ensimag.deca.tree.NoInitialization;
-import fr.ensimag.deca.tree.Program;
-import fr.ensimag.deca.tree.ReadInt;
-import fr.ensimag.deca.tree.Main;
+import fr.ensimag.deca.tree.*;
+
 /**
- * Driver to test only code generation from a manually built AST.
+ * Driver to test the contextual analysis (together with lexer/parser)
+ *
+ * @author Ensimag
+ * @date 01/01/2025
  */
 public class ManualTestContext {
     public static void main(String[] args) throws IOException {
@@ -34,15 +28,14 @@ public class ManualTestContext {
         ListDeclVar listDeclVar = new ListDeclVar();
 
         // Création de la table des symboles et des identifiants
-        SymbolTable symbolTable = compiler.symbolTable;
+        SymbolTable symbolTable = compiler.getSymbolTable();
         Symbol symbolX = symbolTable.create("x");
 
-        // Création de l'identifiant x
+        // Création de l'identifiant x avec sa location
         Identifier idX = new Identifier(symbolX);
 
         // Utilisation du type prédéfini int
-        Symbol name = envTypes.INT.getName();
-        Identifier intType = new Identifier(name);
+        Identifier intType = new Identifier(envTypes.INT.getName());
 
         // Déclaration de la variable : int x;
         listDeclVar.add(new DeclVar(intType, idX, new NoInitialization()));
@@ -60,10 +53,9 @@ public class ManualTestContext {
         // Création du programme complet
         AbstractProgram source = new Program(listClasses, mainBlock);
 
-        // Génération du code
+
         source.codeGenProgram(compiler);
 
-        // Affichage du programme généré
         source.prettyPrint(System.out);
     }
 }

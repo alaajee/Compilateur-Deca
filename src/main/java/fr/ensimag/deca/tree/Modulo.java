@@ -6,6 +6,9 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.instructions.REM;
 
 /**
  *
@@ -32,6 +35,10 @@ public class Modulo extends AbstractOpArith {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        return null;
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        compiler.addInstruction(new REM(leftOperand,(GPRegister) rightOperand));
+        return rightOperand;
+
     }
 }

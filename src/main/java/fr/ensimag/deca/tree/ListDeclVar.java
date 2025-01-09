@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.DecacMain;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -35,5 +36,9 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
             ClassDefinition currentClass) throws ContextualError {
     }
 
-
+    public void codeGen(DecacCompiler compiler){
+        for (AbstractDeclVar var : getList()  ){
+            var.codeGenDeclVar(compiler);
+        }
+    }
 }

@@ -57,7 +57,8 @@ public class DeclVar extends AbstractDeclVar {
         initialization.prettyPrint(s, prefix, true);
     }
 
-    protected void codegenVar(DecacCompiler compiler) {
+    @Override
+    protected void codeGenDeclVar(DecacCompiler compiler) {
         // Je dois normalement generer LOAD valeur , Rx alors je dois initialiser les variables et changer les operandes etcc ?
         // Je dois generer aussi STORE RX , x(GB)
         VariableDefinition variable = new VariableDefinition(type.getDefinition().getType(), this.getLocation());
@@ -69,8 +70,6 @@ public class DeclVar extends AbstractDeclVar {
             // La normalement on a tout initialisé
             compiler.isVar = true;
             DVal valeur = this.initialization.codeGenExpr(compiler);
-
-
         }
     }
 
