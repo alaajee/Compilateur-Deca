@@ -58,6 +58,7 @@ public class DecacCompiler {
     private Map<String, VariableDefinition> varTab = new HashMap<>();
     private Map<Location,String> nameVal = new HashMap<>();
     private Map<String ,GPRegister> regUn = new HashMap<>();
+    private Boolean [] GP;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -69,6 +70,10 @@ public class DecacCompiler {
 
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
+        this.GP = new Boolean[16];
+        for(int i = 0 ; i < 16 ; i++){
+            GP[i] = false;
+        }
 
         this.adressVar = 2;
         this.adresseReg = 2;
@@ -162,11 +167,11 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = null;
-        // A FAIRE: calculer le nom du fichier .ass à partir du nom du
-        // A FAIRE: fichier .deca.
+        String destFile = sourceFile.substring(0, sourceFile.length()-4) + "ass";
         PrintStream err = System.err;
         PrintStream out = System.out;
+
+
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
             return doCompile(sourceFile, destFile, out, err);
@@ -277,9 +282,22 @@ public class DecacCompiler {
         return adresse;
     }
 
+    public void libererReg(int adresseReg){
+        GP[adresseReg] = false;
+    }
+
     public GPRegister associerReg() {
-        this.adresseReg++;
-        return Register.getR(adresseReg);
+        for (int i = 2; i < 16; i++) {
+            if (!GP[i]) {
+                GP[i] = true;
+                this.adresseReg++;
+                return Register.getR(i);
+            } else {
+                continue;
+            }
+        }
+        return null;
+
     }
 
     public DAddr getCurrentAdresse(){
@@ -300,6 +318,10 @@ public class DecacCompiler {
 
     public Map<String,VariableDefinition> getVarTab(){
         return varTab;
+    }
+
+    public VariableDefinition getVar(String name){
+        return this.varTab.get(name);
     }
 
     public void addNameVal(Location location, String name){

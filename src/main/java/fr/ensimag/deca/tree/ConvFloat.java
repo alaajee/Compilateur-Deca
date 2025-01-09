@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -35,7 +37,10 @@ public class ConvFloat extends AbstractUnaryExpr {
     }
 
     protected DVal codeGenExpr(DecacCompiler compiler){
-        return null;
+        DVal dVal = this.getOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+        compiler.addInstruction(new FLOAT(dVal,reg));
+        return reg;
     }
 
 }

@@ -6,7 +6,25 @@ import fr.ensimag.deca.CompilerOptions;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.deca.tree.*;
+import fr.ensimag.deca.tree.AbstractProgram;
+import fr.ensimag.deca.tree.Assign;
+import fr.ensimag.deca.tree.DeclVar;
+import fr.ensimag.deca.tree.FloatLiteral;
+import fr.ensimag.deca.tree.Identifier;
+import fr.ensimag.deca.tree.ListDeclClass;
+import fr.ensimag.deca.tree.ListDeclVar;
+import fr.ensimag.deca.tree.ListExpr;
+import fr.ensimag.deca.tree.ListInst;
+import fr.ensimag.deca.tree.Location;
+import fr.ensimag.deca.tree.LocationException;
+import fr.ensimag.deca.tree.Main;
+import fr.ensimag.deca.tree.Multiply;
+import fr.ensimag.deca.tree.NoInitialization;
+import fr.ensimag.deca.tree.Println;
+import fr.ensimag.deca.tree.Program;
+import fr.ensimag.deca.tree.ReadInt;
+
+import static fr.ensimag.deca.tree.ManualTestInitialGencode.gencodeSource;
 
 /**
  * Driver to test the contextual analysis (together with lexer/parser)
@@ -33,9 +51,19 @@ public class ManualTestContext {
 
         // Création de l'identifiant x avec sa location
         Identifier idX = new Identifier(symbolX);
+        idX.setLocation(new Location(1, 5, "test.deca"));
+
+        Identifier idX1 = new Identifier(idX.getName());
+        idX1.setLocation(idX.getLocation());
+
+        Identifier idX2 = new Identifier(idX.getName());
+        idX2.setLocation(idX.getLocation());
+
+// Instruction : xSquared = x * x;
 
         // Utilisation du type prédéfini int
         Identifier intType = new Identifier(envTypes.INT.getName());
+        intType.setLocation(new Location(1, 1, "test.deca"));
 
         // Déclaration de la variable : int x;
         listDeclVar.add(new DeclVar(intType, idX, new NoInitialization()));
@@ -45,7 +73,25 @@ public class ManualTestContext {
 
         // Instruction : x = readInt();
         ReadInt readInt = new ReadInt();
+        //readInt.setLocation(new Location(2, 5, "test.deca"));
         listInst.add(new Assign(idX, readInt));
+
+        // Instruction : println(0.5 * (x * x));
+        FloatLiteral half = new FloatLiteral(0.5f);
+        half.setLocation(new Location(3, 8, "test.deca"));
+
+        Multiply xSquared = new Multiply(idX1, idX2);
+        xSquared.setLocation(new Location(3, 14, "test.deca"));
+
+        Multiply halfTimesXSquared = new Multiply(half, xSquared);
+        halfTimesXSquared.setLocation(new Location(3, 8, "test.deca"));
+
+        ListExpr listExpr = new ListExpr();
+        listExpr.add(halfTimesXSquared);
+
+        Println printInst = new Println(false, listExpr);
+        printInst.setLocation(new Location(3, 1, "test.deca"));
+        listInst.add(printInst);
 
         // Création du bloc main avec les déclarations et les instructions
         Main mainBlock = new Main(listDeclVar, listInst);
@@ -54,14 +100,17 @@ public class ManualTestContext {
         AbstractProgram source = new Program(listClasses, mainBlock);
 
         try {
+            // Vérification contextuelle
             source.verifyProgram(compiler);
-            source.codeGenProgram(compiler);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            String result = gencodeSource(source);
+            System.out.println(result);
+        } catch (LocationException e) {
+            e.display(System.err);
             System.exit(1);
         }
-
+        // Affichage du programme vérifié
 
         source.prettyPrint(System.out);
+
     }
 }

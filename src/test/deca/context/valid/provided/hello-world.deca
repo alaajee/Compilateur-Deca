@@ -8,7 +8,5 @@
 //    cree le 01/01/2025
 
 {
-        println("Hello World");
-        print("Hello ");
+        println("Hello, world!");
 }
-

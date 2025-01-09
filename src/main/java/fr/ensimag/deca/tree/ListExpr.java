@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 
 /**
  * List of expressions (eg list of parameters).
@@ -29,5 +30,11 @@ public class ListExpr extends TreeList<AbstractExpr> {
             }
         }
     }
-    
+
+    public void codeGenInst(DecacCompiler compiler){
+        compiler.addInstruction(new RFLOAT());
+        for (AbstractExpr expr : this.getList()) {
+            expr.codeGenPrint(compiler);
+        }
+    }
 }

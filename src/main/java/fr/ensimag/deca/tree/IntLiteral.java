@@ -9,12 +9,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  * Integer literal
@@ -67,7 +63,6 @@ public class IntLiteral extends AbstractExpr {
     protected DVal codeGenExpr(DecacCompiler compiler) {
         DAddr adresse = compiler.getCurrentAdresse();
         DVal res = new ImmediateInteger(value);
-
         if (compiler.isVar == true){
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res, reg));
@@ -82,4 +77,16 @@ public class IntLiteral extends AbstractExpr {
 
     }
 
+    @Override
+    public void codeGenInst(DecacCompiler compiler){};
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        compiler.addInstruction(new RFLOAT());
+        DVal register = codeGenExpr(compiler);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WSTR(new ImmediateString("mok")));
+        compiler.addInstruction(new WINT());
+
+    }
 }

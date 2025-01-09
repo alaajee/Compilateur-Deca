@@ -2,8 +2,11 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -246,12 +249,26 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        return null;
+        String name = getName().toString();
+        GPRegister reg = compiler.getRegUn(name);
+        return reg;
+
     }
 
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        String name = getName().toString();
+        GPRegister register = compiler.getRegUn(name);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WINT());
+
+    }
 
     @Override
     public DAddr getAddr(DecacCompiler compiler) {
-        return null;
+        String name = getName().toString();
+        VariableDefinition variableDefinition = compiler.getVarTab().get(name);
+        DAddr adresse = variableDefinition.getOperand();
+        return adresse;
     }
 }

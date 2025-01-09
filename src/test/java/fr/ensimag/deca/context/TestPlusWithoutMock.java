@@ -63,9 +63,10 @@ public class TestPlusWithoutMock {
         }
 
         @Override
-        protected DVal codeGenExpr(DecacCompiler compiler){
+        public DVal codeGenExpr(DecacCompiler compiler){
             return null;
         }
+
     }
 
     @Test
@@ -80,7 +81,4 @@ public class TestPlusWithoutMock {
         left.checkProperUse();
         right.checkProperUse();
     }
-
-
-
 }

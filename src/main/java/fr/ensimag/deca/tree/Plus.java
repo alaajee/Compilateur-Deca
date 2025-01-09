@@ -25,15 +25,10 @@ public class Plus extends AbstractOpArith {
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        if (rightOperand instanceof GPRegister){
-            compiler.addInstruction(new ADD(leftOperand,(GPRegister) rightOperand));
-            return rightOperand;
+        GPRegister reg = compiler.associerReg();
+        compiler.addInstruction(new LOAD(rightOperand,reg));
+        compiler.addInstruction(new ADD(leftOperand,reg));
+        return reg;
         }
-        else {
-            GPRegister reg = compiler.associerReg();
-            compiler.addInstruction(new LOAD(rightOperand,reg));
-            compiler.addInstruction(new ADD(reg,(GPRegister) rightOperand));
-            return reg;
-        }
-    }
+
 }

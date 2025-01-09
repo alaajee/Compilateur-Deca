@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
 
+
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.QUO;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  *
@@ -30,9 +33,28 @@ public class Divide extends AbstractOpArith {
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         // Je dois savoir si le leftOperand est stocké dans un registre ou non ?
         // DVal to reg ?
-        compiler.addInstruction(new QUO(leftOperand,(GPRegister) rightOperand));
-        return rightOperand;
+        Type typeLeft = getLeftOperand().getType();
+        Type typeRight = getRightOperand().getType();
+        if (typeLeft.isNull()){
+            throw new RuntimeException("Division by zero");
+        }
+        if (typeRight.isInt() && typeLeft.isInt()){
+                GPRegister reg = compiler.associerReg();
+                compiler.addInstruction(new LOAD(leftOperand,reg));
+                compiler.addInstruction(new QUO(rightOperand,reg));
+                return reg;
+        }
+        else if (typeLeft.isFloat() || typeRight.isFloat()) {
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(leftOperand,reg));
+            compiler.addInstruction(new DIV(rightOperand,reg));
+            return reg;
+        }
+        else {
+            throw new RuntimeException("Pas possible de diviser un " + typeLeft + " par un " + typeRight + "");
+        }
     }
+
 
 
 }
