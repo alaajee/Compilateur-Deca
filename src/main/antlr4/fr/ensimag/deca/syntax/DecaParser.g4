@@ -26,6 +26,7 @@ options {
 @header {
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
+    import fr.ensimag.deca.tools.SymbolTable;
 }
 
 @members {
@@ -77,10 +78,11 @@ decl_var_set[ListDeclVar l]
     : type list_decl_var[$l,$type.tree] SEMI
     ;
 
-list_decl_var[ListDeclVar l, AbstractIdentifier t]
+list_decl_var[ListDeclVar l, AbstractIdentifier t]   //cas ou on definit plusieurs variable en mm tps
     : dv1=decl_var[$t] {
         $l.add($dv1.tree);
         } (COMMA dv2=decl_var[$t] {
+            $l.add($dv2.tree);
         }
       )*
     ;
@@ -89,8 +91,14 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 @init   {
         }
     : i=ident {
+        NoInitialization v1=new NoInitialization();
+        $tree=new DeclVar($t, $i.tree, v1);
+        setLocation($tree, $i.start);
         }
       (EQUALS e=expr {
+        Initialization v2=new Initialization($e.tree);
+        $tree=new DeclVar($t, $i.tree, v2);
+        setLocation($tree, $EQUALS);
         }
       )? {
         }
@@ -138,28 +146,50 @@ inst returns[AbstractInst tree]
         }
     | if_then_else {
             assert($if_then_else.tree != null);
+            $tree=$if_then_else.tree;
         }
     | WHILE OPARENT condition=expr CPARENT OBRACE body=list_inst CBRACE {
             assert($condition.tree != null);
             assert($body.tree != null);
+            $tree=new While($condition.tree, $body.tree);
+            setLocation($tree, $WHILE);
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
+            $tree=new Return($expr.tree);
+            setLocation($tree, $RETURN);
         }
     ;
 
 if_then_else returns[IfThenElse tree]
 @init {
+    ListInst elseBranch = new ListInst();
 }
-    : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
+    : if1 = IF OPARENT condition = expr CPARENT OBRACE li_if = list_inst CBRACE {
+            assert($condition.tree != null);
+            assert($li_if.tree != null);
+            $tree = new IfThenElse($condition.tree, $li_if.tree, elseBranch);
+            setLocation($tree, $if1);
         }
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
+            assert($elsif_cond.tree != null);
+            assert($elsif_li.tree != null);
+
+            IfThenElse elsifBranch = new IfThenElse($elsif_cond.tree, $elsif_li.tree, new ListInst());
+            setLocation(elsifBranch, $elsif);
+            elseBranch.add(elsifBranch);
         }
       )*
       (ELSE OBRACE li_else=list_inst CBRACE {
+            assert($li_else.tree != null);
+            // Ajoute toutes les instructions de li_else à elseBranch
+            elseBranch.addAll($li_else.tree);
         }
       )?
     ;
+
+
+
 
 list_expr returns[ListExpr tree]
 @init   {
@@ -194,6 +224,8 @@ assign_expr returns[AbstractExpr tree]
         EQUALS e2=assign_expr {
             assert($e.tree != null);
             assert($e2.tree != null);
+            $tree=new Assign((AbstractLValue)$e.tree, $e2.tree);
+            setLocation($tree, $EQUALS);
         }
       | /* epsilon */ {
             assert($e.tree != null);
@@ -360,9 +392,16 @@ select_expr returns[AbstractExpr tree]
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
             assert($args.tree != null);
+            //i est la methode
+            $tree=new CallMethod($e1.tree, $i.tree, $args.tree);
+            setLocation($tree, $o);
         }
         | /* epsilon */ {
             // we matched "e.i"
+            //acces direct au champ i(pas d'args)
+            $tree=new Selection($e.tree, $i.tree);
+            setLocation($tree, $e1.start);
+
         }
         )
     ;
@@ -376,13 +415,21 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
+            $tree=new CallMethod($m.tree, $args.tree);
+            setLocation($tree, $m.start);
         }
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
+            $tree=$expr.tree;
+            setLocation($tree, $OPARENT);
         }
     | READINT OPARENT CPARENT {
+        $tree=new ReadInt();
+        setLocation($tree, $READINT);
         }
     | READFLOAT OPARENT CPARENT {
+        $tree=new ReadFloat();
+        setLocation($tree, $READFLOAT);
         }
     | NEW ident OPARENT CPARENT {
             assert($ident.tree != null);
@@ -400,31 +447,57 @@ primary_expr returns[AbstractExpr tree]
 type returns[AbstractIdentifier tree]
     : ident {
             assert($ident.tree != null);
+            $tree=$ident.tree;
+            setLocation($tree, $ident.start);
         }
     ;
 
 literal returns[AbstractExpr tree]
     : INT {
+        $tree = new IntLiteral(Integer.parseInt($INT.text));
+        setLocation($tree, $INT);
         }
-    | fd=FLOAT {      
+    | fd=FLOAT {  
+        $tree = new FloatLiteral(Float.parseFloat($fd.text));
+        setLocation($tree, $fd);    
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);
         setLocation($tree, $STRING);      
         }
     | TRUE {
+        $tree = new BooleanLiteral(true);
+        setLocation($tree, $TRUE);
         }
     | FALSE {
+        $tree = new BooleanLiteral(false);
+        setLocation($tree, $FALSE);
         }
     | THIS {
+        $tree = new ThisLiteral();
+        setLocation($tree, $THIS);
         }
     | NULL {
+        $tree = new NullLiteral();
+        setLocation($tree, $NULL);
         }
     ;
 
-ident returns[AbstractIdentifier tree]
+
+ident returns [AbstractIdentifier tree]
     : IDENT {
+        // Utiliser une instance globale ou partagée de SymbolTable
+        SymbolTable table = new SymbolTable();
+        SymbolTable.Symbol symbol = table.getSymbole($IDENT.text);
+
+        if (symbol == null) {
+            // Si le symbole n'existe pas, le créer
+            symbol = table.create($IDENT.text);
         }
+
+        $tree = new Identifier(symbol);
+        setLocation($tree, $IDENT);
+    }
     ;
 
 /****     Class related rules     ****/
@@ -450,13 +523,16 @@ class_extension returns[AbstractIdentifier tree]
     : EXTENDS ident {
         }
     | /* epsilon */ {
+            $tree = null;
         }
     ;
 
 class_body
     : (m=decl_method {
         }
-      | decl_field_set
+      | f=decl_field_set 
+      {
+      }
       )*
     ;
 

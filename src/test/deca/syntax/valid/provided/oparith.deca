@@ -1,0 +1,10 @@
+{
+    int a = 5;
+    int b = 3;
+    int result;
+
+    result = a + b; // Addition
+    result = a - b; // Soustraction
+    result = a * b; // Multiplication
+    result = a / b; // Division entière
+}

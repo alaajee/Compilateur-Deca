@@ -17,16 +17,13 @@ public class DeclVar extends AbstractDeclVar {
 
     
     final private AbstractIdentifier type;
-    final private AbstractIdentifier varName;
-    final private AbstractInitialization initialization;
+    final private AbstractIdentifier var;
+    final private AbstractInitialization init;
 
-    public DeclVar(AbstractIdentifier type, AbstractIdentifier varName, AbstractInitialization initialization) {
-        Validate.notNull(type);
-        Validate.notNull(varName);
-        Validate.notNull(initialization);
+    public DeclVar(AbstractIdentifier type, AbstractIdentifier var, AbstractInitialization init) {
         this.type = type;
-        this.varName = varName;
-        this.initialization = initialization;
+        this.var = var;
+        this.init = init;
     }
 
     @Override
@@ -38,21 +35,28 @@ public class DeclVar extends AbstractDeclVar {
     
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        type.decompile(s);
+        s.print(" ");
+        var.decompile(s);
+        if (init != null) {         
+            s.print(" = ");
+            init.decompile(s);     
+        }
+
     }
 
     @Override
     protected
     void iterChildren(TreeFunction f) {
         type.iter(f);
-        varName.iter(f);
-        initialization.iter(f);
+        var.iter(f);
+        init.iter(f);
     }
     
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);
-        varName.prettyPrint(s, prefix, false);
-        initialization.prettyPrint(s, prefix, true);
+        var.prettyPrint(s, prefix, false);
+        init.prettyPrint(s, prefix, true);
     }
 }
