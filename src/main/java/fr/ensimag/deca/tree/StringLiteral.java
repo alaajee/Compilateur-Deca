@@ -1,5 +1,10 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.DVal;
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;

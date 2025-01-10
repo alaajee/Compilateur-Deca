@@ -21,6 +21,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.SUB;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
@@ -71,14 +75,15 @@ public class DecacCompiler {
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
         this.spVal = 0;
-        this.OverflowVal = 2    ;
+        this.OverflowVal = 3;
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
         }
-        GP[OverflowVal] = true;
+        DVal reg = Register.getR(this.OverflowVal);
+        reg.isOffSet = true;
         this.Overflow = 15;
         this.adressVar = 2;
         this.adresseReg = 2;
