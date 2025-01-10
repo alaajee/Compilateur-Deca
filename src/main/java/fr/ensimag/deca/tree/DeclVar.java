@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -17,7 +19,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  */
 public class DeclVar extends AbstractDeclVar {
 
-    
+
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
@@ -33,7 +35,7 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                 EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         Type t=this.type.verifyType(compiler);
         VariableDefinition varDef = new VariableDefinition(t, this.varName.getLocation());
@@ -50,7 +52,7 @@ public class DeclVar extends AbstractDeclVar {
 
 
 
-    
+
     @Override
     public void decompile(IndentPrintStream s) {
         this.type.decompile(s);
@@ -61,7 +63,7 @@ public class DeclVar extends AbstractDeclVar {
             initialization.decompile(s);
         }
         s.println(";");
-      
+
 
     }
 
@@ -72,7 +74,7 @@ public class DeclVar extends AbstractDeclVar {
         varName.iter(f);
         initialization.iter(f);
     }
-    
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);
@@ -101,6 +103,7 @@ public class DeclVar extends AbstractDeclVar {
 
 
         }
+
     }
 
 }

@@ -53,7 +53,7 @@ public abstract class AbstractExpr extends AbstractInst {
 
     /**
      * Verify the expression for contextual error.
-     * 
+     *
      * implements non-terminals "expr" and "lvalue" 
      *    of [SyntaxeContextuelle] in pass 3
      *
@@ -69,12 +69,12 @@ public abstract class AbstractExpr extends AbstractInst {
      *            (corresponds to the "type" attribute)
      */
     public abstract Type verifyExpr(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                    EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
      * Verify the expression in right hand-side of (implicit) assignments 
-     * 
+     *
      * implements non-terminal "rvalue" of [SyntaxeContextuelle] in pass 3
      *
      * @param compiler  contains the "env_types" attribute
@@ -84,30 +84,30 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return this with an additional ConvFloat if needed...
      */
     public AbstractExpr verifyRValue(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass, 
-            Type expectedType)
+                                     EnvironmentExp localEnv, ClassDefinition currentClass,
+                                     Type expectedType)
             throws ContextualError {
-            Type TypeExp=this.verifyExpr(compiler, localEnv, currentClass);
-            if(expectedType.sameType(TypeExp)){
-                return this;
-            }
+        Type TypeExp=this.verifyExpr(compiler, localEnv, currentClass);
+        if(expectedType.sameType(TypeExp)){
+            return this;
+        }
 
-            if(TypeExp.isInt() && expectedType.isFloat()){
-                AbstractExpr convExpr = new ConvFloat(this);
-                convExpr.setType(expectedType);  // Définir le type comme float après conversion
-                return convExpr;
-            }
-            throw new ContextualError("Type incompatible : attendu " + expectedType.getName() +
-                                ", trouvé " + TypeExp.getName(), getLocation());
+        if(TypeExp.isInt() && expectedType.isFloat()){
+            AbstractExpr convExpr = new ConvFloat(this);
+            convExpr.setType(expectedType);  // Définir le type comme float après conversion
+            return convExpr;
+        }
+        throw new ContextualError("Type incompatible : attendu " + expectedType.getName() +
+                ", trouvé " + TypeExp.getName(), getLocation());
 
     }
-    
-    
+
+
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
+                              ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-                this.verifyExpr(compiler, localEnv, currentClass);
+        this.verifyExpr(compiler, localEnv, currentClass);
 
     }
 
@@ -123,9 +123,9 @@ public abstract class AbstractExpr extends AbstractInst {
      */
 
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                         ClassDefinition currentClass) throws ContextualError {
         Type typeCondition = this.verifyExpr(compiler, localEnv, currentClass);
-        
+
         if (!typeCondition.isBoolean())
         {
             throw new ContextualError("The type of the consdition must be boolean", this.getLocation());
@@ -139,14 +139,14 @@ public abstract class AbstractExpr extends AbstractInst {
      */
 
     protected void codeGenPrint(DecacCompiler compiler){
-          return;
+        return;
     } ;
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         codeGenExpr(compiler);
     }
-    
+
 
     @Override
     protected void decompileInst(IndentPrintStream s) {

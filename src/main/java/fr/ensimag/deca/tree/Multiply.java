@@ -41,15 +41,19 @@ public class Multiply extends AbstractOpArith {
                 compiler.addInstruction(new PUSH(reg));
                 return reg;}
             else {
-                compiler.addInstruction(new LOAD(rightOperand,reg));
-                compiler.addInstruction(new MUL(leftOperand,reg));
+                if (!rightOperand.isVar){
+                    compiler.addInstruction(new MUL(leftOperand,reg));
+                }
+                else {
+                    compiler.addInstruction(new LOAD(rightOperand,reg));
+                    compiler.addInstruction(new MUL(leftOperand,reg));
+                }
                 compiler.addInstruction(new PUSH(reg));
                 return reg;
             }
 
         }
         else {
-            System.out.println(rightOperand + " * " + leftOperand);
             compiler.addInstruction(new LOAD(rightOperand,reg));
             compiler.addInstruction(new MUL(leftOperand,reg));
             return reg;

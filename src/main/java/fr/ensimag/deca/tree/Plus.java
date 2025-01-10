@@ -40,8 +40,13 @@ public class Plus extends AbstractOpArith {
                 compiler.addInstruction(new PUSH(reg));
                 return reg;}
             else {
-                compiler.addInstruction(new LOAD(rightOperand,reg));
-                compiler.addInstruction(new ADD(leftOperand,reg));
+                if (!rightOperand.isVar){
+                    compiler.addInstruction(new ADD(leftOperand,reg));
+                }
+                else {
+                    compiler.addInstruction(new LOAD(rightOperand,reg));
+                    compiler.addInstruction(new ADD(leftOperand,reg));
+                }
                 compiler.addInstruction(new PUSH(reg));
                 return reg;
             }

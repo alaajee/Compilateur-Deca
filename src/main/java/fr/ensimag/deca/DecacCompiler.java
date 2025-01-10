@@ -72,7 +72,7 @@ public class DecacCompiler {
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
         this.spVal = 0;
-        this.OverflowVal = 2;
+        this.OverflowVal = 2    ;
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
         this.GP = new Boolean[OverflowVal+1];
