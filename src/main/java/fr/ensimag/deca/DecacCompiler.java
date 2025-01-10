@@ -1,5 +1,4 @@
 package fr.ensimag.deca;
-
 import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
@@ -180,6 +179,25 @@ public class DecacCompiler {
 
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
+            if (compilerOptions.getParse())
+            {
+                AbstractProgram program = doLexingAndParsing(sourceFile, err);
+                program.decompile(out);
+                return false;
+
+            }
+
+            if (compilerOptions.getVerify())
+            {
+                AbstractProgram program = doLexingAndParsing(sourceFile, err);
+                program.verifyProgram(this);
+                return false;
+
+            }
+
+            
+
+
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
             e.display(err);
