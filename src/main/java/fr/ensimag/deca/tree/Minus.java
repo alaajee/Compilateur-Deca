@@ -71,23 +71,24 @@ public class Minus extends AbstractOpArith {
 
             } else {
                 System.out.println("h");
+
                 compiler.addInstruction(new LOAD(leftOperand, reg));
-                compiler.addInstruction(new SUB(reg,(GPRegister) rightOperand));
+                compiler.addInstruction(new SUB(rightOperand, reg));
                 compiler.addInstruction(new PUSH(reg));
                 return reg;
             }
         }
         else {
-            if (leftOperand.isVar ){
+            if (leftOperand.isVar){
                 compiler.addInstruction(new LOAD(leftOperand,reg));
-                compiler.addInstruction(new SUB(reg,(GPRegister) rightOperand));
+                compiler.addInstruction(new SUB(rightOperand,reg));
                 return reg;
 
             }
             else {
                 compiler.addInstruction(new LOAD(leftOperand,reg));
                 compiler.addInstruction(new SUB(rightOperand,reg));
-                return reg;
+                return leftOperand;
             }
 
         }
