@@ -47,7 +47,7 @@ public class Minus extends AbstractOpArith {
                 }
                 else {
                     compiler.addInstruction(new POP(reg));
-                    compiler.addInstruction(new SUB(reg,(GPRegister) rightOperand));
+                    compiler.addInstruction(new SUB(rightOperand,reg));
                     compiler.addInstruction(new PUSH(reg));
                     return reg;
                 }

@@ -2,6 +2,6 @@
 int x = 1;
 int y = 2;
 int z;
-z = 2*x - 3*y - x ;
+z = 2*x - 3*y - x - y - x ;
 println(z);
 }
