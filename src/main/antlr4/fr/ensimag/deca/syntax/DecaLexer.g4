@@ -9,9 +9,14 @@ options {
 }
 
 @members {
+<<<<<<< HEAD
 
 }
+=======
+>>>>>>> branch_badr
 
+}
+   
 // Deca lexer rules.
  // A FAIRE : Règle bidon qui reconnait tous les caractères.
                 // A FAIRE : Il faut la supprimer et la remplacer par les vraies règles.
