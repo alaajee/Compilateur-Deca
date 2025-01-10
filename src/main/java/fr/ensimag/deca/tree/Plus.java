@@ -26,9 +26,32 @@ public class Plus extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
-        compiler.addInstruction(new LOAD(rightOperand,reg));
-        compiler.addInstruction(new ADD(leftOperand,reg));
-        return reg;
+        if (reg.isOffSet){
+            if (leftOperand.isOffSet && rightOperand.isOffSet){
+                compiler.addInstruction(new POP(Register.R0));
+                compiler.spVal--;
+                compiler.addInstruction(new  POP(reg));
+                compiler.addInstruction(new ADD(Register.R0,reg));
+                return reg;
+            }
+            else if (leftOperand.isOffSet){
+                compiler.addInstruction(new POP(reg));
+                compiler.addInstruction(new ADD(rightOperand,reg));
+                compiler.addInstruction(new PUSH(reg));
+                return reg;}
+            else {
+                compiler.addInstruction(new LOAD(rightOperand,reg));
+                compiler.addInstruction(new ADD(leftOperand,reg));
+                compiler.addInstruction(new PUSH(reg));
+                return reg;
+            }
+
+        }
+        else {
+            compiler.addInstruction(new LOAD(rightOperand,reg));
+            compiler.addInstruction(new ADD(leftOperand,reg));
+            return reg;
+        }
         }
 
     @Override

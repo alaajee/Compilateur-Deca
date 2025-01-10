@@ -10,15 +10,8 @@ import fr.ensimag.deca.tree.*;
 
 import static fr.ensimag.deca.tree.ManualTestInitialGencode.gencodeSource;
 
-/**
- * Driver to test the contextual analysis (together with lexer/parser)
- *
- * @author Ensimag
- * @date 01/01/2025
- */
 public class ManualTestContext {
     public static void main(String[] args) throws IOException {
-
         // Création du compilateur
         DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
 
@@ -29,53 +22,71 @@ public class ManualTestContext {
         // Liste des déclarations de variables
         ListDeclVar listDeclVar = new ListDeclVar();
 
-        // Création de la table des symboles et des identifiants
+        // Création de la table des symboles et des identifiants pour x, y, et z
         SymbolTable symbolTable = compiler.symbolTable;
         Symbol symbolX = symbolTable.create("x");
+        Symbol symbolY = symbolTable.create("y");
+        Symbol symbolZ = symbolTable.create("z");
 
-        // Création de l'identifiant x avec sa location
+        // Création des identifiants pour x, y, et z avec leurs locations
         Identifier idX = new Identifier(symbolX);
         idX.setLocation(new Location(1, 5, "test.deca"));
 
-        Identifier idX1 = new Identifier(idX.getName());
-        idX1.setLocation(idX.getLocation());
+        Identifier idY = new Identifier(symbolY);
+        idY.setLocation(new Location(2, 5, "test.deca"));
 
-        Identifier idX2 = new Identifier(idX.getName());
-        idX2.setLocation(idX.getLocation());
-
-// Instruction : xSquared = x * x;
+        Identifier idZ = new Identifier(symbolZ);
+        idZ.setLocation(new Location(3, 5, "test.deca"));
 
         // Utilisation du type prédéfini int
         Identifier intType = new Identifier(envTypes.INT.getName());
         intType.setLocation(new Location(1, 1, "test.deca"));
 
-        // Déclaration de la variable : int x;
-        listDeclVar.add(new DeclVar(intType, idX, new NoInitialization()));
+        // Déclarations des variables : int x = 6; et int y = 3;
+        Initialization initX = new Initialization(new IntLiteral(6));
+        initX.setLocation(new Location(1, 10, "test.deca"));
+        listDeclVar.add(new DeclVar(intType, idX, initX));
+
+        Initialization initY = new Initialization(new IntLiteral(1));
+        initY.setLocation(new Location(2, 10, "test.deca"));
+        listDeclVar.add(new DeclVar(intType, idY, initY));
+
+        // Déclaration de la variable z (sans initialisation ici)
+        listDeclVar.add(new DeclVar(intType, idZ, new NoInitialization()));
 
         // Liste des instructions
         ListInst listInst = new ListInst();
 
-        // Instruction : x = readInt();
-        ReadInt readInt = new ReadInt();
-        //readInt.setLocation(new Location(2, 5, "test.deca"));
-        listInst.add(new Assign(idX, readInt));
+        // Calcul de 2 * x / 3 * y
+        IntLiteral two = new IntLiteral(2);
+        two.setLocation(new Location(3, 8, "test.deca"));
 
-        // Instruction : println(0.5 * (x * x));
-        FloatLiteral half = new FloatLiteral(0.5f);
-        half.setLocation(new Location(3, 8, "test.deca"));
+        IntLiteral three = new IntLiteral(3);
+        three.setLocation(new Location(3, 12, "test.deca"));
 
-        Multiply xSquared = new Multiply(idX1, idX2);
-        xSquared.setLocation(new Location(3, 14, "test.deca"));
+        // Multiplication : 2 * x
+        Multiply twoTimesX = new Multiply(two, idX);
+        twoTimesX.setLocation(new Location(3, 10, "test.deca"));
 
-        Plus halfTimesXSquared = new Plus(half, xSquared);
-        halfTimesXSquared.setLocation(new Location(3, 8, "test.deca"));
+        // Multiplication : 3 * y
+        Multiply threeTimesY = new Multiply(three, idY);
+        threeTimesY.setLocation(new Location(3, 14, "test.deca"));
 
+        // Division : (2 * x) / (3 * y)
+        Divide division = new Divide(twoTimesX, threeTimesY);
+        division.setLocation(new Location(3, 16, "test.deca"));
+
+        // Instruction : z = (2 * x) / (3 * y);
+        Assign assignZ = new Assign(idZ, division);
+        assignZ.setLocation(new Location(3, 5, "test.deca"));
+        listInst.add(assignZ);
+
+        // Nouvelle instruction : println(z);
         ListExpr listExpr = new ListExpr();
-        listExpr.add(halfTimesXSquared);
-
-        Println printInst = new Println(false, listExpr);
-        printInst.setLocation(new Location(3, 1, "test.deca"));
-        listInst.add(printInst);
+        listExpr.add(idZ); // Ajouter la variable z à la liste des expressions
+        Println printInst = new Println(false, listExpr); // false signifie que ce n'est pas un println pour une expression en ligne
+        printInst.setLocation(new Location(4, 5, "test.deca"));
+        listInst.add(printInst); // Ajouter l'instruction de println à la liste des instructions
 
         // Création du bloc main avec les déclarations et les instructions
         Main mainBlock = new Main(listDeclVar, listInst);
@@ -92,9 +103,8 @@ public class ManualTestContext {
             e.display(System.err);
             System.exit(1);
         }
+
         // Affichage du programme vérifié
-
         source.prettyPrint(System.out);
-
     }
 }

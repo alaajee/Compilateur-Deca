@@ -52,9 +52,32 @@ public class Modulo extends AbstractOpArith {
         Type typeRight = getRightOperand().getType();
         if (typeRight.isInt() && typeLeft.isInt()){
             GPRegister reg = compiler.associerReg();
-            compiler.addInstruction(new LOAD(leftOperand,reg));
-            compiler.addInstruction(new REM(rightOperand,reg));
-            return reg;
+            if (reg.isOffSet){
+                if (leftOperand.isOffSet && rightOperand.isOffSet){
+                    compiler.addInstruction(new POP(Register.R0));
+                    compiler.spVal--;
+                    compiler.addInstruction(new  POP(reg));
+                    compiler.addInstruction(new REM(Register.R0,reg));
+                    return reg;
+                }
+                else if (leftOperand.isOffSet){
+                    compiler.addInstruction(new POP(reg));
+                    compiler.addInstruction(new REM(rightOperand,reg));
+                    compiler.addInstruction(new PUSH(reg));
+                    return reg;}
+                else {
+                    compiler.addInstruction(new LOAD(rightOperand,reg));
+                    compiler.addInstruction(new REM(leftOperand,reg));
+                    compiler.addInstruction(new PUSH(reg));
+                    return reg;
+                }
+
+            }
+            else {
+                compiler.addInstruction(new LOAD(rightOperand,reg));
+                compiler.addInstruction(new REM(leftOperand,reg));
+                return reg;
+            }
         }
         else {
             // IL doit y avoir une erreur

@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,9 +58,11 @@ public class DecacCompiler {
     private int Overflow;
     private Map<String, VariableDefinition> varTab = new HashMap<>();
     private Map<Location,String> nameVal = new HashMap<>();
-    private Map<String ,GPRegister> regUn = new HashMap<>();
+    private Map<String ,DAddr> regUn = new HashMap<>();
     private Boolean [] GP;
     public Boolean Offset;
+    public int spVal;
+    public int OverflowVal;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -68,13 +71,15 @@ public class DecacCompiler {
         this.Offset = false;
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
-
+        this.spVal = 0;
+        this.OverflowVal = 2;
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
-        this.GP = new Boolean[16];
-        for(int i = 0 ; i < 16 ; i++){
+        this.GP = new Boolean[OverflowVal+1];
+        for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
         }
+        GP[OverflowVal] = true;
         this.Overflow = 15;
         this.adressVar = 2;
         this.adresseReg = 2;
@@ -288,10 +293,10 @@ public class DecacCompiler {
     }
 
     public GPRegister associerReg() {
-        for (int i = 2; i < 16; i++) {
+        for (int i = 2; i < OverflowVal+1; i++) {
             if (!GP[i]) {
                 GP[i] = true;
-                this.adresseReg++;
+                this.adresseReg = i;
                 return Register.getR(i);
             } else {
                 continue;
@@ -302,7 +307,6 @@ public class DecacCompiler {
     }
 
     public GPRegister associerRegOffset(){
-        this.adresseReg--;
         DVal reg = Register.getR(this.adresseReg);
         reg.isOffSet = true;
         return  (GPRegister) reg;
@@ -347,19 +351,20 @@ public class DecacCompiler {
         return nameVal;
     }
 
-    public Map<String , GPRegister> getRegUn(){
+    public Map<String , DAddr> getRegUn(){
         return regUn;
     }
 
-    public GPRegister getRegUn(String name){
+
+    public DAddr getRegUn(String name){
         return this.regUn.get(name);
     }
 
-    public void addRegUn(String name, GPRegister reg){
+    public void addRegUn(String name, DAddr reg){
         this.regUn.put(name,reg);
     }
 
-    public void modifierRegun(GPRegister reg, String name){
+    public void modifierRegun(DAddr reg, String name){
         this.regUn.put(name,reg);
     }
 
@@ -370,6 +375,7 @@ public class DecacCompiler {
     public GPRegister getRegister(int adresse){
         return Register.getR(adresse);
     }
+
 
 
 }

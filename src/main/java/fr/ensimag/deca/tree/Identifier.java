@@ -250,7 +250,8 @@ public class Identifier extends AbstractIdentifier {
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
-        GPRegister reg = compiler.getRegUn(name);
+        DAddr reg = compiler.getRegUn(name);
+        System.out.println("reg: " + reg);
         return reg;
 
     }
@@ -258,7 +259,7 @@ public class Identifier extends AbstractIdentifier {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
-        GPRegister register = compiler.getRegUn(name);
+        DAddr register = compiler.getRegUn(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
         compiler.addInstruction(new WINT());
 

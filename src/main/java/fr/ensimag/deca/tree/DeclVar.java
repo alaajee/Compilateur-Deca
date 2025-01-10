@@ -90,13 +90,15 @@ public class DeclVar extends AbstractDeclVar {
         variable.setOperand(adresse);
         compiler.addVar(variable,this.varName.getName().toString());
         compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
-
+        compiler.addRegUn(this.varName.getName().toString(),adresse);
         if (this.initialization.initialization()) {
             // Générer le code pour initialiser la variable
             // La normalement on a tout initialisé
             compiler.isVar = true;
             DVal valeur = this.initialization.codeGenExpr(compiler);
-            compiler.addRegUn(this.varName.getName().toString(),(GPRegister) valeur);
+            System.out.println("valeur = " + valeur);
+            compiler.addRegUn(this.varName.getName().toString(),adresse);
+
 
         }
     }
