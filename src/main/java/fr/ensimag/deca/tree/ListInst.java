@@ -50,4 +50,10 @@ public class ListInst extends TreeList<AbstractInst> {
             s.println();
         }
     }
+
+    public void addAll(ListInst other) {
+        if (other != null) {
+            this.getList().addAll(other.getList());
+        }
+    }
 }

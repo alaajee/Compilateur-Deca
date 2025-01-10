@@ -1,0 +1,8 @@
+{
+    String a;
+    String b;
+    int result;
+
+    result = a + b; // Addition des codes ASCII de 'A' et 'B'
+    result = b - a; // Soustraction des codes ASCII de 'B' et 'A'
+}

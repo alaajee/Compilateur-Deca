@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+
 /**
  *
  * @author gl02
@@ -18,4 +21,7 @@ public class Lower extends AbstractOpIneq {
         return "<";
     }
 
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
 }

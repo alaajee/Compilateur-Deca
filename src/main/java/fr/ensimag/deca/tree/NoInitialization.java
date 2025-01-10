@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 
 /**
  * Absence of initialization (e.g. "int x;" as opposed to "int x =
@@ -47,5 +48,17 @@ public class NoInitialization extends AbstractInitialization {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
+
+    @Override
+    public boolean initialization(){
+        return false;
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
+
+
 
 }

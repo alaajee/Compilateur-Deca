@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -58,4 +59,20 @@ public class Initialization extends AbstractInitialization {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         expression.prettyPrint(s, prefix, true);
     }
+
+    @Override
+    // On vérifie si elle est initalisee ou non
+    public boolean initialization(){
+        if (this.getExpression() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        DVal valeur = getExpression().codeGenExpr(compiler);
+        return valeur;
+    }
+
 }

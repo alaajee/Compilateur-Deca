@@ -1,0 +1,20 @@
+Generation de codes en deux passes : 
+Passe 1 : construction de la table des méthodes de chaque classe
+Passe 2 : génération de code pour
+F le programme principal
+F chaque classe : initialisation des objets et codage des méthodes
+F messages d’erreurs pour les erreurs à l’exécution
+
+L’essentiel du travail consiste à ajouter les méthodes permettant la génération de code aux classes
+définissant les nœuds de l’arbre. Au final, la génération de code sera faite par le compilateur en appelant
+la méthode AbstractProgram.codeGenProgram(). Les méthodes des classes de l’arbre doivent rester
+très courtes : les portions de code non-triviales (gestion des registres et de la pile par exemple) seront
+factorisées dans d’autres classes, à ajouter dans le paquetage fr.ensimag.deca.codegen.
+Pour les nœuds de l’arbre correspondant à des déclarations, le parcours d’arbre se contente en géné-
+ral de calculer l’emplacement mémoire correspondant à la déclaration, et décore les définitions en uti-
+lisant Definition.setOperand(). La génération de code a proprement parler utilisera getOperand()
+pour retrouver l’opérande à utiliser dans le code généré sans avoir à la recalculer.*
+
+
+Je dois generer le code , tout d'abord je dois avoir les variables globales liées à gb , DONC x(GB) etcc liée à RX etcc
+

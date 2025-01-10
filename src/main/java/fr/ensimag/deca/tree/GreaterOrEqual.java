@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+
 /**
  * Operator "x >= y"
  * 
@@ -19,4 +22,7 @@ public class GreaterOrEqual extends AbstractOpIneq {
         return ">=";
     }
 
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
 }

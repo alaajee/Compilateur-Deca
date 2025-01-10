@@ -1,0 +1,10 @@
+{
+    float a = 1;
+    float b = 2;
+    float result;
+
+    result = a + b; // Addition
+    result = a - b; // Soustraction
+    result = a * b; // Multiplication
+    result = a / b; // Division flottante
+}

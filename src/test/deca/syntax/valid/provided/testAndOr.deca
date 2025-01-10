@@ -1,0 +1,18 @@
+// Description:
+//    Programme de test des opérateurs logiques AND (&&) et OR (||).
+//
+// Résultats attendus:
+//    Affiche les résultats des combinaisons logiques.
+//
+// Historique:
+//    créé le 06/01/2025
+
+{
+    // Déclaration de variables
+    int a=true;
+    bool b=true;
+    // Tests avec AND (&&)
+    println("Tests avec AND (&&) :");
+    println("true && true  = " + (a && a));  // true
+
+}

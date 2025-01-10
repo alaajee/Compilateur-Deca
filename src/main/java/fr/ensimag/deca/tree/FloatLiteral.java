@@ -2,6 +2,12 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -64,5 +70,26 @@ public class FloatLiteral extends AbstractExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
+
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler) {
+        DAddr adresse = compiler.getCurrentAdresse();
+        DVal res = new ImmediateFloat(value);
+        if (compiler.isVar == true){
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(res, reg));
+            compiler.addInstruction(new STORE(reg, adresse));
+            res.isRegistre = true;
+            return reg;
+        }
+        else {
+
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(res,reg));
+            return reg;
+        }
+
+    }
+
 
 }

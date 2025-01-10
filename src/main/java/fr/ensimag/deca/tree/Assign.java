@@ -1,10 +1,11 @@
 package fr.ensimag.deca.tree;
 
+
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
+import org.mockito.stubbing.ValidableAnswer;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -39,6 +40,23 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     protected String getOperatorName() {
         return "=";
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler) {
+        DVal val = getRightOperand().codeGenExpr(compiler);
+        DVal resultat = getLeftOperand().codeGenExpr(compiler);
+        if (val instanceof GPRegister){
+            compiler.addInstruction(new STORE((GPRegister)val,(DAddr )resultat));
+            return resultat;
+        }
+        else {
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(val, reg));
+            compiler.addInstruction(new STORE(reg,(DAddr )resultat));
+            return resultat;
+        }
+
     }
 
 }

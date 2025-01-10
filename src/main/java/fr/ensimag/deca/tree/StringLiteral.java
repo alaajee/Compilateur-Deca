@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -66,6 +67,11 @@ public class StringLiteral extends AbstractStringLiteral {
     @Override
     String prettyPrintNode() {
         return "StringLiteral (" + value + ")";
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        return null;
     }
 
 }

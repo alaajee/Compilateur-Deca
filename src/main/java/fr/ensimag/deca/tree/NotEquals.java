@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+
 /**
  *
  * @author gl02
@@ -16,6 +19,11 @@ public class NotEquals extends AbstractOpExactCmp {
     @Override
     protected String getOperatorName() {
         return "!=";
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        return null;
     }
 
 }
