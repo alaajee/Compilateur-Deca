@@ -1,0 +1,23 @@
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #5, R2
+	STORE R2, 3(GB)
+	LOAD #7, R2
+	STORE R2, 4(GB)
+	LOAD 3(GB), R2
+	CMP 4(GB), R2
+	SLT R2
+	LOAD R2, R3
+	CMP #0, R3
+	BEQ else_label
+	LOAD 4(GB), R4
+	STORE R4, 3(GB)
+	LOAD 3(GB), R1
+	WINT
+	WNL
+	BRA end_if
+else_label:
+end_if:
+	HALT
+; end main program
