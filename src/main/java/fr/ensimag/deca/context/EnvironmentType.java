@@ -1,8 +1,9 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.DecacCompiler;
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -17,7 +18,7 @@ import fr.ensimag.deca.tree.Location;
 public class EnvironmentType {
     public EnvironmentType(DecacCompiler compiler) {
         
-        envTypes = new HashMap<Symbol, TypeDefinition>();
+        envTypes = new HashMap<>();
         
         Symbol intSymb = compiler.createSymbol("int");
         INT = new IntType(intSymb);
@@ -46,6 +47,11 @@ public class EnvironmentType {
 
     public TypeDefinition defOfType(Symbol s) {
         return envTypes.get(s);
+    }
+
+    public Map<Symbol, TypeDefinition> getEnvtypes()
+    {
+        return envTypes;
     }
 
 
