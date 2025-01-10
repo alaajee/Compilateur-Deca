@@ -1,7 +1,6 @@
 package fr.ensimag.deca;
 
 import java.io.File;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -28,13 +27,15 @@ public class DecacMain {
         }
         if (options.getPrintBanner()) {
             System.out.println("Project developped by group 26");
-            System.exit(1);
+            System.exit(0);
         }
         if (options.getSourceFiles().isEmpty()) {
             options.displayUsage();
-            System.exit(1); 
+            System.exit(0); 
             
         }
+
+
 
         if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
