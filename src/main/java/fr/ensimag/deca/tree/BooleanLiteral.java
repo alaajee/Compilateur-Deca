@@ -1,12 +1,19 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import java.io.PrintStream;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
  *
@@ -28,7 +35,10 @@ public class BooleanLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                Symbol symbolBool = compiler.createSymbol("boolean");
+                Type bool = compiler.environmentType.getEnvtypes().get(symbolBool).getType();       
+                this.setType(bool);
+                return bool;  
     }
 
 
@@ -50,6 +60,23 @@ public class BooleanLiteral extends AbstractExpr {
     @Override
     String prettyPrintNode() {
         return "BooleanLiteral (" + value + ")";
+    }
+
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler) {
+        DAddr adresse = compiler.getCurrentAdresse();
+        int res = value ? 1 : 0;
+        GPRegister reg = compiler.associerReg();
+        if (compiler.isVar == true){
+            compiler.addInstruction(new LOAD(res, reg));
+            compiler.addInstruction(new STORE(reg, adresse));
+            reg.isRegistre = true;
+        }
+        else {
+            compiler.addInstruction(new LOAD(res,reg));
+        }
+        return reg;
+
     }
 
 }

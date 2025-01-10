@@ -35,7 +35,7 @@ public class ListInst extends TreeList<AbstractInst> {
             AbstractInst instruction = iterator.next(); // Récupère l'élément suivant
             instruction.verifyInst(compiler, localEnv, currentClass, returnType);
         }
-        }
+    }
 
     public void codeGenListInst(DecacCompiler compiler) {
         for (AbstractInst i : getList()) {

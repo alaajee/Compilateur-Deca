@@ -34,6 +34,7 @@ public class Main extends AbstractMain {
         // Vous avez le droit de changer le profil fourni pour ces méthodes
         // (mais ce n'est à priori pas nécessaire).
         EnvironmentExp envExp = new EnvironmentExp(null);
+        this.declVariables.verifyListDeclVariable(compiler,envExp,null);
         this.insts.verifyListInst(compiler,envExp,null,null);
         LOG.debug("verify Main: end");
     }
@@ -42,7 +43,9 @@ public class Main extends AbstractMain {
     protected void codeGenMain(DecacCompiler compiler) {
         // A FAIRE: traiter les déclarations de variables.
         compiler.addComment("Beginning of main instructions:");
+        declVariables.codeGen(compiler);
         insts.codeGenListInst(compiler);
+
     }
     
     @Override

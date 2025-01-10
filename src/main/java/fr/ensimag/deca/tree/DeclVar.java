@@ -1,13 +1,15 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+
+import fr.ensimag.deca.context.*;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import org.apache.commons.lang.Validate;
+
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.tools.IndentPrintStream;
 
 /**
  * @author gl02
@@ -33,12 +35,34 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        Type t=this.type.verifyType(compiler);
+        VariableDefinition varDef = new VariableDefinition(t, this.varName.getLocation());
+        try {
+            localEnv.declare(this.varName.getName(), varDef);
+        } catch ( EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError("Variable '" + this.varName.getName() + "' is already declared in this scope", this.varName.getLocation());
+
+        }
+        this.setLocation(localEnv.getEnvExp().get(varName.getName()).getLocation());
+        this.initialization.verifyInitialization(compiler, this.type.verifyType(compiler), localEnv, currentClass);
+        this.varName.verifyExpr(compiler, localEnv, currentClass);
     }
+
+
 
     
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.type.decompile(s);
+        this.varName.decompile(s);
+        if (this.initialization instanceof Initialization)
+        {
+            s.print(" = ");
+            initialization.decompile(s);
+        }
+        s.println(";");
+      
+
     }
 
     @Override
@@ -55,4 +79,28 @@ public class DeclVar extends AbstractDeclVar {
         varName.prettyPrint(s, prefix, false);
         initialization.prettyPrint(s, prefix, true);
     }
+
+
+    protected void codegenVar(DecacCompiler compiler) {
+        // Je dois normalement generer LOAD valeur , Rx alors je dois initialiser les variables et changer les operandes etcc ?
+        // Je dois generer aussi STORE RX , x(GB)
+        VariableDefinition variable = new VariableDefinition(this.type.getDefinition().getType(), this.getLocation());
+        // Setoperand ?
+        DAddr adresse = compiler.associerAdresse();
+        variable.setOperand(adresse);
+        compiler.addVar(variable,this.varName.getName().toString());
+        compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
+        compiler.addRegUn(this.varName.getName().toString(),adresse);
+        if (this.initialization.initialization()) {
+            // Générer le code pour initialiser la variable
+            // La normalement on a tout initialisé
+            compiler.isVar = true;
+            DVal valeur = this.initialization.codeGenExpr(compiler);
+            System.out.println("valeur = " + valeur);
+            compiler.addRegUn(this.varName.getName().toString(),adresse);
+
+
+        }
+    }
+
 }

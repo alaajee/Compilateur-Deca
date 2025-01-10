@@ -1,12 +1,20 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import java.io.PrintStream;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.RINT;
 
 /**
  *
@@ -18,8 +26,11 @@ public class ReadFloat extends AbstractReadExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
+                Symbol symbolFloat = compiler.createSymbol("float");
+                Type typeFloat = compiler.environmentType.getEnvtypes().get(symbolFloat).getType();       
+                this.setType(typeFloat);
+                return typeFloat;      
+            }
 
 
     @Override
@@ -37,4 +48,12 @@ public class ReadFloat extends AbstractReadExpr {
         // leaf node => nothing to do
     }
 
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        compiler.addInstruction(new RFLOAT());
+        GPRegister register = Register.R1;
+        GPRegister reg = compiler.associerReg();
+        compiler.addInstruction( new LOAD(register, reg));
+        return reg;
+    }
 }

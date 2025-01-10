@@ -1,12 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import java.io.PrintStream;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  * Integer literal
@@ -28,7 +32,10 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                Symbol symbolInt = compiler.createSymbol("int");
+                Type typeInt = compiler.environmentType.getEnvtypes().get(symbolInt).getType();       
+                this.setType(typeInt);
+                return typeInt;  
     }
 
 
@@ -52,4 +59,36 @@ public class IntLiteral extends AbstractExpr {
         // leaf node => nothing to do
     }
 
+    @Override
+    protected DVal codeGenExpr(DecacCompiler compiler) {
+        DAddr adresse = compiler.getCurrentAdresse();
+        DVal res = new ImmediateInteger(value);
+        if (compiler.isVar == true){
+            GPRegister reg = compiler.associerReg();
+            compiler.addInstruction(new LOAD(res, reg));
+            compiler.addInstruction(new STORE(reg, adresse));
+            res.isRegistre = true;
+            compiler.isVar = false;
+            // Il faut liberer le registre
+            compiler.libererReg(reg.getNumber());
+            return adresse;
+        }
+        else {
+            return res;
+        }
+
+    }
+
+    @Override
+    public void codeGenInst(DecacCompiler compiler){};
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        compiler.addInstruction(new RFLOAT());
+        DVal register = codeGenExpr(compiler);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WSTR(new ImmediateString("mok")));
+        compiler.addInstruction(new WINT());
+
+    }
 }

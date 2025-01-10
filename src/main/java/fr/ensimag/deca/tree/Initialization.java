@@ -1,13 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.DVal;
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
-import org.apache.commons.lang.Validate;
 
 /**
  * @author gl02
@@ -35,13 +38,15 @@ public class Initialization extends AbstractInitialization {
     protected void verifyInitialization(DecacCompiler compiler, Type t,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+            this.expression.verifyRValue(compiler, localEnv, currentClass, t);
+        
     }
+
 
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not yet implemented");
+       this.expression.decompile(s);
     }
 
     @Override
@@ -54,4 +59,20 @@ public class Initialization extends AbstractInitialization {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         expression.prettyPrint(s, prefix, true);
     }
+
+    @Override
+    // On vérifie si elle est initalisee ou non
+    public boolean initialization(){
+        if (this.getExpression() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public DVal codeGenExpr(DecacCompiler compiler){
+        DVal valeur = getExpression().codeGenExpr(compiler);
+        return valeur;
+    }
+
 }

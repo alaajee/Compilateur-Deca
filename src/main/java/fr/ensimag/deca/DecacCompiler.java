@@ -1,22 +1,27 @@
 package fr.ensimag.deca;
 
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.AbstractProgram;
+import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.GPRegister;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
@@ -44,10 +49,43 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
 
+    public final SymbolTable symbolTable;
+    public final EnvironmentType environmentType;
+
+    public int adresseReg;
+    public boolean isVar;
+    private int adressVar;
+    private int Overflow;
+    private Map<String, VariableDefinition> varTab = new HashMap<>();
+    private Map<Location,String> nameVal = new HashMap<>();
+    private Map<String ,DAddr> regUn = new HashMap<>();
+    private Boolean [] GP;
+    public Boolean Offset;
+    public int spVal;
+    public int OverflowVal;
+
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        this.Offset = false;
+        // Initialisation de symbolTable
+        this.symbolTable = new SymbolTable();
+        this.spVal = 0;
+        this.OverflowVal = 15;
+        // Initialisation de environmentType après symbolTable
+        this.environmentType = new EnvironmentType(this);
+        this.GP = new Boolean[OverflowVal+1];
+        for(int i = 0 ; i < OverflowVal+1 ; i++){
+            GP[i] = false;
+        }
+        GP[OverflowVal] = true;
+        this.Overflow = 15;
+        this.adressVar = 2;
+        this.adresseReg = 2;
+        this.isVar = false;
+
+
     }
 
     /**
@@ -92,19 +130,19 @@ public class DecacCompiler {
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction)
      */
-    public void addFirst(Instruction i) {
-        program.addFirst(i);
+    public void addFirst(Instruction instruction) {
+        program.addFirst(instruction);
     }
-    
+
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction,
      * java.lang.String)
      */
-    public void addFirst(Instruction i, String comment) {
-        program.addFirst(i,comment);
+    public void addFirst(Instruction instruction, String comment) {
+        program.addFirst(instruction, comment);
     }
-
+    
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
@@ -137,14 +175,12 @@ public class DecacCompiler {
      */
     private final IMAProgram program = new IMAProgram();
  
-
     /** The global environment for types (and the symbolTable) */
-    public final EnvironmentType environmentType = new EnvironmentType(this);
-    public final SymbolTable symbolTable = new SymbolTable();
+    // public final EnvironmentType environmentType = new EnvironmentType(this);
+    // public final SymbolTable symbolTable = new SymbolTable();
 
     public Symbol createSymbol(String name) {
-        return null; // A FAIRE: remplacer par la ligne en commentaire ci-dessous
-        // return symbolTable.create(name);
+        return symbolTable.create(name);
     }
 
     /**
@@ -157,6 +193,8 @@ public class DecacCompiler {
         String destFile = sourceFile.substring(0, sourceFile.length()-4) + "ass";
         PrintStream err = System.err;
         PrintStream out = System.out;
+
+
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
             return doCompile(sourceFile, destFile, out, err);
@@ -256,5 +294,105 @@ public class DecacCompiler {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
+
+    /**
+     * Cette fonction permet d'associer une valeur à chaque variable et modifier setOperand pour cette variable
+     * */
+
+    public DAddr associerAdresse(){
+        this.adressVar++;
+        DAddr adresse = new RegisterOffset(adressVar,Register.GB);
+        return adresse;
+    }
+
+    public void libererReg(int adresseReg){
+        GP[adresseReg] = false;
+    }
+
+    public GPRegister associerReg() {
+        for (int i = 2; i < OverflowVal+1; i++) {
+            if (!GP[i]) {
+                GP[i] = true;
+                this.adresseReg = i;
+                return Register.getR(i);
+            } else {
+                continue;
+            }
+        }
+        return associerRegOffset();
+
+    }
+
+    public GPRegister associerRegOffset(){
+        DVal reg = Register.getR(this.adresseReg);
+        reg.isOffSet = true;
+        return  (GPRegister) reg;
+    }
+
+    public int getAdresseReg(){
+        return this.adresseReg;
+    }
+    public DAddr getCurrentAdresse(){
+        return new RegisterOffset(adressVar,Register.GB);
+    }
+
+    public void libererReg(){
+        this.adresseReg = this.adresseReg--;
+    }
+
+    public void libererAdresse(){
+        this.adressVar = this.adressVar--;
+    }
+
+    public void addVar(VariableDefinition variableDefinition , String name){
+        this.varTab.put(name,variableDefinition);
+    }
+
+    public Map<String,VariableDefinition> getVarTab(){
+        return varTab;
+    }
+
+    public VariableDefinition getVar(String name){
+        return this.varTab.get(name);
+    }
+
+    public void addNameVal(Location location, String name){
+        this.nameVal.put(location,name);
+    }
+
+    public String getNameVal(String name){
+        return this.nameVal.get(name).toString();
+    }
+
+    public Map<Location,String> getNameValTab(){
+        return nameVal;
+    }
+
+    public Map<String , DAddr> getRegUn(){
+        return regUn;
+    }
+
+
+    public DAddr getRegUn(String name){
+        return this.regUn.get(name);
+    }
+
+    public void addRegUn(String name, DAddr reg){
+        this.regUn.put(name,reg);
+    }
+
+    public void modifierRegun(DAddr reg, String name){
+        this.regUn.put(name,reg);
+    }
+
+    public int getOverflow(){
+        return this.Overflow;
+    }
+
+    public GPRegister getRegister(int adresse){
+        return Register.getR(adresse);
+    }
+
+
 
 }
