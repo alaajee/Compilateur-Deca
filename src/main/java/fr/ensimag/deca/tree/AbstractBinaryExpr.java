@@ -1,6 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.*;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -66,4 +72,24 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+
+    public void codeGenBranch(DecacCompiler compiler, Label elseLabel, Label endIfLabel) {
+
+        // Emit the branching instruction based on the operator
+        if (this instanceof Greater) {
+            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+        } else if (this instanceof Lower) {
+            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+        } else if (this instanceof Equals) {
+            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+        } else if (this instanceof NotEquals) {
+            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+        } else if (this instanceof GreaterOrEqual) {
+            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+        } else if (this instanceof LowerOrEqual) {
+            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+        } else {
+            throw new UnsupportedOperationException("Unsupported operator for branching");
+        }
+    }
 }
