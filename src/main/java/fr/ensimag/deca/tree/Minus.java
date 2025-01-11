@@ -35,6 +35,7 @@ public class Minus extends AbstractOpArith {
                 compiler.addInstruction(new  POP(reg));
                 compiler.addInstruction(new SUB(Register.R0,reg));
                 return reg;
+<<<<<<< Updated upstream
             }
             else if (leftOperand.isOffSet){
                 System.out.println("hh");
@@ -46,15 +47,71 @@ public class Minus extends AbstractOpArith {
                 System.out.println("hh");
                 compiler.addInstruction(new LOAD(leftOperand,reg));
                 compiler.addInstruction(new SUB(rightOperand,reg));
+=======
+            } else if (leftOperand.isOffSet) {
+                System.out.println("hhh");
+                if (rightOperand.isVar){
+                    compiler.addInstruction(new POP(reg));
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                    compiler.addInstruction(new LOAD((RegisterOffset) rightOperand, reg));
+                    compiler.addInstruction(new SUB(Register.R0,reg));
+                    compiler.addInstruction(new PUSH(reg));
+                    return reg;
+                }
+                else {
+                    compiler.addInstruction(new POP(reg));
+                    compiler.addInstruction(new SUB(rightOperand,reg));
+                    compiler.addInstruction(new PUSH(reg));
+                    return reg;
+                }
+            } else if (rightOperand.isOffSet) {
+                System.out.println("hh");
+                if (leftOperand.isVar){
+                    compiler.addInstruction(new POP(reg));
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                    compiler.addInstruction(new LOAD((RegisterOffset) leftOperand, reg));
+                    compiler.addInstruction(new SUB(Register.R0,reg));
+                    compiler.addInstruction(new PUSH(reg));
+                    return reg;
+                }
+                else {
+                    compiler.addInstruction(new POP(reg));
+                    compiler.addInstruction(new SUB(reg,(GPRegister) leftOperand));
+                    compiler.addInstruction(new PUSH(reg));
+                    return leftOperand;
+                }
+
+
+            } else {
+                System.out.println("h");
+
+                compiler.addInstruction(new LOAD(leftOperand, reg));
+                compiler.addInstruction(new SUB(rightOperand, reg));
+>>>>>>> Stashed changes
                 compiler.addInstruction(new PUSH(reg));
                 return reg;
             }
 
         }
         else {
+<<<<<<< Updated upstream
             compiler.addInstruction(new LOAD(leftOperand,reg));
             compiler.addInstruction(new SUB(rightOperand,reg));
             return reg;
+=======
+            if (leftOperand.isVar){
+                compiler.addInstruction(new LOAD(leftOperand,reg));
+                compiler.addInstruction(new SUB(rightOperand,reg));
+                return reg;
+
+            }
+            else {
+                compiler.addInstruction(new LOAD(leftOperand,reg));
+                compiler.addInstruction(new SUB(rightOperand,reg));
+                return leftOperand;
+            }
+
+>>>>>>> Stashed changes
         }
     }
 

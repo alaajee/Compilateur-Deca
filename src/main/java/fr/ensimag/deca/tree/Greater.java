@@ -31,11 +31,36 @@ public class Greater extends AbstractOpIneq {
 
         
         GPRegister reg = compiler.associerReg();
-        
-        compiler.addInstruction(new LOAD(leftOperand, reg));
-        compiler.addInstruction(new CMP(rightOperand, reg)); 
 
-        compiler.addInstruction(new SGT(reg));
+        if (reg.isOffSet){
+            if (leftOperand.isOffSet && rightOperand.isOffSet){
+                compiler.addInstruction(new POP(Register.R0));
+                compiler.spVal--;
+                compiler.addInstruction(new  POP(reg));
+                compiler.addInstruction(new CMP(Register.R0,reg));
+            }
+            else if (leftOperand.isOffSet){
+                compiler.addInstruction(new POP(reg));
+                compiler.addInstruction(new CMP(rightOperand,reg));
+                compiler.addInstruction(new PUSH(reg));
+                }
+            else {
+                compiler.addInstruction(new LOAD(rightOperand,reg));
+                compiler.addInstruction(new CMP(leftOperand,reg));
+
+                compiler.addInstruction(new PUSH(reg));
+            }
+
+        }
+        else {
+            compiler.addInstruction(new LOAD(rightOperand,reg));
+            compiler.addInstruction(new CMP(leftOperand,reg));
+        }
+        
+        // compiler.addInstruction(new LOAD(leftOperand, reg));
+        // compiler.addInstruction(new CMP(rightOperand, reg)); 
+
+        compiler.addInstruction(new SLE(reg));
 
         return reg;
     }

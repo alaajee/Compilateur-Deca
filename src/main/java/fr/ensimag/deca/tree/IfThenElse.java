@@ -59,12 +59,21 @@ public class IfThenElse extends AbstractInst {
         // Génération du code pour la condition
         DVal conditionResult = condition.codeGenExpr(compiler);  // Get the condition result as an expression
         GPRegister reg = compiler.associerReg();  // Allocate a register for the condition evaluation
+<<<<<<< Updated upstream
         
         // If the condition result is an offset, we adjust accordingly
         if (conditionResult.isOffSet) {
             compiler.addInstruction(new POP(Register.R0));  // Pop the offset into R0
             compiler.spVal--;  // Decrease the stack pointer
             compiler.addInstruction(new POP(reg));  // Pop the value to the register
+=======
+
+        // If the condition result is an offset, we adjust accordingly
+        if (conditionResult.isOffSet) {
+            // compiler.addInstruction(new POP(Register.R0));  // Pop the offset into R0
+            // compiler.spVal--;  // Decrease the stack pointer
+            // compiler.addInstruction(new POP(reg));  // Pop the value to the register
+>>>>>>> Stashed changes
             compiler.addInstruction(new CMP(0, reg));  // Compare the register value with zero
         } else {
             compiler.addInstruction(new LOAD(conditionResult, reg));  // Load condition value into the register
