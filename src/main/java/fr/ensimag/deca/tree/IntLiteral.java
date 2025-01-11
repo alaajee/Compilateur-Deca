@@ -68,7 +68,6 @@ public class IntLiteral extends AbstractExpr {
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
-            compiler.isVar = false;
             // Il faut liberer le registre
             compiler.libererReg(reg.getNumber());
             return adresse;

@@ -3,10 +3,7 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -261,7 +258,18 @@ public class Identifier extends AbstractIdentifier {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        compiler.addInstruction(new WINT());
+        if (super.getType().isFloat()){
+            compiler.addInstruction(new WFLOAT());
+        }
+        else if (super.getType().isInt()){
+            compiler.addInstruction(new WINT());
+        }
+        else if(super.getType().isFloat()){
+            // A revoir
+        }
+        else if (super.getType().isBoolean()){
+            // A implementer
+        }
 
     }
 

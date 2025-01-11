@@ -56,7 +56,7 @@ public class CompilerOptions {
     private boolean registreLimit = false; //case "-r"
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
-
+    private int registreLimitValue = 15;
 
 
     
@@ -95,7 +95,7 @@ public class CompilerOptions {
                             throw new CLIException("Valeur de -r hors limites : " + x + "doit etre comprise entre 4 et 16 ");
                         }
                         registreLimit = true;
-
+                        registreLimitValue = x;
 
                         } catch (NumberFormatException e) {
                             throw new CLIException("Valeur attendue après -r");
@@ -181,5 +181,9 @@ public class CompilerOptions {
         System.out.println("  -d        : Active les traces de debug (répétable).");
         System.out.println("  -P        : Active la compilation parallèle si plusieurs fichiers sont fournis.");
         System.out.println("  <source files> : Liste des fichiers source à compiler.");
+    }
+
+    public int getRegistreLimitValue() {
+        return registreLimitValue;
     }
 }

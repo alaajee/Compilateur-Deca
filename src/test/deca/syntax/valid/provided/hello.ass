@@ -1,7 +1,13 @@
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	WSTR "Hello"
-	WNL
-	HALT
+
+    ; Exemple pour afficher un boolean 'false'
+    MOV R0, 0        ; R0 = 0 (false)
+    WBOOL            ; Afficher "false"
+
+    WNL              ; Nouvelle ligne
+    HALT             ; Fin du programme
+
 ; end main program
+

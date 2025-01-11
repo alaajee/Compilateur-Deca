@@ -75,7 +75,7 @@ public class DecacCompiler {
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
         this.spVal = 0;
-        this.OverflowVal = 3;
+        this.OverflowVal = compilerOptions.getRegistreLimitValue();
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
         this.GP = new Boolean[OverflowVal+1];
@@ -84,7 +84,7 @@ public class DecacCompiler {
         }
         DVal reg = Register.getR(this.OverflowVal);
         reg.isOffSet = true;
-        this.Overflow = 15;
+        this.Overflow = 3;
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
@@ -391,8 +391,8 @@ public class DecacCompiler {
         this.regUn.put(name,reg);
     }
 
-    public int getOverflow(){
-        return this.Overflow;
+    public int getOverflowVal(){
+        return this.OverflowVal;
     }
 
     public GPRegister getRegister(int adresse){
