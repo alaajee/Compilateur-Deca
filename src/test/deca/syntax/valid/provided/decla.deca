@@ -1,19 +1,6 @@
 {
-    int b = (9 / 3);
-    bool c = (7 == 5);
-    bool d = (8 > 3);
-    bool e = (6 <= 6);
-    bool f = (5 != 5);
-    bool g = (10 < 12);
-    int h = -5;
-    int i = ---6;
-    int j = (4 + -2);
-    int k = (7 == 8);
-    bool l = (false && true);
-    int m = (3 * 2);
-    int o = (2 * (5 - 1));
-    bool p = (8 > 7);
-    bool q = (3 == 4);
-    int r = (15 - 7);
+    int x = 1 / 0;
+    println(x);
+  
 }
 

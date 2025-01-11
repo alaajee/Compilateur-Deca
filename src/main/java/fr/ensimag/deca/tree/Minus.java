@@ -27,7 +27,6 @@ public class Minus extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
-        System.out.println("c'est moi le reg" + reg);
         constructeur constructeur = new constructeurSUB();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
@@ -40,7 +39,6 @@ public class Minus extends AbstractOpArith {
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
-        System.out.println("c'est moi le reg" + reg);
         constructeurSUB constructeurSUB = new constructeurSUB();
         codeGen gen = new codeGen();
         gen.codeGenPrint(leftOperand,rightOperand,reg,constructeurSUB,compiler);
