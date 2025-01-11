@@ -10,7 +10,6 @@ import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.GPRegister;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,6 +53,8 @@ public class DecacCompiler {
 
     public final SymbolTable symbolTable;
     public final EnvironmentType environmentType;
+
+    private int uniqueIDCounter = 0;
 
     public int adresseReg;
     public boolean isVar;
@@ -99,6 +100,9 @@ public class DecacCompiler {
         return source;
     }
 
+    public int getUniqueID() {
+        return uniqueIDCounter++;
+    }
     /**
      * Compilation options (e.g. when to stop compilation, number of registers
      * to use, ...).
