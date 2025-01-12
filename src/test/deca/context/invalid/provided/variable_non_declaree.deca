@@ -2,7 +2,7 @@
 //    Utilisation d'une variable non déclarée.
 //
 // Resultats:
-//    Ligne 5: Utilisation d'une variable sans déclaration préalable.
+//    variable_non_declaree.deca:12:3: Identifier 'x' is not defined
 //
 // Historique:
 //    cree le 11/01/2025
