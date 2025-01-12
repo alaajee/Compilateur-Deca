@@ -1,0 +1,15 @@
+// Description:
+//    Opération non supportée entre deux booléens.
+//
+// Resultats:
+//    operation_non_supportee.deca:14:8: Invalid operand types: expected int or float, but got int and boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+boolean a = true;
+boolean b = false;
+
+// Doit etre refuse.
+int c = a + b;
+}

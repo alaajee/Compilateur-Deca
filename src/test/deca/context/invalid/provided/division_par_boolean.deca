@@ -1,0 +1,15 @@
+// Description:
+//    Division par un booléen.
+//
+// Resultats:
+//    division_par_boolean.deca:14:8: Type mismatcg: the left operand is of type int while the right operand is of type boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+int a = 10;
+boolean b = true;
+
+// Doit etre refuse.
+int c = a / b;
+}

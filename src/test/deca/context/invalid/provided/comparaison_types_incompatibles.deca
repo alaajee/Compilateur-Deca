@@ -1,0 +1,17 @@
+// Description:
+//    Comparaison entre types incompatibles.
+//
+// Resultats:
+//    comparaison_types_incompatibles.deca:14:4: Opérateur == non applicable to those types : int and boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+int a = 5;
+boolean b = true;
+
+// Doit etre refuse.
+if (a == b) {
+   print("Erreur");
+}
+}

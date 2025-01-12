@@ -1,0 +1,13 @@
+// Description:
+//    Utilisation d'une variable non déclarée.
+//
+// Resultats:
+//    Ligne 5: Utilisation d'une variable sans déclaration préalable.
+//
+// Historique:
+//    cree le 11/01/2025
+
+{
+   // Doit etre refuse.
+   x = 10;
+}
