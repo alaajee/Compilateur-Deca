@@ -28,7 +28,8 @@ public class UnaryMinus extends AbstractUnaryExpr {
             Type t = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
             if (!t.isFloat() && !t.isInt())
             {
-                throw new ContextualError("Type mismatch:the operand must be float or int" , this.getLocation());             
+                throw new ContextualError("Unary Minus failed: the operand must be float or int" , this.getLocation());             
+          
             }
             this.setType(t);
             return t;
