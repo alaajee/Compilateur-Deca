@@ -1,0 +1,15 @@
+// Description:
+//    Opération binaire sur deux floats.
+//
+// Resultats:
+//    invalid_binary_operation_float_float.deca:14:13: both operands should be of type boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float x = 2.0;
+float y = 3.0;
+
+// Doit etre refuse.
+int result = x || y;
+}
