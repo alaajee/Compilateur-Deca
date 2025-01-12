@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
-import java.lang.instrument.ClassDefinition;
 
 import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.DAddr;
