@@ -1,5 +1,6 @@
 package fr.ensimag.deca;
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -51,8 +52,9 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
 
-    public final SymbolTable symbolTable;
-    public final EnvironmentType environmentType;
+    public  SymbolTable symbolTable;
+    public  EnvironmentType environmentType;
+    public Map<Symbol, TypeDefinition> envTypes;
 
     private int uniqueIDCounter = 0;
 
@@ -76,10 +78,10 @@ public class DecacCompiler {
         this.Offset = false;
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
-        this.spVal = 0;
-        this.OverflowVal = compilerOptions.getRegistreLimitValue();
-        // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
+        this.envTypes = environmentType.getEnvtypes(); 
+        this.spVal = 0;
+        //this.OverflowVal = compilerOptions.getRegistreLimitValue();
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
@@ -91,8 +93,6 @@ public class DecacCompiler {
         this.adresseReg = 2;
         this.isVar = false;
         this.needToPush = false;
-
-
     }
 
     /**
@@ -167,10 +167,7 @@ public class DecacCompiler {
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
-    /** The global environment for types (and the symbolTable) */
-    // public final EnvironmentType environmentType = new EnvironmentType(this);
-    // public final SymbolTable symbolTable = new SymbolTable();
+
 
     public Symbol createSymbol(String name) {
         return symbolTable.create(name);
@@ -195,20 +192,20 @@ public class DecacCompiler {
                 AbstractProgram program = doLexingAndParsing(sourceFile, err);
                 program.decompile(out);
                 return false;
-
             }
 
             if (compilerOptions.getVerify())
             {
                 AbstractProgram program = doLexingAndParsing(sourceFile, err);
                 program.verifyProgram(this);
+                /*
+                 * pour afficher l'arbre syntaxique decoree 
+                 * decommenter la ligne suivante
+                 */
+
+                //System.out.println(program.prettyPrint());
                 return false;
-
             }
-
-            
-
-
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
             e.display(err);
@@ -303,7 +300,9 @@ public class DecacCompiler {
         lex.setDecacCompiler(this);
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
+        this.symbolTable = parser.getTable();
         parser.setDecacCompiler(this);
+
         return parser.parseProgramAndManageErrors(err);
     }
 
