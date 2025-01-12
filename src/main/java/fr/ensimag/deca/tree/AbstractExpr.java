@@ -27,6 +27,18 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return true if the expression does not correspond to any concrete token
      * in the source code (and should be decompiled to the empty string).
      */
+
+    public String expression = "general";
+
+    public String getExpr(){
+        return expression;
+    }
+
+    public String setExpr(){
+        this.expression = "instruction";
+        return expression;
+    }
+
     boolean isImplicit() {
         return false;
     }
@@ -168,4 +180,7 @@ public abstract class AbstractExpr extends AbstractInst {
     protected abstract DVal codeGenExpr(DecacCompiler compiler);
 
 
+    public DVal codeGenInit(DecacCompiler compiler){
+        return null;
+    }
 }

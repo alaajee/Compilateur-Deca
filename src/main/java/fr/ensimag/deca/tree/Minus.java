@@ -4,6 +4,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.codegen.constructeur;
+import fr.ensimag.deca.codegen.constructeurADD;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import fr.ensimag.deca.codegen.constructeurSUB;
@@ -14,6 +15,7 @@ import fr.ensimag.deca.codegen.constructeurSUB;
 public class Minus extends AbstractOpArith {
     public Minus(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
+        this.expression = "instruction";
     }
 
 
@@ -51,5 +53,19 @@ public class Minus extends AbstractOpArith {
         }
 
 
+    }
+
+
+    public DVal codeGenInit(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenInit(compiler);
+        DVal rightOperand = getRightOperand().codeGenInit(compiler);
+        GPRegister reg = compiler.associerReg();
+        constructeur constructeur = new constructeurSUB();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+        gen.finalizeAndPush(reg, compiler);
+        DAddr adresse = compiler.getCurrentAdresse();
+        compiler.addInstruction(new STORE((GPRegister)register, adresse));
+        return register;
     }
 }

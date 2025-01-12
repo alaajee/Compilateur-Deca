@@ -243,7 +243,6 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
-        System.out.println("reg: " + reg);
         return reg;
 
     }

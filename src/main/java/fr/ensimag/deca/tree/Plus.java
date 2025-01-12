@@ -15,6 +15,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 public class Plus extends AbstractOpArith {
     public Plus(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
+        this.expression = "instruction";
     }
     
     @Override
@@ -22,6 +23,15 @@ public class Plus extends AbstractOpArith {
         return "+";
     }
 
+
+    public String setExpr(){
+        this.expression = "instruction";
+        return expression;
+    }
+
+    public String getExpr(){
+        return expression;
+    }
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
@@ -40,7 +50,6 @@ public class Plus extends AbstractOpArith {
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        System.out.println(rightOperand + " + " + leftOperand);
         GPRegister reg = compiler.associerReg();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
         constructeur constructeurADD = new constructeurADD();
@@ -54,4 +63,16 @@ public class Plus extends AbstractOpArith {
         }
     }
 
+    public DVal codeGenInit(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenInit(compiler);
+        DVal rightOperand = getRightOperand().codeGenInit(compiler);
+        GPRegister reg = compiler.associerReg();
+        constructeur constructeur = new constructeurADD();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+        gen.finalizeAndPush(reg, compiler);
+        DAddr adresse = compiler.getCurrentAdresse();
+        compiler.addInstruction(new STORE((GPRegister)register, adresse));
+        return register;
+    }
 }

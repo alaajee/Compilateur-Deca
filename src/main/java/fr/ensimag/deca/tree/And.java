@@ -38,19 +38,10 @@ public class And extends AbstractOpBool {
         // constructeur constructeur1 = new constructeurCMP();
         // codeGen gen1 = new codeGen();
         // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
-        
         compiler.addInstruction(new CMP(new ImmediateInteger(2), reg));
-
-
-
         // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
-        
         // compiler.addInstruction(new LOAD(leftOperand,reg));
         // constructeur.constructeur(compiler, rightOperand, reg);
-
-
-
-
         compiler.addInstruction(new SEQ(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
         compiler.libererReg(reg.getNumber());

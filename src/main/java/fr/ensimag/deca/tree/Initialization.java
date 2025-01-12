@@ -24,6 +24,7 @@ public class Initialization extends AbstractInitialization {
 
     private AbstractExpr expression;
 
+
     public void setExpression(AbstractExpr expression) {
         Validate.notNull(expression);
         this.expression = expression;
@@ -72,10 +73,15 @@ public class Initialization extends AbstractInitialization {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
-        System.out.println(getExpression());
+        if (getExpression().getExpr().equals("instruction")){
+            DVal valeur = getExpression().codeGenInit(compiler);
+            return valeur;
+        }
+        else {
+            DVal valeur = getExpression().codeGenExpr(compiler);
+            return valeur;
+        }
 
-        DVal valeur = getExpression().codeGenExpr(compiler);
-        return valeur;
     }
 
 }

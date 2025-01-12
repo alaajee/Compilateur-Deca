@@ -1,7 +1,12 @@
 {
-	int x = 1;
-	x = 8/8	;
+	int x = 1 + 2 ;
+	float y = 1/9;
+	int z = 1-6;
+	int o = 1*7;
 	println(x);
+	println(y);
+	println(z);
+	println(o);
 
 }
 	
