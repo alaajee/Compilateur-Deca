@@ -1,0 +1,15 @@
+// Description:
+//    Affectation multiple avec des types incompatibles.
+//
+// Resultats:
+//    affectation_multiple_incompatible.deca:14:8: Type incompatible: attendu int, trouvé boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+int a, b;
+boolean c = true;
+
+// Doit etre refuse.
+a = b = c;
+}

@@ -34,6 +34,15 @@ options {
     protected AbstractProgram parseProgram() {
         return prog().tree;
     }
+    private  SymbolTable table = new SymbolTable();
+
+    public SymbolTable getTable()
+    {
+        return table;
+    }
+
+
+
 }
 
 prog returns[AbstractProgram tree]
@@ -488,22 +497,14 @@ literal returns[AbstractExpr tree]
         }
     ;
 
-
 ident returns [AbstractIdentifier tree]
     : IDENT {
-        // Utiliser une instance globale ou partagée de SymbolTable
-        SymbolTable table = new SymbolTable();
-        SymbolTable.Symbol symbol = table.getSymbole($IDENT.text);
-
-        if (symbol == null) {
-            // Si le symbole n'existe pas, le créer
-            symbol = table.create($IDENT.text);
-        }
-
+        SymbolTable.Symbol symbol = table.create($IDENT.text);
         $tree = new Identifier(symbol);
         setLocation($tree, $IDENT);
     }
     ;
+
 
 /****     Class related rules     ****/
 

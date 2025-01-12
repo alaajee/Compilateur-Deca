@@ -1,5 +1,6 @@
 package fr.ensimag.deca;
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -52,8 +53,11 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
 
-    public final SymbolTable symbolTable;
-    public final EnvironmentType environmentType;
+    public  SymbolTable symbolTable;
+    public  EnvironmentType environmentType;
+    public Map<Symbol, TypeDefinition> envTypes;
+
+    private int uniqueIDCounter = 0;
 
     public int adresseReg;
     public boolean isVar;
@@ -68,6 +72,7 @@ public class DecacCompiler {
     public int OverflowVal;
     public boolean isAssign;
     public String typeAssign;
+    public boolean needToPush;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -76,10 +81,10 @@ public class DecacCompiler {
         this.Offset = false;
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
-        this.spVal = 0;
-        this.OverflowVal = compilerOptions.getRegistreLimitValue();
-        // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
+        this.envTypes = environmentType.getEnvtypes();
+        this.spVal = 0;
+        //this.OverflowVal = compilerOptions.getRegistreLimitValue();
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
@@ -96,6 +101,7 @@ public class DecacCompiler {
         System.out.println(x);
 
         this.isAssign = false;
+        this.needToPush = false;
     }
 
     /**
@@ -105,6 +111,9 @@ public class DecacCompiler {
         return source;
     }
 
+    public int getUniqueID() {
+        return uniqueIDCounter++;
+    }
     /**
      * Compilation options (e.g. when to stop compilation, number of registers
      * to use, ...).
@@ -202,6 +211,12 @@ public class DecacCompiler {
             {
                 AbstractProgram program = doLexingAndParsing(sourceFile, err);
                 program.verifyProgram(this);
+                /*
+                 * pour afficher l'arbre syntaxique decoree
+                 * decommenter la ligne suivante
+                 */
+
+                //System.out.println(program.prettyPrint());
                 return false;
 
             }

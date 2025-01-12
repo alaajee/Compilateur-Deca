@@ -16,14 +16,15 @@ import java.util.Map;
  * @date 01/01/2025
  */
 public class SymbolTable {
-    private static Map<String, Symbol> map = new HashMap<String, Symbol>();
+    private  Map<String, Symbol> map = new HashMap<String, Symbol>();
     
         /**
          * Create or reuse a symbol.
          * 
          * If a symbol already exists with the same name in this table, then return
          * this Symbol. Otherwise, create a new Symbol and add it to the table.
-         */
+        */
+        
         public Symbol create(String name) {
             // Check if the symbol already exists
             if (map.containsKey(name)) {
@@ -58,6 +59,24 @@ public class SymbolTable {
             public String toString() {
                 return name;
             }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null || getClass() != obj.getClass()) {
+                    return false;
+                }
+                Symbol other = (Symbol) obj;
+                return this.name.equals(other.name);  // Compare les noms des symboles
+            }
+
+            @Override
+            public int hashCode() {
+                return name.hashCode();  // Utilise le hashCode de la chaîne name
+            }
+
 
 
         private String name;

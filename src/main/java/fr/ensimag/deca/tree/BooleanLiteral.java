@@ -75,9 +75,13 @@ public class BooleanLiteral extends AbstractExpr {
         }
         else {
             compiler.addInstruction(new LOAD(res,reg));
-            return reg;
         }
+        return reg;
+
     }
 
+    @Override
+    public void codeGenPrint(DecacCompiler compiler){
 
+    };
 }

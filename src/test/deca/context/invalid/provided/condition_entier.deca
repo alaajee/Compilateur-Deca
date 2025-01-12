@@ -1,0 +1,16 @@
+// Description:
+//    Utilisation d’un entier comme condition.
+//
+// Resultats:
+//    condition_entier.deca:13:4:the type of the condition must be boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+int x = 5;
+
+// Doit etre refuse.
+if (x) {
+   x = x - 1;
+}
+}

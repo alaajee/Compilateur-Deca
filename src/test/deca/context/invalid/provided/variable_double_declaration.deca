@@ -1,0 +1,12 @@
+// Description:
+//    Double déclaration d’une variable.
+//
+// Resultats:
+//   variable_double_declaration.deca:11:4: Varaiable 'x' is already declared at line 10 column 4
+//
+// Historique:
+//    cree le 11/01/2025
+{
+int x;
+int x;
+}

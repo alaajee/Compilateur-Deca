@@ -56,6 +56,7 @@ public class Assign extends AbstractBinaryExpr {
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(val, reg));
             compiler.addInstruction(new STORE(reg,(DAddr )resultat));
+            compiler.libererReg(reg.getNumber());
             return resultat;
         }
 
