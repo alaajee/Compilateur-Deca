@@ -1,0 +1,13 @@
+// Description:
+//    test de calcul avec variables flottantes
+//
+// Resultats:
+//    3.5
+
+{
+   float x, y, z;
+   x = 1.5;
+   y = 2.0;
+   z = x + y;
+   println(z);
+}
