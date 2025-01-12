@@ -6,7 +6,7 @@ NC="\033[0m"
 
 # Répertoires (ajoute autant de répertoires que nécessaire)
 TEST_DIRS=(
-    "$HOME/ensimag/GL/Projet_GL/src/test/deca/context/valid/provided"  # Répertoire 1
+    "$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided"  # Répertoire 1
 #    "$HOME/ensimag/GL/Projet_GL/src/test/deca/context/valid/another"   # Répertoire 2
 #    "$HOME/ensimag/GL/Projet_GL/src/test/deca/context/valid/more_tests" # Répertoire 3
 )
@@ -19,8 +19,8 @@ FAILED=0
 
 # Définir les outputs attendus pour chaque fichier de test
 declare -A EXPECTED_OUTPUTS
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/context/valid/provided/hello-world.deca"]="Hello, world!"
-#EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/context/valid/provided/test2.deca"]="Hello, world!"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/ecrit0.deca"]="ok ok"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/entier1.deca"]="1 2"
 #EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/context/valid/provided/test3.deca"]=1
 # Ajoute d'autres fichiers et leurs sorties attendues ici
 
