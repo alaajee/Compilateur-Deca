@@ -9,6 +9,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.ImmediateString;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  * @author gl02
@@ -45,6 +49,12 @@ public class Main extends AbstractMain {
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGen(compiler);
         insts.codeGenListInst(compiler);
+        compiler.addFirst(new ADDSP(new ImmediateInteger(compiler.nbrVar)));
+        Label stackOverflowLabel = new Label("stack_overflow_error");
+        compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
+        compiler.addFirst(new TSTO(compiler.getMaxTsto()));
+
+
 
     }
     

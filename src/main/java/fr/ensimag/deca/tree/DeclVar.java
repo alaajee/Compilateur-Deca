@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
+import java.lang.instrument.ClassDefinition;
 
 import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.DAddr;
@@ -93,6 +94,7 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addVar(variable,this.varName.getName().toString());
         compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
         compiler.addRegUn(this.varName.getName().toString(),adresse);
+        compiler.nbrVar++;
         if (this.initialization.initialization()) {
             // Générer le code pour initialiser la variable
             // La normalement on a tout initialisé

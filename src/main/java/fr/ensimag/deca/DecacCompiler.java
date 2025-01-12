@@ -11,7 +11,6 @@ import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.GPRegister;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,6 +76,9 @@ public class DecacCompiler {
     public Map<String,Label> labelMap ;
     public boolean isArith;
     public boolean isDiv;
+    public int nbrVar = 0;
+    private int currentTsto = 0;
+    private int maxTsto =0;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -126,6 +128,20 @@ public class DecacCompiler {
     public int getUniqueID() {
         return uniqueIDCounter++;
     }
+    public void incrementTsto() {
+        currentTsto++;
+        if (currentTsto > maxTsto) {
+            maxTsto = currentTsto; // Mettre à jour le maximum
+        }
+    }
+
+    public void decrementTsto() {
+        currentTsto--; // Décrémenter la taille actuelle
+    }
+
+    public int getMaxTsto() {
+        return maxTsto; // Récupérer la taille maximale atteinte
+    }
     /**
      * Compilation options (e.g. when to stop compilation, number of registers
      * to use, ...).
@@ -155,6 +171,15 @@ public class DecacCompiler {
      */
     public void addLabel(Label label) {
         program.addLabel(label);
+    }
+
+    public void addFirst(Instruction instruction) {
+        program.addFirst(instruction);
+    }
+
+
+    public void addFirst(Instruction instruction, String comment) {
+        program.addFirst(instruction, comment);
     }
 
     /**
@@ -288,7 +313,6 @@ public class DecacCompiler {
 
         addComment("start main program");
         prog.codeGenProgram(this);
-        addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
 

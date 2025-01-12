@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.ImmediateString;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
@@ -56,6 +58,7 @@ public class Program extends AbstractProgram {
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
+        compiler.addComment("end main program");
         if (compiler.label){
             compiler.addLabel(compiler.labelMap.get("io_error"));
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
@@ -73,6 +76,11 @@ public class Program extends AbstractProgram {
             compiler.addInstruction(new WSTR("Error: Division by zero"));
             compiler.addInstruction(new WNL());
         }
+        Label stackOverflowLabel = new Label("stack_overflow_error");
+        compiler.addLabel(stackOverflowLabel);
+        compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
     }
 
     @Override
