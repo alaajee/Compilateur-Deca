@@ -31,7 +31,8 @@ public class Modulo extends AbstractOpArith {
 
                 if (!rightType.isInt() || !leftType.isInt())
                 {
-                    throw new ContextualError("Type mismatch:both operands must be of type int" , this.getLocation());             
+                    throw new ContextualError("Modulo failed: both operands must be of type int" , this.getLocation());             
+      
                 }
 
                 this.setType(leftType);
