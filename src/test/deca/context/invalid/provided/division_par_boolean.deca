@@ -2,7 +2,7 @@
 //    Division par un booléen.
 //
 // Resultats:
-//    division_par_boolean.deca:14:8: Type mismatcg: the left operand is of type int while the right operand is of type boolean
+//    division_par_boolean.deca:14:8: Invalid operand types: expected int or float, but got int and boolean
 //
 // Historique:
 //    cree le 11/01/2025
