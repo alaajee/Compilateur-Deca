@@ -1,0 +1,15 @@
+// Description:
+//    test d'affectation multiple et des opérateurs combinés
+//
+// Resultats:
+//    15
+//    25
+
+{
+    int a, b;
+    a = b= 10;
+    a = a + 5;
+    b = b + 15;
+    println(a);
+    println(b);
+}
