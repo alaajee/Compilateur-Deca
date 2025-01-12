@@ -2,7 +2,7 @@
 //    Opération arithmétique entre un booléen et un entier.
 //
 // Resultats:
-//    operation_boolean_entier.deca:14:8: Type mismatch: the left operand is of type int while the right operand is of type booelan
+//    operation_boolean_entier.deca:14:8: Invalid operand types: expected int or float, but got int and boolean
 //
 // Historique:
 //    cree le 11/01/2025
