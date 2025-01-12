@@ -52,7 +52,7 @@ public class Main extends AbstractMain {
         compiler.addFirst(new ADDSP(new ImmediateInteger(compiler.nbrVar)));
         Label stackOverflowLabel = new Label("stack_overflow_error");
         compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
-        compiler.addFirst(new TSTO(compiler.getMaxTsto()));
+        compiler.addFirst(new TSTO(compiler.getMaxTsto()+compiler.nbrVar));
 
 
 
