@@ -52,7 +52,8 @@ public class codeGen {
             } else {
                 compiler.addInstruction(new LOAD(leftOperand, reg));
                 constructeur.constructeur(compiler, rightOperand, reg);
-                compiler.addInstruction(new PUSH(reg));
+                compiler.needToPush = true;
+                // compiler.addInstruction(new PUSH(reg));
                 return reg;
             }
         }
@@ -69,6 +70,13 @@ public class codeGen {
                 return leftOperand;
             }
 
+        }
+    }
+
+    public void finalizeAndPush(GPRegister reg, DecacCompiler compiler) {
+        if(compiler.needToPush){
+            compiler.needToPush = false;
+            compiler.addInstruction(new PUSH(reg));
         }
     }
 

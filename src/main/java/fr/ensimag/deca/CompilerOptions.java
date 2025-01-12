@@ -56,7 +56,7 @@ public class CompilerOptions {
     private boolean registreLimit = false; //case "-r"
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
-    private int registreLimitValue = 4;
+    private int registreLimitValue = 3;
 
 
     

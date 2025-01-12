@@ -34,6 +34,8 @@ public class Divide extends AbstractOpArith {
         constructeur constructeur = new constructeurSUB();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+        gen.finalizeAndPush(reg, compiler);
+        compiler.libererReg(reg.getNumber());
         return register;
     }
 

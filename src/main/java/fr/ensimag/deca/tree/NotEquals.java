@@ -35,8 +35,10 @@ public class NotEquals extends AbstractOpExactCmp {
         constructeur constructeur = new constructeurCMP();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
-
+        
+        compiler.libererReg(reg.getNumber());
         compiler.addInstruction(new SNE(reg));
+        gen.finalizeAndPush(reg, compiler);
         return register;
     }
 

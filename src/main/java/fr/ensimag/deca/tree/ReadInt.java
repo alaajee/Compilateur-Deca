@@ -53,6 +53,7 @@ public class ReadInt extends AbstractReadExpr {
         GPRegister register = Register.R1;
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));
+        compiler.libererReg(reg.getNumber());
         return reg;
     }
 

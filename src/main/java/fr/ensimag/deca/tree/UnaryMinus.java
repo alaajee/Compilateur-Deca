@@ -50,6 +50,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
        else {
            GPRegister reg = compiler.associerReg();
            compiler.addInstruction(new OPP(operand,reg));
+           compiler.libererReg(reg.getNumber());
            return reg;
        }
     }

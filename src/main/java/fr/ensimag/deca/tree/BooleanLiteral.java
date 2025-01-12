@@ -75,6 +75,7 @@ public class BooleanLiteral extends AbstractExpr {
         else {
             compiler.addInstruction(new LOAD(res,reg));
         }
+        compiler.libererReg(reg.getNumber());
         return reg;
 
     }

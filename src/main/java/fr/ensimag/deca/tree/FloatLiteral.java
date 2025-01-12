@@ -80,12 +80,14 @@ public class FloatLiteral extends AbstractExpr {
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
+            compiler.libererReg(reg.getNumber());
             return reg;
         }
         else {
 
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res,reg));
+            compiler.libererReg(reg.getNumber());
             return reg;
         }
 

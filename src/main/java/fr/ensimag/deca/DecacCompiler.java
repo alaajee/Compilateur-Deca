@@ -67,6 +67,7 @@ public class DecacCompiler {
     public Boolean Offset;
     public int spVal;
     public int OverflowVal;
+    public boolean needToPush;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -89,6 +90,7 @@ public class DecacCompiler {
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
+        this.needToPush = false;
 
 
     }

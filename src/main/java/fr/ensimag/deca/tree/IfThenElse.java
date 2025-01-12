@@ -58,16 +58,10 @@ public class IfThenElse extends AbstractInst {
         Label endIfLabel = new Label("end_if_" + ID);
 
         GPRegister reg = compiler.associerReg();
-
-        // Utilisation de `codeGen` pour la condition
-        // DVal leftOperand = ((AbstractBinaryExpr) condition).getLeftOperand().codeGenExpr(compiler);
-        // DVal rightOperand = ((AbstractBinaryExpr) condition).getRightOperand().codeGenExpr(compiler);
-
+        
         DVal result = ((AbstractBinaryExpr) condition).codeGenExpr(compiler);
         // Génération de code pour comparaison
 
-        compiler.addInstruction(new LOAD(result, reg));
-        // ((AbstractBinaryExpr) condition).codeGenBranch(compiler, elseLabel, endIfLabel);
         compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
         // Bloc "then"
         thenBranch.codeGenListInst(compiler);
