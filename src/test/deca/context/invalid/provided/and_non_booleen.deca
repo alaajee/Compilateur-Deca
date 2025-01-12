@@ -1,0 +1,15 @@
+// Description:
+//    Expression logique 'and' avec un type non booléen.
+//
+// Resultats:
+//    and_non_booleen.deca:14:21: both operands should be of type boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+    int x = 5;
+    boolean y = true;
+
+    // Doit etre refuse.
+    boolean result = x && y;
+}
