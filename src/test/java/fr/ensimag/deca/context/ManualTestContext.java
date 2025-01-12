@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Driver to test the contextual analysis (together with lexer/parser)
- *
+ * 
  * @author Ensimag
  * @date 01/01/2025
  */
@@ -26,6 +26,7 @@ public class ManualTestContext {
         DecaParser parser = new DecaParser(tokens);
         DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
         parser.setDecacCompiler(compiler);
+        
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {
             System.exit(1);
