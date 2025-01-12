@@ -2,10 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
@@ -80,15 +77,17 @@ public class FloatLiteral extends AbstractExpr {
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
+            // Il faut liberer le registre
+            compiler.isVar = false;
+            compiler.typeAssign = getType().toString();
             compiler.libererReg(reg.getNumber());
-            return reg;
+            if (value == 0){
+                adresse.isNull = true;
+            }
+            return adresse;
         }
         else {
-
-            GPRegister reg = compiler.associerReg();
-            compiler.addInstruction(new LOAD(res,reg));
-            compiler.libererReg(reg.getNumber());
-            return reg;
+            return res;
         }
 
     }

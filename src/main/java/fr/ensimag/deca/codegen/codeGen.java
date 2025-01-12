@@ -2,10 +2,7 @@ package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.SUB;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 public class codeGen {
     public codeGen(){}
@@ -59,7 +56,6 @@ public class codeGen {
         }
         else {
             if (leftOperand instanceof DAddr){
-                System.out.println(leftOperand);
                 compiler.addInstruction(new LOAD(leftOperand,reg));
                 constructeur.constructeur(compiler, rightOperand, reg);
                 return reg;
@@ -71,14 +67,12 @@ public class codeGen {
                     compiler.addInstruction(new LOAD(leftOperand,reg));
                     constructeur.constructeur(compiler, rightOperand, reg);
                     return reg;
-
                 }
                 else {
                     constructeur.constructeur(compiler, rightOperand, (GPRegister) leftOperand);
                 }
                 return leftOperand;
             }
-
         }
     }
 
@@ -90,7 +84,6 @@ public class codeGen {
     }
 
     public void codeGenPrint(DVal leftOperand, DVal rightOperand, GPRegister reg, constructeur constructeur , DecacCompiler compiler){
-        System.out.println(reg.getNumber());
         if (reg.isOffSet) {
             if (leftOperand.isOffSet && rightOperand.isOffSet) {
                 compiler.addInstruction(new POP(Register.R0));
@@ -144,11 +137,18 @@ public class codeGen {
                 compiler.addInstruction(new LOAD(reg, Register.R1));
             }
             else {
-                compiler.addInstruction(new LOAD(leftOperand,reg));
-                constructeur.constructeur(compiler, rightOperand, reg);
-                compiler.addInstruction(new LOAD(reg, Register.R1));
+                // System.out.println(leftOperand.isVar);
+                //compiler.addInstruction(new LOAD(rightOperand,reg));
+                if (!leftOperand.isVar){
+                    compiler.addInstruction(new LOAD(leftOperand,reg));
+                    constructeur.constructeur(compiler, rightOperand, reg);
+                    compiler.addInstruction(new LOAD(reg, Register.R1));
+                }
+                else {
+                    constructeur.constructeur(compiler, rightOperand, (GPRegister) leftOperand);
+                    compiler.addInstruction(new LOAD(leftOperand, Register.R1));
+                }
             }
-
         }
     }
 }
