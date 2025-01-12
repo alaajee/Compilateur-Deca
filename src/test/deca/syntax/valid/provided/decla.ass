@@ -1,12 +1,10 @@
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	LOAD #1, R2
-	STORE R2, 3(GB)
-	LOAD #0, R2
-	STORE R2, 3(GB)
-	LOAD 3(GB), R2
-	SUB 3(GB), R2
+	LOAD #0, R3
+	STORE R3, 3(GB)
+	WSTR "On ne peut pas diviser par null"
+	HALT
 	LOAD 3(GB), R1
 	WINT
 	WNL

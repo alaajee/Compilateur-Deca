@@ -38,6 +38,7 @@ public class Plus extends AbstractOpArith {
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        System.out.println(rightOperand + " + " + leftOperand);
         GPRegister reg = compiler.associerReg();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
         constructeur constructeurADD = new constructeurADD();

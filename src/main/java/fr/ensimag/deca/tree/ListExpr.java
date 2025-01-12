@@ -32,7 +32,6 @@ public class ListExpr extends TreeList<AbstractExpr> {
     }
 
     public void codeGenInst(DecacCompiler compiler){
-        compiler.addInstruction(new RFLOAT());
         for (AbstractExpr expr : this.getList()) {
             expr.codeGenPrint(compiler);
         }

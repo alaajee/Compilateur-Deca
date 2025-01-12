@@ -28,13 +28,57 @@ public class Divide extends AbstractOpArith {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
-        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
-        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        boolean assign = compiler.isAssign;
+        boolean var = compiler.isVar;
         GPRegister reg = compiler.associerReg();
-        constructeur constructeur = new constructeurSUB();
-        codeGen gen = new codeGen();
-        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-        return register;
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        if (rightOperand.isNull ){
+            compiler.addInstruction(new WSTR(new ImmediateString("On ne peut pas diviser par null")));
+            compiler.addInstruction(new HALT());
+            return reg;
+        }
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        Type typeLeft = getLeftOperand().getType();
+        Type typeRight = getRightOperand().getType();
+        //  System.out.print(rightOperand + " * " + leftOperand + " = ");
+        if (assign && var){
+            System.out.println(compiler.typeAssign);
+            if (compiler.typeAssign.equals("float")){
+                constructeurDIV constructeurDIV= new constructeurDIV();
+                codeGen gen = new codeGen();
+
+                if (rightOperand instanceof GPRegister){
+                    compiler.addInstruction(new FLOAT(rightOperand,(GPRegister) rightOperand));
+                    compiler.addInstruction(new LOAD(leftOperand,Register.R0));
+                    compiler.addInstruction(new FLOAT(Register.R0,Register.R0));
+                    gen.codeGenPrint(Register.R0,rightOperand,reg,constructeurDIV,compiler);
+                    DVal regis = gen.codeGen(Register.R0,rightOperand,reg,constructeurDIV,compiler);
+                    return regis;
+                }
+                else {
+                    compiler.addInstruction(new LOAD(rightOperand,Register.R0));
+                    compiler.addInstruction(new FLOAT(Register.R0,Register.R0));
+                    compiler.addInstruction(new LOAD(leftOperand,Register.R1));
+                    compiler.addInstruction(new FLOAT(Register.R1,Register.R1));
+                    gen.codeGenPrint(Register.R1,Register.R0,reg,constructeurDIV,compiler);
+                    DVal regis = gen.codeGen(Register.R1,Register.R0,reg,constructeurDIV,compiler);
+                    return regis;
+                }
+
+            }
+            else {
+                constructeurQUO constructeurQUO= new constructeurQUO();
+                codeGen gen = new codeGen();
+                DVal regis = gen.codeGen(leftOperand,rightOperand,reg,constructeurQUO,compiler);
+                return regis;
+            }
+        }
+        else {
+            throw new RuntimeException("Pas possible de diviser un " + typeLeft + " par un " + typeRight + "");
+        }
+
+
+
     }
 
     @Override
@@ -47,9 +91,7 @@ public class Divide extends AbstractOpArith {
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
 
         System.out.println("Diviser " + typeLeft + " par " + typeRight);
-        if (typeRight.isNull() || typeLeft.isNull()){
-            throw new RuntimeException("Pas possible de diviser un " + typeLeft + " par un " + typeRight + "");
-        }
+        System.out.println("Diviser " + typeLeft.isNull() + " par " + typeRight.isNull());
         if (typeRight.isInt() && typeLeft.isInt()){
             constructeurQUO constructeurQUO= new constructeurQUO();
             codeGen gen = new codeGen();

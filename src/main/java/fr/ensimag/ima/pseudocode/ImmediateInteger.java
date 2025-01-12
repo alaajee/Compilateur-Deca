@@ -12,10 +12,17 @@ public class ImmediateInteger extends DVal {
     public ImmediateInteger(int value) {
         super();
         this.value = value;
+        if (value == 0) {
+            this.isNull = true;
+        }
     }
+
+
 
     @Override
     public String toString() {
         return "#" + value;
     }
+
+
 }

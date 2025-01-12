@@ -44,6 +44,8 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler) {
+        compiler.isAssign = true;
+        compiler.typeAssign = getLeftOperand().getType().toString();
         DVal val = getRightOperand().codeGenExpr(compiler);
         DVal resultat = getLeftOperand().codeGenExpr(compiler);
         if (val instanceof GPRegister){

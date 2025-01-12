@@ -25,6 +25,7 @@ public class IntLiteral extends AbstractExpr {
 
     private int value;
 
+
     public IntLiteral(int value) {
         this.value = value;
     }
@@ -59,6 +60,8 @@ public class IntLiteral extends AbstractExpr {
         // leaf node => nothing to do
     }
 
+
+
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler) {
         DAddr adresse = compiler.getCurrentAdresse();
@@ -69,7 +72,11 @@ public class IntLiteral extends AbstractExpr {
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
             // Il faut liberer le registre
+            compiler.isVar = false;
             compiler.libererReg(reg.getNumber());
+            if (value == 0){
+                adresse.isNull = true;
+            }
             return adresse;
         }
         else {
@@ -83,10 +90,8 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new RFLOAT());
         DVal register = codeGenExpr(compiler);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        compiler.addInstruction(new WSTR(new ImmediateString("mok")));
         compiler.addInstruction(new WINT());
 
     }

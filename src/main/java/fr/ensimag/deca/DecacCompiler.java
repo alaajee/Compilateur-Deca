@@ -66,6 +66,8 @@ public class DecacCompiler {
     public Boolean Offset;
     public int spVal;
     public int OverflowVal;
+    public boolean isAssign;
+    public String typeAssign;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -89,7 +91,11 @@ public class DecacCompiler {
         this.adresseReg = 2;
         this.isVar = false;
 
+        System.out.println(1);
+        int x  = 2 + 3;
+        System.out.println(x);
 
+        this.isAssign = false;
     }
 
     /**

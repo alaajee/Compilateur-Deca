@@ -1,6 +1,5 @@
 {
-    int x = 1 / 0;
-    println(x);
-  
+  int x = 1 / 2;
+  println(x);
 }
 

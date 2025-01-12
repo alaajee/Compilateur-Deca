@@ -58,6 +58,8 @@ public class codeGen {
         }
         else {
             if (leftOperand instanceof DAddr){
+                System.out.println("ici6" + reg);
+                System.out.println(leftOperand);
                 compiler.addInstruction(new LOAD(leftOperand,reg));
                 constructeur.constructeur(compiler, rightOperand, reg);
                 return reg;
@@ -65,7 +67,15 @@ public class codeGen {
             else {
                 System.out.println(leftOperand.isVar);
                 //compiler.addInstruction(new LOAD(rightOperand,reg));
-                constructeur.constructeur(compiler, rightOperand, (GPRegister) leftOperand);
+                if (!leftOperand.isVar){
+                    compiler.addInstruction(new LOAD(rightOperand,reg));
+                    constructeur.constructeur(compiler, rightOperand, reg);
+                    return reg;
+
+                }
+                else {
+                    constructeur.constructeur(compiler, rightOperand, (GPRegister) leftOperand);
+                }
                 return leftOperand;
             }
 
@@ -132,10 +142,10 @@ public class codeGen {
                 compiler.addInstruction(new LOAD(reg, Register.R1));
             }
             else {
-                System.out.println("ici7");
-                //compiler.addInstruction(new LOAD(rightOperand,reg));
-                constructeur.constructeur(compiler, rightOperand, (GPRegister) leftOperand);
-                compiler.addInstruction(new LOAD(leftOperand, Register.R1));
+
+                compiler.addInstruction(new LOAD(leftOperand,reg));
+                constructeur.constructeur(compiler, rightOperand, reg);
+                compiler.addInstruction(new LOAD(reg, Register.R1));
             }
 
         }
