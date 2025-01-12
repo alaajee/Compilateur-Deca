@@ -1,7 +1,6 @@
 {
-  int x = 1;
-  int y = 2;
-  int z = 2;
-  println(x*x*x*x*x*z - y*z);
+	int x = 2;
+	int y = 3;
+	print(x*x*x*x*x - 5*x*y);
 }
 	

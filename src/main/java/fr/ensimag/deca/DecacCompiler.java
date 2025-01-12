@@ -84,7 +84,10 @@ public class DecacCompiler {
         this.environmentType = new EnvironmentType(this);
         this.envTypes = environmentType.getEnvtypes();
         this.spVal = 0;
-        //this.OverflowVal = compilerOptions.getRegistreLimitValue();
+        this.OverflowVal = 15;
+        if (compilerOptions != null){
+            this.OverflowVal = compilerOptions.getRegistreLimitValue();
+        }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
@@ -95,11 +98,6 @@ public class DecacCompiler {
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
-
-        System.out.println(1);
-        int x  = 2 + 3;
-        System.out.println(x);
-
         this.isAssign = false;
         this.needToPush = false;
     }
@@ -419,7 +417,4 @@ public class DecacCompiler {
     public GPRegister getRegister(int adresse){
         return Register.getR(adresse);
     }
-
-
-
 }

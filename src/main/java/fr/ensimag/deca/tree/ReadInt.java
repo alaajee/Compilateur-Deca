@@ -9,9 +9,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
 import fr.ensimag.ima.pseudocode.GPRegister;
@@ -49,7 +48,9 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        Label label = new Label("erreur");
         compiler.addInstruction(new RINT());
+        compiler.addInstruction(new BOV(label));
         GPRegister register = Register.R1;
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));

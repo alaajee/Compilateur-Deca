@@ -32,6 +32,7 @@ public class Divide extends AbstractOpArith {
         boolean var = compiler.isVar;
         GPRegister reg = compiler.associerReg();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+
         if (rightOperand.isNull ){
             compiler.addInstruction(new WSTR(new ImmediateString("On ne peut pas diviser par null")));
             compiler.addInstruction(new HALT());
@@ -46,7 +47,6 @@ public class Divide extends AbstractOpArith {
             if (compiler.typeAssign.equals("float")){
                 constructeurDIV constructeurDIV= new constructeurDIV();
                 codeGen gen = new codeGen();
-
                 if (rightOperand instanceof GPRegister){
                     compiler.addInstruction(new FLOAT(rightOperand,(GPRegister) rightOperand));
                     compiler.addInstruction(new LOAD(leftOperand,Register.R0));
@@ -64,7 +64,6 @@ public class Divide extends AbstractOpArith {
                     DVal regis = gen.codeGen(Register.R1,Register.R0,reg,constructeurDIV,compiler);
                     return regis;
                 }
-
             }
             else {
                 constructeurQUO constructeurQUO= new constructeurQUO();

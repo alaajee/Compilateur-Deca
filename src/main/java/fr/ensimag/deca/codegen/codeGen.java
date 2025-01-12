@@ -90,6 +90,7 @@ public class codeGen {
     }
 
     public void codeGenPrint(DVal leftOperand, DVal rightOperand, GPRegister reg, constructeur constructeur , DecacCompiler compiler){
+        System.out.println(reg.getNumber());
         if (reg.isOffSet) {
             if (leftOperand.isOffSet && rightOperand.isOffSet) {
                 compiler.addInstruction(new POP(Register.R0));
