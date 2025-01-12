@@ -45,9 +45,9 @@ public class ConvFloat extends AbstractUnaryExpr {
         GPRegister reg = compiler.associerReg();
         if ( dVal instanceof DAddr){
             compiler.addInstruction(new FLOAT(dVal,reg));
-            compiler.addInstruction(new STORE(reg,(DAddr) dVal));
-            compiler.libererReg(reg.getNumber());
-            return dVal;
+            // compiler.addInstruction(new STORE(reg,(DAddr) dVal));
+            // compiler.libererReg(reg.getNumber());
+            return reg;
         }
         else {
             compiler.addInstruction(new FLOAT(dVal,reg));

@@ -106,14 +106,15 @@ public abstract class AbstractExpr extends AbstractInst {
 
         if(TypeExp.isInt() && expectedType.isFloat()){
             AbstractExpr convExpr = new ConvFloat(this);
-            convExpr.setType(expectedType);  // Définir le type comme float après conversion
+            Type convExprType = convExpr.verifyExpr(compiler, localEnv, currentClass);
+            convExpr.setType(convExprType);
+            this.setType(convExprType);
             return convExpr;
         }
         throw new ContextualError("Type incompatible : attendu " + expectedType.getName() +
                 ", trouvé " + TypeExp.getName(), getLocation());
 
     }
-
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
