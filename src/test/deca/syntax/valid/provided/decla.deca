@@ -1,5 +1,7 @@
 {
-  int x = 1 / 2;
-  println(x);
+  int x = 1;
+  int y = 2;
+  int z = 2;
+  println(x*x*x*x*x*z - y*z);
 }
-
+	

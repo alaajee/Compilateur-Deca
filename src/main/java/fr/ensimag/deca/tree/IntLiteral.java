@@ -73,6 +73,7 @@ public class IntLiteral extends AbstractExpr {
             res.isRegistre = true;
             // Il faut liberer le registre
             compiler.isVar = false;
+            compiler.typeAssign = getType().toString();
             compiler.libererReg(reg.getNumber());
             if (value == 0){
                 adresse.isNull = true;
