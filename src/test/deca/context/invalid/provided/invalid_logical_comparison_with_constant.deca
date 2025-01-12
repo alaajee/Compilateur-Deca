@@ -1,0 +1,14 @@
+// Description:
+//    Comparaison logique avec une constante float.
+//
+// Resultats:
+//    invalid_logical_comparison_with_constant.deca:13:17: both operands should be of type boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+boolean flag = true;
+
+// Doit etre refuse.
+boolean result = flag && 1.5;
+}
