@@ -1,0 +1,14 @@
+// Description:
+//    test d'opérations entières avec multiplication et division
+//
+// Resultats:
+//    15
+//    5
+
+{
+   int a, b;
+   a = 3 * 5;
+   b = a / 3;
+   println(a);
+   println(b);
+}

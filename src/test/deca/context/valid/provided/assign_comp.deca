@@ -1,0 +1,13 @@
+// Description:
+//    test de l'instruction assign avec verification
+//
+// Resultats:
+//    Ok
+
+{
+    float x;
+    x = 1.5;
+    if (x == 1.5) {
+        println("Ok");
+    }
+}

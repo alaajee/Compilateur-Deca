@@ -1,0 +1,16 @@
+// Description:
+//    Boucle while sans corps.
+//
+// Resultats:
+//    while_sans_body.deca:13:1: Une boucle while doit contenir au moins une instruction
+//
+// Historique:
+//    cree le 11/01/2025
+{
+    int x = 0;
+
+    while (x < 10)
+    {
+
+    }
+}
