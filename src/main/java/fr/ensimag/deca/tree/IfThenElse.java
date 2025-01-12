@@ -59,7 +59,7 @@ public class IfThenElse extends AbstractInst {
 
         GPRegister reg = compiler.associerReg();
         
-        DVal result = ((AbstractBinaryExpr) condition).codeGenExpr(compiler);
+        DVal result = condition.codeGenExpr(compiler);
         // Génération de code pour comparaison
 
         compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
