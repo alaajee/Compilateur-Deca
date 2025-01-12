@@ -7,8 +7,8 @@
 // Historique:
 //    cree le 11/01/2025
 
-int x = 5;
 {
+   int x = 5;
 // Doit etre refuse.
 while (x) {
    x = x - 1;
