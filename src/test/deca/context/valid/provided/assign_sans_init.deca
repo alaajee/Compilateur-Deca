@@ -1,0 +1,13 @@
+// Description:
+//    assign sans initialisation
+//
+// Resultats:
+//    ok
+//
+// Historique:
+//    cree le 11/01/2025
+{
+    int x = 5;
+
+    x = x + 1;
+}

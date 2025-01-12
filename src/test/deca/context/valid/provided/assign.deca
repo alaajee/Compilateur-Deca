@@ -1,0 +1,13 @@
+// Description:
+//    test de assign 
+//
+// Resultats:
+//   ok
+//
+// Historique:
+//    cree le 12/01/2025
+
+{
+    int x = 5;
+    x = 12;
+}
