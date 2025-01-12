@@ -1,13 +1,19 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.codegen.*;
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.codeGen;
+import fr.ensimag.deca.codegen.constructeur;
+import fr.ensimag.deca.codegen.constructeurREM;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
  *
@@ -29,7 +35,7 @@ public class Modulo extends AbstractOpArith {
 
                 if (!rightType.isInt() || !leftType.isInt())
                 {
-                    throw new ContextualError("Type mismatch:both operands must be of type int" , this.getLocation());             
+                    throw new ContextualError("Modulo failed: Both operands must be of type int" , this.getLocation());             
                 }
 
                 this.setType(leftType);

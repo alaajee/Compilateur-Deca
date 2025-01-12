@@ -26,7 +26,7 @@ public class Not extends AbstractUnaryExpr {
             
             if (!typeOperand.isBoolean())
             {
-                throw new ContextualError("Type mismatch:the operand must be boolean" , this.getLocation());             
+                throw new ContextualError("Operation 'Not' failed: the operand must be boolean" , this.getLocation());             
             }
             this.setType(typeOperand);
             return typeOperand;
