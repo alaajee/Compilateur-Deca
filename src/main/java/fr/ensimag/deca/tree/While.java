@@ -5,11 +5,17 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.ima.pseudocode.GPRegister;
 
 /**
  *
@@ -37,7 +43,27 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        int ID = compiler.getUniqueID();
+        Label conditionLabel = new Label("condition_" + ID);
+        Label bodyLabel = new Label("body_" + ID);
+        Label endLabel = new Label("end_while_" + ID);
+
+        // Generate code for condition check
+        compiler.addLabel(conditionLabel);
+        DVal conditionResult = condition.codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+        compiler.addInstruction(new BGE(endLabel));
+
+        // Generate code for the body of the while loop
+        compiler.addLabel(bodyLabel);
+        body.codeGenListInst(compiler);
+        
+        // Jump back to the condition label to check again
+        compiler.addInstruction(new BRA(conditionLabel));
+
+        // End of the while loop
+        compiler.addLabel(endLabel);
+        compiler.libererReg(reg.getNumber());
     }
 
     @Override
