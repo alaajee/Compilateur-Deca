@@ -11,7 +11,6 @@ public class codeGen {
             if (leftOperand.isOffSet && rightOperand.isOffSet) {
                 compiler.addInstruction(new POP(Register.R0));
                 compiler.decrementTsto();
-                compiler.spVal--;
                 compiler.addInstruction(new POP(reg));
                 compiler.decrementTsto();
                 constructeur.constructeur(compiler, Register.R0, reg);
