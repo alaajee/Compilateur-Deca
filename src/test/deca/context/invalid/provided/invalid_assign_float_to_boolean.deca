@@ -1,0 +1,15 @@
+// Description:
+//    Affectation d’un float à une variable de type boolean.
+//
+// Resultats:
+//    invalid_assign_float_to_boolean.deca:14:11: Type incompatible : attendu boolean, trouvé float
+// Historique:
+//    cree le 12/01/2025
+{
+    boolean flag;
+    float value = 3.14;
+    
+    // Doit etre refuse.
+    flag = value;
+    }
+    
