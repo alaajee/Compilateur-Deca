@@ -14,6 +14,8 @@ import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
+
 /**
  *
  * @author gl02
@@ -48,12 +50,13 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        Label label = new Label("erreur");
+        Label label = compiler.labelMap.get("io_error");
         compiler.addInstruction(new RINT());
         compiler.addInstruction(new BOV(label));
         GPRegister register = Register.R1;
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));
+        compiler.label = true;
         compiler.libererReg(reg.getNumber());
         return reg;
     }

@@ -66,6 +66,7 @@ public class IntLiteral extends AbstractExpr {
     protected DVal codeGenExpr(DecacCompiler compiler) {
         DAddr adresse = compiler.getCurrentAdresse();
         DVal res = new ImmediateInteger(value);
+
         if (compiler.isVar == true){
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res, reg));

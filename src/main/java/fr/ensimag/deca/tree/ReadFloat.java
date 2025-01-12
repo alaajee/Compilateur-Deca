@@ -11,7 +11,9 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
@@ -50,11 +52,14 @@ public class ReadFloat extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        Label label = compiler.labelMap.get("io_error");
         compiler.addInstruction(new RFLOAT());
+        compiler.addInstruction(new BOV(label));
         GPRegister register = Register.R1;
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));
         compiler.libererReg(reg.getNumber());
+        compiler.label = true;
         return reg;
     }
 }

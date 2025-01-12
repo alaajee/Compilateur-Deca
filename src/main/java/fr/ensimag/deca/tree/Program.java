@@ -2,6 +2,9 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -53,6 +56,23 @@ public class Program extends AbstractProgram {
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
+        if (compiler.label){
+            compiler.addLabel(compiler.labelMap.get("io_error"));
+            compiler.addInstruction(new WSTR("Error: Input/Output error"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+        if (compiler.isArith){
+            compiler.addLabel(compiler.labelMap.get("overflow_error"));
+            compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+        if (compiler.isDiv){
+            compiler.addLabel(compiler.labelMap.get("division_by_zero_error"));
+            compiler.addInstruction(new WSTR("Error: Division by zero"));
+            compiler.addInstruction(new WNL());
+        }
     }
 
     @Override

@@ -30,14 +30,12 @@ public class Divide extends AbstractOpArith {
     public DVal codeGenExpr(DecacCompiler compiler){
         boolean assign = compiler.isAssign;
         boolean var = compiler.isVar;
+        compiler.isDiv = true;
         GPRegister reg = compiler.associerReg();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-
-        if (rightOperand.isNull ){
-            compiler.addInstruction(new WSTR(new ImmediateString("On ne peut pas diviser par null")));
-            compiler.addInstruction(new HALT());
-            return reg;
-        }
+        compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.R0));
+        compiler.addInstruction(new CMP(rightOperand,Register.R0));
+        compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();

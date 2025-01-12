@@ -72,6 +72,8 @@ public class Initialization extends AbstractInitialization {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+        System.out.println(getExpression());
+
         DVal valeur = getExpression().codeGenExpr(compiler);
         return valeur;
     }

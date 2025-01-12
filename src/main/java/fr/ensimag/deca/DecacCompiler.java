@@ -73,6 +73,10 @@ public class DecacCompiler {
     public boolean isAssign;
     public String typeAssign;
     public boolean needToPush;
+    public boolean label;
+    public Map<String,Label> labelMap ;
+    public boolean isArith;
+    public boolean isDiv;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -100,6 +104,16 @@ public class DecacCompiler {
         this.isVar = false;
         this.isAssign = false;
         this.needToPush = false;
+        this.label = false;
+        this.labelMap = new HashMap<>();
+        Label label = new Label("io_error");
+        this.labelMap.put("io_error",label);
+        label = new Label("overflow_error");
+        this.labelMap.put("overflow_error",label);
+        this.isArith = false;
+        label = new Label("division_by_zero_error");
+        this.labelMap.put("division_by_zero_error",label);
+        this.isDiv = false;
     }
 
     /**

@@ -84,6 +84,7 @@ public class codeGen {
     }
 
     public void codeGenPrint(DVal leftOperand, DVal rightOperand, GPRegister reg, constructeur constructeur , DecacCompiler compiler){
+        compiler.isArith = true;
         if (reg.isOffSet) {
             if (leftOperand.isOffSet && rightOperand.isOffSet) {
                 compiler.addInstruction(new POP(Register.R0));
@@ -97,12 +98,14 @@ public class codeGen {
                     compiler.addInstruction(new LOAD(reg,Register.R0));
                     compiler.addInstruction(new LOAD((RegisterOffset) rightOperand, reg));
                     constructeur.constructeur(compiler, Register.R0, reg);
+                    compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                     compiler.addInstruction(new PUSH(reg));
                     compiler.addInstruction(new LOAD(reg, Register.R1));
                 }
                 else {
                     compiler.addInstruction(new POP(reg));
                     constructeur.constructeur(compiler, rightOperand, reg);
+                    compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                     compiler.addInstruction(new PUSH(reg));
                     compiler.addInstruction(new LOAD(reg, Register.R1));
                 }
@@ -112,12 +115,14 @@ public class codeGen {
                     compiler.addInstruction(new LOAD(reg,Register.R0));
                     compiler.addInstruction(new LOAD((RegisterOffset) leftOperand, reg));
                     constructeur.constructeur(compiler, Register.R0, reg);
+                    compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                     compiler.addInstruction(new PUSH(reg));
                     compiler.addInstruction(new LOAD(reg, Register.R1));
                 }
                 else {
                     compiler.addInstruction(new POP(reg));
                     constructeur.constructeur(compiler, reg,(GPRegister) leftOperand);
+                    compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                     compiler.addInstruction(new PUSH(reg));
                     compiler.addInstruction(new LOAD(leftOperand, Register.R1));
                 }
@@ -126,6 +131,7 @@ public class codeGen {
             } else {
                 compiler.addInstruction(new LOAD(leftOperand, reg));
                 constructeur.constructeur(compiler, rightOperand, reg);
+                compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                 compiler.addInstruction(new PUSH(reg));
                 compiler.addInstruction(new LOAD(reg, Register.R1));
             }
@@ -134,6 +140,7 @@ public class codeGen {
             if (leftOperand instanceof DAddr){
                 compiler.addInstruction(new LOAD(leftOperand,reg));
                 constructeur.constructeur(compiler, rightOperand, reg);
+                compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                 compiler.addInstruction(new LOAD(reg, Register.R1));
             }
             else {
@@ -142,10 +149,12 @@ public class codeGen {
                 if (!leftOperand.isVar){
                     compiler.addInstruction(new LOAD(leftOperand,reg));
                     constructeur.constructeur(compiler, rightOperand, reg);
+                    compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                     compiler.addInstruction(new LOAD(reg, Register.R1));
                 }
                 else {
                     constructeur.constructeur(compiler, rightOperand, (GPRegister) leftOperand);
+                    compiler.addInstruction(new BOV(compiler.labelMap.get("overflow_error")));
                     compiler.addInstruction(new LOAD(leftOperand, Register.R1));
                 }
             }
