@@ -1,11 +1,5 @@
 package fr.ensimag.deca.tree;
 
-import java.io.PrintStream;
-
-import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.*;
-import org.apache.commons.lang.Validate;
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -20,6 +14,13 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
+import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
 
 /**
  * Deca Identifier
@@ -173,7 +174,7 @@ public class Identifier extends AbstractIdentifier {
             ClassDefinition currentClass) throws ContextualError {
                 ExpDefinition definitionExp=localEnv.get(name);
                 if(definitionExp == null){
-                    throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
+                    throw new ContextualError("Identifier  '" + this.name + "' is not defined", this.getLocation());
                 }
                 if(!(definitionExp instanceof VariableDefinition)){
                     throw new ContextualError("Identifier '" + this.name + "' is not a variable", this.getLocation());
@@ -181,7 +182,6 @@ public class Identifier extends AbstractIdentifier {
 
                 this.setDefinition(definitionExp);
                 this.setType(definitionExp.getType());
-                this.setLocation(localEnv.getEnvExp().get(name).getLocation());
                 return definitionExp.getType();            
     }
 
@@ -191,13 +191,12 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        TypeDefinition definitionT = compiler.environmentType.getEnvtypes().get(this.name);
-
+        TypeDefinition definitionT = compiler.environmentType.getEnvtypes().get(name);
         if (definitionT == null)
         {
-            throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
+            throw new ContextualError("Identifier ' " + this.name + " ' is not defined", this.getLocation());
         }
-        this.setDefinition(definitionT); 
+        this.setDefinition(definitionT);
         this.setType(definitionT.getType());
         return definitionT.getType();
         
@@ -238,10 +237,6 @@ public class Identifier extends AbstractIdentifier {
             s.println();
         }
 
-        else 
-        {
-            System.out.println("lllll");
-        }
     }
 
     @Override
@@ -258,18 +253,7 @@ public class Identifier extends AbstractIdentifier {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        if (super.getType().isFloat()){
-            compiler.addInstruction(new WFLOAT());
-        }
-        else if (super.getType().isInt()){
-            compiler.addInstruction(new WINT());
-        }
-        else if(super.getType().isFloat()){
-            // A revoir
-        }
-        else if (super.getType().isBoolean()){
-            // A implementer
-        }
+        compiler.addInstruction(new WINT());
 
     }
 
