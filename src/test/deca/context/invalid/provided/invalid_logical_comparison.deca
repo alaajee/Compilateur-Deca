@@ -1,0 +1,15 @@
+// Description:
+//    Comparaison logique entre un int et un float.
+//
+// Resultats:
+//    invalid_logical_comparison.deca:14:17: both operands should be of type boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+int x = 10;
+float y = 5.5;
+
+// Doit etre refuse.
+boolean result = x && y;
+}
