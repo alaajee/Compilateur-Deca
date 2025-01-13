@@ -3,8 +3,7 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -92,5 +91,17 @@ public class FloatLiteral extends AbstractExpr {
 
     }
 
+    @Override
+    protected void codeGenPrintx(DecacCompiler compiler) {
+        DVal res = new ImmediateFloat(value);
+        compiler.addInstruction(new LOAD(res, Register.R1));
+        compiler.addInstruction(new WFLOATX());
+    }
 
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        DVal register = codeGenExpr(compiler);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WFLOAT());
+    }
 }

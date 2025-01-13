@@ -79,6 +79,7 @@ public class DecacCompiler {
     public int nbrVar = 0;
     private int currentTsto = 0;
     private int maxTsto =0;
+    public boolean isHex;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -116,6 +117,7 @@ public class DecacCompiler {
         label = new Label("division_by_zero_error");
         this.labelMap.put("division_by_zero_error",label);
         this.isDiv = false;
+
     }
 
     /**

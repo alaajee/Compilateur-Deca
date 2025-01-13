@@ -18,6 +18,8 @@ import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -252,8 +254,12 @@ public class Identifier extends AbstractIdentifier {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        compiler.addInstruction(new WINT());
-
+        if (getType().isInt()){
+            compiler.addInstruction(new WINT());
+        }
+        else if (getType().isFloat()){
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override
@@ -262,5 +268,13 @@ public class Identifier extends AbstractIdentifier {
         VariableDefinition variableDefinition = compiler.getVarTab().get(name);
         DAddr adresse = variableDefinition.getOperand();
         return adresse;
+    }
+
+    @Override
+    protected void codeGenPrintx(DecacCompiler compiler) {
+        String name = getName().toString();
+        DAddr register = compiler.getRegUn(name);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WFLOATX());
     }
 }

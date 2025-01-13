@@ -33,7 +33,12 @@ public class Divide extends AbstractOpArith {
         compiler.isDiv = true;
         GPRegister reg = compiler.associerReg();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        if (getRightOperand().getType().isInt()){
+            compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        }
+        else {
+            compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.R0));
+        }
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
         compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
@@ -46,7 +51,9 @@ public class Divide extends AbstractOpArith {
                 constructeurDIV constructeurDIV = new constructeurDIV();
                 codeGen gen = new codeGen();
                 if (rightOperand instanceof GPRegister) {
-                    compiler.addInstruction(new FLOAT(rightOperand, (GPRegister) rightOperand));
+                    if (getRightOperand().getType().isInt()){
+                        compiler.addInstruction(new FLOAT(rightOperand, (GPRegister) rightOperand));
+                    }
                     compiler.addInstruction(new LOAD(leftOperand, Register.R0));
                     compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
                     gen.codeGenPrint(Register.R0, rightOperand, reg, constructeurDIV, compiler);

@@ -184,4 +184,8 @@ public abstract class AbstractExpr extends AbstractInst {
     public DVal codeGenInit(DecacCompiler compiler){
         return null;
     }
+
+    protected void codeGenPrintx(DecacCompiler compiler){
+        return;
+    }
 }

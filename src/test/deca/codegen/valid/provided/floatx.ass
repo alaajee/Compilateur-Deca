@@ -1,32 +1,25 @@
-	TSTO #2
+	TSTO #1
 	BOV stack_overflow_error
-	ADDSP #2
+	ADDSP #1
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	LOAD #1, R2
-	STORE R2, 3(GB)
 	LOAD #5, R2
-	STORE R2, 4(GB)
+	STORE R2, 3(GB)
 	FLOAT #5, R3
 	LOAD #0x0.0p0, R0
 	CMP R3, R0
 	BEQ division_by_zero_error
-	LOAD 4(GB), R0
+	LOAD 3(GB), R0
 	FLOAT R0, R0
 	LOAD R0, R2
 	DIV R3, R2
 	LOAD R2, R1
 	LOAD R0, R2
 	DIV R3, R2
-	STORE R2, 4(GB)
-	LOAD 3(GB), R4
-	ADD #2, R4
-	STORE R4, 3(GB)
-	LOAD 4(GB), R1
-	WFLOAT
+	STORE R2, 3(GB)
 	LOAD 3(GB), R1
-	WINT
+	WFLOAT
 	HALT
 ; end main program
 overflow_error:

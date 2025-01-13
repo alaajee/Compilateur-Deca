@@ -4,17 +4,21 @@
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	LOAD #1, R2
+	LOAD #5, R2
 	STORE R2, 3(GB)
-	LOAD 3(GB), R1
-	WINT
-	LOAD 3(GB), R3
-	ADD #1, R3
-	STORE R3, 3(GB)
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ division_by_zero_error
+	LOAD 3(GB), R2
+	QUO #0, R2
+	STORE R2, 3(GB)
 	LOAD 3(GB), R1
 	WINT
 	HALT
 ; end main program
+division_by_zero_error:
+	WSTR "Error: Division by zero"
+	WNL
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"
 	WNL
