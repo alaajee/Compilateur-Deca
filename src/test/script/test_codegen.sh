@@ -4,9 +4,11 @@ GREEN="\033[0;32m"
 RED="\033[0;31m"
 NC="\033[0m"
 
+cd "$(dirname "$0")"/../../.. || exit 1
+
 # Répertoires (ajoute autant de répertoires que nécessaire)
 TEST_DIRS=(
-    "$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso"  # Répertoire 1
+    "src/test/deca/codegen/valid/provided/perso"  # Répertoire 1
 )
 
 DECAC_EXEC="decac"  # Assurez-vous que le chemin vers decac est correct
@@ -17,14 +19,14 @@ FAILED=0
 
 # Définir les outputs attendus pour chaque fichier de test
 declare -A EXPECTED_OUTPUTS
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/cond0.deca"]="ok"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/ecrit0.deca"]="okok"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/entier1.deca"]="12"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/condition.deca"]="2"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/declaration.deca"]="1.00000e+003"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/erreurDiv.deca"]="Error: Division by zero Error: Stack Overflow"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/floatx.deca"]="1.00000e+00"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/printLong.deca"]="-6"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cond0.deca"]="ok"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/ecrit0.deca"]="okok"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/entier1.deca"]="12"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/condition.deca"]="2"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/declaration.deca"]="1.00000e+003"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/erreurDiv.deca"]="Error: Division by zero Error: Stack Overflow"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/floatx.deca"]="1.00000e+00"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/printLong.deca"]="-6"
 
 
 # Boucle sur chaque répertoire dans TEST_DIRS
