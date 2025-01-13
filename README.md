@@ -17,7 +17,7 @@ Scripts de tests personnalisés
 Le script test_context_perso.sh permet d’automatiser les tests de la vérification contextuelle. Il exécute les fichiers .deca présents dans le répertoire test/deca/context avec la commande decac -v et vérifie si les sorties obtenues correspondent aux résultats attendus.
 Exécution : (depuis le répertoire racine gl02)
 
-./src/test/script/testPerso.sh
+./src/test/script/test_context_perso.sh
 
 2. Tests de génération de code (partie C)
 
