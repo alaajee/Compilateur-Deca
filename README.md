@@ -21,7 +21,7 @@ Exécution : (depuis le répertoire racine gl02)
 
 2. Tests de génération de code (partie C)
 
-Le script test_codegen.sh permet de tester la génération de code. Il exécute les fichiers .deca valides présents dans le répertoire test/deca/codegen, génère les fichiers .ass, et les exécute avec ima pour vérifier les résultats.
+Le script test_codegen.sh permet de tester la génération de code. Il exécute les fichiers .deca valides présents dans le répertoire test/deca/codegen/valid/provided/perso, génère les fichiers .ass, et les exécute avec ima pour vérifier les résultats.
 Exécution :
 
 ./src/test/script/test_codegen.sh
