@@ -6,7 +6,7 @@ NC="\033[0m"
 
 # Répertoires (ajoute autant de répertoires que nécessaire)
 TEST_DIRS=(
-    "$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided"  # Répertoire 1
+    "$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso"  # Répertoire 1
 )
 
 DECAC_EXEC="decac"  # Assurez-vous que le chemin vers decac est correct
@@ -17,13 +17,15 @@ FAILED=0
 
 # Définir les outputs attendus pour chaque fichier de test
 declare -A EXPECTED_OUTPUTS
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/cond0.deca"]="ok"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/ecrit0.deca"]="okok"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/entier1.deca"]="12"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/condition.deca"]="2"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/declaration.deca"]="1.00000e+003"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/erreurDiv.deca"]="Error: Division by zero Error: Stack Overflow"
-EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/floatx.deca"]="1.00000e+00"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/cond0.deca"]="ok"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/ecrit0.deca"]="okok"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/entier1.deca"]="12"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/condition.deca"]="2"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/declaration.deca"]="1.00000e+003"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/erreurDiv.deca"]="Error: Division by zero Error: Stack Overflow"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/floatx.deca"]="1.00000e+00"
+EXPECTED_OUTPUTS["$HOME/ensimag/GL/Projet_GL/src/test/deca/codegen/valid/provided/perso/printLong.deca"]="-6"
+
 
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do

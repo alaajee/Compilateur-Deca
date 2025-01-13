@@ -2,14 +2,13 @@
 //    Declaration Multiple
 //
 // Resultats:
-//  Error: Division by zero
-//  Error: Stack Overflow
+// -6
 //
 // Historique:
 //    cree le 01/01/2025
-
 {
-    int y = 5;
-    y = y / 0;
-    print(y);
+    int x = 1;
+    int y = 2;
+    int z = 3;
+    println(x*x*x*x*z*y*x*x-y*z*2);
 }
