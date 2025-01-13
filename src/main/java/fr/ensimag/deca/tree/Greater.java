@@ -36,9 +36,10 @@ public class Greater extends AbstractOpIneq {
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
         
-        compiler.libererReg(reg.getNumber());
+        
         // Ajout de l'instruction SGT (Set if Greater Than)
         compiler.addInstruction(new SGT(reg));
+        compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
         return register;
     }

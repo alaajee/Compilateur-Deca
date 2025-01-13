@@ -16,6 +16,7 @@ import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 
 /**
  * Full if/else if/else statement.
@@ -61,7 +62,8 @@ public class IfThenElse extends AbstractInst {
         
         DVal result = condition.codeGenExpr(compiler);
         // Génération de code pour comparaison
-
+        
+        
         compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
         // Bloc "then"
         thenBranch.codeGenListInst(compiler);

@@ -34,8 +34,8 @@ public class Equals extends AbstractOpExactCmp {
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
         compiler.addInstruction(new SEQ(reg));
+        compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
-        compiler.libererReg(reg.getNumber());
         return register;
     }
 
