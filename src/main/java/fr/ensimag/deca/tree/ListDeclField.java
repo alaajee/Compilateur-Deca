@@ -1,12 +1,13 @@
 package fr.ensimag.deca.tree;
 
-import java.lang.instrument.ClassDefinition;
 import java.util.Iterator;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+
 
 /**
  * 
@@ -24,10 +25,11 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     void verifyListDeclField(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError {
 
         Iterator<AbstractDeclField> iterator = this.iterator(); 
-
+        int index =0;
         while (iterator.hasNext()) {
             AbstractDeclField declField = iterator.next(); // Récupère l'élément suivant
-            declField.verifyDeclField(compiler,localEnv,currentClass);
+            declField.verifyDeclField(compiler, currentClass, index);
+            index++;
         }    
     }
 

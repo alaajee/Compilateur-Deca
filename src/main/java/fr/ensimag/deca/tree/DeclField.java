@@ -37,17 +37,27 @@ public class DeclField extends AbstractDeclField{
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    s.print(visibility + " ");
+    type.decompile(s);
+    s.print(" ");
+    fieldName.decompile(s);
+    initialization.decompile(s);
+    s.println(";");
+
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.prettyPrint(s, prefix, false);     
+        fieldName.prettyPrint(s, prefix, false); 
+        initialization.prettyPrint(s, prefix, true); 
     }
-
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.iter(f);
+        fieldName.iter(f);
+        initialization.iter(f);    
     }
 
     @Override
