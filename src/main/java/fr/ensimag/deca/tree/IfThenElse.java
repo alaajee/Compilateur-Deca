@@ -56,26 +56,60 @@ public class IfThenElse extends AbstractInst {
         int ID = compiler.getUniqueID();
         Label elseLabel = (elseBranch != null) ? new Label("else_block_" + ID) : null;
         Label endIfLabel = new Label("end_if_" + ID);
+        Label bodyLabel = new Label("body_" + ID);
 
         GPRegister reg = compiler.associerReg();
-        
-        DVal result = condition.codeGenExpr(compiler);
+
+        DVal result = condition.codeGenInstrCond(compiler,elseLabel,bodyLabel);
+       // DVal result2 = condition.codeGenInstrCond(compiler,elseLabel,endIfLabel);
         // Génération de code pour comparaison
 
-        compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+
+//        // Choisir l'opérateur de comparaison en fonction du type de la condition (supérieur, inférieur, égal, etc.)
+//        if (compiler.notGreater) {
+//            compiler.addInstruction(new BGE(elseLabel != null ? elseLabel : endIfLabel));
+//        } else if (compiler.notGreaterStric){
+//            compiler.addInstruction(new BGT(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else if (compiler.greater) {
+//            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+//        } else if (compiler.greaterStric){
+//            compiler.addInstruction(new BLT(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else if (compiler.equals) {
+//            compiler.addInstruction(new BNE(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else if (compiler.notEquals){
+//            compiler.addInstruction(new BEQ(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else {
+//            // Vous pouvez ajouter d'autres cas selon la condition nécessaire
+//            // Par exemple, pour `!=` vous pouvez utiliser BNE
+//        }
         // Bloc "then"
+        compiler.addLabel(bodyLabel);
         thenBranch.codeGenListInst(compiler);
         if (elseBranch != null) {
-            compiler.addInstruction(new BRA(endIfLabel));
+            if (compiler.weAreinWhile){
+                compiler.addInstruction(new BRA(endIfLabel));
+
+            }
+            else {
+                compiler.addInstruction(new BRA(endIfLabel));
+                 //compiler.addLabel(compiler.endIfLabel);
+                // compiler.addLabel(compiler.endIfLabel);
+            }
         }
 
-        // Bloc "else"
         if (elseBranch != null) {
             compiler.addLabel(elseLabel);
             elseBranch.codeGenListInst(compiler);
         }
-
         compiler.addLabel(endIfLabel);
+        // Bloc "else"
+
+
+
         compiler.libererReg(reg.getNumber());
     }
 

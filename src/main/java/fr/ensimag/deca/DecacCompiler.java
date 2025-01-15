@@ -79,7 +79,24 @@ public class DecacCompiler {
     public int nbrVar = 0;
     private int currentTsto = 0;
     private int maxTsto =0;
-    public boolean isHex;
+    public boolean greater;
+    public boolean notGreater;
+    public boolean equals;
+    public boolean notGreaterStric;
+    public boolean greaterStric;
+    public boolean notEquals;
+    public boolean and;
+    public boolean or;
+    public boolean condition;
+    public int compteurOr = 1 ;
+    public boolean ifcond = false;
+    public boolean notCond = false;
+    public Label endIfLabel;
+    public boolean weAreinWhile;
+    public DAddr adresseClasse;
+
+
+
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -117,7 +134,8 @@ public class DecacCompiler {
         label = new Label("division_by_zero_error");
         this.labelMap.put("division_by_zero_error",label);
         this.isDiv = false;
-
+        this.endIfLabel = new Label("end_if_" + getUniqueID());
+        this.weAreinWhile = false;
     }
 
     /**
@@ -457,4 +475,7 @@ public class DecacCompiler {
     public GPRegister getRegister(int adresse){
         return Register.getR(adresse);
     }
+
+
+
 }

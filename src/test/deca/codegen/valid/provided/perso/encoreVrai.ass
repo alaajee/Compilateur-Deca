@@ -4,16 +4,15 @@
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	LOAD #1, R3
-	CMP #0, R3
-	SGE R3
-	BLT else_block_1
+	LOAD #0, R0
+	CMP #1, R0
+	BNE else_block_1
 body_1:
-	WSTR "ok"
+	WSTR "faux"
 	WNL
 	BRA end_if_1
 else_block_1:
-	WSTR "erreur"
+	WSTR "vrai"
 	WNL
 end_if_1:
 	HALT

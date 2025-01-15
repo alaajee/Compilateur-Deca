@@ -1,0 +1,11 @@
+
+// Sortie 4
+{
+    int a = 7;
+    int b = 8;
+    while (a > 3 && b <=  10){
+        a = a - 1;
+        b = b + 1;
+    }
+    println(a);
+}

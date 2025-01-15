@@ -27,8 +27,18 @@ public class And extends AbstractOpBool {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+        compiler.and = true;
+
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+
+        compiler.greater = false;
+        compiler.or = false;
+        compiler.greater = false;
+        compiler.notGreater = false;
+        compiler.greater = false;
+        compiler.greaterStric = false;
+        compiler.notGreaterStric = false;
 
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurADD();
@@ -65,4 +75,17 @@ public class And extends AbstractOpBool {
             compiler.addInstruction(new WINT());
         }
     }
+
+    @Override
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        compiler.and = true;
+        DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodyLabel);
+        DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
+        GPRegister reg = compiler.associerReg();
+        compiler.and = false;
+        return reg;
+    }
+
+
+
 }

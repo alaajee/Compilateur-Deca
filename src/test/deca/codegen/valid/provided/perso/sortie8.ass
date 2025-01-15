@@ -1,0 +1,44 @@
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #2
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #6, R2
+	STORE R2, 3(GB)
+	LOAD #1, R2
+	STORE R2, 4(GB)
+	LOAD 4(GB), R1
+	CMP #0, R1
+	BNE else_block_1
+body_1:
+	LOAD #1, R4
+	STORE R4, 4(GB)
+	LOAD 3(GB), R4
+	ADD 4(GB), R4
+	STORE R4, 3(GB)
+	BRA end_if_1
+else_block_1:
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ else_block_2
+body_2:
+	LOAD 3(GB), R5
+	SUB #1, R5
+	STORE R5, 3(GB)
+	BRA end_if_2
+else_block_2:
+end_if_2:
+	LOAD 3(GB), R4
+	ADD #2, R4
+	STORE R4, 3(GB)
+end_if_1:
+	LOAD 3(GB), R1
+	WINT
+	WNL
+	HALT
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

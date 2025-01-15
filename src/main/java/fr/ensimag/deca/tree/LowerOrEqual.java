@@ -38,6 +38,8 @@ public class LowerOrEqual extends AbstractOpIneq {
         compiler.libererReg(reg.getNumber());
         compiler.addInstruction(new SLE(reg));
         gen.finalizeAndPush(reg, compiler);
+
+        compiler.notGreaterStric = true;
         return register;
     }
 
@@ -56,6 +58,47 @@ public class LowerOrEqual extends AbstractOpIneq {
         // Affichage du résultat
         compiler.addInstruction(new LOAD(reg, Register.R1));
         compiler.addInstruction(new WINT());
+    }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+
+
+        constructeur constructeur = new constructeurCMP();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+
+        compiler.libererReg(reg.getNumber());
+        compiler.addInstruction(new SLE(reg));
+        if (compiler.and){
+            compiler.addInstruction(new BGT(endLabel));
+        }
+        else if (compiler.or){
+            if (compiler.compteurOr == 1){
+                if (compiler.notCond){
+                    compiler.addInstruction(new BGT(bodyLabel));
+                }
+                else{
+                    compiler.addInstruction(new BLE(bodyLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BGT(endLabel));
+            }
+        } else if (compiler.ifcond){
+            compiler.addInstruction(new BLE(endLabel));
+        }
+        else {
+            compiler.addInstruction(new BGT(endLabel));
+        }
+
+        gen.finalizeAndPush(reg, compiler);
+
+        compiler.notGreaterStric = true;
+        return register;
     }
 
 }

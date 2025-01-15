@@ -48,7 +48,9 @@ public class UnaryMinus extends AbstractUnaryExpr {
        else {
            GPRegister reg = compiler.associerReg();
            compiler.addInstruction(new OPP(operand,reg));
-           compiler.addInstruction(new STORE(reg,(DAddr) operand));
+           if (operand instanceof DAddr){
+               compiler.addInstruction(new STORE(reg,(DAddr) operand));
+           }
            return reg;
        }
     }

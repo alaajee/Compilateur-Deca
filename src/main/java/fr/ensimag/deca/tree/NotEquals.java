@@ -39,6 +39,8 @@ public class NotEquals extends AbstractOpExactCmp {
         compiler.libererReg(reg.getNumber());
         compiler.addInstruction(new SNE(reg));
         gen.finalizeAndPush(reg, compiler);
+
+        compiler.notEquals = true;
         return register;
     }
 
@@ -60,4 +62,44 @@ public class NotEquals extends AbstractOpExactCmp {
         compiler.addInstruction(new WINT());
     }
 
+
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+
+
+        constructeur constructeur = new constructeurCMP();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+
+        compiler.libererReg(reg.getNumber());
+        compiler.addInstruction(new SNE(reg));
+        if (compiler.and){
+            compiler.addInstruction(new BEQ(endLabel));
+        }
+        else if (compiler.or){
+            if (compiler.compteurOr == 1){
+                if (compiler.notCond){
+                    compiler.addInstruction(new BEQ(bodyLabel));
+                }
+                else {
+                    compiler.addInstruction(new BNE(bodyLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BEQ(endLabel));
+            }
+        } else if (compiler.ifcond){
+            compiler.addInstruction(new BNE(endLabel));
+        }
+        else {
+            compiler.addInstruction(new BEQ(endLabel));
+        }
+        gen.finalizeAndPush(reg, compiler);
+
+        compiler.notEquals = true;
+        return register;
+    }
 }

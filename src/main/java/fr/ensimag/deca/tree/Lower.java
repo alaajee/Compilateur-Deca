@@ -39,6 +39,8 @@ public class Lower extends AbstractOpIneq {
         compiler.libererReg(reg.getNumber());
         compiler.addInstruction(new SLT(reg));
         gen.finalizeAndPush(reg, compiler);
+
+        compiler.notGreater = true;
         return register;
     }
 
@@ -60,4 +62,43 @@ public class Lower extends AbstractOpIneq {
         compiler.addInstruction(new WINT());
     }
 
+    @Override
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+
+        constructeur constructeur = new constructeurCMP();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+
+        compiler.libererReg(reg.getNumber());
+        compiler.addInstruction(new SLT(reg));
+
+        if (compiler.and){
+            compiler.addInstruction(new BGE(endLabel));
+        }
+        else if(compiler.or){
+            if (compiler.compteurOr == 1){
+                    if (compiler.notCond){
+                        compiler.addInstruction(new BGE(bodyLabel));
+                }
+                    else {
+                        compiler.addInstruction(new BLT(bodyLabel));
+                    }
+                compiler.compteurOr--;            }
+            else {
+                compiler.addInstruction(new BGE(endLabel));
+            }
+        }else if (compiler.ifcond){
+            compiler.addInstruction(new BLT(endLabel));
+        }
+        else {
+            compiler.addInstruction(new BGE(endLabel));
+        }
+        gen.finalizeAndPush(reg, compiler);
+
+        compiler.notGreater = true;
+        return register;
+    }
 }

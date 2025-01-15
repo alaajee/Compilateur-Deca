@@ -43,6 +43,8 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        compiler.weAreinWhile = true;
+        compiler.condition = true;
         int ID = compiler.getUniqueID();
         Label conditionLabel = new Label("condition_" + ID);
         Label bodyLabel = new Label("body_" + ID);
@@ -50,21 +52,46 @@ public class While extends AbstractInst {
 
         // Generate code for condition check
         compiler.addLabel(conditionLabel);
-        DVal conditionResult = condition.codeGenExpr(compiler);
-        GPRegister reg = compiler.associerReg();
-        compiler.addInstruction(new BGE(endLabel));
+        DVal conditionResult = condition.codeGenInstrCond(compiler,endLabel,bodyLabel);  // Condition
 
+        GPRegister reg = compiler.associerReg();
+
+//        // Choisir l'opérateur de comparaison en fonction du type de la condition (supérieur, inférieur, égal, etc.)
+//        if (compiler.notGreater) {
+//            compiler.addInstruction(new BGE(endLabel));
+//        } else if (compiler.notGreaterStric){
+//            compiler.addInstruction(new BGT(endLabel));
+//        }
+//        else if (compiler.greater) {
+//            compiler.addInstruction(new BLE(endLabel));
+//        } else if (compiler.greaterStric){
+//            compiler.addInstruction(new BLT(endLabel));
+//        }
+//        else if (compiler.equals) {
+//            compiler.addInstruction(new BNE(endLabel));
+//        }
+//        else if (compiler.notEquals){
+//            compiler.addInstruction(new BEQ(endLabel));
+//        }
+//        else if(compiler.and){
+//            body.codeGenListInst(compiler);
+//        }
+//        else {
+//            // Vous pouvez ajouter d'autres cas selon la condition nécessaire
+//            // Par exemple, pour `!=` vous pouvez utiliser BNE
+//        }
         // Generate code for the body of the while loop
         compiler.addLabel(bodyLabel);
         body.codeGenListInst(compiler);
-        
+
         // Jump back to the condition label to check again
         compiler.addInstruction(new BRA(conditionLabel));
-
+        //compiler.addLabel(compiler.endIfLabel);
         // End of the while loop
         compiler.addLabel(endLabel);
         compiler.libererReg(reg.getNumber());
     }
+
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,

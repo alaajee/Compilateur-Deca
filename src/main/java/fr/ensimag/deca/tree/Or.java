@@ -27,6 +27,7 @@ public class Or extends AbstractOpBool {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+        compiler.or = true;
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
@@ -38,19 +39,10 @@ public class Or extends AbstractOpBool {
         // constructeur constructeur1 = new constructeurCMP();
         // codeGen gen1 = new codeGen();
         // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
-        
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
-
-
-
         // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
-        
         // compiler.addInstruction(new LOAD(leftOperand,reg));
         // constructeur.constructeur(compiler, rightOperand, reg);
-
-
-
-
         compiler.addInstruction(new SNE(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
         compiler.libererReg(reg.getNumber());
@@ -74,5 +66,14 @@ public class Or extends AbstractOpBool {
         else {
             compiler.addInstruction(new WINT());
         }
+    }
+
+    @Override
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodylabel) {
+        compiler.or = true;
+        DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodylabel);
+        DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodylabel);
+        GPRegister reg = compiler.associerReg();
+        return reg;
     }
 }

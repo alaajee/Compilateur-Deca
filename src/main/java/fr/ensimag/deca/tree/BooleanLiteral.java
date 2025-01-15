@@ -9,11 +9,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  *
@@ -76,12 +73,32 @@ public class BooleanLiteral extends AbstractExpr {
         else {
             compiler.addInstruction(new LOAD(res,reg));
         }
-        return reg;
-
+        return new ImmediateInteger(res);
     }
 
-    @Override
-    public void codeGenPrint(DecacCompiler compiler){
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        // Assignation de la valeur 1 si true, 0 si false
+        int res = value ? 1 : 0;
+        compiler.addInstruction(new LOAD(new ImmediateInteger(0),Register.R0));
+        // Utilisation de CMP pour comparer avec 0 (res est 1 ou 0)
+        compiler.addInstruction(new CMP(res, Register.R0));  // Comparer la valeur avec 0
+        if (compiler.notCond){
+            compiler.addInstruction(new BNE(endLabel));  // Si res == 0, saute à endLabel
+            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+        }// Si res == 1, sauter à bodyLabel, sinon sauter à endLabel
+        else {
+            if (compiler.or){
+                if (compiler.compteurOr == 1){
+                    compiler.addInstruction(new BNE(bodyLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BEQ(endLabel));  // Si res == 0, saute à endLabel
+            }
+           //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+        }
+        return new ImmediateInteger(res);  // Retourne null (ou une valeur adaptée si nécessaire)
+    }
 
-    };
 }

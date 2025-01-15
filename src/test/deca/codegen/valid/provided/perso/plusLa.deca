@@ -1,0 +1,13 @@
+{
+    int x = 5;
+    while (x > 0){
+        if (false){
+            println(" je suis la ");
+        }
+        else {
+            println("je ne suis plus la");
+    }
+    x = x -1;
+    // Sortie je ne suis plus la
+}
+}

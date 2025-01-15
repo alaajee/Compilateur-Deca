@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Label;
 
 /**
@@ -44,4 +45,5 @@ public abstract class AbstractInst extends Tree {
     protected void decompileInst(IndentPrintStream s) {
         decompile(s);
     }
+
 }

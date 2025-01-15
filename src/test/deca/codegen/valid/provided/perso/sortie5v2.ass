@@ -1,26 +1,34 @@
-	TSTO #3
+	TSTO #2
 	BOV stack_overflow_error
-	ADDSP #3
+	ADDSP #2
 ; start main program
 ; Main program
 ; Beginning of main instructions:
-	LOAD #1, R2
+	LOAD #6, R2
 	STORE R2, 3(GB)
-	LOAD #2, R2
+	LOAD #1, R2
 	STORE R2, 4(GB)
-	LOAD #0, R2
-	STORE R2, 5(GB)
-	LOAD 5(GB), R1
+	LOAD 4(GB), R1
 	CMP #0, R1
 	BEQ else_block_1
+	LOAD #0, R0
+	CMP #1, R0
+	BNE else_block_1
 body_1:
-	LOAD 3(GB), R1
-	WINT
+	LOAD #1, R5
+	STORE R5, 4(GB)
+	LOAD 3(GB), R5
+	ADD 4(GB), R5
+	STORE R5, 3(GB)
 	BRA end_if_1
 else_block_1:
-	LOAD 4(GB), R1
-	WINT
+	LOAD 3(GB), R5
+	SUB #1, R5
+	STORE R5, 3(GB)
 end_if_1:
+	LOAD 3(GB), R1
+	WINT
+	WNL
 	HALT
 ; end main program
 stack_overflow_error:

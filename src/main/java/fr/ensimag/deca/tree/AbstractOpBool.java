@@ -5,6 +5,9 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.SUB;
 
 /**
  *
@@ -35,4 +38,8 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
                 return rightType;      
     }
 
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel){
+        System.out.println("hhbool");
+        return null;
+    }
 }

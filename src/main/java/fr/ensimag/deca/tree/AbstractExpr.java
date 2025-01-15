@@ -3,6 +3,7 @@ import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
@@ -188,4 +189,9 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void codeGenPrintx(DecacCompiler compiler){
         return;
     }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel){
+        return null;
+    }
+
 }

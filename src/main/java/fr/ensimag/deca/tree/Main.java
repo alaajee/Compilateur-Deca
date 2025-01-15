@@ -53,11 +53,15 @@ public class Main extends AbstractMain {
         Label stackOverflowLabel = new Label("stack_overflow_error");
         compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
         compiler.addFirst(new TSTO(compiler.getMaxTsto()+compiler.nbrVar));
-
-
-
+        //whileGeneration(compiler);
     }
-    
+
+    protected void whileGeneration(DecacCompiler compiler) {
+        if (!compiler.weAreinWhile){
+            compiler.addLabel(compiler.endIfLabel);
+        }
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");

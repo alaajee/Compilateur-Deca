@@ -1,0 +1,31 @@
+{
+    boolean estVrai = true;
+    int a = 7;
+    int b = 8;
+    int x  = 1;
+
+    if (estVrai){
+        println("Vrai");
+    }
+    else {
+        println("Faux");
+    }
+
+    while (a > 3 && b <=  10){
+            a = a - 1;
+            b = b + 1;
+    }
+    println(a);
+
+    while (x > 0){
+        if (false){
+              println(" je suis la ");
+        }
+        else {
+            println("je ne suis plus la");
+        }
+        x = x -1;
+    }
+
+    // Sortie Vrai 4 je ne suis plus la
+}

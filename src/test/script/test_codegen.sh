@@ -28,6 +28,25 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/erreurDiv.deca"]="E
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/floatx.deca"]="1.00000e+00"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/printLong.deca"]="-6"
 
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/debut.deca"]="ca marche"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/and.deca"]="ca marche"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/avance.deca"]="8"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/compilateurMarche.deca"]="mon compilateur presque marche"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/encoreVrai.deca"]="vrai"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/faux.deca"]="faux"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/nega.deca"]="-1"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/plusLa.deca"]="jenesuispluslajenesuispluslajenesuispluslajenesuispluslajenesuisplusla"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie4.deca"]="4"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie5.deca"]="5"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie5v2.deca"]="5"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie6.deca"]="5"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie6v2.deca"]="6"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie7.deca"]="7"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie7v2.deca"]="7"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie8.deca"]="8"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Vrai.deca"]="Vrai 4 je ne suis plus la"
+
+
 
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do

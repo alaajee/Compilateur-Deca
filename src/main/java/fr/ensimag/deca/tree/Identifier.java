@@ -16,11 +16,10 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.instructions.*;
+
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -277,4 +276,37 @@ public class Identifier extends AbstractIdentifier {
         compiler.addInstruction(new LOAD(register, Register.R1));
         compiler.addInstruction(new WFLOATX());
     }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        // Récupère le nom et l'adresse du registre
+        String name = getName().toString();
+        DAddr register = compiler.getRegUn(name);
+
+        // Charge la valeur du registre dans R1
+        compiler.addInstruction(new LOAD(register, Register.R1));
+
+        // Compare R1 avec 0
+        compiler.addInstruction(new CMP(0, Register.R1));  // Comparer R1 à 0
+
+        if (compiler.notCond){
+            compiler.addInstruction(new BNE(endLabel));  // Si res == 0, saute à endLabel
+            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+            compiler.notCond = false;
+        }// Si res == 1, sauter à bodyLabel, sinon sauter à endLabel
+
+        else {
+            if (compiler.or){
+                if (compiler.compteurOr == 1){
+                    compiler.addInstruction(new BNE(bodyLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BEQ(endLabel));  // Si res == 0, saute à endLabel
+            }
+            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+        }
+        return register;
+    }
+
 }

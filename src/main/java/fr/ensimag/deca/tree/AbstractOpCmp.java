@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 
 /**
  *
@@ -55,6 +57,9 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     return booleanType;
 }
 
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel){
+        return null;
+    }
 
 
 }

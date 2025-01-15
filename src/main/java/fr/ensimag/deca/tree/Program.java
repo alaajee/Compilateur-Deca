@@ -55,6 +55,7 @@ public class Program extends AbstractProgram {
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
         // A FAIRE: compléter ce squelette très rudimentaire de code
+        classes.codeGenClasses(compiler);
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
@@ -81,6 +82,7 @@ public class Program extends AbstractProgram {
         compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
+
     }
 
     @Override

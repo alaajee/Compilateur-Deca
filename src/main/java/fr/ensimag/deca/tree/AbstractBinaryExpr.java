@@ -72,4 +72,8 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel){
+        System.out.println("hhbin");
+        return null;
+    }
 }

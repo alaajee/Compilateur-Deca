@@ -40,6 +40,7 @@ public class Greater extends AbstractOpIneq {
         // Ajout de l'instruction SGT (Set if Greater Than)
         compiler.addInstruction(new SGT(reg));
         gen.finalizeAndPush(reg, compiler);
+        compiler.greater = true;
         return register;
     }
 
@@ -60,6 +61,46 @@ public class Greater extends AbstractOpIneq {
         // Affichage du résultat
         compiler.addInstruction(new LOAD(reg, Register.R1));
         compiler.addInstruction(new WINT());
+    }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+
+
+        constructeur constructeur = new constructeurCMP();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+
+        compiler.libererReg(reg.getNumber());
+        // Ajout de l'instruction SGT (Set if Greater Than)
+        compiler.addInstruction(new SGT(reg));
+        if (compiler.and){
+            compiler.addInstruction(new BLE(endLabel));
+        }
+        else if (compiler.or){
+            if (compiler.compteurOr == 1){
+                if (compiler.notCond){
+                    compiler.addInstruction(new BLE(bodyLabel));
+                }
+                else {
+                    compiler.addInstruction(new BGT(bodyLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BLE(endLabel));
+            }
+        }else if (compiler.ifcond){
+            compiler.addInstruction(new BGT(endLabel));
+        }
+        else {
+            compiler.addInstruction(new BLE(endLabel));
+        }
+        gen.finalizeAndPush(reg, compiler);
+        compiler.greater = true;
+        return register;
     }
 
 }
