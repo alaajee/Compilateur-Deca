@@ -54,7 +54,6 @@ public class While extends AbstractInst {
         compiler.addLabel(conditionLabel);
         DVal conditionResult = condition.codeGenInstrCond(compiler,endLabel,bodyLabel);  // Condition
 
-        GPRegister reg = compiler.associerReg();
 
 //        // Choisir l'opérateur de comparaison en fonction du type de la condition (supérieur, inférieur, égal, etc.)
 //        if (compiler.notGreater) {
@@ -89,7 +88,6 @@ public class While extends AbstractInst {
         //compiler.addLabel(compiler.endIfLabel);
         // End of the while loop
         compiler.addLabel(endLabel);
-        compiler.libererReg(reg.getNumber());
     }
 
 

@@ -1,4 +1,4 @@
-	TSTO #1
+	TSTO #2
 	BOV stack_overflow_error
 	ADDSP #1
 ; start main program
@@ -8,9 +8,10 @@
 	STORE R2, 3(GB)
 	LOAD 3(GB), R1
 	WINT
-	LOAD 3(GB), R3
-	ADD #1, R3
-	STORE R3, 3(GB)
+	LOAD 3(GB), R2
+	ADD #1, R2
+	PUSH R2
+	STORE R2, 3(GB)
 	LOAD 3(GB), R1
 	WINT
 	HALT

@@ -34,12 +34,21 @@ public class Multiply extends AbstractOpArith {
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        GPRegister reg = compiler.associerReg();
-        constructeur constructeur = new constructeurMUL();
-        codeGen gen = new codeGen();
-        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-        gen.finalizeAndPush(reg, compiler);
-        return register;
+        if (leftOperand instanceof GPRegister){
+            constructeur constructeur = new constructeurMUL();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,(GPRegister) leftOperand,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return leftOperand;
+        }
+        else {
+            GPRegister reg = compiler.associerReg();
+            constructeur constructeur = new constructeurMUL();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return register;
+        }
     }
 
     @Override

@@ -67,7 +67,7 @@ public class Equals extends AbstractOpExactCmp {
         constructeur constructeur = new constructeurCMP();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
-        compiler.addInstruction(new SEQ(reg));
+        compiler.addInstruction(new SEQ((GPRegister) register));
         if (compiler.and){
             compiler.addInstruction(new BNE(endLabel));
         }
@@ -84,6 +84,7 @@ public class Equals extends AbstractOpExactCmp {
             else {
                 compiler.addInstruction(new BNE(endLabel));
             }
+
         }
         else if (compiler.notCond){
             compiler.addInstruction(new BEQ(endLabel));
@@ -92,10 +93,8 @@ public class Equals extends AbstractOpExactCmp {
         else {
             compiler.addInstruction(new BNE(endLabel));
         }
-        gen.finalizeAndPush(reg, compiler);
+       // gen.finalizeAndPush(reg, compiler);
         compiler.libererReg(reg.getNumber());
-
-        compiler.equals = true;
         return register;
     }
 }

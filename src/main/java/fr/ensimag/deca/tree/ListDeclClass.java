@@ -71,14 +71,14 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     }
 
     protected void codeGenClasses(DecacCompiler compiler){
-        System.out.println(getList());
+        //System.out.println(getList());
         if (getList().size() > 0) {
             DAddr adresseUne = new RegisterOffset(1, Register.GB);
             DAddr adresseDeux = new RegisterOffset(2, Register.GB);
             DVal dval = new NullOperand();
             compiler.addInstruction(new LOAD(dval,Register.R0));
             compiler.addInstruction(new STORE(Register.R0,adresseUne));
-            dval = new classeNom("Object");
+            dval = new classeNom("Object","equals");
             compiler.addInstruction(new LOAD(dval,Register.R1));
             compiler.addInstruction(new STORE(Register.R1,adresseDeux));
             compiler.adresseClasse = adresseUne;

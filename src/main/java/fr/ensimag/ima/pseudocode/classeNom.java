@@ -7,16 +7,16 @@ On genere le DVal pour la construction de la table des méthodes
 
 public class classeNom extends DVal {
     private String nom;
-    public classeNom(String nom) {
+    private String methode;
+    public classeNom(String nom,String methode) {
         this.nom = nom;
+        this.methode = methode;
     }
 
     @Override
     public String toString() {
-        return "code."+nom+".equals" ;
+        return "code."+nom+"."+methode ;
     }
 
-    public DVal getObject() {
-        return new classeNom("Object") ;
-    }
+
 }

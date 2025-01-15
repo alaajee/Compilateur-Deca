@@ -1,4 +1,4 @@
-	TSTO #4
+	TSTO #8
 	BOV stack_overflow_error
 	ADDSP #4
 ; start main program
@@ -6,12 +6,12 @@
 ; Beginning of main instructions:
 	LOAD #1, R2
 	STORE R2, 3(GB)
-	LOAD #7, R3
-	STORE R3, 4(GB)
-	LOAD #8, R3
-	STORE R3, 5(GB)
-	LOAD #1, R3
-	STORE R3, 6(GB)
+	LOAD #7, R2
+	STORE R2, 4(GB)
+	LOAD #8, R2
+	STORE R2, 5(GB)
+	LOAD #1, R2
+	STORE R2, 6(GB)
 	LOAD 3(GB), R1
 	CMP #0, R1
 	BEQ else_block_1
@@ -24,31 +24,35 @@ else_block_1:
 	WNL
 end_if_1:
 condition_2:
-	LOAD 4(GB), R3
-	CMP #3, R3
-	SGT R3
+	LOAD 4(GB), R2
+	CMP #3, R2
+	SGT R2
 	BLE end_while_2
-	LOAD 5(GB), R3
-	CMP #10, R3
-	SLE R3
+	PUSH R2
+	LOAD 5(GB), R2
+	CMP #10, R2
+	SLE R2
 	BGT end_while_2
+	PUSH R2
 body_2:
-	LOAD 4(GB), R5
-	SUB #1, R5
-	STORE R5, 4(GB)
-	LOAD 5(GB), R6
-	ADD #1, R6
-	STORE R6, 5(GB)
+	LOAD 4(GB), R2
+	SUB #1, R2
+	STORE R2, 4(GB)
+	LOAD 5(GB), R2
+	ADD #1, R2
+	PUSH R2
+	STORE R2, 5(GB)
 	BRA condition_2
 end_while_2:
 	LOAD 4(GB), R1
 	WINT
 	WNL
 condition_3:
-	LOAD 6(GB), R4
-	CMP #0, R4
-	SGT R4
+	LOAD 6(GB), R2
+	CMP #0, R2
+	SGT R2
 	BLE end_while_3
+	PUSH R2
 body_3:
 	LOAD #0, R0
 	CMP #0, R0
@@ -61,9 +65,9 @@ else_block_4:
 	WSTR "je ne suis plus la"
 	WNL
 end_if_4:
-	LOAD 6(GB), R6
-	SUB #1, R6
-	STORE R6, 6(GB)
+	LOAD 6(GB), R2
+	SUB #1, R2
+	STORE R2, 6(GB)
 	BRA condition_3
 end_while_3:
 	HALT

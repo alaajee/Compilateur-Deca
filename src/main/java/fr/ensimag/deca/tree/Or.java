@@ -73,6 +73,7 @@ public class Or extends AbstractOpBool {
         DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodylabel);
         DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodylabel);
         GPRegister reg = compiler.associerReg();
+        compiler.or = false;
         return reg;
     }
 }

@@ -32,7 +32,7 @@ public class Minus extends AbstractOpArith {
         constructeur constructeur = new constructeurSUB();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-        gen.finalizeAndPush(reg, compiler);
+        //gen.finalizeAndPush(reg, compiler);
         return register;
     }
 

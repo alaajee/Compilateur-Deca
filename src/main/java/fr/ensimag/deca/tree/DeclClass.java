@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
@@ -79,10 +80,10 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
 
-        Symbol classSymbol = this.className.getName();
-        Symbol superClassSymbol = this.superClassName.getName();
+        SymbolTable.Symbol classSymbol = this.className.getName();
+        SymbolTable.Symbol superClassSymbol = this.superClassName.getName();
 
-        Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
+        Map<SymbolTable.Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
 
         if (!envTypes.containsKey(superClassSymbol)) {
             throw new ContextualError("Super-class " + superClassName + " is not declared", this.getLocation());
@@ -135,16 +136,16 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenclasse(DecacCompiler compiler) {
         String className = this.getClass().getSimpleName();
-        DVal Object = new classeNom("Object");
-        DVal dval = new classeNom(className);
+        DVal Object = new classeNom("Object","equals");
         DAddr adresse = compiler.associerAdresse();
         compiler.addInstruction(new LEA(compiler.adresseClasse, Register.R0));
         compiler.adresseClasse = adresse;
         compiler.addInstruction(new STORE(Register.R0, adresse));
         compiler.addInstruction(new LOAD(Object,Register.R0));
         compiler.addInstruction(new STORE(Register.R0, compiler.associerAdresse()));
-        compiler.addInstruction(new LOAD(new classeNom(className),Register.R0));
-        compiler.addInstruction(new STORE(Register.R0,compiler.associerAdresse()));
+        for (AbstractDeclMethod methode : methods.getList()){
+                methode.codeGenMethod(compiler,className);
+        }
     }
 }
 

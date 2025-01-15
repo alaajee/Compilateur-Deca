@@ -52,7 +52,6 @@ public class Modulo extends AbstractOpArith {
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
         gen.finalizeAndPush(reg, compiler);
-        compiler.libererReg(reg.getNumber());
         return register;
     }
 

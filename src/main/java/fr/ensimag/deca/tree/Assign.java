@@ -50,13 +50,14 @@ public class Assign extends AbstractBinaryExpr {
         DVal resultat = getLeftOperand().codeGenExpr(compiler);
         if (val instanceof GPRegister){
             compiler.addInstruction(new STORE((GPRegister)val,(DAddr )resultat));
+            compiler.libererReg(((GPRegister) val).getNumber());
             return resultat;
         }
         else {
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(val, reg));
             compiler.addInstruction(new STORE(reg,(DAddr )resultat));
-            // compiler.libererReg(reg.getNumber());
+            compiler.libererReg(reg.getNumber());
             return reg;
         }
 

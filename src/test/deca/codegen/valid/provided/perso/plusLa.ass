@@ -1,4 +1,4 @@
-	TSTO #1
+	TSTO #2
 	BOV stack_overflow_error
 	ADDSP #1
 ; start main program
@@ -11,6 +11,7 @@ condition_1:
 	CMP #0, R2
 	SGT R2
 	BLE end_while_1
+	PUSH R2
 body_1:
 	LOAD #0, R0
 	CMP #0, R0
@@ -23,9 +24,9 @@ else_block_2:
 	WSTR "je ne suis plus la"
 	WNL
 end_if_2:
-	LOAD 3(GB), R3
-	SUB #1, R3
-	STORE R3, 3(GB)
+	LOAD 3(GB), R2
+	SUB #1, R2
+	STORE R2, 3(GB)
 	BRA condition_1
 end_while_1:
 	HALT

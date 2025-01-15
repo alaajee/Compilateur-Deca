@@ -31,9 +31,9 @@ public class ListMethod extends TreeList<AbstractDeclMethod>{
         }
     }
 
-    public void codeGen(DecacCompiler compiler){
+    public void codeGen(DecacCompiler compiler,String className){
         for (AbstractDeclMethod declVar : this.getList()) {
-            declVar.codeGenMethod(compiler);
+            declVar.codeGenMethod(compiler,className);
         }
     }
 

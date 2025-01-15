@@ -1,4 +1,4 @@
-	TSTO #1
+	TSTO #2
 	BOV stack_overflow_error
 	ADDSP #1
 ; start main program
@@ -9,6 +9,8 @@
 	LOAD 3(GB), R2
 	CMP #1, R2
 	SGT R2
+	CMP #0, R2
+	PUSH R2
 	LOAD 3(GB), R1
 	CMP #0, R1
 	BEQ else_block_1

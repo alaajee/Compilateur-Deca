@@ -97,7 +97,6 @@ public class DecacCompiler {
 
 
 
-
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
@@ -108,17 +107,16 @@ public class DecacCompiler {
         this.environmentType = new EnvironmentType(this);
         this.envTypes = environmentType.getEnvtypes();
         this.spVal = 0;
-        this.OverflowVal = 15;
+        this.OverflowVal = 2;
         if (compilerOptions != null){
-            this.OverflowVal = compilerOptions.getRegistreLimitValue();
+            this.OverflowVal = 2;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
         }
-        DVal reg = Register.getR(this.OverflowVal);
+        DVal reg = Register.getR(this.OverflowVal );
         reg.isOffSet = true;
-        this.Overflow = 3;
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;

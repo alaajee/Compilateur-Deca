@@ -58,8 +58,6 @@ public class IfThenElse extends AbstractInst {
         Label endIfLabel = new Label("end_if_" + ID);
         Label bodyLabel = new Label("body_" + ID);
 
-        GPRegister reg = compiler.associerReg();
-
         DVal result = condition.codeGenInstrCond(compiler,elseLabel,bodyLabel);
        // DVal result2 = condition.codeGenInstrCond(compiler,elseLabel,endIfLabel);
         // Génération de code pour comparaison
@@ -110,7 +108,7 @@ public class IfThenElse extends AbstractInst {
 
 
 
-        compiler.libererReg(reg.getNumber());
+
     }
 
 

@@ -1,7 +1,15 @@
 package fr.ensimag.deca.tree;
 
+import java.io.DataInput;
 import java.io.PrintStream;
+import java.util.concurrent.locks.ReentrantLock;
 
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.classeNom;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -73,8 +81,12 @@ public  class DeclMethod extends AbstractDeclMethod{
     }
 
     @Override
-    protected void codeGenMethod(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected void codeGenMethod(DecacCompiler compiler,String className) {
+        String method = methodName.toString();
+        DAddr adresse = compiler.associerAdresse();
+        DVal dval = new classeNom(className,method);
+        compiler.addInstruction(new LOAD(dval, Register.R0));
+        compiler.addInstruction(new STORE(Register.R0, adresse));
     }
 
     

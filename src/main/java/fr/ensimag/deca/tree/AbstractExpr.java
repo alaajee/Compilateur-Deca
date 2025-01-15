@@ -30,6 +30,7 @@ public abstract class AbstractExpr extends AbstractInst {
      */
 
     public String expression = "general";
+    public boolean continuePush = false;
 
     public String getExpr(){
         return expression;
