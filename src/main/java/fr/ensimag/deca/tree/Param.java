@@ -1,13 +1,11 @@
 package fr.ensimag.deca.tree;
 
-import java.io.PrintStream;
-import java.lang.instrument.ClassDefinition;
-
-import org.apache.commons.lang.Validate;
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import java.io.PrintStream;
+import java.lang.instrument.ClassDefinition;
+import org.apache.commons.lang.Validate;
 
 
 public class Param extends AbstractParam{
@@ -23,17 +21,22 @@ public class Param extends AbstractParam{
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.decompile(s);
+        s.print(" ");
+        paramName.decompile(s);
+        
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.prettyPrint(s, prefix, false);
+        paramName.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.iter(f);
+        paramName.iter(f);
     }
 
     @Override
