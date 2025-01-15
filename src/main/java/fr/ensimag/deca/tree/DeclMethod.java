@@ -2,16 +2,12 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-
-import javax.swing.AbstractAction;
-
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 
@@ -29,6 +25,7 @@ public  class DeclMethod extends AbstractDeclMethod{
         Validate.notNull(type);
         Validate.notNull(methodName);
         Validate.notNull(listParam);
+        Validate.notNull(block);
         this.type = type;
         this.methodName = methodName;
         this.listParam = listParam;
@@ -43,18 +40,32 @@ public  class DeclMethod extends AbstractDeclMethod{
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.decompile(s);
+        s.print(" ");
+        methodName.decompile(s);
+        s.print("(");
+        listParam.decompile(s);
+        s.print(") ");
+        block.decompile(s);
     }
+    
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.prettyPrint(s, prefix, false);
+        methodName.prettyPrint(s, prefix, false);
+        listParam.prettyPrint(s, prefix, false);
+        block.prettyPrint(s, prefix, true);
     }
-
+    
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        type.iter(f);
+        methodName.iter(f);
+        listParam.iter(f);
+        block.iter(f);
     }
+    
 
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass)  throws ContextualError{
