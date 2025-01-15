@@ -7,6 +7,7 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.SEQ;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import java.util.Iterator;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,27 +26,48 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         }
     }
 
+
     /**
      * Pass 1 of [SyntaxeContextuelle]
      */
     void verifyListClass(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify listClass: start");
-        throw new UnsupportedOperationException("not yet implemented");
-        // LOG.debug("verify listClass: end");
+
+        Iterator<AbstractDeclClass> iterator = this.iterator();
+
+        while (iterator.hasNext()) {
+            AbstractDeclClass declClass = iterator.next();
+            declClass.verifyClass(compiler);
+
+        }
+        LOG.debug("verify listClass: end");
+
     }
 
     /**
      * Pass 2 of [SyntaxeContextuelle]
      */
     public void verifyListClassMembers(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+
+        Iterator<AbstractDeclClass> iterator = this.iterator();
+
+        while (iterator.hasNext()) {
+            AbstractDeclClass declClass = iterator.next();
+            declClass.verifyClassMembers(compiler);
+
+        }
     }
     
     /**
      * Pass 3 of [SyntaxeContextuelle]
      */
     public void verifyListClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Iterator<AbstractDeclClass> iterator = this.iterator();
+
+        while (iterator.hasNext()) {
+            AbstractDeclClass declClass = iterator.next();
+            declClass.verifyClassBody(compiler);
+        }
     }
 
     protected void codeGenClasses(DecacCompiler compiler){

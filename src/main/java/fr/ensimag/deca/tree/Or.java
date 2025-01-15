@@ -45,7 +45,6 @@ public class Or extends AbstractOpBool {
         // constructeur.constructeur(compiler, rightOperand, reg);
         compiler.addInstruction(new SNE(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
-        compiler.libererReg(reg.getNumber());
         gen.finalizeAndPush(reg, compiler);
         return reg;
     }

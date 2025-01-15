@@ -7,15 +7,14 @@
 	LOAD #1, R3
 	CMP #0, R3
 	SGE R3
-	BLT else_block_1
-body_1:
+	BLE else_block_0
 	WSTR "ok"
 	WNL
-	BRA end_if_1
-else_block_1:
+	BRA end_if_0
+else_block_0:
 	WSTR "erreur"
 	WNL
-end_if_1:
+end_if_0:
 	HALT
 ; end main program
 stack_overflow_error:
