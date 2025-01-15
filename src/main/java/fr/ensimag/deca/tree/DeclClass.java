@@ -7,6 +7,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
@@ -78,27 +79,36 @@ public class DeclClass extends AbstractDeclClass {
         
         Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
         
-        if (!envTypes.containsKey(superClassSymbol)) {
-            throw new ContextualError("Super-class " + superClassName + " is not declared", this.getLocation());
+        if (!envTypes.containsKey(superClassSymbol) && !superClassSymbol.getName().equals("Object")) {
+            throw new ContextualError("Super-class " + superClassSymbol.getName() + " is not declared", this.getLocation());
         }
 
         if (envTypes.containsKey(classSymbol)) {
-            throw new ContextualError("class " + className + " is already declared", this.getLocation());
+            throw new ContextualError("class " + classSymbol.getName() + " is already declared", this.getLocation());
         }
         
         ClassDefinition superClassDef = superClassName.getClassDefinition();
         ClassDefinition classDef = new ClassDefinition(
             new ClassType(classSymbol, this.getLocation(), superClassDef),
             this.getLocation(),superClassDef);
+            envTypes.put(this.className.getName(), classDef);
         
-        envTypes.put(this.className.getName(), classDef);
+        TypeDefinition definitionClass = envTypes.get(classSymbol);
+        TypeDefinition definitionsuperClass = envTypes.get(superClassSymbol);
+        superClassName.setDefinition(definitionsuperClass);
+        this.className.setType(definitionsuperClass.getType());
+        this.className.setType(definitionClass.getType());
+
     }
 
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition currentClass = className.getClassDefinition();
+        EnvironmentExp localEnv = currentClass.getMembers(); 
+        this.fields.verifyListDeclField(compiler,localEnv,currentClass);
+
     }
     
     @Override

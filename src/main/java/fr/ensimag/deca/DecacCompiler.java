@@ -255,7 +255,7 @@ public class DecacCompiler {
                  * decommenter la ligne suivante
                  */
 
-                //System.out.println(program.prettyPrint());
+                System.out.println(program.prettyPrint());
                 return false;
 
             }

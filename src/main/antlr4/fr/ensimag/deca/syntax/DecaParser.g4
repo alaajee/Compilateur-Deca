@@ -521,23 +521,26 @@ list_classes returns[ListDeclClass tree]
       )*
     ;
 class_decl returns [AbstractDeclClass tree]
-    : CLASS name=ident superclass=class_extension OBRACE class_body CBRACE {
+    : CLASS name=ident superclass=class_extension[$CLASS] OBRACE class_body CBRACE {
         assert($name.tree != null);
         $tree = new DeclClass($name.tree, $superclass.tree, $class_body.fields, $class_body.methods);
-        setLocation($tree, $name.start);
+        setLocation($tree, $CLASS);
     }
     ;
 
 
-class_extension returns[AbstractIdentifier tree]
+class_extension[Token name] returns[AbstractIdentifier tree]
     : EXTENDS ident {
         assert($ident.tree != null);
-        $tree=$ident.tree;
         SymbolTable.Symbol symbol = table.create($ident.text);
+        $tree=new Identifier(symbol);
+        setLocation($tree,$ident.start);
         }
     | /* epsilon */ {
             SymbolTable.Symbol symbol= table.create("Object");
             $tree = new Identifier(symbol);
+            setLocation($tree,$name);
+
         }
     ;
 class_body returns [ListDeclField fields, ListMethod methods]

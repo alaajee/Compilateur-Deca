@@ -1,6 +1,6 @@
 package fr.ensimag.deca.tree;
 
-import java.lang.instrument.ClassDefinition;
+import fr.ensimag.deca.context.ClassDefinition;
 import java.util.Iterator;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -19,7 +19,9 @@ public class ListParam extends TreeList<AbstractParam> {
     public void decompile(IndentPrintStream s) {
         for (AbstractParam param : this.getList()) {
             param.decompile(s); 
-        }    }
+            System.out.println(" , ");
+        }    
+    }
 
     void verifyListParam(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError {
 

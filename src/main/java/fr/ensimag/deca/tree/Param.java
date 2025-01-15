@@ -1,10 +1,14 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ParamDefinition;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
-import java.lang.instrument.ClassDefinition;
+import fr.ensimag.deca.context.ClassDefinition;
 import org.apache.commons.lang.Validate;
 
 
@@ -40,8 +44,17 @@ public class Param extends AbstractParam{
     }
 
     @Override
-    protected void verifyParam(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected void verifyParam(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError{
+        Type t=this.type.verifyType(compiler);
+        ParamDefinition paramDef = new ParamDefinition(t, this.paramName.getLocation());
+        try {
+            localEnv.declare(this.paramName.getName(), paramDef);
+        } catch ( EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError("Param '" + this.paramName.getName() + "' is already declared ", this.paramName.getLocation());
+
+        }
+        this.paramName.verifyExpr(compiler, localEnv, currentClass);
+
     }
 
     @Override
