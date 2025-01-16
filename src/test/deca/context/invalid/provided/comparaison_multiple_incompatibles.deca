@@ -1,0 +1,33 @@
+// Description:
+//    Comparaisons simultanées entre `int`, `float`, et `boolean`, avec des erreurs typiques
+//
+// Resultats:
+//    comparaison_multiple_incompatibles.deca:16:30: Opérateur == non applicable to those types : int and boolean
+//
+// Historique:
+//    cree le 11/01/2025
+
+{
+    int a = 10;
+    float b = 5.5;
+    boolean c = true;
+    int result = 0;
+
+    if (a == b && b == c || a == c) { 
+        result = result + 1;
+    }
+
+    if (b < c) { // Erreur : comparaisons entre `float` et `boolean`
+        result = result + 2;
+    }
+
+    if (a > c) { // Erreur : comparaisons entre `int` et `boolean`
+        result = result + 3;
+    }
+
+    if (a == b) { // Erreur : comparaisons entre `int` et `float`
+        result = result + 4;
+    }
+
+    print(result); // Affiche le résultat
+}

@@ -1,0 +1,21 @@
+// Description:
+//    Utilisation de variables non initialisées
+//
+// Resultats:
+//   uninitialized_variable.deca:5:11: Identifier  'i' is not defined
+//
+// Historique:
+//    cree le 11/01/2025
+{
+    int y = 284;
+    int sumX = 0, sumY = 0;
+
+    while (i <= y / 2) { // Erreur : 'i' non déclaré
+        if (y % i == 0) {
+            sumY =sumY+ i;
+        }
+        i = i + 1;
+    }
+
+    println("Somme des diviseurs de y : " , sumY);
+}

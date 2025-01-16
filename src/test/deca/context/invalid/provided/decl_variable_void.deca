@@ -1,0 +1,12 @@
+// Description:
+//    Comparaisons simultanées entre `int`, `float`, et `boolean`, avec des erreurs typiques
+//
+// Resultats:
+//    decl_variable_void.deca:11:5:Cannot declare a Variable with type void
+//
+// Historique:
+//    cree le 11/01/2025
+
+{
+    void a;
+}

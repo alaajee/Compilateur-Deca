@@ -1,0 +1,12 @@
+// Description:
+//    héritage d'une superClasse non declare avant
+//
+// Resultats:
+//    undefined_superClass.deca:9:0: Super-class superClass is not declared
+//
+// Historique:
+//    cree le 11/01/2025
+class CLASS extends superClass {
+    int attribut1;
+    boolean attribut2;
+}
