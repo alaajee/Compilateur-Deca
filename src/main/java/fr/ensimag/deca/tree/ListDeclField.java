@@ -33,6 +33,15 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
         }    
     }
 
+    protected  void verifyListinitField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError 
+    {
+        Iterator<AbstractDeclField> iterator = this.iterator(); 
+        while (iterator.hasNext()) {
+            AbstractDeclField declField = iterator.next(); // Récupère l'élément suivant
+            declField.verifyinitField(compiler, currentClass);
+        }    
+    }
+
 
     public void codeGen(DecacCompiler compiler) {
         for (AbstractDeclField declField : this.getList()) {

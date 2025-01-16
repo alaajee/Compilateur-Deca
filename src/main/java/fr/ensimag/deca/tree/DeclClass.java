@@ -7,16 +7,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tools.SymbolTable;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.classeNom;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -29,11 +23,11 @@ public class DeclClass extends AbstractDeclClass {
     private AbstractIdentifier className;      // Nom de la classe
     private AbstractIdentifier superClassName; // Nom de la super-classe
     private ListDeclField fields;        // Map des champs
-    private ListMethod methods;      // Map des méthodes
+    private ListMethod methods;      // Map des méthodes 
 
     /**
      * Constructeur de DeclClass
-     *
+     * 
      * @param className       Identifiant de la classe
      * @param superClassName  Identifiant de la super-classe
      * @param methods         Liste des méthodes de la classe
@@ -53,11 +47,11 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     // Getter pour le nom de la super-classe
-
+    
     public AbstractIdentifier getSuperClassName() {
         return superClassName;
     }
-
+        
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -67,7 +61,7 @@ public class DeclClass extends AbstractDeclClass {
             s.print(" extends ");
             superClassName.decompile(s);
         }
-
+        
         s.println(" {");
         s.indent();
         fields.decompile(s);
@@ -75,37 +69,46 @@ public class DeclClass extends AbstractDeclClass {
         s.unindent();
         s.println("}");
     }
-
+    
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
 
-        SymbolTable.Symbol classSymbol = this.className.getName();
-        SymbolTable.Symbol superClassSymbol = this.superClassName.getName();
-
-        Map<SymbolTable.Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
-
-        if (!envTypes.containsKey(superClassSymbol)) {
-            throw new ContextualError("Super-class " + superClassName + " is not declared", this.getLocation());
+        Symbol classSymbol = this.className.getName();
+        Symbol superClassSymbol = this.superClassName.getName();
+        
+        Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
+        
+        if (!envTypes.containsKey(superClassSymbol) && !superClassSymbol.getName().equals("Object")) {
+            throw new ContextualError("Super-class " + superClassSymbol.getName() + " is not declared", this.getLocation());
         }
 
         if (envTypes.containsKey(classSymbol)) {
-            throw new ContextualError("class " + className + " is already declared", this.getLocation());
+            throw new ContextualError("class " + classSymbol.getName() + " is already declared", this.getLocation());
         }
-
+        
         ClassDefinition superClassDef = superClassName.getClassDefinition();
         ClassDefinition classDef = new ClassDefinition(
             new ClassType(classSymbol, this.getLocation(), superClassDef),
             this.getLocation(),superClassDef);
+            envTypes.put(this.className.getName(), classDef);
+        
+        TypeDefinition definitionClass = envTypes.get(classSymbol);
+        TypeDefinition definitionsuperClass = envTypes.get(superClassSymbol);
+        superClassName.setDefinition(definitionsuperClass);
+        this.className.setType(definitionsuperClass.getType());
+        this.className.setType(definitionClass.getType());
 
-        envTypes.put(this.className.getName(), classDef);
     }
 
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition currentClass = className.getClassDefinition();
+        EnvironmentExp localEnv = currentClass.getMembers(); 
+        this.fields.verifyListDeclField(compiler,localEnv,currentClass);
+
     }
     
     @Override
@@ -120,32 +123,19 @@ public class DeclClass extends AbstractDeclClass {
             className.prettyPrint(s, prefix, false);
             superClassName.prettyPrint(s, prefix, false);
             fields.prettyPrint(s, prefix, false);
-            methods.prettyPrint(s, prefix, true);
+            methods.prettyPrint(s, prefix, true); 
     }
-
+    
 
     @Override
     protected void iterChildren(TreeFunction f) {
         className.iter(f);
         superClassName.iter(f);
         fields.iter(f);
-        methods.iter(f);
+        methods.iter(f);  
     }
 
 
-    @Override
-    protected void codeGenclasse(DecacCompiler compiler) {
-        String className = this.getClass().getSimpleName();
-        DVal Object = new classeNom("Object","equals");
-        DAddr adresse = compiler.associerAdresse();
-        compiler.addInstruction(new LEA(compiler.adresseClasse, Register.R0));
-        compiler.adresseClasse = adresse;
-        compiler.addInstruction(new STORE(Register.R0, adresse));
-        compiler.addInstruction(new LOAD(Object,Register.R0));
-        compiler.addInstruction(new STORE(Register.R0, compiler.associerAdresse()));
-        for (AbstractDeclMethod methode : methods.getList()){
-                methode.codeGenMethod(compiler,className);
-        }
-    }
+
 }
 

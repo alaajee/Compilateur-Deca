@@ -90,10 +90,23 @@ public class DeclField extends AbstractDeclField{
         } catch (EnvironmentExp.DoubleDefException e) {
             throw new ContextualError("Field " + fieldName.getName() + " already defined", this.getLocation());
         }
-        initialization.verifyInitialization(compiler, t, localEnv, currentClass);
         fieldName.setDefinition(fieldDef);
       
     }
+
+    @Override
+    protected void verifyinitField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
+        
+            Type t = this.type.verifyType(compiler);
+            if (t.isVoid()) {
+                throw new ContextualError("Cannot declare a field with type void", this.getLocation());
+            }
+            EnvironmentExp localEnv = currentClass.getMembers();
+            initialization.verifyInitialization(compiler, t, localEnv, currentClass);
+
+        }
+
+
 
     
 
