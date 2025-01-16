@@ -47,6 +47,7 @@ public class Program extends AbstractProgram {
             this.main.verifyMain(compiler);
             this.classes.verifyListClass(compiler);
             this.classes.verifyListClassMembers(compiler);
+            this.classes.verifyListClassBody(compiler);
         } catch (ContextualError e) { 
             System.err.println("erreur dans verifyMain");
             throw e;

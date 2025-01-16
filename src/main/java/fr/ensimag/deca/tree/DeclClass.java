@@ -107,7 +107,6 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
-        System.out.println(currentClass);
         EnvironmentExp localEnv = currentClass.getMembers(); 
         this.fields.verifyListDeclField(compiler,localEnv,currentClass);
 
@@ -115,7 +114,8 @@ public class DeclClass extends AbstractDeclClass {
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition currentClass = className.getClassDefinition();
+        this.fields.verifyListinitField(compiler, currentClass);
     }
     
 
