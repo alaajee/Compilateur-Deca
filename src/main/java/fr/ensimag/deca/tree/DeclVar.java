@@ -39,6 +39,9 @@ public class DeclVar extends AbstractDeclVar {
                                  EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         Type t=this.type.verifyType(compiler);
+        if(t.isVoid()){
+            throw new ContextualError("cannot declare a variable with type void", this.varName.getLocation());
+        }
         VariableDefinition varDef = new VariableDefinition(t, this.varName.getLocation());
         try {
             localEnv.declare(this.varName.getName(), varDef);
