@@ -32,6 +32,10 @@ public class Divide extends AbstractOpArith {
         boolean var = compiler.isVar;
         compiler.isDiv = true;
         GPRegister reg = compiler.associerReg();
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         if (getRightOperand().getType().isInt()){
             compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
@@ -41,12 +45,11 @@ public class Divide extends AbstractOpArith {
         }
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
         compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
-        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
         if (assign) {
-
+            System.out.println(compiler.typeAssign);
             if (compiler.typeAssign.equals("float")) {
                 constructeurDIV constructeurDIV = new constructeurDIV();
                 codeGen gen = new codeGen();
@@ -84,6 +87,9 @@ public class Divide extends AbstractOpArith {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         Type typeLeft = getLeftOperand().getType();

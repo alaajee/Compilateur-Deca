@@ -2,13 +2,14 @@ package fr.ensimag.deca.tree;
 
 import java.io.DataInput;
 import java.io.PrintStream;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.classeNom;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
@@ -82,18 +83,35 @@ public  class DeclMethod extends AbstractDeclMethod{
 
     @Override
     protected void codeGenMethod(DecacCompiler compiler,String className) {
-        String method = methodName.toString();
+        String method = methodName.getName().getName();
         DAddr adresse = compiler.associerAdresse();
         DVal dval = new classeNom(className,method);
         compiler.addInstruction(new LOAD(dval, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, adresse));
     }
 
-    
-
     @Override
     protected void verifyBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         this.block.verifyBlock(compiler, localEnv, currentClass, type.getType());
     }
-   
+
+    @Override
+    protected void codeGenBlock(DecacCompiler compiler,String className){
+        String method = methodName.getName().getName();
+        DVal dval  = new classeNom(className,method);
+        String dval1 = dval.toString();
+        compiler.addLabel(new Label(dval1));
+
+        LinkedList<Instruction> lines = new LinkedList<Instruction>();
+        block.codeGen(compiler,lines);
+
+        for (Register reg : compiler.registeres) {
+            lines.addFirst(new PUSH(reg));
+            lines.add(new POP((GPRegister) reg));
+        }
+
+        for (Instruction i : lines) {
+            compiler.addInstruction(i);
+        }
+    }
 }

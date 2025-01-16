@@ -76,4 +76,6 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         System.out.println("hhbin");
         return null;
     }
+
+    protected void codeGenInstClass(DecacCompiler compiler){};
 }

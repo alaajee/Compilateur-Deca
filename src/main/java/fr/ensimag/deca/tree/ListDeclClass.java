@@ -79,12 +79,15 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             compiler.addInstruction(new LOAD(dval,Register.R0));
             compiler.addInstruction(new STORE(Register.R0,adresseUne));
             dval = new classeNom("Object","equals");
-            compiler.addInstruction(new LOAD(dval,Register.R1));
-            compiler.addInstruction(new STORE(Register.R1,adresseDeux));
+            compiler.addInstruction(new LOAD(dval,Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,adresseDeux));
             compiler.adresseClasse = adresseUne;
-        }
-        for (AbstractDeclClass c : getList()) {
-            c.codeGenclasse(compiler);
+            for (AbstractDeclClass c : getList()) {
+                c.codeGenclasse(compiler);
+            }
+            for (AbstractDeclClass c : getList()) {
+                c.initClass(compiler);
+            }
         }
     };
 

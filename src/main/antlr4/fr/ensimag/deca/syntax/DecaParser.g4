@@ -550,7 +550,7 @@ class_body returns [ListDeclField fields, ListMethod methods]
 }
     : (m=decl_method {
         assert($m.tree != null);
-        $methods.add($m.tree);  
+        $methods.add($m.tree);
       }
       | decl_field_set[$fields]
     )*
@@ -582,7 +582,7 @@ list_decl_field [ListDeclField l, AbstractIdentifier t, Visibility v]
 decl_field[AbstractIdentifier t, Visibility v] returns [AbstractDeclField tree]
     : i=ident {
         assert($i.tree != null);
-        NoInitialization noinit = new NoInitialization();  
+        NoInitialization noinit = new NoInitialization();
         $tree = new DeclField($t, $i.tree,noinit,$v);
         setLocation($tree, $i.start);
       }
@@ -601,7 +601,7 @@ decl_method returns [AbstractDeclMethod tree]
     : t=type m=ident OPARENT params=list_params CPARENT (
         block {
             assert($t.tree != null && $m.tree != null && $block.decls != null && $block.insts != null);
-            methodBlock = new Block($block.insts, $block.decls);  
+            methodBlock = new Block($block.insts, $block.decls);
             setLocation(methodBlock, $block.start);
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
@@ -611,7 +611,7 @@ decl_method returns [AbstractDeclMethod tree]
         }
 
       ){
-                $tree = new DeclMethod($t.tree, $m.tree, $params.tree, methodBlock);  
+                $tree = new DeclMethod($t.tree, $m.tree, $params.tree, methodBlock);
                 setLocation($tree,$type.start);
 
       }
@@ -633,7 +633,7 @@ list_params returns [ListParam tree]
     )?
     ;
 
-    
+
 multi_line_string returns[String text, Location location]
     : s=STRING {
             $text = $s.text;

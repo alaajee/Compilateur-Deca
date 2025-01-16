@@ -7,6 +7,8 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.mockito.stubbing.ValidableAnswer;
 
+import java.util.LinkedList;
+
 /**
  * Assignment, i.e. lvalue = expr.
  *
@@ -56,6 +58,9 @@ public class Assign extends AbstractBinaryExpr {
         else {
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(val, reg));
+            if (compiler.typeAssign.equals("float")) {
+                compiler.addInstruction(new FLOAT(reg,reg));
+            }
             compiler.addInstruction(new STORE(reg,(DAddr )resultat));
             compiler.libererReg(reg.getNumber());
             return reg;
@@ -63,5 +68,15 @@ public class Assign extends AbstractBinaryExpr {
 
     }
 
-
+    @Override
+    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+        GPRegister reg = compiler.associerReg();
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+        RegisterOffset registerOffset = new RegisterOffset(-2,Register.LB);
+        lines.add(new LOAD(registerOffset, reg));
+        getRightOperand().codeGenInstClass(compiler, lines);
+        compiler.libererReg(reg.getNumber());
+    }
 }

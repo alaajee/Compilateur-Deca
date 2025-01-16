@@ -8,6 +8,8 @@ import fr.ensimag.deca.codegen.constructeurADD;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
+import java.util.LinkedList;
+
 /**
  * @author gl02
  * @date 01/01/2025
@@ -36,6 +38,9 @@ public class Plus extends AbstractOpArith {
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurADD();
@@ -48,6 +53,9 @@ public class Plus extends AbstractOpArith {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
@@ -73,5 +81,21 @@ public class Plus extends AbstractOpArith {
         DAddr adresse = compiler.getCurrentAdresse();
         compiler.addInstruction(new STORE((GPRegister)register, adresse));
         return register;
+    }
+
+    @Override
+    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+        GPRegister reg = compiler.associerReg();
+
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
+        lines.add(new LOAD(new RegisterOffset(1 , reg),reg));
+        lines.add(new ADD(new RegisterOffset(-3 ,Register.LB),reg));
+        lines.add(new STORE(reg,new RegisterOffset(1,Register.R1)));
+        // DVal dval = getRightOperand().codeGenExpr(compiler);
+        compiler.libererReg(reg.getNumber());
     }
 }

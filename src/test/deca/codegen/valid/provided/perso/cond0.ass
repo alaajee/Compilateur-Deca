@@ -1,4 +1,4 @@
-	TSTO #1
+	TSTO #0
 	BOV stack_overflow_error
 	ADDSP #0
 ; start main program
@@ -8,7 +8,6 @@
 	CMP #0, R2
 	SGE R2
 	BLT else_block_1
-	PUSH R2
 body_1:
 	WSTR "ok"
 	WNL

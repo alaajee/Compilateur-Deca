@@ -14,10 +14,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 import java.io.PrintStream;
@@ -31,12 +28,12 @@ import org.apache.commons.lang.Validate;
  */
 public class Identifier extends AbstractIdentifier {
     
-    @Override
-    protected void checkDecoration() {
-        if (getDefinition() == null) {
-            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
-        }
-    }
+//    @Override
+//    protected void checkDecoration() {
+//        if (getDefinition() == null) {
+//            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
+//        }
+//    }
 
     @Override
     public Definition getDefinition() {
@@ -244,6 +241,11 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
+        if (compiler.isVar){
+            GPRegister register = compiler.associerReg();
+            compiler.addInstruction(new LOAD(reg,register));
+            compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+        }
         return reg;
 
     }

@@ -33,7 +33,11 @@ public class Multiply extends AbstractOpArith {
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+
         if (leftOperand instanceof GPRegister){
             constructeur constructeur = new constructeurMUL();
             codeGen gen = new codeGen();
@@ -54,6 +58,9 @@ public class Multiply extends AbstractOpArith {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");

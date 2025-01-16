@@ -1,30 +1,31 @@
-	TSTO #3
+	TSTO #2
 	BOV stack_overflow_error
 	ADDSP #2
 ; start main program
 ; Main program
 ; Beginning of main instructions:
 	LOAD #6, R2
-	STORE R2, 3(GB)
+	STORE R2, 5(GB)
 	LOAD #1, R2
-	STORE R2, 4(GB)
-	LOAD 4(GB), R1
+	STORE R2, 6(GB)
+	LOAD 6(GB), R1
 	CMP #0, R1
 	BEQ else_block_1
 body_1:
-	LOAD #1, R2
-	STORE R2, 4(GB)
-	LOAD 3(GB), R2
-	ADD 4(GB), R2
-	PUSH R2
-	STORE R2, 3(GB)
+	LOAD 5(GB), R3
+	STORE R3, 6(GB)
+	LOAD #1, R4
+	STORE R4, 6(GB)
+	LOAD 5(GB), R4
+	ADD 6(GB), R4
+	STORE R4, 5(GB)
 	BRA end_if_1
 else_block_1:
-	LOAD 3(GB), R2
-	SUB #1, R2
-	STORE R2, 3(GB)
+	LOAD 5(GB), R4
+	SUB #1, R4
+	STORE R4, 5(GB)
 end_if_1:
-	LOAD 3(GB), R1
+	LOAD 5(GB), R1
 	WINT
 	WNL
 	HALT

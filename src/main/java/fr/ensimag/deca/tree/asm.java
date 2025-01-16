@@ -1,7 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 
+import fr.ensimag.ima.pseudocode.AbstractLine;
+import fr.ensimag.ima.pseudocode.Instruction;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -44,5 +47,10 @@ public class asm extends AbstractBlock {
     @Override
     protected void iterChildren(TreeFunction f) {
         //nothing to do 
+    }
+
+    @Override
+    protected void codeGen(DecacCompiler compiler, LinkedList<Instruction> lines){
+
     }
 }

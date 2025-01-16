@@ -58,12 +58,12 @@ public abstract class AbstractExpr extends AbstractInst {
     }
     private Type type;
 
-    @Override
-    protected void checkDecoration() {
-        if (getType() == null) {
-            throw new DecacInternalError("Expression " + decompile() + " has no Type decoration");
-        }
-    }
+//    @Override
+//    protected void checkDecoration() {
+//        if (getType() == null) {
+//            throw new DecacInternalError("Expression " + decompile() + " has no Type decoration");
+//        }
+//    }
 
     /**
      * Verify the expression for contextual error.
@@ -194,5 +194,7 @@ public abstract class AbstractExpr extends AbstractInst {
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel){
         return null;
     }
+
+    protected void codeGenInstClass(DecacCompiler compiler){};
 
 }

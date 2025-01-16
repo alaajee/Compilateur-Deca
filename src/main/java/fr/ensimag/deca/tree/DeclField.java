@@ -2,6 +2,12 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -107,18 +113,12 @@ public class DeclField extends AbstractDeclField{
         }
 
 
-
-    
-
     @Override
     protected void codeGenField(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        RegisterOffset reg = compiler.getRegisterClass();
+        RegisterOffset reg2 = new RegisterOffset(-2,Register.LB);
+        compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        compiler.addInstruction(new LOAD(reg2, Register.R1));
+        compiler.addInstruction(new STORE(Register.R0,reg));
     }
-
-
-
-   
-
-
-    
 }

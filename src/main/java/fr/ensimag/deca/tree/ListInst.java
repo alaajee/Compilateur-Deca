@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -8,6 +9,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.AbstractLine;
+import fr.ensimag.ima.pseudocode.Instruction;
 
 /**
  * 
@@ -60,4 +63,9 @@ public class ListInst extends TreeList<AbstractInst> {
         }
     }
 
+    protected void codeGenInstClasse(DecacCompiler compiler, LinkedList<Instruction> lines){
+        for (AbstractInst inst : getList()) {
+            inst.codeGenInstClass(compiler,lines);
+        }
+    }
 }

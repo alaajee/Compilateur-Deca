@@ -17,9 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
@@ -46,7 +44,7 @@ import org.apache.log4j.Logger;
  */
 public class DecacCompiler {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
-    
+
     /**
      * Portable newline character.
      */
@@ -94,8 +92,10 @@ public class DecacCompiler {
     public Label endIfLabel;
     public boolean weAreinWhile;
     public DAddr adresseClasse;
-
-
+    public int RegisterOffset = 1;
+    public int paramReg = -3;
+    public int regPush = 0;
+    public LinkedList<Register> registeres = new LinkedList<Register>();;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -107,16 +107,17 @@ public class DecacCompiler {
         this.environmentType = new EnvironmentType(this);
         this.envTypes = environmentType.getEnvtypes();
         this.spVal = 0;
-        this.OverflowVal = 2;
+        this.OverflowVal = 15;
         if (compilerOptions != null){
-            this.OverflowVal = 2;
+            this.OverflowVal = 4;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
         }
-        DVal reg = Register.getR(this.OverflowVal );
+        DVal reg = Register.getR(this.OverflowVal);
         reg.isOffSet = true;
+        this.Overflow = 3;
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
@@ -216,22 +217,22 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
-    
+
     /**
-     * @see 
+     * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {
         return program.display();
     }
-    
+
     private final CompilerOptions compilerOptions;
     private final File source;
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
+
     /** The global environment for types (and the symbolTable) */
     // public final EnvironmentType environmentType = new EnvironmentType(this);
     // public final SymbolTable symbolTable = new SymbolTable();
@@ -276,7 +277,7 @@ public class DecacCompiler {
 
             }
 
-            
+
 
 
             return doCompile(sourceFile, destFile, out, err);
@@ -315,7 +316,7 @@ public class DecacCompiler {
      * @return true on error
      */
     private boolean doCompile(String sourceName, String destName,
-            PrintStream out, PrintStream err)
+                              PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
         AbstractProgram prog = doLexingAndParsing(sourceName, err);
 
@@ -382,6 +383,13 @@ public class DecacCompiler {
 
     public DAddr associerAdresse(){
         this.adressVar++;
+        if (this.adressVar == 4) {
+            this.adressVar++;
+        }
+        else if (this.adressVar == 3) {
+            this.adressVar++;
+            this.adressVar++;
+        }
         DAddr adresse = new RegisterOffset(adressVar,Register.GB);
         return adresse;
     }
@@ -474,6 +482,16 @@ public class DecacCompiler {
         return Register.getR(adresse);
     }
 
+    public RegisterOffset getRegisterClass(){
+        RegisterOffset reg = new RegisterOffset(this.RegisterOffset,Register.R1);
+        this.RegisterOffset++;
+        return reg;
+    }
 
+    public RegisterOffset getRegisterParam(){
+        RegisterOffset reg = new RegisterOffset(this.paramReg,Register.LB);
+        this.RegisterOffset--;
+        return reg;
+    }
 
 }

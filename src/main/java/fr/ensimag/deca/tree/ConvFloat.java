@@ -43,6 +43,7 @@ public class ConvFloat extends AbstractUnaryExpr {
     protected DVal codeGenExpr(DecacCompiler compiler){
         DVal dVal = this.getOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
+        compiler.typeAssign = "float";
         if ( dVal instanceof DAddr){
             compiler.addInstruction(new FLOAT(dVal,reg));
             // compiler.addInstruction(new STORE(reg,(DAddr) dVal));

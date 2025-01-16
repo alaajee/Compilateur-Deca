@@ -48,5 +48,4 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
             declField.codeGenField(compiler);
         }    
     }
-
 }

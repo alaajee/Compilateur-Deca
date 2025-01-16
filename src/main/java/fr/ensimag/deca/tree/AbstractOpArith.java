@@ -57,4 +57,6 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 this.setType(returnType);
                 return returnType;
     }
+
+    protected void codeGenInstClass(DecacCompiler compiler){};
 }

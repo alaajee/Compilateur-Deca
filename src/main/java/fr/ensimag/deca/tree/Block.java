@@ -7,6 +7,11 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+import java.util.LinkedList;
+
+import fr.ensimag.ima.pseudocode.AbstractLine;
+import fr.ensimag.ima.pseudocode.Instruction;
+import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 
 
@@ -55,5 +60,12 @@ public class Block extends AbstractBlock {
     protected void iterChildren(TreeFunction f) {
         listVar.iter(f);
         instructions.iter(f);   
+    }
+
+    @Override
+    protected void codeGen(DecacCompiler compiler, LinkedList<Instruction> lines){
+        compiler.regPush = 0;
+        compiler.registeres.clear();
+        instructions.codeGenInstClasse(compiler,lines);
     }
 }

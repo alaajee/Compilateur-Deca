@@ -9,12 +9,16 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import org.apache.commons.lang.Validate;
 
 
 public class Param extends AbstractParam{
     final private AbstractIdentifier type;
     final private AbstractIdentifier paramName;
+    public RegisterOffset register;
+
     public Param(AbstractIdentifier type, AbstractIdentifier paramName) {
         Validate.notNull(type);
         Validate.notNull(paramName);
@@ -59,6 +63,11 @@ public class Param extends AbstractParam{
 
     @Override
     protected void codeGenParam(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }  
+        this.register = compiler.getRegisterParam();
+    }
+
+
+    protected DVal codeGenExpr(DecacCompiler compiler){
+        return register;
+    }
 }
