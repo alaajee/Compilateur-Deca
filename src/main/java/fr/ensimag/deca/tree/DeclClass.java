@@ -99,6 +99,7 @@ public class DeclClass extends AbstractDeclClass {
         TypeDefinition definitionClass = envTypes.get(classSymbol);
         TypeDefinition definitionsuperClass = envTypes.get(superClassSymbol);
         superClassName.setDefinition(definitionsuperClass);
+        className.setDefinition(definitionClass);
         this.className.setType(definitionsuperClass.getType());
         this.className.setType(definitionClass.getType());
 
@@ -109,6 +110,9 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
+        System.out.println(currentClass);
+        EnvironmentExp localEnv = currentClass.getMembers();
+        this.fields.verifyListDeclField(compiler,localEnv,currentClass);
         EnvironmentExp localEnv = currentClass.getMembers();
         this.fields.verifyListDeclField(compiler, localEnv, currentClass);
 
@@ -118,6 +122,7 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
+    
 
 
     @Override
@@ -127,14 +132,14 @@ public class DeclClass extends AbstractDeclClass {
         fields.prettyPrint(s, prefix, false);
         methods.prettyPrint(s, prefix, true);
     }
-
+    
 
     @Override
     protected void iterChildren(TreeFunction f) {
         className.iter(f);
         superClassName.iter(f);
         fields.iter(f);
-        methods.iter(f);
+        methods.iter(f);  
     }
 
     @Override
@@ -154,14 +159,13 @@ public class DeclClass extends AbstractDeclClass {
             method.codeGenMethod(compiler, className);
         }
 
-    }
 
     @Override
     protected void initClass(DecacCompiler compiler) {
         String className = this.className.getName().getName();
         compiler.addLabel(new Label("init" + className));
         Label label = new Label("init"+ superClassName.getName().getName());
-        
+
         if (!superClassName.getName().getName().equals("Object")) {
             compiler.addInstruction(new LOAD(new RegisterOffset(-2,Register.LB), Register.R0));
             compiler.addInstruction(new PUSH(Register.R0));
