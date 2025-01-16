@@ -1,10 +1,14 @@
 {
+
+    int choix=2;
+    float montant=5;
+
+    float prix=0;
+
+    boolean fin=false;
+    float reste;
     println("Bienvenue dans la machine distributrice !");
     println("1: Café (1.5€)  2: Thé (2.0€)  3: Soda (2.5€)");
-    int choix = 2; // Modifiez pour tester différents choix
-    float montant = 5.0; // Argent inséré
-    float prix = 0;
-
     if (choix == 1) {
         prix = 1.5;
     } else if (choix == 2) {
@@ -13,13 +17,15 @@
         prix = 2.5;
     } else {
         println("Choix invalide.");
-        return;
+        fin = true; // Arrête l'exécution logique
     }
 
-    if (montant >= prix) {
-        float reste = montant - prix;
-        println("Produit délivré. Votre reste : " + reste + "€.");
-    } else {
-        println("Montant insuffisant. Insérez au moins : " + (prix - montant) + "€.");
+    if (!fin) {
+        if (montant >= prix) {
+            reste = montant - prix;
+            println("Produit délivré. Votre reste : " ,reste , "€.");
+        } else {
+            println("Montant insuffisant. Insérez au moins : " , (prix - montant) , "€.");
+        }
     }
 }

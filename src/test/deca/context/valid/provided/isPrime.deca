@@ -1,15 +1,17 @@
 {
-    //Changer la valeur de x pour tester
-    int x = 29; 
+    // Changer la valeur de x pour tester
+    int x = 29;
     boolean isPrime = true;
+    int i = 2;
 
     if (x < 2) {
         isPrime = false;
     } else {
-        for (int i = 2; i * i <= x; i++) {
+        while (i * i <= x && isPrime) {
             if (x % i == 0) {
                 isPrime = false;
-                break;
+            } else {
+                i = i + 1; // Incrémentation de i
             }
         }
     }
@@ -17,6 +19,6 @@
     if (isPrime) {
         println("x est un nombre premier.");
     } else {
-        println("x n'est pas un nombre premier.");
+        println("x n est pas un nombre premier.");
     }
 }

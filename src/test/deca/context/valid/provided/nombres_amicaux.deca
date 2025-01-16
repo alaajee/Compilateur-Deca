@@ -3,22 +3,25 @@
     int y = 284; // Modifiez cette valeur pour tester
 
     int sumX = 0, sumY = 0;
-
-    for (int i = 1; i <= x / 2; i++) {
+    int j = 1;
+    int i = 1;
+    while (i <= x / 2) {
         if (x % i == 0) {
-            sumX += i;
+            sumX =sumX+ i;
         }
+        i = i + 1; // Incrémentation de i
     }
 
-    for (int j = 1; j <= y / 2; j++) {
+    while (j <= y / 2) {
         if (y % j == 0) {
-            sumY += j;
+            sumY =sumY +j;
         }
+        j = j + 1; // Incrémentation de j
     }
 
     if (sumX == y && sumY == x) {
-        println(x + " et " + y + " sont des nombres amicaux.");
+        println(x , " et " , y , " sont des nombres amicaux.");
     } else {
-        println(x + " et " + y + " ne sont pas des nombres amicaux.");
+        println(x , " et " , y , " ne sont pas des nombres amicaux.");
     }
 }

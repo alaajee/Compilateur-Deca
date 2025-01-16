@@ -1,9 +1,9 @@
 {
     int a = 56; // Modifiez cette valeur pour tester
     int b = 98; // Modifiez cette valeur pour tester
-
+    int temp;
     while (b != 0) {
-        int temp = b;
+        temp = b;
         b = a % b;
         a = temp;
     }

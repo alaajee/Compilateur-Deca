@@ -1,12 +1,13 @@
- {
+{
     int target = 42; // Nombre cible
     int maxTries = 5; // Nombre maximum d'essais
     int guess = 0;
     boolean guessed = false;
+    int tries = 1;
 
     println("Devinez le nombre (entre 1 et 100) !");
-    for (int tries = 1; tries <= maxTries; tries++) {
-        println("Essai " + tries + ": ");
+    while (tries <= maxTries && !guessed) {
+        println("Essai " , tries , ": ");
         guess = 50; // Simule une entrée (modifiez pour tester)
         
         if (guess < target) {
@@ -16,11 +17,12 @@
         } else {
             println("Bravo ! Vous avez trouvé le nombre.");
             guessed = true;
-            break;
         }
+
+        tries = tries + 1; // Incrémentation du nombre d'essais
     }
 
     if (!guessed) {
-        println("Désolé, vous n'avez pas deviné. Le nombre était : " + target);
+        println("Désolé, vous n avez pas deviné. Le nombre était : " , target);
     }
 }

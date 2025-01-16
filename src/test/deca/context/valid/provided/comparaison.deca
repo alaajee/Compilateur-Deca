@@ -1,18 +1,19 @@
 {
     int x = 12345; // Modifiez cette valeur pour tester
+    int currentDigit;
     boolean isAscending = true;
 
     int prevDigit = x % 10;
     x = x / 10;
 
-    while (x > 0) {
-        int currentDigit = x % 10;
+    while (x > 0 && isAscending) {
+        currentDigit = x % 10;
         if (currentDigit > prevDigit) {
             isAscending = false;
-            break;
+        } else {
+            prevDigit = currentDigit;
+            x = x / 10;
         }
-        prevDigit = currentDigit;
-        x = x / 10;
     }
 
     if (isAscending) {
