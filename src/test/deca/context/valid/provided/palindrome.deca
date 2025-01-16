@@ -1,0 +1,17 @@
+{
+    int x = 12321; // Modifiez cette valeur pour tester
+    int original = x;
+    int reversed = 0;
+
+    while (x > 0) {
+        int digit = x % 10;
+        reversed = reversed * 10 + digit;
+        x = x / 10;
+    }
+
+    if (original == reversed) {
+        println(original + " est un palindrome.");
+    } else {
+        println(original + " n'est pas un palindrome.");
+    }
+}
