@@ -1,0 +1,25 @@
+{
+    int x = 15; 
+    boolean result;
+
+    // Expression booléenne complexe
+    result = ((x % 2 == 0) && (x > 10 || x < -10)) || 
+             ((x % 3 == 0) && !(x >= 5 && x <= 20)) || 
+             (x == 7 || x == -7);
+
+    if (result) {
+        if (x % 2 == 0) {
+            println("x est pair et satisfait une condition.");
+        } else if (x % 3 == 0) {
+            println("x est divisible par 3 mais hors de l'intervalle [5, 20].");
+        } else {
+            println("x est soit 7, soit -7.");
+        }
+    } else {
+        if (x % 2 != 0 && x % 3 != 0) {
+            println("x n'est ni pair, ni divisible par 3.");
+        } else {
+            println("x ne satisfait pas les autres conditions.");
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+    int x = 8;
+    boolean estVrai = true;
+    if (!estVrai){
+        x = x + 1;
+        println(x);
+    }
+    else if (true && (x==8)){
+        x = x - 1;
+        println(x);
+    }
+    else {
+    }
+    // Sortie 7
+}
