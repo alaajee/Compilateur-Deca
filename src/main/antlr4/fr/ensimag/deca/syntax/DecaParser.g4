@@ -589,9 +589,11 @@ decl_field[AbstractIdentifier t, Visibility v] returns [AbstractDeclField tree]
       (EQUALS e=expr {
         Initialization init = new Initialization($e.tree);  // Initialisation avec une expression
         $tree = new DeclField($t,$i.tree, init,$v);
-        setLocation($tree, $i.start);
+        setLocation(init, $i.start);
       }
-      )?
+      )?{
+        setLocation($tree,$i.start);
+      }
     ;
 
 decl_method returns [AbstractDeclMethod tree]
