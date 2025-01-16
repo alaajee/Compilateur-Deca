@@ -96,6 +96,7 @@ public class DeclClass extends AbstractDeclClass {
         TypeDefinition definitionClass = envTypes.get(classSymbol);
         TypeDefinition definitionsuperClass = envTypes.get(superClassSymbol);
         superClassName.setDefinition(definitionsuperClass);
+        className.setDefinition(definitionClass);
         this.className.setType(definitionsuperClass.getType());
         this.className.setType(definitionClass.getType());
 
@@ -106,6 +107,7 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
+        System.out.println(currentClass);
         EnvironmentExp localEnv = currentClass.getMembers(); 
         this.fields.verifyListDeclField(compiler,localEnv,currentClass);
 
