@@ -26,8 +26,20 @@ public class ListMethod extends TreeList<AbstractDeclMethod>{
         Iterator<AbstractDeclMethod> iterator = this.iterator(); 
 
         while (iterator.hasNext()) {
-            AbstractDeclMethod declVar = iterator.next(); // Récupère l'élément suivant
-            declVar.verifyDeclMethod(compiler, localEnv, currentClass);
+            AbstractDeclMethod declMethod = iterator.next(); 
+            declMethod.verifyDeclMethod(compiler, localEnv, currentClass);
+        }
+    }
+
+
+    void verifyListBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv,
+    ClassDefinition currentClass) throws ContextualError
+    {
+        Iterator<AbstractDeclMethod> iterator = this.iterator(); 
+
+        while (iterator.hasNext()) {
+            AbstractDeclMethod declMethod = iterator.next(); 
+            declMethod.verifyBlockMethod(compiler, localEnv, currentClass);
         }
     }
 
