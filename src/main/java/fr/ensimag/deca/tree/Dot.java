@@ -33,16 +33,20 @@ public class Dot extends AbstractLValue{
     }
 
     @Override
-    public void decompile(IndentPrintStream s){}
-
-    @Override
-    public void prettyPrintChildren(PrintStream s, String name){
+    public void decompile(IndentPrintStream s){
 
     }
 
     @Override
-    protected void iterChildren(TreeFunction f) {
+    public void prettyPrintChildren(PrintStream s, String name){
+        left.prettyPrint(s,name,false);
+        right.prettyPrint(s,name,false);
+    }
 
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        left.iterChildren(f);
+        right.iterChildren(f);
     }
 
 

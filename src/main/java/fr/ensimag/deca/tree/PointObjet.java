@@ -39,12 +39,14 @@ public class PointObjet extends AbstractExpr {
 
     @Override
     public void prettyPrintChildren(PrintStream s, String name){
-
+        instance.prettyPrint(s, name,false);
+        method.prettyPrint(s,name,false);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        instance.iterChildren(f);
+        method.iterChildren(f);
     }
 
 

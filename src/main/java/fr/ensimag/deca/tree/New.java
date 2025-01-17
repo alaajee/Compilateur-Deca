@@ -3,7 +3,6 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -45,7 +44,7 @@ public class New extends AbstractExpr {
 
     @Override
     public void prettyPrintChildren(PrintStream s,String name){
-
+        this.Identifier.prettyPrint(s,name,false);
     }
 
     @Override

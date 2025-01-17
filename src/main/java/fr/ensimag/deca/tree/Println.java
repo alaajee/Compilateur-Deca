@@ -1,9 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
+
+import java.util.LinkedList;
 
 /**
  * @author gl02
@@ -28,5 +29,12 @@ public class Println extends AbstractPrint {
     @Override
     String getSuffix() {
         return "ln";
+    }
+
+
+    @Override
+    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+        super.codeGenInst(compiler);
+        compiler.addInstruction(new WNL());
     }
 }

@@ -36,7 +36,6 @@ public class ListMethod extends TreeList<AbstractDeclMethod>{
                                ClassDefinition currentClass) throws ContextualError
     {
         Iterator<AbstractDeclMethod> iterator = this.iterator();
-
         while (iterator.hasNext()) {
             AbstractDeclMethod declMethod = iterator.next();
             declMethod.verifyBlockMethod(compiler, localEnv, currentClass);
