@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 
 import java.io.PrintStream;
 
@@ -53,6 +54,11 @@ public class Dot extends AbstractLValue{
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
         return null;
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        return new NullOperand();
     }
 
     @Override

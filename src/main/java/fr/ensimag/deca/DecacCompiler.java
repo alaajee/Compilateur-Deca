@@ -228,23 +228,6 @@ public class DecacCompiler {
     public void addFirst(Instruction instruction, String comment) {
         program.addFirst(instruction, comment);
     }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction)
-     */
-    public void addFirst(Instruction instruction) {
-        program.addFirst(instruction);
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction,
-     * java.lang.String)
-     */
-    public void addFirst(Instruction instruction, String comment) {
-        program.addFirst(instruction, comment);
-    }
     
     /**
      * @see
@@ -569,6 +552,7 @@ public class DecacCompiler {
 
     public int getOverflow(){
         return this.Overflow;
+    }
     public int getOverflowVal(){
         return this.OverflowVal;
     }
