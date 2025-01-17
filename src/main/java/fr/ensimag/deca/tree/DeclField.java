@@ -68,31 +68,35 @@ public class DeclField extends AbstractDeclField{
     
         Symbol fieldSymbol = fieldName.getName();
         EnvironmentExp localEnv = currentClass.getMembers();
-        if (localEnv.get(fieldSymbol) != null) {
+    
+        if (localEnv.getEnvExp().containsKey(fieldSymbol)) {
             throw new ContextualError("Field " + fieldName.getName() + " already defined in the current class", this.getLocation());
         }
     
-        ClassDefinition curr = currentClass.getSuperClass(); 
-    
+        ClassDefinition curr = currentClass.getSuperClass();
+        ClassDefinition originClass = null;
         while (curr != null) {
-            EnvironmentExp superEnv = curr.getMembers(); 
+            EnvironmentExp superEnv = curr.getMembers();
             if (superEnv.get(fieldSymbol) != null) {
-                throw new ContextualError("Field " + fieldName.getName() + " already defined in superclass " 
-                                          + curr.getType().getName(), this.getLocation());
+                originClass = curr;
             }
-            curr = curr.getSuperClass(); 
+            curr = curr.getSuperClass();
+        }
+    
+        if (originClass != null) {
+            throw new ContextualError("Field " + fieldName.getName() + " already defined in superclass " 
+                                      + originClass.getType().getName(), this.getLocation());
         }
     
         FieldDefinition fieldDef = new FieldDefinition(t, getLocation(), visibility, currentClass, index);
         try {
             localEnv.declare(fieldSymbol, fieldDef);
         } catch (EnvironmentExp.DoubleDefException e) {
-            throw new ContextualError("Field " + fieldName.getName() + " already defined", this.getLocation());
+            throw new ContextualError("Field " + fieldName.getName() + " already defined in the current class", this.getLocation());
         }
+    
         fieldName.setDefinition(fieldDef);
-      
     }
-
     @Override
     protected void verifyinitField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         

@@ -90,9 +90,9 @@ public class While extends AbstractInst {
         compiler.addLabel(endLabel);
     }
 
-
     @Override
-    public void codeGenInstARM(DecacCompiler compiler) {
+    protected void codeGenInstARM(DecacCompiler compiler) {
+        
     }
 
     @Override

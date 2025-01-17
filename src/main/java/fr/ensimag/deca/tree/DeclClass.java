@@ -76,35 +76,43 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-
         Symbol classSymbol = this.className.getName();
         Symbol superClassSymbol = this.superClassName.getName();
-
-        Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
-
-        if (!envTypes.containsKey(superClassSymbol) && !superClassSymbol.getName().equals("Object")) {
-            throw new ContextualError("Super-class " + superClassSymbol.getName() + " is not declared", this.getLocation());
+    
+        Map<Symbol, TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
+    
+        if (!envTypes.containsKey(superClassSymbol)) {
+            throw new ContextualError("Super-class '" + superClassSymbol.getName() + "' is not declared", this.getLocation());
         }
-
+    
+        TypeDefinition superClassDef = envTypes.get(superClassSymbol);
+    
+        if (!(superClassDef instanceof ClassDefinition)) {
+            if (superClassSymbol.getName().equals("Object")) {
+                ClassType objectType = new ClassType(superClassSymbol, Location.BUILTIN, null);
+                superClassDef = new ClassDefinition(objectType, Location.BUILTIN, null);
+                envTypes.put(superClassSymbol, superClassDef);
+            } else {
+                throw new ContextualError("Super-class '" + superClassSymbol.getName() + "' is not a valid class", this.getLocation());
+            }
+        }
+    
         if (envTypes.containsKey(classSymbol)) {
-            throw new ContextualError("class " + classSymbol.getName() + " is already declared", this.getLocation());
+            throw new ContextualError("Class '" + classSymbol.getName() + "' is already declared", this.getLocation());
         }
-        
-        ClassDefinition superClassDef = superClassName.getClassDefinition();
+    
         ClassDefinition classDef = new ClassDefinition(
-            new ClassType(classSymbol, this.getLocation(), superClassDef),
-            this.getLocation(),superClassDef);
-            envTypes.put(this.className.getName(), classDef);
-
-        TypeDefinition definitionClass = envTypes.get(classSymbol);
-        TypeDefinition definitionsuperClass = envTypes.get(superClassSymbol);
-        superClassName.setDefinition(definitionsuperClass);
-        className.setDefinition(definitionClass);
-        this.className.setType(definitionsuperClass.getType());
-        this.className.setType(definitionClass.getType());
-
+            new ClassType(classSymbol, this.getLocation(), (ClassDefinition) superClassDef),
+            this.getLocation(),
+            (ClassDefinition) superClassDef
+        );
+    
+        envTypes.put(classSymbol, classDef);
+    
+        this.superClassName.setDefinition(superClassDef);
+        this.className.setDefinition(classDef);
+        this.className.setType(classDef.getType());
     }
-
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)

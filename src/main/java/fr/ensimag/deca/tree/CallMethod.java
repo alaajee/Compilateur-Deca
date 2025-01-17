@@ -55,7 +55,7 @@ public class CallMethod extends AbstractExpr {
     }
 
     @Override
-    public void codeGenInstARM(DecacCompiler compiler) {
+    protected void codeGenInstARM(DecacCompiler compiler) {
     }
 
     @Override
@@ -78,7 +78,8 @@ public class CallMethod extends AbstractExpr {
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
+
 }
