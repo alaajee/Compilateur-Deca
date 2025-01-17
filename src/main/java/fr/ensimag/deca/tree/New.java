@@ -52,10 +52,12 @@ public class New extends AbstractExpr {
         s.print("()");
     }
 
-    @Override
-    public void prettyPrintChildren(PrintStream s,String name){
-
+@Override
+public void prettyPrintChildren(PrintStream s, String prefix) {
+    if (Identifier != null) {
+        Identifier.prettyPrint(s, prefix, true);
     }
+}
 
     @Override
     protected void iterChildren(TreeFunction f) {
