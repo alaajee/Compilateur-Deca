@@ -28,16 +28,13 @@ public class Equals extends AbstractOpExactCmp {
     @Override
     public DVal codeGenExpr(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
-        if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
-        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurCMP();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
         compiler.addInstruction(new SEQ(reg));
-        //gen.finalizeAndPush(reg, compiler);
+        gen.finalizeAndPush(reg, compiler);
         compiler.libererReg(reg.getNumber());
 
         compiler.equals = true;
@@ -47,9 +44,6 @@ public class Equals extends AbstractOpExactCmp {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
-        if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
-        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
 
@@ -67,19 +61,14 @@ public class Equals extends AbstractOpExactCmp {
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
 //        System.out.println(compiler.notCond);
 //        System.out.println(endLabel);
-
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
-        if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
-        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurCMP();
-        compiler.addInstruction(new LOAD(rightOperand,reg));
-        constructeur.constructeur(compiler,leftOperand,reg);
-        compiler.addInstruction(new SEQ(reg));
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+        compiler.addInstruction(new SEQ((GPRegister) register));
         if (compiler.and){
-            //compiler.addInstruction(new BEQ(bodyLabel));
             if (compiler.compteurAnd){
                 compiler.addInstruction(new BEQ(bodyLabel));
                 compiler.compteurAnd = false;
@@ -91,11 +80,11 @@ public class Equals extends AbstractOpExactCmp {
                 else {
                     compiler.addInstruction(new BNE(endLabel));
                 }
-                 // celle laaaaaaaaaaa
+                // celle laaaaaaaaaaa
             }
         }
         else if (compiler.or){
-            if (compiler.compteurOr != 0){
+            if (compiler.compteurOr == 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BNE(bodyLabel));
                 }
@@ -121,9 +110,9 @@ public class Equals extends AbstractOpExactCmp {
                 compiler.addInstruction(new BNE(endLabel));
             }
         }
-       // gen.finalizeAndPush(reg, compiler);
+        // gen.finalizeAndPush(reg, compiler);
         compiler.libererReg(reg.getNumber());
-        return reg;
+        return register;
     }
 }
 

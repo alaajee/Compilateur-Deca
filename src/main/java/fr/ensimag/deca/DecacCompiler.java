@@ -392,13 +392,14 @@ public class DecacCompiler {
 
     public DAddr associerAdresse(){
         this.adressVar++;
-        if (this.adressVar == 4) {
-            this.adressVar++;
-        }
-        else if (this.adressVar == 3) {
-            this.adressVar++;
-            this.adressVar++;
-        }
+        System.out.println(this.adressVar);
+//        if (this.adressVar == 4) {
+//            this.adressVar++;
+//        }
+//        else if (this.adressVar == 3) {
+//            this.adressVar++;
+//            this.adressVar++;
+//        }
         DAddr adresse = new RegisterOffset(adressVar,Register.GB);
         return adresse;
     }
