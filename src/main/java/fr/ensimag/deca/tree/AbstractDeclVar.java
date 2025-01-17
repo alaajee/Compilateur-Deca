@@ -31,4 +31,5 @@ public abstract class AbstractDeclVar extends Tree {
             throws ContextualError;
 
     protected abstract void codegenVar(DecacCompiler compiler);
+    protected abstract void codegenVarARM(DecacCompiler compiler);
 }

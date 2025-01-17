@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -47,6 +48,11 @@ public class ConvFloat extends AbstractUnaryExpr {
         compiler.addInstruction(new STORE(reg,(DAddr) dVal));
         compiler.libererReg(reg.getNumber());
         return reg;
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
     }
 
 }

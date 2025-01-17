@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -79,4 +80,16 @@ public class BooleanLiteral extends AbstractExpr {
 
     }
 
+<<<<<<< Updated upstream
+=======
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
+
+    @Override
+    public void codeGenPrint(DecacCompiler compiler){
+
+    };
+>>>>>>> Stashed changes
 }

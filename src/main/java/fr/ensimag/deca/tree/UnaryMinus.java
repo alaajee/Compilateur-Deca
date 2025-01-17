@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -52,6 +53,11 @@ public class UnaryMinus extends AbstractUnaryExpr {
            compiler.addInstruction(new OPP(operand,reg));
            return reg;
        }
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
     }
 
 }

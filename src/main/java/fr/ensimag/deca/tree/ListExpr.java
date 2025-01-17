@@ -37,4 +37,11 @@ public class ListExpr extends TreeList<AbstractExpr> {
             expr.codeGenPrint(compiler);
         }
     }
+
+    public void codeGenInstARM(DecacCompiler compiler){
+        System.out.println("im in ListExpr");
+        for (AbstractExpr expr : this.getList()){
+            expr.codeGenPrintARM(compiler);
+        }
+    }
 }

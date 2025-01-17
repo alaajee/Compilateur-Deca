@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -55,5 +56,10 @@ public class ReadFloat extends AbstractReadExpr {
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));
         return reg;
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
     }
 }

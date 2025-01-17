@@ -10,6 +10,7 @@ import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -91,5 +92,19 @@ public class FloatLiteral extends AbstractExpr {
 
     }
 
+<<<<<<< Updated upstream
+=======
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
+
+    @Override
+    protected void codeGenPrintx(DecacCompiler compiler) {
+        DVal res = new ImmediateFloat(value);
+        compiler.addInstruction(new LOAD(res, Register.R1));
+        compiler.addInstruction(new WFLOATX());
+    }
+>>>>>>> Stashed changes
 
 }

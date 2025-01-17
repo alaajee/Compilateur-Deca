@@ -4,6 +4,7 @@ import java.io.PrintStream;
 
 import org.apache.commons.lang.Validate;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -38,6 +39,10 @@ public class While extends AbstractInst {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public void codeGenInstARM(DecacCompiler compiler) {
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
@@ -53,6 +54,11 @@ public class Plus extends AbstractOpArith {
             return reg;
         }
         }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {

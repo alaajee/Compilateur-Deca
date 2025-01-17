@@ -23,6 +23,11 @@ public class EmptyMain extends AbstractMain {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
+    @Override
+    protected void codeGenMainARM(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
     /**
      * Contains no real information => nothing to check.
      */

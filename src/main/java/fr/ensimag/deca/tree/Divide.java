@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -103,6 +104,43 @@ public class Divide extends AbstractOpArith {
         else {
             throw new RuntimeException("Pas possible de diviser un " + typeLeft + " par un " + typeRight + "");
         }
+<<<<<<< Updated upstream
+=======
+
+
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+        Type typeLeft = getLeftOperand().getType();
+        Type typeRight = getRightOperand().getType();
+        //  System.out.print(rightOperand + " * " + leftOperand + " = ");
+
+
+        if (typeRight.isInt() && typeLeft.isInt()) {
+            constructeurQUO constructeurQUO = new constructeurQUO();
+            codeGen gen = new codeGen();
+            gen.codeGenPrint(leftOperand, rightOperand, reg, constructeurQUO, compiler);
+            compiler.addInstruction(new WINT());
+        } else if (typeRight.isFloat() || typeLeft.isFloat()) {
+            constructeurDIV constructeurDIV = new constructeurDIV();
+            codeGen gen = new codeGen();
+            gen.codeGenPrint(leftOperand, rightOperand, reg, constructeurDIV, compiler);
+            compiler.addInstruction(new WFLOAT());
+        } else {
+            throw new RuntimeException("Pas possible de diviser un " + typeLeft + " par un " + typeRight + "");
+        }
+
+
+>>>>>>> Stashed changes
     }
 
 

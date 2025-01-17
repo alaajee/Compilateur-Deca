@@ -32,6 +32,23 @@ public class CompilerOptions {
         return printBanner;
     }
     
+<<<<<<< Updated upstream
+=======
+    public boolean getParse() {
+        return parse;
+    }
+    public boolean getNoCHeck() {
+        return noCheck;
+    }   
+    public boolean getRegisterLimit() {
+        return registreLimit;
+    }
+
+    public boolean getARM() {
+        return ARM;
+    }
+
+>>>>>>> Stashed changes
     public List<File> getSourceFiles() {
         return Collections.unmodifiableList(sourceFiles);
     }
@@ -40,13 +57,20 @@ public class CompilerOptions {
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
+<<<<<<< Updated upstream
     private boolean parseStep = false;
     private boolean verificationStep = false;
     private boolean noCheck = false;
+=======
+    private int registreLimitValue = 15;
+    private boolean ARM = false;
+
+>>>>>>> Stashed changes
 
     
     public void parseArgs(String[] args) throws CLIException {
         // A FAIRE : parcourir args pour positionner les options correctement.
+<<<<<<< Updated upstream
         if (args.length == 0) {
             displayUsage();
             return;
@@ -59,6 +83,24 @@ public class CompilerOptions {
                     System.out.println("Nom de l'équipe :gl02");
                     if (i!=args.length-1){
                         throw new CLIException("-b should be the last option");
+=======
+        Logger logger = Logger.getRootLogger();
+        // map command-line debug option to log4j's level.
+
+
+
+        for (int i = 0 ;i< args.length; i++ )
+        {
+            switch(args[i])
+            {   
+                case "-a":
+                    ARM = true;
+                    break;
+                case "-p":
+                    if (verify)
+                    {
+                        throw new IllegalArgumentException("you can't use -p and -v at the same time");
+>>>>>>> Stashed changes
                     }
                     break;
                 case "-p":

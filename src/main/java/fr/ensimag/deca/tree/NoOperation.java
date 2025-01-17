@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -26,6 +27,10 @@ public class NoOperation extends AbstractInst {
     protected void codeGenInst(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
+
+    @Override
+    public void codeGenInstARM(DecacCompiler compiler) {
+        }
 
     @Override
     public void decompile(IndentPrintStream s) {

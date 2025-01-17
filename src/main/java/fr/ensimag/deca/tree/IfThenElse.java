@@ -101,7 +101,15 @@ public class IfThenElse extends AbstractInst {
         compiler.addLabel(endIf);  // End of the if-else block
     }
 
+<<<<<<< Updated upstream
     
+=======
+    @Override
+    public void codeGenInstARM(DecacCompiler compiler) {
+    }
+
+
+>>>>>>> Stashed changes
 
     @Override
     public void decompile(IndentPrintStream s) {

@@ -29,5 +29,6 @@ public abstract class AbstractInitialization extends Tree {
 
     public abstract boolean initialization();
     public abstract DVal codeGenExpr(DecacCompiler compiler);
+    public abstract DVal codeGenExprARM(DecacCompiler compiler);
 
 }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.context;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
@@ -59,6 +60,20 @@ public class TestPlusWithoutMock {
         public void checkProperUse() {
             assertTrue(hasBeenVerified, "verifyExpr has not been called");
         }
+<<<<<<< Updated upstream
+=======
+
+        @Override
+        public DVal codeGenExpr(DecacCompiler compiler){
+            return null;
+        }
+
+        @Override
+        public DVal codeGenExprARM(DecacCompiler compiler){
+            return null;
+        }
+
+>>>>>>> Stashed changes
     }
 
     @Test

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
@@ -33,7 +34,19 @@ public class Equals extends AbstractOpExactCmp {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
+<<<<<<< Updated upstream
         
+=======
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+>>>>>>> Stashed changes
         GPRegister reg = compiler.associerReg();
         
         compiler.addInstruction(new LOAD(leftOperand, reg));

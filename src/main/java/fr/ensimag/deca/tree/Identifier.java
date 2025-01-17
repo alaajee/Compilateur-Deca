@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+<<<<<<< Updated upstream
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.*;
@@ -8,6 +9,8 @@ import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import org.apache.commons.lang.Validate;
+=======
+>>>>>>> Stashed changes
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -23,6 +26,21 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+<<<<<<< Updated upstream
+=======
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
+
+import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
+>>>>>>> Stashed changes
 
 /**
  * Deca Identifier
@@ -257,12 +275,50 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler) {
+        String name = getName().toString();
+        DAddr reg = compiler.getRegUnARM(name);
+        return reg;
+        // System.out.println("im in Identifier");
+        // return null;
+    }
+
+    @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
         compiler.addInstruction(new WINT());
 
+    }
+
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler) {
+        System.out.println("im in Identifier print ARM");
+        compiler.print = true;
+        String name = getName().toString();
+        DAddr register = compiler.getRegUnARM(name);
+        if(getType().isInt()){
+            if(!compiler.printint){
+                String line = "formatint" + ": .asciz " + "\"%d\"";
+                compiler.addFirstComment(line);
+                compiler.printint = true;
+            }
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
+            compiler.addInstruction(new LDR(ARMRegister.R1, register));
+            compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+        } else if (getType().isFloat()){
+            if(!compiler.printfloat){
+                String line = "formatfloat" + ": .asciz " + "\"%f\"";
+                compiler.addFirstComment(line);
+                compiler.printfloat = true;
+            };
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+            compiler.addInstruction(new LDR(ARMRegister.R1, register));
+            compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+        }
     }
 
     @Override

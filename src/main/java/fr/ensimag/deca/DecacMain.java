@@ -31,6 +31,20 @@ public class DecacMain {
         if (options.getSourceFiles().isEmpty()) {
             throw new UnsupportedOperationException("decac without argument not yet implemented");
         }
+<<<<<<< Updated upstream
+=======
+        if (options.getARM()){
+            for (File source : options.getSourceFiles()){
+                DecacCompiler compiler = new DecacCompiler(options, source);
+                if(compiler.compileARM()){
+                    error = true;
+                }
+            }
+            System.exit(0);
+        }
+
+
+>>>>>>> Stashed changes
         if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
             // compiler, et lancer l'exécution des méthodes compile() de chaque

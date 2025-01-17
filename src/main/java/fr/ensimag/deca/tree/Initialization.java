@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -71,8 +72,33 @@ public class Initialization extends AbstractInitialization {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+<<<<<<< Updated upstream
         DVal valeur = getExpression().codeGenExpr(compiler);
         return valeur;
+=======
+        if (getExpression().getExpr().equals("instruction")){
+            DVal valeur = getExpression().codeGenInit(compiler);
+            return valeur;
+        }
+        else {
+            DVal valeur = getExpression().codeGenExpr(compiler);
+            return valeur;
+        }
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        System.out.println("im in Initialisation");
+        if (getExpression().getExpr().equals("instruction")){
+            DVal valeur = getExpression().codeGenInitARM(compiler);
+            return valeur;
+        }
+        else {
+            System.out.println("im in Initialisation else");
+            DVal valeur = getExpression().codeGenExprARM(compiler);
+            return valeur;
+        }
+>>>>>>> Stashed changes
     }
 
 }

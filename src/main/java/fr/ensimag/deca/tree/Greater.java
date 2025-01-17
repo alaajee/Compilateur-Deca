@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
@@ -60,7 +61,20 @@ public class Greater extends AbstractOpIneq {
         // compiler.addInstruction(new LOAD(leftOperand, reg));
         // compiler.addInstruction(new CMP(rightOperand, reg)); 
 
+<<<<<<< Updated upstream
         compiler.addInstruction(new SLE(reg));
+=======
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+>>>>>>> Stashed changes
 
         return reg;
     }

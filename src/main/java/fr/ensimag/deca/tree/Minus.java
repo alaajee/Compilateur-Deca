@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
@@ -113,6 +114,11 @@ public class Minus extends AbstractOpArith {
 
 >>>>>>> Stashed changes
         }
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
     }
 
     @Override

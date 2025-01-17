@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 
+
 /**
  *
  * @author gl02
@@ -40,6 +41,11 @@ public class Not extends AbstractUnaryExpr {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+        return new NullOperand();
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
         return new NullOperand();
     }
 

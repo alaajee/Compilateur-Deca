@@ -3,6 +3,10 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.DVal;
+
+import fr.ensimag.arm.pseudocode.ARMImmediateString;
+import fr.ensimag.arm.pseudocode.ARMRegister;
+import fr.ensimag.arm.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -50,6 +54,16 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
+    protected void codeGenPrintARM(DecacCompiler compiler) {
+        compiler.print = true;
+        int ID = compiler.getUniqueDataID();
+        String line = "data" + ID + ": .asciz " + value;
+        compiler.addFirstComment(line);
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"data"+ID)));
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+    }
+
+    @Override
     public void decompile(IndentPrintStream s) {
         s.print("\"" + value + "\"");
     }
@@ -71,6 +85,11 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 

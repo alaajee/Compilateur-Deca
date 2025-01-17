@@ -11,6 +11,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.ARMGPRegister;
+import fr.ensimag.arm.pseudocode.ARMImmediateString;
+import fr.ensimag.arm.pseudocode.ARMImmediateInteger;
+import fr.ensimag.arm.pseudocode.ARMRegister;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 /**
  * Integer literal
@@ -79,6 +84,26 @@ public class IntLiteral extends AbstractExpr {
 
     }
 
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        System.out.println("im here");
+        DVal res = new ARMImmediateInteger(value);
+        if(compiler.isVar){
+            DAddr adresse = compiler.associerAdresseARM();
+            // ARMGPRegister reg = compiler.associerRegARM();
+            // compiler.addInstruction(new MOV(reg, res));
+            // compiler.addInstruction(new STR(reg, new ARMImmediateString(adresse.toString())));
+            // res.isRegistre = true;
+            // Il faut liberer le registre
+            // compiler.isVar = false;
+            // compiler.libererReg(reg.getNumber());
+            System.out.println("im here bossssssssss" + adresse);
+            return res;
+        }
+        return res;
+    }
+
     @Override
     public void codeGenInst(DecacCompiler compiler){};
 
@@ -90,5 +115,31 @@ public class IntLiteral extends AbstractExpr {
         compiler.addInstruction(new WSTR(new ImmediateString("mok")));
         compiler.addInstruction(new WINT());
 
+<<<<<<< Updated upstream
+=======
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler) {
+        compiler.print = true;
+        int ID = compiler.getUniqueDataID();
+        String line = "data" + ID + ": .asciz " + "\"%d\"";
+        compiler.addFirstComment(line);
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"data"+ID)));
+        compiler.addInstruction(new MOV(ARMRegister.R1, new ARMImmediateInteger(value)));
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+    }
+
+    
+
+    public DVal codeGenInit(DecacCompiler compiler){
+        compiler.typeAssign = this.getType().toString();
+        DVal res = new ImmediateInteger(value);
+        return res;
+>>>>>>> Stashed changes
+    }
+
+    public DVal codeGenInitARM(DecacCompiler compiler){
+        compiler.typeAssign = this.getType().toString();
+        DVal res = new ARMImmediateInteger(value);
+        return res;
     }
 }

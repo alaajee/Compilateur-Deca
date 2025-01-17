@@ -11,7 +11,11 @@ import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.*;
+<<<<<<< Updated upstream
 import fr.ensimag.ima.pseudocode.GPRegister;
+=======
+import fr.ensimag.arm.pseudocode.*;
+>>>>>>> Stashed changes
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,8 +53,21 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
 
+<<<<<<< Updated upstream
     public final SymbolTable symbolTable;
     public final EnvironmentType environmentType;
+=======
+    public  SymbolTable symbolTable;
+    public  EnvironmentType environmentType;
+    public Map<Symbol, TypeDefinition> envTypes;
+
+    private int uniqueIDCounter = 0;
+    private int uniqueDataID = 0;
+    public boolean print = false;
+    public boolean println = false;
+    public boolean printint = false;
+    public boolean printfloat = false;
+>>>>>>> Stashed changes
 
     public int adresseReg;
     public boolean isVar;
@@ -59,10 +76,27 @@ public class DecacCompiler {
     private Map<String, VariableDefinition> varTab = new HashMap<>();
     private Map<Location,String> nameVal = new HashMap<>();
     private Map<String ,DAddr> regUn = new HashMap<>();
+    private Map<String ,DAddr> regUnARM = new HashMap<>();
     private Boolean [] GP;
     public Boolean Offset;
     public int spVal;
     public int OverflowVal;
+<<<<<<< Updated upstream
+=======
+    public int OverflowValARM;
+    public boolean isAssign;
+    public String typeAssign;
+    public boolean needToPush;
+    public boolean label;
+    public Map<String,Label> labelMap ;
+    public boolean isArith;
+    public boolean isDiv;
+    public int nbrVar = 0;
+    private int currentTsto = 0;
+    private int maxTsto =0;
+    public boolean isHex;
+    private Boolean [] RegistersARM;
+>>>>>>> Stashed changes
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -73,14 +107,31 @@ public class DecacCompiler {
         this.symbolTable = new SymbolTable();
         this.spVal = 0;
         this.OverflowVal = 15;
+<<<<<<< Updated upstream
         // Initialisation de environmentType après symbolTable
         this.environmentType = new EnvironmentType(this);
+=======
+        this.OverflowValARM = 12;
+        if (compilerOptions != null){
+            this.OverflowVal = compilerOptions.getRegistreLimitValue();
+        }
+>>>>>>> Stashed changes
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
         }
+<<<<<<< Updated upstream
         GP[OverflowVal] = true;
         this.Overflow = 15;
+=======
+        this.RegistersARM = new Boolean[OverflowValARM+1];
+        for(int i = 0 ; i < OverflowValARM+1 ; i++){
+            RegistersARM[i] = false;
+        }
+        DVal reg = Register.getR(this.OverflowVal);
+        reg.isOffSet = true;
+        this.Overflow = 3;
+>>>>>>> Stashed changes
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
@@ -95,6 +146,30 @@ public class DecacCompiler {
         return source;
     }
 
+<<<<<<< Updated upstream
+=======
+    public int getUniqueDataID(){
+        return uniqueDataID++;
+    }
+
+    public int getUniqueID() {
+        return uniqueIDCounter++;
+    }
+    public void incrementTsto() {
+        currentTsto++;
+        if (currentTsto > maxTsto) {
+            maxTsto = currentTsto; // Mettre à jour le maximum
+        }
+    }
+
+    public void decrementTsto() {
+        currentTsto--; // Décrémenter la taille actuelle
+    }
+
+    public int getMaxTsto() {
+        return maxTsto; // Récupérer la taille maximale atteinte
+    }
+>>>>>>> Stashed changes
     /**
      * Compilation options (e.g. when to stop compilation, number of registers
      * to use, ...).
@@ -151,6 +226,14 @@ public class DecacCompiler {
         program.addInstruction(instruction);
     }
 
+    public void addInstruction(ARMInstruction instruction) {
+        ARMprogram.addInstruction(instruction);
+    }
+    
+    public void addFirstComment(String comment){
+        ARMprogram.addFirstComment(comment);
+    }
+
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction,
@@ -174,6 +257,8 @@ public class DecacCompiler {
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
+
+    private final ARMProgram ARMprogram = new ARMProgram();
  
     /** The global environment for types (and the symbolTable) */
     // public final EnvironmentType environmentType = new EnvironmentType(this);
@@ -305,6 +390,11 @@ public class DecacCompiler {
         return adresse;
     }
 
+    public DAddr associerAdresseARM(){
+        DAddr adresse = new ARMRegisterOffset(uniqueDataID);
+        return adresse;
+    }
+
     public void libererReg(int adresseReg){
         GP[adresseReg] = false;
     }
@@ -323,17 +413,41 @@ public class DecacCompiler {
 
     }
 
+    public ARMGPRegister associerRegARM(){
+        for (int i = 2; i < OverflowValARM+1; i++){
+            if(!RegistersARM[i]){
+                RegistersARM[i] = true;
+                this.adresseReg = i;
+                return ARMRegister.getR(i);
+            }else{
+                continue;
+            }
+        }
+        return associerRegOffsetARM();
+    }
+
     public GPRegister associerRegOffset(){
         DVal reg = Register.getR(this.adresseReg);
         reg.isOffSet = true;
         return  (GPRegister) reg;
     }
 
+    public ARMGPRegister associerRegOffsetARM(){
+        DVal reg = ARMRegister.getR(this.adresseReg);
+        reg.isOffSet = true;
+        return  (ARMGPRegister) reg;
+    }
+
+
     public int getAdresseReg(){
         return this.adresseReg;
     }
     public DAddr getCurrentAdresse(){
         return new RegisterOffset(adressVar,Register.GB);
+    }
+    public DAddr getCurrentAdresseARM(){
+        // return new ARMRegisterOffset(adressVar, )
+        return null;
     }
 
     public void libererReg(){
@@ -377,8 +491,16 @@ public class DecacCompiler {
         return this.regUn.get(name);
     }
 
+    public DAddr getRegUnARM(String name){
+        return this.regUnARM.get(name);
+    }
+
     public void addRegUn(String name, DAddr reg){
         this.regUn.put(name,reg);
+    }
+
+    public void addRegUnARM(String name, DAddr reg){
+        this.regUnARM.put(name,reg);
     }
 
     public void modifierRegun(DAddr reg, String name){
@@ -393,6 +515,96 @@ public class DecacCompiler {
         return Register.getR(adresse);
     }
 
+<<<<<<< Updated upstream
 
 
 }
+=======
+    public boolean compileARM() {
+        String sourceFile = source.getAbsolutePath();
+        String destFile = sourceFile.substring(0, sourceFile.length()-4) + "s";
+        PrintStream err = System.err;
+        PrintStream out = System.out;
+
+
+        LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
+        try {
+            if (compilerOptions.getParse())
+            {   
+                AbstractProgram ARMprogram = doLexingAndParsing(sourceFile, err);
+                ARMprogram.decompile(out);
+                return false;
+
+            }
+
+            if (compilerOptions.getVerify())
+            {
+                AbstractProgram ARMprogram = doLexingAndParsing(sourceFile, err);
+                ARMprogram.verifyProgram(this);
+                /*
+                * pour afficher l'arbre syntaxique decoree
+                * decommenter la ligne suivante
+                */
+
+                //System.out.println(program.prettyPrint());
+                return false;
+
+            }
+            return doCompileARM(sourceFile, destFile, out, err);
+        } catch (LocationException e) {
+            e.display(err);
+            return true;
+        } catch (DecacFatalError e) {
+            err.println(e.getMessage());
+            return true;
+        } catch (StackOverflowError e) {
+            LOG.debug("stack overflow", e);
+            err.println("Stack overflow while compiling file " + sourceFile + ".");
+            return true;
+        } catch (Exception e) {
+            LOG.fatal("Exception raised while compiling file " + sourceFile
+                    + ":", e);
+            err.println("Internal compiler error while compiling file " + sourceFile + ", sorry.");
+            return true;
+        } catch (AssertionError e) {
+            LOG.fatal("Assertion failed while compiling file " + sourceFile
+                    + ":", e);
+            err.println("Internal compiler error while compiling file " + sourceFile + ", sorry.");
+            return true;
+        }
+    }
+    private boolean doCompileARM(String sourceName, String destName,
+            PrintStream out, PrintStream err)
+            throws DecacFatalError, LocationException {
+        AbstractProgram prog = doLexingAndParsing(sourceName, err);
+
+        if (prog == null) {
+            LOG.info("Parsing failed");
+            return true;
+        }
+        assert(prog.checkAllLocations());
+
+
+        prog.verifyProgram(this);
+        assert(prog.checkAllDecorations());
+
+        addComment("start main program");
+        prog.codeGenProgramARM(this);
+        LOG.debug("Generated assembly code:" + nl + ARMprogram.display());
+        LOG.info("Output file assembly file is: " + destName);
+
+        FileOutputStream fstream = null;
+        try {
+            fstream = new FileOutputStream(destName);
+        } catch (FileNotFoundException e) {
+            throw new DecacFatalError("Failed to open output file: " + e.getLocalizedMessage());
+        }
+
+        LOG.info("Writing assembler file ...");
+
+        ARMprogram.display(new PrintStream(fstream));
+        LOG.info("Compilation of " + sourceName + " successful.");
+        return false;
+    }
+}
+>>>>>>> Stashed changes
