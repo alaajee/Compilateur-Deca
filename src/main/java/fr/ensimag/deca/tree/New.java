@@ -1,6 +1,10 @@
 package fr.ensimag.deca.tree;
 
 
+import java.io.PrintStream;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -8,9 +12,6 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
-import org.apache.commons.lang.Validate;
-
-import java.io.PrintStream;
 
 /**
  *
@@ -30,11 +31,19 @@ public class New extends AbstractExpr {
     }
 
     @Override
-    public  Type verifyExpr(DecacCompiler compiler,
-                                    EnvironmentExp localEnv, ClassDefinition currentClass)
-    {
-            throw new UnsupportedOperationException();
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        Type classType = Identifier.verifyType(compiler);
+        if (!classType.isClass()) {
+            throw new ContextualError("The type '" + classType.getName() + "' is not a class type", this.getLocation());
+        }
+        ClassDefinition classDef = (ClassDefinition)compiler.environmentType.getEnvtypes().get(this.Identifier.getName());
+        if (classDef == null) {
+            throw new ContextualError("Class '" + Identifier.getName().getName() + "' is not defined", this.getLocation());
+        }
+        this.setType(classType);
+        return classType;
     }
+    
 
     @Override
     public void decompile(IndentPrintStream s){
