@@ -417,8 +417,7 @@ select_expr returns[AbstractExpr tree]
             // we matched "e.i"
             //acces direct au champ i(pas d'args)
             $tree = new Dot($e1.tree, $i.tree);
-           setLocation($tree, $DOT);
-
+            setLocation($tree, $DOT);
         }
         )
     ;
