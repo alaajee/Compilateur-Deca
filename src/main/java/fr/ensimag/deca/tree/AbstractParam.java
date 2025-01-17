@@ -11,10 +11,7 @@ import fr.ensimag.deca.context.Type;
 
 
 
-public abstract class AbstractParam extends Tree {
-
-
-
+public abstract class AbstractParam extends AbstractExpr {
 
     protected abstract Type verifyParam(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError;
 

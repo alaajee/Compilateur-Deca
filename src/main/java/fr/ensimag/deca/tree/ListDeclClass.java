@@ -91,10 +91,8 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
                 c.initClass(compiler);
             }
 
-            int adresse = compiler.getAdressVar() - 2;
-            System.out.println(adresse);
+            int adresse = compiler.getAdressVar() ;
             adresse = adresse + compiler.getNbreField();
-            System.out.println(compiler.getNbreField());
             compiler.addFirst(new ADDSP(new ImmediateInteger(adresse)));
 
         }

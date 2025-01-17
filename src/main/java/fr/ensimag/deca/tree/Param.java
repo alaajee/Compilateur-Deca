@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+
+import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -19,7 +21,7 @@ import fr.ensimag.ima.pseudocode.RegisterOffset;
 public class Param extends AbstractParam{
     final private AbstractIdentifier type;
     final private AbstractIdentifier paramName;
-    public RegisterOffset register;
+    private RegisterOffset register;
 
     public Param(AbstractIdentifier type, AbstractIdentifier paramName) {
         Validate.notNull(type);
@@ -69,11 +71,25 @@ public class Param extends AbstractParam{
 
     }
 
-
-
     @Override
     protected void codeGenParam(DecacCompiler compiler) {
         this.register = compiler.getRegisterParam();
+        compiler.setRegisterOffsets(this.paramName.getName().toString(),this.register.getOffset());
     }
 
+    @Override
+    public Type verifyExpr(DecacCompiler compiler,
+                                    EnvironmentExp localEnv, ClassDefinition currentClass) {
+        return null;
+    }
+
+    @Override
+    protected  DVal codeGenExpr(DecacCompiler compiler){
+        return this.register;
+    }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler){
+        return this.register;
+    }
 }

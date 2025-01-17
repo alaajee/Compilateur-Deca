@@ -99,7 +99,7 @@ public class DecacCompiler {
     public int regPush = 0;
     public LinkedList<Register> registeres = new LinkedList<Register>();;
 
-    private Map<String ,RegisterOffset> registerOffsets = new HashMap<>();
+    private Map<String ,Integer> registerOffsets = new HashMap<>();
 
 
     public Label nouvLabel = new Label("And");
@@ -516,12 +516,16 @@ public class DecacCompiler {
         this.nbreField++;
     }
 
-    public Map<String,RegisterOffset> getRegisterOffsets(){
+    public Map<String,Integer> getRegisterOffsets(){
         return registerOffsets;
     }
 
-    public void setRegisterOffsets(String name,RegisterOffset reg){
-         this.registerOffsets.put(name,reg);
+    public Integer getRegisterOffset(String name){
+        return this.registerOffsets.get(name);
+    }
+
+    public void setRegisterOffsets(String name,Integer offset){
+         this.registerOffsets.put(name,offset);
     }
 
     public int getCurrentId(){

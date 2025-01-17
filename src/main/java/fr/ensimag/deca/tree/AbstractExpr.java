@@ -1,8 +1,10 @@
 package fr.ensimag.deca.tree;
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
@@ -199,4 +201,8 @@ public abstract class AbstractExpr extends AbstractInst {
     };
 
     public void codeGenField(DecacCompiler compiler){};
+
+    protected  DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        return null;
+    };
 }

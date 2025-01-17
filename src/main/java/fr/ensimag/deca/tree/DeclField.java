@@ -102,9 +102,7 @@ public class DeclField extends AbstractDeclField{
             }
             EnvironmentExp localEnv = currentClass.getMembers();
             initialization.verifyInitialization(compiler, t, localEnv, currentClass);
-
         }
-
 
     @Override
     protected DVal codeGenField(DecacCompiler compiler) {
@@ -113,7 +111,7 @@ public class DeclField extends AbstractDeclField{
         // System.out.println(reg);
         FieldDefinition variable = new FieldDefinition(this.type.getDefinition().getType(), this.getLocation(),null,null,0);
         variable.setOperand(reg);
-        compiler.setRegisterOffsets(this.fieldName.getName().getName(), reg);
+        compiler.setRegisterOffsets(this.fieldName.getName().getName(), reg.getOffset());
         // System.out.println(compiler.getRegUn());
         RegisterOffset reg2 = new RegisterOffset(-2,Register.LB);
         if (this.initialization != null) {

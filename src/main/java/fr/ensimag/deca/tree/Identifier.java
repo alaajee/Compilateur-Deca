@@ -18,6 +18,8 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -321,4 +323,18 @@ public class Identifier extends AbstractIdentifier {
         return register;
     }
 
+
+    @Override
+    protected  DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines,GPRegister register){
+        String name = getName().toString();
+        int i = compiler.getRegisterOffset(name);
+        if (i < 0){
+            DAddr adresse = new RegisterOffset(i,Register.LB);
+            return adresse;
+        }
+        else {
+            DAddr registre = new RegisterOffset(i,register);
+            return registre;
+        }
+    }
 }

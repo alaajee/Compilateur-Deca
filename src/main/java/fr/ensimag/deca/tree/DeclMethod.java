@@ -5,8 +5,11 @@ import java.io.PrintStream;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
@@ -15,9 +18,6 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 
@@ -80,8 +80,8 @@ public  class DeclMethod extends AbstractDeclMethod{
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         Type t = this.type.verifyType(compiler);
-        Symbol methodSymbol = this.methodName.getName();
-        Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
+        SymbolTable.Symbol methodSymbol = this.methodName.getName();
+        Map<SymbolTable.Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
 
         if (envTypes.containsKey(methodSymbol)) {
             throw new ContextualError("La méthode " + methodName.getName() + " existe déjà dans la classe.", methodName.getLocation());
@@ -167,7 +167,9 @@ public  class DeclMethod extends AbstractDeclMethod{
         compiler.addLabel(new Label(dval1));
 
         LinkedList<Instruction> lines = new LinkedList<Instruction>();
+        listParam.codeGen(compiler);
         block.codeGen(compiler,lines);
+
 
         for (Iterator<Register> it = compiler.registeres.descendingIterator(); it.hasNext(); ) {
             Register reg = it.next();
