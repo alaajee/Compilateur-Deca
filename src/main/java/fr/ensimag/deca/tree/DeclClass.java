@@ -76,10 +76,11 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
+
         Symbol classSymbol = this.className.getName();
         Symbol superClassSymbol = this.superClassName.getName();
 
-        Map<Symbol, TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
+        Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
 
         if (!envTypes.containsKey(superClassSymbol) && !superClassSymbol.getName().equals("Object")) {
             throw new ContextualError("Super-class " + superClassSymbol.getName() + " is not declared", this.getLocation());
@@ -91,9 +92,9 @@ public class DeclClass extends AbstractDeclClass {
         
         ClassDefinition superClassDef = superClassName.getClassDefinition();
         ClassDefinition classDef = new ClassDefinition(
-                new ClassType(classSymbol, this.getLocation(), superClassDef),
-                this.getLocation(), superClassDef);
-        envTypes.put(this.className.getName(), classDef);
+            new ClassType(classSymbol, this.getLocation(), superClassDef),
+            this.getLocation(),superClassDef);
+            envTypes.put(this.className.getName(), classDef);
 
         TypeDefinition definitionClass = envTypes.get(classSymbol);
         TypeDefinition definitionsuperClass = envTypes.get(superClassSymbol);
@@ -109,7 +110,7 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
-        //System.out.println(currentClass);
+        System.out.println(currentClass);
         EnvironmentExp localEnv = currentClass.getMembers(); 
         this.fields.verifyListDeclField(compiler,localEnv,currentClass);
 
@@ -128,10 +129,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        className.prettyPrint(s, prefix, false);
-        superClassName.prettyPrint(s, prefix, false);
-        fields.prettyPrint(s, prefix, false);
-        methods.prettyPrint(s, prefix, true);
+            className.prettyPrint(s, prefix, false);
+            superClassName.prettyPrint(s, prefix, false);
+            fields.prettyPrint(s, prefix, false);
+            methods.prettyPrint(s, prefix, true);
     }
     
 
@@ -165,6 +166,7 @@ public class DeclClass extends AbstractDeclClass {
             String className = this.className.getName().getName();
             compiler.addLabel(new Label("init" + className));
             Label label = new Label("init" + superClassName.getName().getName());
+
             if (!superClassName.getName().getName().equals("Object")) {
                 compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R0));
                 compiler.addInstruction(new PUSH(Register.R0));

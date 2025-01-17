@@ -110,7 +110,6 @@ public abstract class AbstractExpr extends AbstractInst {
             AbstractExpr convExpr = new ConvFloat(this);
             Type convExprType = convExpr.verifyExpr(compiler, localEnv, currentClass);
             convExpr.setType(convExprType);
-            this.setType(convExprType);
             return convExpr;
         }
         throw new ContextualError("Type incompatible : attendu " + expectedType.getName() +

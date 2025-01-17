@@ -1,17 +1,19 @@
 package fr.ensimag.deca.tree;
 
+import java.io.PrintStream;
+
+import org.apache.commons.lang.Validate;
+
 import fr.ensimag.deca.DecacCompiler;
+
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ParamDefinition;
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import org.apache.commons.lang.Validate;
 
 
 public class Param extends AbstractParam{
@@ -25,7 +27,6 @@ public class Param extends AbstractParam{
         this.type = type;
         this.paramName = paramName;
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -48,8 +49,13 @@ public class Param extends AbstractParam{
     }
 
     @Override
-    protected void verifyParam(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError{
+    protected Type verifyParam(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError{
         Type t=this.type.verifyType(compiler);
+        
+        if (t.isVoid()) {
+            throw new ContextualError("A parameter cannot have 'void' as its type", this.type.getLocation());
+        }
+
         ParamDefinition paramDef = new ParamDefinition(t, this.paramName.getLocation());
         try {
             localEnv.declare(this.paramName.getName(), paramDef);
@@ -58,16 +64,16 @@ public class Param extends AbstractParam{
 
         }
         this.paramName.verifyExpr(compiler, localEnv, currentClass);
+        return t;
+
 
     }
+
+
 
     @Override
     protected void codeGenParam(DecacCompiler compiler) {
         this.register = compiler.getRegisterParam();
     }
 
-
-    protected DVal codeGenExpr(DecacCompiler compiler){
-        return register;
-    }
 }

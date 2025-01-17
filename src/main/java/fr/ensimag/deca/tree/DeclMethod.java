@@ -78,8 +78,71 @@ public  class DeclMethod extends AbstractDeclMethod{
     
 
     @Override
-    protected void verifyDeclMethod(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass)  throws ContextualError{
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        Type t = this.type.verifyType(compiler);
+        Symbol methodSymbol = this.methodName.getName();
+        Map<Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
+
+        if (envTypes.containsKey(methodSymbol)) {
+            throw new ContextualError("La méthode " + methodName.getName() + " existe déjà dans la classe.", methodName.getLocation());
+        }
+
+        MethodDefinition overriddenMethod = null;
+        ClassDefinition superClass = currentClass.getSuperClass();
+        while (superClass != null) {
+            ExpDefinition superMethod = superClass.getMembers().get(methodSymbol);
+            if (superMethod!=null)
+            {
+                if (superMethod instanceof MethodDefinition) {
+                    overriddenMethod = (MethodDefinition) superMethod;
+                    break;
+                }
+            }
+            superClass = superClass.getSuperClass();
+        }
+
+        if (overriddenMethod!=null)
+        {
+            if(!t.sameType(overriddenMethod.getType()))
+            {
+                throw new ContextualError("Le type de retour de la méthode " + methodName.getName() +
+                " n'est pas compatible avec celui de la méthode redéfinie dans une superclasse.", methodName.getLocation());
+            }
+
+            if (!overriddenMethod.getSignature().equals(this.listParam.verifyListParam(compiler, localEnv, currentClass)))
+            {
+                throw new ContextualError(
+                    "La signature des paramètres de la méthode " + methodName.getName() +
+                    " n'est pas compatible avec celle de la méthode redéfinie dans une superclasse.",
+                    methodName.getLocation()
+                );
+            }
+            methodName.setDefinition(overriddenMethod);
+
+        }
+
+
+
+
+        Signature methodSignature = this.listParam.verifyListParam(compiler, localEnv,currentClass);
+        MethodDefinition methodDefinition = new MethodDefinition(
+            t,
+            methodName.getLocation(),
+            methodSignature,
+            currentClass.incNumberOfMethods()
+        );
+        methodName.setDefinition(methodDefinition);
+    
+        try {
+            currentClass.getMembers().declare(methodSymbol, methodDefinition);
+        } catch (EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError(
+                "La méthode " + methodName.getName() + " est déjà définie dans l'environnement local.",
+                methodName.getLocation()
+            );
+        }
+        
+
     }
 
     @Override
