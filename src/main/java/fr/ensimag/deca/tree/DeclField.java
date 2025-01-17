@@ -115,10 +115,18 @@ public class DeclField extends AbstractDeclField{
 
     @Override
     protected void codeGenField(DecacCompiler compiler) {
+        compiler.setNbreField();
         RegisterOffset reg = compiler.getRegisterClass();
         RegisterOffset reg2 = new RegisterOffset(-2,Register.LB);
-        compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        if (this.initialization != null) {
+            // Ici traiter l'initialisation
+            this.initialization.codeGenField(compiler);
+        }
+        else {
+            compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        }
         compiler.addInstruction(new LOAD(reg2, Register.R1));
         compiler.addInstruction(new STORE(Register.R0,reg));
+
     }
 }

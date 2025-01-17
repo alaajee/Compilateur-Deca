@@ -77,6 +77,8 @@ public class DecacCompiler {
     public int nbrVar = 0;
     private int currentTsto = 0;
     private int maxTsto =0;
+    private int nbreField = 0;
+
     public boolean greater;
     public boolean notGreater;
     public boolean equals;
@@ -494,4 +496,15 @@ public class DecacCompiler {
         return reg;
     }
 
+    public int getAdressVar(){
+        return this.adressVar;
+    }
+
+    public int getNbreField(){
+        return this.nbreField;
+    }
+
+    public void setNbreField(){
+        this.nbreField++;
+    }
 }

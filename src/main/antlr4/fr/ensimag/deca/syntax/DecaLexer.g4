@@ -74,7 +74,7 @@ FLOAT : DEC EXP? [Ff]?;
 
 // Chaînes de caractères
 fragment EOL : '\r'? '\n';
-fragment STRING_CAR : ~['"\\\r\n];
+fragment STRING_CAR : ~["\\\r\n];
 STRING : '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING : '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"' ;
 
@@ -82,3 +82,8 @@ MULTI_LINE_STRING : '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"' ;
 WS : [ \t\r\n]+ -> skip ;
 LINE_COMMENT : '//' ~[\r\n]* -> skip ;
 BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
+
+INCLUDE : '#include' ~[\r\n]* {
+    doInclude(getText());
+};
+

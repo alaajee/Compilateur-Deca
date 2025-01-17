@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import java.io.DataInput;
 import java.io.PrintStream;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -105,10 +106,12 @@ public  class DeclMethod extends AbstractDeclMethod{
         LinkedList<Instruction> lines = new LinkedList<Instruction>();
         block.codeGen(compiler,lines);
 
-        for (Register reg : compiler.registeres) {
+        for (Iterator<Register> it = compiler.registeres.descendingIterator(); it.hasNext(); ) {
+            Register reg = it.next();
             lines.addFirst(new PUSH(reg));
             lines.add(new POP((GPRegister) reg));
         }
+
 
         for (Instruction i : lines) {
             compiler.addInstruction(i);

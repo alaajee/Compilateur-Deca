@@ -82,7 +82,10 @@ public class Initialization extends AbstractInitialization {
             DVal valeur = getExpression().codeGenExpr(compiler);
             return valeur;
         }
-
     }
 
+    @Override
+    public void codeGenField(DecacCompiler compiler){
+        getExpression().codeGenField(compiler);
+    }
 }

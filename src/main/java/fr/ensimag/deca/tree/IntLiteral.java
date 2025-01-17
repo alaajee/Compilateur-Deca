@@ -96,4 +96,8 @@ public class IntLiteral extends AbstractExpr {
         DVal res = new ImmediateInteger(value);
         return res;
     }
+
+    public void codeGenField(DecacCompiler compiler){
+        compiler.addInstruction(new LOAD(new ImmediateInteger(value), Register.R0));
+    }
 }

@@ -112,9 +112,8 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition currentClass = className.getClassDefinition();
         System.out.println(currentClass);
         EnvironmentExp localEnv = currentClass.getMembers();
-        this.fields.verifyListDeclField(compiler,localEnv,currentClass);
-        EnvironmentExp localEnv = currentClass.getMembers();
         this.fields.verifyListDeclField(compiler, localEnv, currentClass);
+
 
     }
 
@@ -122,7 +121,6 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
-    
 
 
     @Override
@@ -132,14 +130,14 @@ public class DeclClass extends AbstractDeclClass {
         fields.prettyPrint(s, prefix, false);
         methods.prettyPrint(s, prefix, true);
     }
-    
+
 
     @Override
     protected void iterChildren(TreeFunction f) {
         className.iter(f);
         superClassName.iter(f);
         fields.iter(f);
-        methods.iter(f);  
+        methods.iter(f);
     }
 
     @Override
@@ -158,28 +156,27 @@ public class DeclClass extends AbstractDeclClass {
         for (AbstractDeclMethod method : methods.getList()) {
             method.codeGenMethod(compiler, className);
         }
+    }
+        @Override
+        protected void initClass(DecacCompiler compiler){
+            String className = this.className.getName().getName();
+            compiler.addLabel(new Label("init" + className));
+            Label label = new Label("init" + superClassName.getName().getName());
 
+            if (!superClassName.getName().getName().equals("Object")) {
+                compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+                compiler.addInstruction(new BSR(label));
+                compiler.addInstruction(new SUBSP(new ImmediateInteger(1)));
+            }
 
-    @Override
-    protected void initClass(DecacCompiler compiler) {
-        String className = this.className.getName().getName();
-        compiler.addLabel(new Label("init" + className));
-        Label label = new Label("init"+ superClassName.getName().getName());
+            for (AbstractDeclField field : fields.getList()) {
+                field.codeGenField(compiler);
+            }
 
-        if (!superClassName.getName().getName().equals("Object")) {
-            compiler.addInstruction(new LOAD(new RegisterOffset(-2,Register.LB), Register.R0));
-            compiler.addInstruction(new PUSH(Register.R0));
-            compiler.addInstruction(new BSR(label));
-            compiler.addInstruction(new SUBSP(new ImmediateInteger(1)));
-        }
-
-        for (AbstractDeclField field : fields.getList()) {
-            field.codeGenField(compiler);
-        }
-
-        compiler.addInstruction(new RTS());
-        for (AbstractDeclMethod method : methods.getList()) {
-            method.codeGenBlock(compiler,className);
+            compiler.addInstruction(new RTS());
+            for (AbstractDeclMethod method : methods.getList()) {
+                method.codeGenBlock(compiler, className);
+            }
         }
     }
-}

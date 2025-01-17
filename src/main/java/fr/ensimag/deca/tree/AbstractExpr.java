@@ -197,4 +197,5 @@ public abstract class AbstractExpr extends AbstractInst {
 
     protected void codeGenInstClass(DecacCompiler compiler){};
 
+    public void codeGenField(DecacCompiler compiler){};
 }

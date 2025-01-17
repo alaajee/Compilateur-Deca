@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.SEQ;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
@@ -88,6 +89,13 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             for (AbstractDeclClass c : getList()) {
                 c.initClass(compiler);
             }
+
+            int adresse = compiler.getAdressVar() - 2;
+            System.out.println(adresse);
+            adresse = adresse + compiler.getNbreField();
+            System.out.println(compiler.getNbreField());
+            compiler.addFirst(new ADDSP(new ImmediateInteger(adresse)));
+
         }
     };
 
