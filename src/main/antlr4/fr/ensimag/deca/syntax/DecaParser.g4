@@ -330,6 +330,7 @@ inequality_expr returns[AbstractExpr tree]
     | e1=inequality_expr INSTANCEOF type {
             assert($e1.tree != null);
             assert($type.tree != null);
+
         }
     ;
 
@@ -406,16 +407,17 @@ select_expr returns[AbstractExpr tree]
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
-            assert($args.tree != null);
-            //i est la methode
-            $tree=new CallMethod($e1.tree, $i.tree, $args.tree);
-            setLocation($tree, $o);
+             assert($args.tree != null);
+             CallMethod methode = new CallMethod($e1.tree, $i.tree, $args.tree);
+             setLocation(methode,$list_expr.start);
+             $tree = new PointObjet($e1.tree, methode);
+             setLocation($tree, $DOT);
         }
         | /* epsilon */ {
             // we matched "e.i"
             //acces direct au champ i(pas d'args)
-            $tree=new Selection($e.tree, $i.tree);
-            setLocation($tree, $e1.start);
+            $tree = new Dot($e1.tree, $i.tree);
+           setLocation($tree, $DOT);
 
         }
         )
@@ -448,10 +450,14 @@ primary_expr returns[AbstractExpr tree]
         }
     | NEW ident OPARENT CPARENT {
             assert($ident.tree != null);
+            $tree=new New($ident.tree);
+            setLocation($tree,$NEW);
         }
     | cast=OPARENT type CPARENT OPARENT expr CPARENT {
             assert($type.tree != null);
             assert($expr.tree != null);
+            $tree=new Cast($type.tree,$expr.tree);
+            setLocation($tree,$cast);
         }
     | literal {
             assert($literal.tree != null);

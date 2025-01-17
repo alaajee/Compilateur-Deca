@@ -87,6 +87,8 @@ public class Plus extends AbstractOpArith {
     protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
         GPRegister reg = compiler.associerReg();
 
+        // LeftOperand et RightOperand ...
+
         if (!compiler.registeres.contains(reg)) {
             compiler.registeres.add(reg);
         }

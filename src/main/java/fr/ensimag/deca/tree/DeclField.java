@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
@@ -11,11 +12,6 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.FieldDefinition;
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
@@ -117,6 +113,11 @@ public class DeclField extends AbstractDeclField{
     protected void codeGenField(DecacCompiler compiler) {
         compiler.setNbreField();
         RegisterOffset reg = compiler.getRegisterClass();
+        // System.out.println(reg);
+        VariableDefinition variable = new VariableDefinition(this.type.getDefinition().getType(), this.getLocation());
+        variable.setOperand(reg);
+        compiler.setRegisterOffsets(this.fieldName.getName().getName(), reg);
+        // System.out.println(compiler.getRegUn());
         RegisterOffset reg2 = new RegisterOffset(-2,Register.LB);
         if (this.initialization != null) {
             // Ici traiter l'initialisation

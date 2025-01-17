@@ -18,30 +18,31 @@ public class ListMethod extends TreeList<AbstractDeclMethod>{
             declVar.decompile(s);  // Décompiler chaque déclaration de variable
         }
     }
-       
+
     void verifyListDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                              ClassDefinition currentClass) throws ContextualError {
 
 
-        Iterator<AbstractDeclMethod> iterator = this.iterator(); 
+        Iterator<AbstractDeclMethod> iterator = this.iterator();
 
         while (iterator.hasNext()) {
-            AbstractDeclMethod declMethod = iterator.next(); 
+            AbstractDeclMethod declMethod = iterator.next();
             declMethod.verifyDeclMethod(compiler, localEnv, currentClass);
         }
     }
 
 
     void verifyListBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv,
-    ClassDefinition currentClass) throws ContextualError
+                               ClassDefinition currentClass) throws ContextualError
     {
-        Iterator<AbstractDeclMethod> iterator = this.iterator(); 
+        Iterator<AbstractDeclMethod> iterator = this.iterator();
 
         while (iterator.hasNext()) {
-            AbstractDeclMethod declMethod = iterator.next(); 
+            AbstractDeclMethod declMethod = iterator.next();
             declMethod.verifyBlockMethod(compiler, localEnv, currentClass);
         }
     }
+
 
     public void codeGen(DecacCompiler compiler,String className){
         for (AbstractDeclMethod declVar : this.getList()) {

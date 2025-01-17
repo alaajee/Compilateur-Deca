@@ -99,6 +99,9 @@ public class DecacCompiler {
     public int regPush = 0;
     public LinkedList<Register> registeres = new LinkedList<Register>();;
 
+    private Map<String ,RegisterOffset> registerOffsets = new HashMap<>();
+
+
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
@@ -507,4 +510,13 @@ public class DecacCompiler {
     public void setNbreField(){
         this.nbreField++;
     }
+
+    public Map<String,RegisterOffset> getRegisterOffsets(){
+        return registerOffsets;
+    }
+
+    public void setRegisterOffsets(String name,RegisterOffset reg){
+         this.registerOffsets.put(name,reg);
+    }
+
 }
