@@ -176,9 +176,7 @@ public class Identifier extends AbstractIdentifier {
                 if(definitionExp == null){
                     throw new ContextualError("Identifier  '" + this.name + "' is not defined", this.getLocation());
                 }
-                if(!(definitionExp instanceof VariableDefinition)){
-                    throw new ContextualError("Identifier '" + this.name + "' is not a variable", this.getLocation());
-                }
+
 
                 this.setDefinition(definitionExp);
                 this.setType(definitionExp.getType());
