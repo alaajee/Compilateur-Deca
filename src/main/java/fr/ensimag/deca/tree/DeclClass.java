@@ -50,11 +50,11 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     // Getter pour le nom de la super-classe
-
+    
     public AbstractIdentifier getSuperClassName() {
         return superClassName;
     }
-
+        
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -64,7 +64,7 @@ public class DeclClass extends AbstractDeclClass {
             s.print(" extends ");
             superClassName.decompile(s);
         }
-
+        
         s.println(" {");
         s.indent();
         fields.decompile(s);
@@ -72,7 +72,7 @@ public class DeclClass extends AbstractDeclClass {
         s.unindent();
         s.println("}");
     }
-
+    
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
@@ -89,7 +89,7 @@ public class DeclClass extends AbstractDeclClass {
         if (envTypes.containsKey(classSymbol)) {
             throw new ContextualError("class " + classSymbol.getName() + " is already declared", this.getLocation());
         }
-
+        
         ClassDefinition superClassDef = superClassName.getClassDefinition();
         ClassDefinition classDef = new ClassDefinition(
                 new ClassType(classSymbol, this.getLocation(), superClassDef),
@@ -111,33 +111,37 @@ public class DeclClass extends AbstractDeclClass {
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
         System.out.println(currentClass);
-        EnvironmentExp localEnv = currentClass.getMembers();
-        this.fields.verifyListDeclField(compiler, localEnv, currentClass);
-
+        EnvironmentExp localEnv = currentClass.getMembers(); 
+        this.fields.verifyListDeclField(compiler,localEnv,currentClass);
 
     }
-
+    
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition currentClass = className.getClassDefinition();
+        EnvironmentExp localEnv = currentClass.getMembers();
+        this.fields.verifyListinitField(compiler, currentClass);
+        this.methods.verifyListBlockMethod(compiler, localEnv, currentClass);
+
     }
+    
 
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        className.prettyPrint(s, prefix, false);
-        superClassName.prettyPrint(s, prefix, false);
-        fields.prettyPrint(s, prefix, false);
-        methods.prettyPrint(s, prefix, true);
+            className.prettyPrint(s, prefix, false);
+            superClassName.prettyPrint(s, prefix, false);
+            fields.prettyPrint(s, prefix, false);
+            methods.prettyPrint(s, prefix, true); 
     }
-
+    
 
     @Override
     protected void iterChildren(TreeFunction f) {
         className.iter(f);
         superClassName.iter(f);
         fields.iter(f);
-        methods.iter(f);
+        methods.iter(f);  
     }
 
     @Override
