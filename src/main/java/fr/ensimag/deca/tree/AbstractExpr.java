@@ -195,7 +195,9 @@ public abstract class AbstractExpr extends AbstractInst {
         return null;
     }
 
-    protected void codeGenInstClass(DecacCompiler compiler){};
+    protected DVal codeGenInstClass(DecacCompiler compiler){
+        return null;
+    };
 
     public void codeGenField(DecacCompiler compiler){};
 }

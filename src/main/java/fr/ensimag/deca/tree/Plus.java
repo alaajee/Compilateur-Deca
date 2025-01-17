@@ -84,10 +84,13 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
         GPRegister reg = compiler.associerReg();
 
         // LeftOperand et RightOperand ...
+        DVal leftOperand = getLeftOperand().codeGenInstClass(compiler);
+        DVal rightOperand = getRightOperand().codeGenInstClass(compiler);
+
 
         if (!compiler.registeres.contains(reg)) {
             compiler.registeres.add(reg);
@@ -99,5 +102,6 @@ public class Plus extends AbstractOpArith {
         lines.add(new STORE(reg,new RegisterOffset(1,Register.R1)));
         // DVal dval = getRightOperand().codeGenExpr(compiler);
         compiler.libererReg(reg.getNumber());
+        return leftOperand;
     }
 }

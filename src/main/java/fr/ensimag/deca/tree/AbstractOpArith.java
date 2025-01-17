@@ -5,6 +5,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DVal;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -58,5 +59,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 return returnType;
     }
 
-    protected void codeGenInstClass(DecacCompiler compiler){};
+    protected DVal codeGenInstClass(DecacCompiler compiler){
+        return null;
+    };
 }

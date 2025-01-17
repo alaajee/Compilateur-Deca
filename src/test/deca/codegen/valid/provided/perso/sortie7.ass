@@ -13,17 +13,13 @@
 	BEQ else_block_1
 body_1:
 	LOAD 5(GB), R3
-	STORE R3, 6(GB)
-	LOAD #1, R4
-	STORE R4, 6(GB)
-	LOAD 5(GB), R4
-	ADD 6(GB), R4
-	STORE R4, 5(GB)
+	ADD #1, R3
+	STORE R3, 5(GB)
 	BRA end_if_1
 else_block_1:
-	LOAD 5(GB), R4
-	SUB #1, R4
-	STORE R4, 5(GB)
+	LOAD 5(GB), R3
+	SUB #1, R3
+	STORE R3, 5(GB)
 end_if_1:
 	LOAD 5(GB), R1
 	WINT

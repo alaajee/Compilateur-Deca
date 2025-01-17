@@ -33,8 +33,9 @@ public class Println extends AbstractPrint {
 
 
     @Override
-    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
         super.codeGenInst(compiler);
         compiler.addInstruction(new WNL());
+        return null;
     }
 }

@@ -68,6 +68,7 @@ public class BooleanLiteral extends AbstractExpr {
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             reg.isRegistre = true;
+            compiler.isVar = false;
             return adresse;
         }
         else {
@@ -89,14 +90,23 @@ public class BooleanLiteral extends AbstractExpr {
         else {
             if (compiler.or){
                 if (compiler.compteurOr == 1){
-                    compiler.addInstruction(new BNE(bodyLabel));
+                    if (compiler.notCond){
+                        compiler.addInstruction(new BNE(endLabel));
+                        compiler.notCond = false;
+                    }
+                    else {
+                        compiler.addInstruction(new BEQ(endLabel));
+                    }
+                }
+                else {
+                    compiler.addInstruction(new BEQ(endLabel));
                 }
                 compiler.compteurOr--;
             }
             else {
                 compiler.addInstruction(new BEQ(endLabel));  // Si res == 0, saute à endLabel
             }
-           //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
         }
         return new ImmediateInteger(res);  // Retourne null (ou une valeur adaptée si nécessaire)
     }

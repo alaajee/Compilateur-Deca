@@ -6,10 +6,8 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
 
 import java.util.LinkedList;
 
@@ -50,5 +48,7 @@ public abstract class AbstractInst extends Tree {
         decompile(s);
     }
 
-    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines) {}
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines) {
+        return null;
+    }
 }

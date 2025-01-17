@@ -241,11 +241,11 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
-        if (compiler.isVar){
-            GPRegister register = compiler.associerReg();
-            compiler.addInstruction(new LOAD(reg,register));
-            compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
-        }
+//        if (compiler.isVar){
+//            GPRegister register = compiler.associerReg();
+//            compiler.addInstruction(new LOAD(reg,register));
+//            compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+//        }
         return reg;
 
     }
@@ -299,7 +299,16 @@ public class Identifier extends AbstractIdentifier {
         else {
             if (compiler.or){
                 if (compiler.compteurOr == 1){
-                    compiler.addInstruction(new BNE(bodyLabel));
+                    if (compiler.notCond){
+                        compiler.addInstruction(new BNE(endLabel));
+                        compiler.notCond = false;
+                    }
+                    else {
+                        compiler.addInstruction(new BEQ(endLabel));
+                    }
+                }
+                else {
+                    compiler.addInstruction(new BEQ(endLabel));
                 }
                 compiler.compteurOr--;
             }

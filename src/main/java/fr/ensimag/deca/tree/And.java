@@ -32,13 +32,6 @@ public class And extends AbstractOpBool {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
-        compiler.greater = false;
-        compiler.or = false;
-        compiler.greater = false;
-        compiler.notGreater = false;
-        compiler.greater = false;
-        compiler.greaterStric = false;
-        compiler.notGreaterStric = false;
 
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurADD();
@@ -79,10 +72,37 @@ public class And extends AbstractOpBool {
     @Override
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
         compiler.and = true;
-        DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodyLabel);
-        DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
+        //compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
+        if (compiler.or){
+           // compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
+            if (compiler.compteurOr != 1){
+                compiler.compteurAnd = true;
+                DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, compiler.nouvLabel,bodyLabel);
+                DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,compiler.nouvLabel,bodyLabel);
+            }
+            else {
+                DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodyLabel);
+                DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
+            }
+        }
+        else {
+            compiler.compterLabel ++;
+            DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodyLabel);
+            if (compiler.or){
+                compiler.addLabel(compiler.nouvLabel);
+                compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
+            }
+            DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
+        }
+        //DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodyLabel);
+//        if (compiler.or){
+//            compiler.addLabel(compiler.nouvLabel);
+//            compiler.or = false;
+//        }
+        //compiler.addLabel(compiler.nouvLabel);
+       // DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
         GPRegister reg = compiler.associerReg();
-        compiler.and = false;
+
         return reg;
     }
 

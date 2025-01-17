@@ -27,8 +27,8 @@ else_block_1:
 	LOAD #0, R0
 	CMP #0, R0
 	BEQ else_block_2
-	LOAD 5(GB), R3
-	CMP #8, R3
+	LOAD #8, R3
+	CMP 5(GB), R3
 	SEQ R3
 	BNE else_block_2
 body_2:

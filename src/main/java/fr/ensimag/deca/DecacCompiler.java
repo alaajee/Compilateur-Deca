@@ -102,6 +102,10 @@ public class DecacCompiler {
     private Map<String ,RegisterOffset> registerOffsets = new HashMap<>();
 
 
+    public Label nouvLabel = new Label("And");
+    public boolean compteurAnd = false;
+    public int compterLabel = 0;
+
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
@@ -114,7 +118,7 @@ public class DecacCompiler {
         this.spVal = 0;
         this.OverflowVal = 15;
         if (compilerOptions != null){
-            this.OverflowVal = 4;
+            this.OverflowVal = 15;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
@@ -519,4 +523,7 @@ public class DecacCompiler {
          this.registerOffsets.put(name,reg);
     }
 
+    public int getCurrentId(){
+        return uniqueIDCounter;
+    }
 }

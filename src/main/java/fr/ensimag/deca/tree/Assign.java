@@ -5,7 +5,6 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
-import org.mockito.stubbing.ValidableAnswer;
 
 import java.util.LinkedList;
 
@@ -32,10 +31,11 @@ public class Assign extends AbstractBinaryExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         Type leftType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        AbstractExpr expr = this.getRightOperand().verifyRValue(compiler,localEnv,currentClass,leftType);
         this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, leftType);
         this.setType(leftType);
-        return leftType;
-
+        this.setRightOperand(expr);
+        return expr.getType();
     }
 
 
@@ -69,7 +69,7 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
         GPRegister reg = compiler.associerReg();
         if (!compiler.registeres.contains(reg)) {
             compiler.registeres.add(reg);
@@ -78,5 +78,6 @@ public class Assign extends AbstractBinaryExpr {
         lines.add(new LOAD(registerOffset, reg));
         getRightOperand().codeGenInstClass(compiler, lines);
         compiler.libererReg(reg.getNumber());
+        return reg;
     }
 }

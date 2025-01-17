@@ -77,5 +77,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         return null;
     }
 
-    protected void codeGenInstClass(DecacCompiler compiler){};
+    protected DVal codeGenInstClass(DecacCompiler compiler){
+        return null;
+    };
 }

@@ -165,7 +165,6 @@ public class DeclClass extends AbstractDeclClass {
             String className = this.className.getName().getName();
             compiler.addLabel(new Label("init" + className));
             Label label = new Label("init" + superClassName.getName().getName());
-
             if (!superClassName.getName().getName().equals("Object")) {
                 compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R0));
                 compiler.addInstruction(new PUSH(Register.R0));
