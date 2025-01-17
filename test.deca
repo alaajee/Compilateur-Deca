@@ -1,0 +1,727 @@
+// Description:
+//    Suite de Syracuse: temps de vol pour  pour 42
+//
+// Resultats:
+// v = 8
+//
+// Historique:
+//    cree le 01/01/2025
+
+//{
+//    int i = 0;
+//    while (i < 5) {
+//        println(i);
+//        i = i + 1;
+//    }
+//}
+
+
+/*{
+     int a = 5;
+     int b = 10;
+     boolean c ;
+     if (a > 2 && b < 20) {
+         c = true;
+         println("ca marche");
+     }
+}*/
+
+/*{
+    int a = 7;
+    int b = 8;
+    while (a > 3 && b <=  10){
+        a = a - 1;
+        b = b + 1;
+    }
+    println(a);
+    // Sortie 4
+}*/
+
+/*{
+    int a = 7;
+    int b = 8;
+    while (a > 3 || b < 10){
+        a = a - 1;
+        b = b + 1;
+    }
+    println(a);
+    // Sortie 3
+}*/
+
+/*{
+    int a = 7;
+    int b = 8;
+    while (a > 3 && b <= 10){
+        a = a - 1;
+        b = b + 1;
+    }
+    println(a);
+    // Sortie 4
+}*/
+
+/*{
+    boolean estVrai = true;
+    if (estVrai){
+        println("Vrai");
+    }
+    else {
+        println("Faux");
+    }
+    // Sortie Vrai
+}*/
+
+/*{
+    if (!true){
+        println("faux");
+    }
+    else {
+        println("vrai");
+    }
+    // Sortie Vrai
+}*/
+
+/*{
+    int x;
+    x = -1;
+    println(x);
+    // Sortie -1
+}*/
+
+/*{
+    int u = 42, v=0;
+
+    while (!(u==1)) {
+	if (u%2 == 0) {
+	    u = u/2;
+	} else {
+	    u = 2*u +u + 1;
+	}
+	v = v + 1;
+	//	println(u);
+    }
+    println(v);
+
+    //Sortie 8
+}*/
+
+/*{
+    int x =  6;
+    boolean estVrai = true;
+    if (estVrai){
+        x = x+1;
+    }
+    else {
+        x = x-1;
+    }
+    println(x);
+    // Sortie 7
+}*/
+
+/*{
+    int x =  6;
+    boolean estVrai = true;
+    if (false && !(estVrai)){
+        x = x+1;
+    }
+    else {
+        x = x-1;
+    }
+    println(x);
+    // Sortie 6
+}*/
+
+/*{
+      int x = 6;
+      boolean estVrai = true;
+      if (estVrai && false){
+           x = x+1;
+       }
+      else {
+           x = x-1;
+       }
+      println(x);
+      // sortie 5
+}*/
+
+/*{
+      int x = 6;
+      boolean estVrai = true;
+      if (estVrai && true){
+           x = x+1;
+       }
+      else {
+           x = x-1;
+       }
+      println(x);
+
+      while (x > 0){
+         if (false){
+                  println(" je suis la ");
+              }
+         else {
+                  println("je ne suis plus la");
+      }
+       x = x -1;
+}
+      // sortie 7
+}*/
+
+/*{
+      int x = 6;
+      boolean estVrai = true;
+      if (estVrai && !(true)){
+           x = x+1;
+       }
+      else {
+           x = x-1;
+       }
+      println(x);
+      // sortie 5
+}*/
+
+/*{
+      int x = 6;
+      boolean estVrai = true;
+      if (!(estVrai)){
+           x = x+1;
+       }
+      else if (false) {
+           x = x-1;
+      }
+      else {
+           x  = x + 2;
+      }
+      println(x);
+      // sortie 8
+}*/
+
+/*{
+    boolean var = 0 > 1;
+    if (var){
+        println("vrai");
+    }
+    else {
+        println("faux");
+    }
+    // Sortie faux
+
+}*/
+
+/*{
+    int x = 8;
+    boolean estVrai = true;
+
+    int a = 7;
+    int b = 8;
+
+    if (!estVrai){
+        x = x + 1;
+        println(x);
+    }
+    else if (false && (x==8)){
+        x = x - 1;
+        println(x);
+    } else if (true){
+        println("je suis la");
+    }
+    else {
+        println("mon compilateur presque marche");
+    }
+}*/
+
+
+/*{
+    int x = 5;
+    while (x > 0){
+        if (false){
+            println(" je suis la ");
+        }
+        else {
+            println("je ne suis plus la");
+    }
+    x = x -1;
+    // Sortie je ne suis plus la
+}
+}*/
+
+
+/*{
+    boolean estVrai = true;
+    int a = 7;
+    int b = 8;
+    int x  = 1;
+    int y ;
+    int u = 42, v=0;
+
+    y = -1;
+    println(y);
+
+    if (estVrai){
+        println("Vrai");
+    }
+    else {
+        println("Faux");
+    }
+
+
+    while ((a > 3 && b <=  10 && b == 5)|| b <=10){
+            a = a - 1;
+            b = b + 1;
+    }
+    println(a);
+
+    while (x > 0){
+         if (!false){
+             println(" je suis la ");
+         }
+         else {
+             println("je ne suis plus la");
+          }
+         x = x -1;
+    }
+
+
+
+    while (!(u==1)) {
+    	if (u%2 == 0) {
+    	    u = u/2;
+    	} else {
+    	    u = 2*u +u + 1;
+    	}
+    	v = v + 1;
+    	//	println(u);
+    }
+    println(v);
+
+    // Sortie Vrai
+}*/
+
+/*{
+
+   int x;
+   x = readint();
+   if (x >= 0 && x <= 5) {
+   print("x");
+   } else {
+   print("y");
+   }
+
+}*/
+
+
+
+
+// Description:
+//    Declaration Multiple
+//
+// Resultats:
+// -6
+//
+// Historique:
+//    cree le 01/01/2025
+/*{
+    int x = 1;
+    int y = 2;
+    int z = 3;
+    println(x*x*x*x*z*y*x*x-y*z*2-8);
+}*/
+
+
+   /*{
+      int number = 153; // Modifiez cette valeur pour tester
+      int original = number;
+      int sum = 0;
+      int a;
+
+      while (number > 0) {
+          a = number % 10;
+          sum =sum+ (a * a * a);
+          number = number / 10;
+      }
+
+      println(sum);
+      println(original);
+      if (sum == original) {
+          println(original ," est un nombre narcissique.");
+      } else {
+          println(original , " n est pas un nombre narcissique.");
+      }
+  }*/
+
+
+
+/*{
+    int x = 28; // Modifiez cette valeur pour tester
+    int sum = 0;
+    int i = 1;
+
+    while (i <= x / 2) {
+        if (x % i == 0) {
+            sum =sum+ i;
+        }
+        i = i + 1; // Incrémentation de i
+    }
+
+    if (sum == x) {
+        println(x , " est un nombre parfait.");
+    } else {
+        println(x , " n est pas un nombre parfait.");
+    }
+}*/
+
+/*{
+    // Changer la valeur de x pour tester
+    int x = 29;
+    boolean isPrime = true;
+    int i = 2;
+
+    if (x < 2) {
+        isPrime = false;
+    } else {
+        while (i * i <= x && isPrime) {
+            if (x % i == 0) {
+                isPrime = false;
+            } else {
+                i = i + 1; // Incrémentation de i
+            }
+        }
+    }
+
+    if (isPrime) {
+        println("x est un nombre premier.");
+    } else {
+        println("x n est pas un nombre premier.");
+    }
+}*/
+
+
+/*{
+    int x = 220; // Modifiez cette valeur pour tester
+    int y = 284; // Modifiez cette valeur pour tester
+
+    int sumX = 0, sumY = 0;
+    int j = 1;
+    int i = 1;
+    while (i <= x / 2) {
+        if (x % i == 0) {
+            sumX =sumX+ i;
+        }
+        i = i + 1; // Incrémentation de i
+    }
+
+    while (j <= y / 2) {
+        if (y % j == 0) {
+            sumY =sumY +j;
+        }
+        j = j + 1; // Incrémentation de j
+    }
+
+    if (sumX == y && sumY == x) {
+        println(x , " et " , y , " sont des nombres amicaux.");
+    } else {
+        println(x , " et " , y , " ne sont pas des nombres amicaux.");
+    }
+}*/
+
+
+/*{
+    int x = 12321; // Modifiez cette valeur pour tester
+    int original = x;
+    int reversed = 0;
+    int digit;
+    while (x > 0) {
+        digit = x % 10;
+        reversed = reversed * 10 + digit;
+        x = x / 10;
+    }
+
+    if (original == reversed) {
+        println(original , " est un palindrome.");
+    } else {
+        println(original ," n est pas un palindrome.");
+    }
+}*/
+
+
+/*class Point2D {
+    int x; // Abscisse
+    int y; // Ordonnee
+    // Deplace ce point
+    // de a en diagonale.
+    void diag(int a) {
+        x = x + a;
+        y = y + a;
+    }
+}
+class Point3D extends Point2D {
+    int z; // Hauteur
+    // On redefinit la methode diag,
+    // pour tenir compte de z
+    void diag(int a) {
+        z = z + a;
+    }
+}*/
+
+/*{
+    int x = 1;
+    int y = 2;
+    int z = 3;
+    z  = (2*x*x*x*x*x*x*x*x + y*2*2*2*2)*2 - 6 ;
+   // z = 2*x*x*x*x + y*2*2;
+    println(z);
+    print((2*x*x*x*x*x*x*x*x + y*2*2*2*2)*2 - 6);
+    // Sortie 62
+}*/
+
+/*{
+
+    float y = 5;
+    y = y / 5;
+    print(y);
+
+}*/
+
+/*{
+    int x = 1;
+    int y = 2;
+    int z = 3;
+    println(x*x*x*x*z*y*x*x-y*z*2);
+}*/
+
+/*{
+    float x = 6;
+    x = x + 5;
+    print(x);
+}*/
+
+
+/*class A {
+    void m(){
+        println("ok");
+    }
+}*/
+
+
+/*{
+    A a = new A();
+    a.m();
+}*/
+
+
+/*{
+    float x ;
+    int y ;
+    int z ;
+
+    x = 1;
+    y = 2 ;
+    z = x + y ;
+
+    print(z);
+} */
+
+/*{
+    int a = 12345;
+    int b = 54321;
+    int sum = 0;
+    int product = 1;
+    int digitA;
+    int digitB;
+    int number = 987654;
+    int temp = number;
+    int n = 5; // Changez cette valeur pour tester
+    int factorial = 1;
+    int i = 1;
+    int x = 7;
+    int y = 1234;
+
+    // Test 1: Réversion des deux nombres
+    int reverseA = 0;
+    int reverseB = 0;
+    while (a > 0 || b > 0) {
+        if (a > 0) {
+            digitA = a % 10;
+            reverseA = reverseA * 10 + digitA;
+            a = a / 10;
+        }
+
+        if (b > 0) {
+            digitB = b % 10;
+            reverseB = reverseB * 10 + digitB;
+            b = b / 10;
+        }
+    }
+
+    println("Reverse de 12345: ", reverseA);
+    println("Reverse de 54321: ", reverseB);
+
+    // Test 2: Somme des chiffres d'un nombre donné
+
+    while (temp > 0) {
+        digitA = temp % 10;
+        println(digitA);
+        sum = sum + digitA;
+        temp = temp / 10;
+        println("ici");
+    }
+
+    println("Somme des chiffres de 987654: ", sum);
+
+    // Test 3: Vérification de factorielle d'un nombre
+
+    while (i <= n) {
+        factorial = factorial * i;
+        i = i + 1;
+    }
+
+    println("Factorielle de 5: ", factorial);
+
+    // Test 4: Test imbriqué avec des multiples conditions
+     // Changez cette valeur pour tester
+    if (x > 0) {
+        if (x % 2 == 0) {
+            println(x, " est un nombre positif pair.");
+        } else {
+            println(x, " est un nombre positif impair.");
+        }
+
+        if (x > 5) {
+            println(x, " est supérieur à 5.");
+        } else {
+            println(x, " est inférieur ou égal à 5.");
+        }
+    } else {
+        println(x, " est un nombre négatif ou zéro.");
+    }
+
+    // Test 5: Somme et produit des chiffres d'un nombre
+
+    sum = 0;
+    product = 1;
+    while (y > 0) {
+        digitA = y % 10;
+        sum = sum + digitA;
+        product = product * digitA;
+        y = y / 10;
+    }
+
+    println("Somme des chiffres de 1234: ", sum);
+    println("Produit des chiffres de 1234: ", product);
+}*/
+
+/*{
+    int x = 10;
+    int y = 15;
+    int z = 20;
+    int result = 0;
+    // Boucle 3 : Multiplication conditionnelle
+    while (z > 10) {
+      if ((z % 6 != 0 || z % 5 == 0 || z % 4 == 0) && z % 13 != 0 ) {
+                   result = result + 2;
+          }
+               z = z - 1;
+           }
+    // Affichage final
+    // Sortie 16
+    println("Le résultat final est : ", result);
+}*/
+
+/*{
+    int x = 10;
+    int y = 15;
+    int z = 20;
+    int result = 0;
+
+
+   while (z > 10) {
+       if (z % 2 == 0 || z % 3 == 0 || z % 5 == 0
+                   || z % 7 == 0 || z % 11 == 0 || z % 13 == 0
+                   || z % 17 == 0 || z % 19 == 0 || z % 23 == 0) {
+                   result = result + 1;
+            }
+               z = z - 1;
+           }
+
+    // Affichage final
+    println("Le résultat final est : ", result); // 10
+}*/
+
+/*{
+    int x = 10;
+    int y = 15;
+    int z = 20;
+    int result = 0;
+
+
+    while (z > 10) {
+            if (z % 2 == 0 && z % 3 != 0  && z % 7 != 0  && z % 5 != 0 && z % 11 != 0  && z % 23 != 0) {
+                result = result + 1;
+            }
+            z = z - 1;
+        }
+
+    // Sortie 1
+    // Affichage final
+    println("Le résultat final est : ", result);
+}*/
+
+/*{
+    int x = 10;
+    int y = 15;
+    int z = 20;
+    int result = 0;
+    // Boucle 3 : Multiplication conditionnelle
+    while (z > 10) {
+      if ((z % 6 != 0 && z % 5 == 0) || (z % 4 == 0)
+                   || (z % 3 == 0 && z % 2 != 0)
+
+                  ) {
+                   result = result + 2;
+          }
+               z = z - 1;
+           }
+    // Affichage final
+    println("Le résultat final est : ", result);
+}*/
+
+/*{
+    int x = 10;
+    int y = 15;
+    int z = 20;
+    int result = 0;
+    // Boucle 3 : Multiplication conditionnelle
+    while (z > 10) {
+         if ((z % 5 == 0 && z % 4 == 0) || (z % 3 == 0 && z % 2 != 0)) {
+                  result = result + 2;
+              }
+              z = z - 1;
+          }
+    // Affichage final
+    println("Le résultat final est : ", result); // 4
+}*/
+
+
+/*{
+
+    int x = 5;
+    boolean estVrai = true;
+
+    if (((x== 5 || false ) && !true && true )){
+        println("ok");
+    }
+    else {
+        println("not ok");
+    }
+    // NOT OK
+}*/
+
+/*{
+    int x = 5;
+    if ((x > 0 && x != 5) || false){
+        println("ici");
+    }
+    else {
+        println("non ici");
+    }
+
+}*/
