@@ -101,6 +101,7 @@ public class DecacCompiler {
 
     private Map<String ,Integer> registerOffsets = new HashMap<>();
 
+    private Map<String ,DAddr> tableClassees = new HashMap<>();
 
     public Label nouvLabel = new Label("And");
     public boolean compteurAnd = false;
@@ -392,7 +393,6 @@ public class DecacCompiler {
 
     public DAddr associerAdresse(){
         this.adressVar++;
-        System.out.println(this.adressVar);
 //        if (this.adressVar == 4) {
 //            this.adressVar++;
 //        }
@@ -493,14 +493,15 @@ public class DecacCompiler {
     }
 
     public RegisterOffset getRegisterClass(){
+        System.out.println(this.RegisterOffset);
         RegisterOffset reg = new RegisterOffset(this.RegisterOffset,Register.R1);
         this.RegisterOffset++;
+        //System.out.println(this.RegisterOffset);
         return reg;
     }
 
     public RegisterOffset getRegisterParam(){
         RegisterOffset reg = new RegisterOffset(this.paramReg,Register.LB);
-        this.RegisterOffset--;
         return reg;
     }
 
@@ -531,4 +532,19 @@ public class DecacCompiler {
     public int getCurrentId(){
         return uniqueIDCounter;
     }
+
+    public Map<String,DAddr> getTableClassees(){
+        return tableClassees;
+    }
+
+    public DAddr getTableClassee(String name){
+        return tableClassees.get(name);
+    }
+
+    public void setTableClassee(String name , DAddr tableClassee) {
+        this.tableClassees.put(name,tableClassee);
+    }
+
 }
+
+

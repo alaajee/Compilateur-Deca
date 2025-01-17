@@ -87,15 +87,17 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
             for (AbstractDeclClass c : getList()) {
                 c.codeGenclasse(compiler);
             }
-            for (AbstractDeclClass c : getList()) {
-                c.initClass(compiler);
-            }
-
-            int adresse = compiler.getAdressVar() ;
-            adresse = adresse + compiler.getNbreField();
-            compiler.addFirst(new ADDSP(new ImmediateInteger(adresse)));
-
         }
     };
+
+    protected void codeGenMethod(DecacCompiler compiler){
+        for (AbstractDeclClass c : getList()) {
+            c.initClass(compiler);
+        }
+
+        int adresse = compiler.getAdressVar() ;
+        adresse = adresse + compiler.getNbreField();
+        compiler.addFirst(new ADDSP(new ImmediateInteger(adresse)));
+    }
 
 }

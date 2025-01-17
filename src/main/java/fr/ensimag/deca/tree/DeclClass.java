@@ -157,10 +157,23 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addInstruction(new STORE(Register.R0, adresse));
         compiler.addInstruction(new LOAD(Object, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, compiler.associerAdresse()));
+        compiler.setTableClassee(className,adresse);
         for (AbstractDeclMethod method : methods.getList()) {
             method.codeGenMethod(compiler, className);
         }
     }
+
+    protected void codeGenMethod(DecacCompiler compiler){
+
+    }
+
+//        protected void codeGenMethod(DecacCompiler compiler){
+//            String className = this.className.getName().getName();
+//            for (AbstractDeclMethod method : methods.getList()) {
+//                method.codeGenMethod(compiler, className);
+//            }
+//        }
+
         @Override
         protected void initClass(DecacCompiler compiler){
             String className = this.className.getName().getName();
@@ -176,8 +189,9 @@ public class DeclClass extends AbstractDeclClass {
 
             for (AbstractDeclField field : fields.getList()) {
                 field.codeGenField(compiler);
-            }
 
+            }
+            System.out.println(className + compiler.RegisterOffset);
             compiler.addInstruction(new RTS());
             for (AbstractDeclMethod method : methods.getList()) {
                 method.codeGenBlock(compiler, className);

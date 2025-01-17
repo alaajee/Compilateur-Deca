@@ -5,7 +5,10 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 import java.io.PrintStream;
 
@@ -52,6 +55,12 @@ public class PointObjet extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        return null;
+        String name = this.instance.getExpr();
+        DAddr adresse = compiler.getRegUn(name);
+        GPRegister reg  = compiler.associerReg();
+        compiler.addInstruction(new LOAD(adresse,reg));
+        compiler.addInstruction(new STORE(reg,new RegisterOffset(0,Register.SP)));
+        method.codeGenExpr(compiler);
+        return adresse;
     }
 }

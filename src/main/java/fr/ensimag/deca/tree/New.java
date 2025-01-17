@@ -7,10 +7,12 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 /**
  *
@@ -50,12 +52,12 @@ public class New extends AbstractExpr {
         s.print("()");
     }
 
-@Override
-public void prettyPrintChildren(PrintStream s, String prefix) {
-    if (Identifier != null) {
-        Identifier.prettyPrint(s, prefix, true);
+    @Override
+    public void prettyPrintChildren(PrintStream s, String prefix) {
+        if (Identifier != null) {
+            Identifier.prettyPrint(s, prefix, true);
+        }
     }
-}
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -65,6 +67,24 @@ public void prettyPrintChildren(PrintStream s, String prefix) {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        GPRegister reg = compiler.associerReg();
+        int i = this.Identifier.getClassDefinition().getNumberOfFields();
+        compiler.addInstruction(new NEW(new ImmediateInteger(i),reg));
+        compiler.addInstruction(new BOV(new Label("Tas_plein")));
+        String name = this.Identifier.getName().getName();
+        DAddr adresse = compiler.getTableClassee(name);
+        compiler.addInstruction(new LEA(adresse,Register.R0));
+        compiler.addInstruction(new PUSH(reg));
+        compiler.addInstruction(new BSR(new Label(name)));
+        compiler.addInstruction(new POP(reg));
+        DAddr adresseNouvelle = compiler.getCurrentAdresse();
+        compiler.addInstruction(new STORE(reg,adresseNouvelle));
+        compiler.libererReg();
+        return adresseNouvelle;
+    }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
         return null;
     }
 }

@@ -1,3 +1,4 @@
+	ADDSP #3
 	TSTO #1
 	BOV stack_overflow_error
 	ADDSP #1
@@ -5,10 +6,11 @@
 ; Main program
 ; Beginning of main instructions:
 	OPP #1, R2
-	STORE R2, 5(GB)
-	LOAD 5(GB), R1
+	STORE R2, 3(GB)
+	LOAD 3(GB), R1
 	WINT
 	WNL
+code.Object.equals:
 	HALT
 ; end main program
 stack_overflow_error:

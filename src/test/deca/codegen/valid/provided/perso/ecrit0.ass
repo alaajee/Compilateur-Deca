@@ -1,3 +1,4 @@
+	ADDSP #2
 	TSTO #0
 	BOV stack_overflow_error
 	ADDSP #0
@@ -7,6 +8,7 @@
 	WSTR "ok"
 	WSTR "ok"
 	WNL
+code.Object.equals:
 	HALT
 ; end main program
 stack_overflow_error:

@@ -181,5 +181,6 @@ public  class DeclMethod extends AbstractDeclMethod{
         for (Instruction i : lines) {
             compiler.addInstruction(i);
         }
+
     }
 }
