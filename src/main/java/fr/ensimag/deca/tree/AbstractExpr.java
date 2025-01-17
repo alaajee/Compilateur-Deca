@@ -150,16 +150,12 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void codeGenInst(DecacCompiler compiler) {
         codeGenExpr(compiler);
     }
-<<<<<<< Updated upstream
-    
-=======
 
     @Override
     protected void codeGenInstARM(DecacCompiler compiler) {
         codeGenExprARM(compiler);
     }
 
->>>>>>> Stashed changes
 
     @Override
     protected void decompileInst(IndentPrintStream s) {
@@ -183,8 +179,6 @@ public abstract class AbstractExpr extends AbstractInst {
     protected abstract DVal codeGenExprARM(DecacCompiler compiler);
 
 
-<<<<<<< Updated upstream
-=======
     public DVal codeGenInit(DecacCompiler compiler){
         return null;
     }
@@ -200,5 +194,4 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void codeGenPrintxARM(DecacCompiler compiler){
         return;
     }
->>>>>>> Stashed changes
 }

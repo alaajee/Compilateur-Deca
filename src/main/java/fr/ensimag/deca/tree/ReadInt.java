@@ -15,12 +15,8 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
-<<<<<<< Updated upstream
-import fr.ensimag.ima.pseudocode.GPRegister;
-=======
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
->>>>>>> Stashed changes
 /**
  *
  * @author gl02

@@ -10,12 +10,9 @@ import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
-<<<<<<< Updated upstream
-=======
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.arm.pseudocode.*;
->>>>>>> Stashed changes
 
 /**
  * @author gl02

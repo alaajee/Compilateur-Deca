@@ -114,9 +114,8 @@ public class IntLiteral extends AbstractExpr {
         compiler.addInstruction(new LOAD(register, Register.R1));
         compiler.addInstruction(new WSTR(new ImmediateString("mok")));
         compiler.addInstruction(new WINT());
+    }
 
-<<<<<<< Updated upstream
-=======
     @Override
     protected void codeGenPrintARM(DecacCompiler compiler) {
         compiler.print = true;
@@ -134,7 +133,6 @@ public class IntLiteral extends AbstractExpr {
         compiler.typeAssign = this.getType().toString();
         DVal res = new ImmediateInteger(value);
         return res;
->>>>>>> Stashed changes
     }
 
     public DVal codeGenInitARM(DecacCompiler compiler){

@@ -80,8 +80,6 @@ public class BooleanLiteral extends AbstractExpr {
 
     }
 
-<<<<<<< Updated upstream
-=======
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
@@ -91,5 +89,4 @@ public class BooleanLiteral extends AbstractExpr {
     public void codeGenPrint(DecacCompiler compiler){
 
     };
->>>>>>> Stashed changes
 }

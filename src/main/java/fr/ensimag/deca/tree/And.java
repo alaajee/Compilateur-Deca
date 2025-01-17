@@ -1,18 +1,13 @@
 package fr.ensimag.deca.tree;
 
 
-
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.BEQ;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.SEQ;
-import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.deca.codegen.codeGen;
+import fr.ensimag.deca.codegen.constructeur;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.deca.codegen.constructeurCMP;
+import fr.ensimag.deca.codegen.constructeurADD;
 
 /**
  *
@@ -31,33 +26,39 @@ public class And extends AbstractOpBool {
     }
 
     @Override
-protected DVal codeGenExpr(DecacCompiler compiler) {
-    DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
-    DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+    public DVal codeGenExpr(DecacCompiler compiler){
+        compiler.and = true;
 
-    GPRegister reg = compiler.associerReg();
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
-    compiler.addInstruction(new LOAD(leftOperand, reg));
-    compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
+        compiler.greater = false;
+        compiler.or = false;
+        compiler.greater = false;
+        compiler.notGreater = false;
+        compiler.greater = false;
+        compiler.greaterStric = false;
+        compiler.notGreaterStric = false;
 
-    Label nonZeroLeft = new Label("non_zero_left");
-    compiler.addInstruction(new BEQ(nonZeroLeft));
+        GPRegister reg = compiler.associerReg();
+        constructeur constructeur = new constructeurADD();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+        // GPRegister reg1 = compiler.associerReg();
+        // constructeur constructeur1 = new constructeurCMP();
+        // codeGen gen1 = new codeGen();
+        // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
+        compiler.addInstruction(new CMP(new ImmediateInteger(2), reg));
+        // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
+        // compiler.addInstruction(new LOAD(leftOperand,reg));
+        // constructeur.constructeur(compiler, rightOperand, reg);
+        compiler.addInstruction(new SEQ(reg));
+        compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
+        compiler.libererReg(reg.getNumber());
+        gen.finalizeAndPush(reg, compiler);
+        return reg;
+    }
 
-    compiler.addInstruction(new LOAD(new ImmediateInteger(0), reg));
-    compiler.addInstruction(new BRA(nonZeroLeft));
-
-    compiler.addInstruction(new LOAD(rightOperand, reg));
-    compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
-    compiler.addLabel(nonZeroLeft);
-    compiler.addInstruction(new SEQ(reg));
-
-    return reg;
-}
-
-
-
-<<<<<<< Updated upstream
-=======
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
@@ -79,5 +80,14 @@ protected DVal codeGenExpr(DecacCompiler compiler) {
             compiler.addInstruction(new WINT());
         }
     }
->>>>>>> Stashed changes
+
+    @Override
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        compiler.and = true;
+        DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodyLabel);
+        DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
+        GPRegister reg = compiler.associerReg();
+        compiler.and = false;
+        return reg;
+    }
 }

@@ -2,15 +2,12 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-<<<<<<< Updated upstream
-=======
 import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
->>>>>>> Stashed changes
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 

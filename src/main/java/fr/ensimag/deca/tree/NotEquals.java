@@ -2,20 +2,11 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
-<<<<<<< Updated upstream
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.SNE;
-=======
 import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.codegen.constructeur;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
-import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.deca.codegen.constructeurCMP;
->>>>>>> Stashed changes
 
 /**
  *
@@ -35,13 +26,12 @@ public class NotEquals extends AbstractOpExactCmp {
     }
 
     @Override
-    protected DVal codeGenExpr(DecacCompiler compiler) {
+    public DVal codeGenExpr(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
 
         
-<<<<<<< Updated upstream
-=======
         constructeur constructeur = new constructeurCMP();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
@@ -49,27 +39,74 @@ public class NotEquals extends AbstractOpExactCmp {
         compiler.addInstruction(new SNE(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
+
+        compiler.notEquals = true;
         return register;
     }
+
 
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
     }
 
+
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
->>>>>>> Stashed changes
         GPRegister reg = compiler.associerReg();
-        
-        compiler.addInstruction(new LOAD(leftOperand, reg));
-        compiler.addInstruction(new CMP(rightOperand, reg));  
+
+
+        constructeurCMP constructeurCMP = new constructeurCMP();
+        codeGen gen = new codeGen();
+        gen.codeGenPrint(leftOperand, rightOperand, reg, constructeurCMP, compiler);
 
         compiler.addInstruction(new SNE(reg));
 
-        return reg;
+        // Affichage du résultat
+        compiler.addInstruction(new LOAD(reg, Register.R1));
+        compiler.addInstruction(new WINT());
     }
 
+
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+        GPRegister reg = compiler.associerReg();
+
+
+        constructeur constructeur = new constructeurCMP();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+
+        compiler.libererReg(reg.getNumber());
+        compiler.addInstruction(new SNE(reg));
+        if (compiler.and){
+            compiler.addInstruction(new BEQ(endLabel));
+        }
+        else if (compiler.or){
+            if (compiler.compteurOr == 1){
+                if (compiler.notCond){
+                    compiler.addInstruction(new BEQ(bodyLabel));
+                }
+                else {
+                    compiler.addInstruction(new BNE(bodyLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BEQ(endLabel));
+            }
+        } else if (compiler.ifcond){
+            compiler.addInstruction(new BNE(endLabel));
+        }
+        else {
+            compiler.addInstruction(new BEQ(endLabel));
+        }
+        gen.finalizeAndPush(reg, compiler);
+
+        compiler.notEquals = true;
+        return register;
+    }
 }

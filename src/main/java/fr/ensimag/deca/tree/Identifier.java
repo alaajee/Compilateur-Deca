@@ -1,16 +1,5 @@
 package fr.ensimag.deca.tree;
 
-<<<<<<< Updated upstream
-import java.io.PrintStream;
-
-import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
-import org.apache.commons.lang.Validate;
-=======
->>>>>>> Stashed changes
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -26,8 +15,6 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-<<<<<<< Updated upstream
-=======
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
@@ -40,7 +27,6 @@ import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
->>>>>>> Stashed changes
 
 /**
  * Deca Identifier

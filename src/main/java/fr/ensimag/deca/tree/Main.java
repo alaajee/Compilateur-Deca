@@ -45,9 +45,6 @@ public class Main extends AbstractMain {
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGen(compiler);
         insts.codeGenListInst(compiler);
-<<<<<<< Updated upstream
-
-=======
         compiler.addFirst(new ADDSP(new ImmediateInteger(compiler.nbrVar)));
         Label stackOverflowLabel = new Label("stack_overflow_error");
         compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
@@ -63,7 +60,6 @@ public class Main extends AbstractMain {
         compiler.addFirstComment("");
         declVariables.codeGenARM(compiler);
         insts.codeGenListInstARM(compiler);
->>>>>>> Stashed changes
     }
     
     @Override

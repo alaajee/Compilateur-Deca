@@ -104,8 +104,6 @@ public class Divide extends AbstractOpArith {
         else {
             throw new RuntimeException("Pas possible de diviser un " + typeLeft + " par un " + typeRight + "");
         }
-<<<<<<< Updated upstream
-=======
 
 
     }
@@ -140,7 +138,6 @@ public class Divide extends AbstractOpArith {
         }
 
 
->>>>>>> Stashed changes
     }
 
 

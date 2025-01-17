@@ -72,10 +72,6 @@ public class Initialization extends AbstractInitialization {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
-<<<<<<< Updated upstream
-        DVal valeur = getExpression().codeGenExpr(compiler);
-        return valeur;
-=======
         if (getExpression().getExpr().equals("instruction")){
             DVal valeur = getExpression().codeGenInit(compiler);
             return valeur;
@@ -98,7 +94,6 @@ public class Initialization extends AbstractInitialization {
             DVal valeur = getExpression().codeGenExprARM(compiler);
             return valeur;
         }
->>>>>>> Stashed changes
     }
 
 }

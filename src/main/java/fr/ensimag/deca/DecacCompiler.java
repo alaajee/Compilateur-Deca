@@ -1,6 +1,7 @@
 package fr.ensimag.deca;
 
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -11,11 +12,7 @@ import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.*;
-<<<<<<< Updated upstream
-import fr.ensimag.ima.pseudocode.GPRegister;
-=======
 import fr.ensimag.arm.pseudocode.*;
->>>>>>> Stashed changes
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,10 +50,6 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
 
-<<<<<<< Updated upstream
-    public final SymbolTable symbolTable;
-    public final EnvironmentType environmentType;
-=======
     public  SymbolTable symbolTable;
     public  EnvironmentType environmentType;
     public Map<Symbol, TypeDefinition> envTypes;
@@ -67,7 +60,6 @@ public class DecacCompiler {
     public boolean println = false;
     public boolean printint = false;
     public boolean printfloat = false;
->>>>>>> Stashed changes
 
     public int adresseReg;
     public boolean isVar;
@@ -81,8 +73,6 @@ public class DecacCompiler {
     public Boolean Offset;
     public int spVal;
     public int OverflowVal;
-<<<<<<< Updated upstream
-=======
     public int OverflowValARM;
     public boolean isAssign;
     public String typeAssign;
@@ -96,7 +86,6 @@ public class DecacCompiler {
     private int maxTsto =0;
     public boolean isHex;
     private Boolean [] RegistersARM;
->>>>>>> Stashed changes
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -107,23 +96,14 @@ public class DecacCompiler {
         this.symbolTable = new SymbolTable();
         this.spVal = 0;
         this.OverflowVal = 15;
-<<<<<<< Updated upstream
-        // Initialisation de environmentType après symbolTable
-        this.environmentType = new EnvironmentType(this);
-=======
         this.OverflowValARM = 12;
         if (compilerOptions != null){
             this.OverflowVal = compilerOptions.getRegistreLimitValue();
         }
->>>>>>> Stashed changes
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
             GP[i] = false;
         }
-<<<<<<< Updated upstream
-        GP[OverflowVal] = true;
-        this.Overflow = 15;
-=======
         this.RegistersARM = new Boolean[OverflowValARM+1];
         for(int i = 0 ; i < OverflowValARM+1 ; i++){
             RegistersARM[i] = false;
@@ -131,7 +111,6 @@ public class DecacCompiler {
         DVal reg = Register.getR(this.OverflowVal);
         reg.isOffSet = true;
         this.Overflow = 3;
->>>>>>> Stashed changes
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
@@ -146,8 +125,6 @@ public class DecacCompiler {
         return source;
     }
 
-<<<<<<< Updated upstream
-=======
     public int getUniqueDataID(){
         return uniqueDataID++;
     }
@@ -169,7 +146,6 @@ public class DecacCompiler {
     public int getMaxTsto() {
         return maxTsto; // Récupérer la taille maximale atteinte
     }
->>>>>>> Stashed changes
     /**
      * Compilation options (e.g. when to stop compilation, number of registers
      * to use, ...).
@@ -515,11 +491,6 @@ public class DecacCompiler {
         return Register.getR(adresse);
     }
 
-<<<<<<< Updated upstream
-
-
-}
-=======
     public boolean compileARM() {
         String sourceFile = source.getAbsolutePath();
         String destFile = sourceFile.substring(0, sourceFile.length()-4) + "s";
@@ -607,4 +578,3 @@ public class DecacCompiler {
         return false;
     }
 }
->>>>>>> Stashed changes

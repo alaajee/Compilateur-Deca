@@ -92,8 +92,6 @@ public class FloatLiteral extends AbstractExpr {
 
     }
 
-<<<<<<< Updated upstream
-=======
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
@@ -105,6 +103,5 @@ public class FloatLiteral extends AbstractExpr {
         compiler.addInstruction(new LOAD(res, Register.R1));
         compiler.addInstruction(new WFLOATX());
     }
->>>>>>> Stashed changes
 
 }

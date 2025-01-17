@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -23,8 +24,8 @@ import fr.ensimag.ima.pseudocode.GPRegister;
  * @date 01/01/2025
  */
 public class IfThenElse extends AbstractInst {
-    
-    private final AbstractExpr condition; 
+
+    private final AbstractExpr condition;
     private final ListInst thenBranch;
     private ListInst elseBranch;
 
@@ -36,80 +37,86 @@ public class IfThenElse extends AbstractInst {
         this.thenBranch = thenBranch;
         this.elseBranch = elseBranch;
     }
-    
+
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
+                              ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-                this.condition.verifyCondition(compiler, localEnv, currentClass);
-                this.thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
-                if (this.elseBranch!=null)
-                {
-                    this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
-                }
+        this.condition.verifyCondition(compiler, localEnv, currentClass);
+        this.thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
+        if (this.elseBranch!=null)
+        {
+            this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
+        }
 
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        // Labels pour les branches
-        Label elseLabel = (elseBranch != null) ? new Label("else_label") : new Label("end_if");
-        Label endIf = new Label("end_if");
+        int ID = compiler.getUniqueID();
+        Label elseLabel = (elseBranch != null) ? new Label("else_block_" + ID) : null;
+        Label endIfLabel = new Label("end_if_" + ID);
+        Label bodyLabel = new Label("body_" + ID);
 
-        // Génération du code pour la condition
-        DVal conditionResult = condition.codeGenExpr(compiler);  // Get the condition result as an expression
-        GPRegister reg = compiler.associerReg();  // Allocate a register for the condition evaluation
-<<<<<<< Updated upstream
-        
-        // If the condition result is an offset, we adjust accordingly
-        if (conditionResult.isOffSet) {
-            compiler.addInstruction(new POP(Register.R0));  // Pop the offset into R0
-            compiler.spVal--;  // Decrease the stack pointer
-            compiler.addInstruction(new POP(reg));  // Pop the value to the register
-=======
+        DVal result = condition.codeGenInstrCond(compiler,elseLabel,bodyLabel);
+       // DVal result2 = condition.codeGenInstrCond(compiler,elseLabel,endIfLabel);
+        // Génération de code pour comparaison
 
-        // If the condition result is an offset, we adjust accordingly
-        if (conditionResult.isOffSet) {
-            // compiler.addInstruction(new POP(Register.R0));  // Pop the offset into R0
-            // compiler.spVal--;  // Decrease the stack pointer
-            // compiler.addInstruction(new POP(reg));  // Pop the value to the register
->>>>>>> Stashed changes
-            compiler.addInstruction(new CMP(0, reg));  // Compare the register value with zero
-        } else {
-            compiler.addInstruction(new LOAD(conditionResult, reg));  // Load condition value into the register
-            compiler.addInstruction(new CMP(0, reg));  // Compare the register value with zero
-        }
 
-        // If the condition is false (R0 = 0), jump to the else block
-        compiler.addInstruction(new BEQ(elseLabel));
-
-        // Génération du code pour le bloc "then"
+//        // Choisir l'opérateur de comparaison en fonction du type de la condition (supérieur, inférieur, égal, etc.)
+//        if (compiler.notGreater) {
+//            compiler.addInstruction(new BGE(elseLabel != null ? elseLabel : endIfLabel));
+//        } else if (compiler.notGreaterStric){
+//            compiler.addInstruction(new BGT(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else if (compiler.greater) {
+//            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
+//        } else if (compiler.greaterStric){
+//            compiler.addInstruction(new BLT(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else if (compiler.equals) {
+//            compiler.addInstruction(new BNE(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else if (compiler.notEquals){
+//            compiler.addInstruction(new BEQ(elseLabel != null ? elseLabel : endIfLabel));
+//        }
+//        else {
+//            // Vous pouvez ajouter d'autres cas selon la condition nécessaire
+//            // Par exemple, pour `!=` vous pouvez utiliser BNE
+//        }
+        // Bloc "then"
+        compiler.addLabel(bodyLabel);
         thenBranch.codeGenListInst(compiler);
-
-        // Jump to the end if an "else" exists
         if (elseBranch != null) {
-            compiler.addInstruction(new BRA(endIf));  // Jump to the end of the if-else block
+            if (compiler.weAreinWhile){
+                compiler.addInstruction(new BRA(endIfLabel));
+
+            }
+            else {
+                compiler.addInstruction(new BRA(endIfLabel));
+                 //compiler.addLabel(compiler.endIfLabel);
+                // compiler.addLabel(compiler.endIfLabel);
+            }
         }
 
-        // Génération du code pour le bloc "else"
         if (elseBranch != null) {
-            compiler.addLabel(elseLabel);  // Else label
-            elseBranch.codeGenListInst(compiler);  // Generate the code for the else block
+            compiler.addLabel(elseLabel);
+            elseBranch.codeGenListInst(compiler);
         }
+        compiler.addLabel(endIfLabel);
+        // Bloc "else"
 
-        // Ajouter le label de fin
-        compiler.addLabel(endIf);  // End of the if-else block
+
+
+
     }
 
-<<<<<<< Updated upstream
-    
-=======
     @Override
     public void codeGenInstARM(DecacCompiler compiler) {
     }
 
 
->>>>>>> Stashed changes
+
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -120,7 +127,7 @@ public class IfThenElse extends AbstractInst {
         thenBranch.decompile(s);
         s.unindent();
         s.println("}");
-        
+
         if (elseBranch != null) {
             s.println("else {");
             s.indent();
@@ -129,7 +136,7 @@ public class IfThenElse extends AbstractInst {
             s.println("}");
         }
     }
-    
+
 
     @Override
     protected

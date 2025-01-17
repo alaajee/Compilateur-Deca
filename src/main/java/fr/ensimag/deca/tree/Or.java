@@ -53,18 +53,6 @@ protected DVal codeGenExpr(DecacCompiler compiler) {
     return reg;
 }
 
-
-
-<<<<<<< Updated upstream
-=======
-
-
-        compiler.addInstruction(new SNE(reg));
-        compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
-        gen.finalizeAndPush(reg, compiler);
-        return reg;
-    }
-
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
@@ -87,5 +75,4 @@ protected DVal codeGenExpr(DecacCompiler compiler) {
             compiler.addInstruction(new WINT());
         }
     }
->>>>>>> Stashed changes
 }
