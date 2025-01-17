@@ -1,0 +1,9 @@
+{
+    if (!true){
+        println("faux");
+    }
+    else {
+        println("vrai");
+    }
+    // Sortie Vrai
+}

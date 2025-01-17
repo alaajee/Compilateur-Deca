@@ -1,0 +1,74 @@
+	TSTO #4
+	BOV stack_overflow_error
+	ADDSP #4
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #1, R2
+	STORE R2, 5(GB)
+	LOAD #7, R3
+	STORE R3, 6(GB)
+	LOAD #8, R3
+	STORE R3, 7(GB)
+	LOAD #1, R3
+	STORE R3, 8(GB)
+	LOAD 5(GB), R1
+	CMP #0, R1
+	BEQ else_block_1
+body_1:
+	WSTR "Vrai"
+	WNL
+	BRA end_if_1
+else_block_1:
+	WSTR "Faux"
+	WNL
+end_if_1:
+condition_2:
+	LOAD 6(GB), R3
+	CMP #3, R3
+	SGT R3
+	BLE end_while_2
+	LOAD 7(GB), R3
+	CMP #10, R3
+	SLE R3
+	BGT end_while_2
+body_2:
+	LOAD 6(GB), R4
+	SUB #1, R4
+	STORE R4, 6(GB)
+	LOAD 7(GB), R4
+	ADD #1, R4
+	STORE R4, 7(GB)
+	BRA condition_2
+end_while_2:
+	LOAD 6(GB), R1
+	WINT
+	WNL
+condition_3:
+	LOAD 8(GB), R4
+	CMP #0, R4
+	SGT R4
+	BLE end_while_3
+body_3:
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ else_block_4
+body_4:
+	WSTR " je suis la "
+	WNL
+	BRA end_if_4
+else_block_4:
+	WSTR "je ne suis plus la"
+	WNL
+end_if_4:
+	LOAD 8(GB), R4
+	SUB #1, R4
+	STORE R4, 8(GB)
+	BRA condition_3
+end_while_3:
+	HALT
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

@@ -1,0 +1,15 @@
+// Description:
+//    Multiplication entre deux booléens.
+//
+// Resultats:
+//    invalid_multiplication_boolean.deca:14:13: Invalid operand types: expected int or float, but got boolean and boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+boolean x = true;
+boolean y = false;
+
+// Doit etre refuse.
+int result = x * y;
+}

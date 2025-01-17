@@ -1,0 +1,25 @@
+	TSTO #1
+	BOV stack_overflow_error
+	ADDSP #1
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #5, R2
+	STORE R2, 5(GB)
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ division_by_zero_error
+	LOAD 5(GB), R2
+	QUO #0, R2
+	STORE R2, 5(GB)
+	LOAD 5(GB), R1
+	WINT
+	HALT
+; end main program
+division_by_zero_error:
+	WSTR "Error: Division by zero"
+	WNL
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

@@ -1,0 +1,41 @@
+// Description:
+//    Comaparaison d'un boolean avec un int au sein d'un code complexe
+//
+// Resultats:
+//    TestConditionComplexeComparaisonInvalide.deca:21:74: Operator < is not applicable to those types : boolean and int
+//
+// Historique:
+//    cree le 12/01/2025
+{
+    int a = 10;
+    int b = 5;
+    float c = 15.5;
+    boolean isActive = true;
+    boolean isValid = false;
+    int sum = a + b * 2;  
+    float average = (a + c) / 2;  
+    int diff = b - a;
+    float result;
+    float finalResult;
+
+    if ((sum > 20 && average < 10) || (diff == 5) && (isActive || isValid < 3)) {
+        print("Condition complexe vérifiée !");
+    } else {
+        print("Condition complexe non vérifiée.");
+    }
+
+    result = (average * diff) + (sum / 2);
+    print("Résultat intermédiaire : " , result);
+    if (isActive && sum > 30) {
+        print("Le système est actif avec une somme importante.");
+    }
+    if (c + a / b > 5) {
+        print("La valeur combinée dépasse 5 !");
+    }
+    while (iteration < maxIteration) {
+        print("Simulation d itération " , iteration);
+        iteration=iteration+1;
+    }
+    finalResult = result + average * 1.2;
+    print("Résultat final : " , finalResult);
+}

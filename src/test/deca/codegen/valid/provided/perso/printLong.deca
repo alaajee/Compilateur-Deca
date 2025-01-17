@@ -1,0 +1,14 @@
+// Description:
+//    Declaration Multiple
+//
+// Resultats:
+// -6
+//
+// Historique:
+//    cree le 01/01/2025
+{
+    int x = 1;
+    int y = 2;
+    int z = 3;
+    println(x*x*x*x*z*y*x*x-y*z*2);
+}

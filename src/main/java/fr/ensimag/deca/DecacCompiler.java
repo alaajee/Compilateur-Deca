@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.antlr.v4.runtime.CharStreams;
@@ -84,8 +85,31 @@ public class DecacCompiler {
     public int nbrVar = 0;
     private int currentTsto = 0;
     private int maxTsto =0;
+    private int nbreField = 0;
     public boolean isHex;
     private Boolean [] RegistersARM;
+
+    public boolean greater;
+    public boolean notGreater;
+    public boolean equals;
+    public boolean notGreaterStric;
+    public boolean greaterStric;
+    public boolean notEquals;
+    public boolean and;
+    public boolean or;
+    public boolean condition;
+    public int compteurOr = 1 ;
+    public boolean ifcond = false;
+    public boolean notCond = false;
+    public Label endIfLabel;
+    public boolean weAreinWhile;
+    public DAddr adresseClasse;
+    public int RegisterOffset = 1;
+    public int paramReg = -3;
+    public int regPush = 0;
+    public LinkedList<Register> registeres = new LinkedList<Register>();;
+
+    private Map<String ,RegisterOffset> registerOffsets = new HashMap<>();
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -94,11 +118,13 @@ public class DecacCompiler {
         this.Offset = false;
         // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
+        this.environmentType = new EnvironmentType(this);
+        this.envTypes = environmentType.getEnvtypes();
         this.spVal = 0;
         this.OverflowVal = 15;
         this.OverflowValARM = 12;
         if (compilerOptions != null){
-            this.OverflowVal = compilerOptions.getRegistreLimitValue();
+            this.OverflowVal = 4;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
@@ -114,8 +140,20 @@ public class DecacCompiler {
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;
-
-
+        this.isAssign = false;
+        this.needToPush = false;
+        this.label = false;
+        this.labelMap = new HashMap<>();
+        Label label = new Label("io_error");
+        this.labelMap.put("io_error",label);
+        label = new Label("overflow_error");
+        this.labelMap.put("overflow_error",label);
+        this.isArith = false;
+        label = new Label("division_by_zero_error");
+        this.labelMap.put("division_by_zero_error",label);
+        this.isDiv = false;
+        this.endIfLabel = new Label("end_if_" + getUniqueID());
+        this.weAreinWhile = false;
     }
 
     /**

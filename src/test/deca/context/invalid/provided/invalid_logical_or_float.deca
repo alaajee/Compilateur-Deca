@@ -1,0 +1,15 @@
+// Description:
+//    Opération binaire ou logique sur deux floats.
+//
+// Resultats:
+//    invalid_logical_or_float.deca:14:17: both operands should be of type boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float a = 1.5;
+float b = 2.5;
+
+// Doit etre refuse.
+boolean result = a || b;
+}

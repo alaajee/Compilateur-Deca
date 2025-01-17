@@ -1,0 +1,12 @@
+{
+      int x = 6;
+      boolean estVrai = true;
+      if (estVrai && false){
+           x = x+1;
+       }
+      else {
+           x = x-1;
+       }
+      println(x);
+      // sortie 5
+}

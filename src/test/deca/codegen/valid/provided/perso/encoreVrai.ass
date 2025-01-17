@@ -1,0 +1,23 @@
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #0
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #0, R0
+	CMP #1, R0
+	BNE else_block_1
+body_1:
+	WSTR "faux"
+	WNL
+	BRA end_if_1
+else_block_1:
+	WSTR "vrai"
+	WNL
+end_if_1:
+	HALT
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

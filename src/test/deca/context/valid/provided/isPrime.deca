@@ -1,0 +1,22 @@
+{
+    //Changer la valeur de x pour tester
+    int x = 29; 
+    boolean isPrime = true;
+
+    if (x < 2) {
+        isPrime = false;
+    } else {
+        for (int i = 2; i * i <= x; i++) {
+            if (x % i == 0) {
+                isPrime = false;
+                break;
+            }
+        }
+    }
+
+    if (isPrime) {
+        println("x est un nombre premier.");
+    } else {
+        println("x n'est pas un nombre premier.");
+    }
+}

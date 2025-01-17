@@ -1,0 +1,21 @@
+// Description:
+//    condition
+//
+// Resultats:
+//     2
+//
+// Historique:
+//    cree le 01/01/2025
+
+{
+    int x = 1;
+    int y = 2;
+    boolean bool = false;
+    if (bool){
+        print(x);
+    }
+    else {
+        print(y);
+    }
+
+}

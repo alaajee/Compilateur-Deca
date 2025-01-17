@@ -1,0 +1,12 @@
+// Description:
+//    Affectation d’une opération booléenne à un int.
+//
+// Resultats:
+//    invalid_boolean_operation_assign.deca:13:4: Type incompatible : attendu int, trouvé boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float a;
+a=7;
+}

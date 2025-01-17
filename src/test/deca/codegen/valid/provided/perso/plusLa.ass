@@ -1,0 +1,36 @@
+	TSTO #1
+	BOV stack_overflow_error
+	ADDSP #1
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #5, R2
+	STORE R2, 5(GB)
+condition_1:
+	LOAD 5(GB), R2
+	CMP #0, R2
+	SGT R2
+	BLE end_while_1
+body_1:
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ else_block_2
+body_2:
+	WSTR " je suis la "
+	WNL
+	BRA end_if_2
+else_block_2:
+	WSTR "je ne suis plus la"
+	WNL
+end_if_2:
+	LOAD 5(GB), R2
+	SUB #1, R2
+	STORE R2, 5(GB)
+	BRA condition_1
+end_while_1:
+	HALT
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

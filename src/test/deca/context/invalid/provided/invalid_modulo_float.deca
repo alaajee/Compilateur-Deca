@@ -1,0 +1,15 @@
+// Description:
+//    Opération modulo avec un float.
+//
+// Resultats:
+//invalid_modulo_float.deca:14:8: Type mismatch:both operands must be of type int
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float a = 5.5;
+int b = 2;
+
+// Doit etre refuse.
+int c = a % b;
+}

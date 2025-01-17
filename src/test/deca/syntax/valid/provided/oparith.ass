@@ -1,0 +1,23 @@
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #5, R2
+	STORE R2, 3(GB)
+	LOAD #3, R2
+	STORE R2, 4(GB)
+	ADD 3(GB), R2
+	PUSH R2
+	STORE R2, 5(GB)
+	LOAD 3(GB), R2
+	SUB 4(GB), R2
+	PUSH R2
+	STORE R2, 5(GB)
+	MUL 3(GB), R2
+	PUSH R2
+	STORE R2, 5(GB)
+	LOAD 3(GB), R2
+	QUO 4(GB), R2
+	PUSH R2
+	STORE R2, 5(GB)
+	HALT
+; end main program

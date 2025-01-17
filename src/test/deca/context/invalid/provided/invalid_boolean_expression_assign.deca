@@ -1,0 +1,15 @@
+// Description:
+//    Affectation d'une expression booléenne à un float.
+//
+// Resultats:
+//    invalid_boolean_expression_assign.deca:14:4: Type incompatible : attendu float, trouvé boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float a;
+boolean b = (5 > 3);
+
+// Doit etre refuse.
+a = b;
+}

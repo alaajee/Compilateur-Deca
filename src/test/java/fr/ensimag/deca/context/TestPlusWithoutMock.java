@@ -1,12 +1,13 @@
 package fr.ensimag.deca.context;
 
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
 import fr.ensimag.deca.tree.TreeFunction;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.DVal;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,8 +61,6 @@ public class TestPlusWithoutMock {
         public void checkProperUse() {
             assertTrue(hasBeenVerified, "verifyExpr has not been called");
         }
-<<<<<<< Updated upstream
-=======
 
         @Override
         public DVal codeGenExpr(DecacCompiler compiler){
@@ -73,7 +72,6 @@ public class TestPlusWithoutMock {
             return null;
         }
 
->>>>>>> Stashed changes
     }
 
     @Test

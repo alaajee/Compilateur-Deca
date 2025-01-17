@@ -1,0 +1,11 @@
+// Sortie : ca marche
+
+{
+     int a = 5;
+     int b = 10;
+     boolean c ;
+     if (a > 2 && b < 20) {
+         c = true;
+         println("ca marche");
+     }
+}

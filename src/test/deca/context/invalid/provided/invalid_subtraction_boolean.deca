@@ -1,0 +1,15 @@
+// Description:
+//    Soustraction entre un int et un boolean.
+//
+// Resultats:
+//invalid_subtraction_boolean.deca:14:8: Invalid operand types: expected int or float, but got int and boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+int a = 10;
+boolean b = false;
+
+// Doit etre refuse.
+int c = a - b;
+}

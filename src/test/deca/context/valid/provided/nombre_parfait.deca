@@ -1,0 +1,16 @@
+{
+    int x = 28; // Modifiez cette valeur pour tester
+    int sum = 0;
+
+    for (int i = 1; i <= x / 2; i++) {
+        if (x % i == 0) {
+            sum += i;
+        }
+    }
+
+    if (sum == x) {
+        println(x + " est un nombre parfait.");
+    } else {
+        println(x + " n'est pas un nombre parfait.");
+    }
+}

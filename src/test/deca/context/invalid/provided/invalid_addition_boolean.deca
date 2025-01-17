@@ -1,0 +1,15 @@
+// Description:
+//    Addition d’un float et d’un booléen.
+//
+// Resultats:
+//    invalid_addition_boolean.deca:14:10: Invalid operand types: expected int or float, but got float and boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float a = 2.5;
+boolean b = true;
+
+// Doit etre refuse.
+float c = a + b;
+}

@@ -32,7 +32,11 @@ public class CompilerOptions {
     }
     public boolean getVerify() {
         return verify;
-    }    
+    }
+
+    public boolean getARM() {
+        return ARM;
+    }
     
     public boolean getParse() {
         return parse;

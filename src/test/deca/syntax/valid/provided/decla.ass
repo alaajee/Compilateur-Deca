@@ -1,0 +1,35 @@
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #1, R2
+	ADD #2, R2
+	STORE R2, 3(GB)
+	LOAD #0, R0
+	CMP #9, R0
+	BEQ division_by_zero_error
+	LOAD #1, R3
+	QUO #9, R3
+	STORE R3, 4(GB)
+	LOAD #1, R4
+	SUB #6, R4
+	STORE R4, 5(GB)
+	LOAD #1, R5
+	MUL #7, R5
+	STORE R5, 6(GB)
+	LOAD 3(GB), R1
+	WINT
+	WNL
+	LOAD 4(GB), R1
+	WINT
+	WNL
+	LOAD 5(GB), R1
+	WINT
+	WNL
+	LOAD 6(GB), R1
+	WINT
+	WNL
+	HALT
+division_by_zero_error:
+	WSTR "Error: Division by zero"
+	WNL
+; end main program

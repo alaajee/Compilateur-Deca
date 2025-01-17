@@ -1,0 +1,15 @@
+// Description:
+//    Affectation d’un boolean à une variable de type float.
+//
+// Resultats:
+//    invalid_assign_boolean_to_float.deca:14:4: Type incompatible : attendu float, trouvé boolean
+//
+// Historique:
+//    cree le 12/01/2025
+{
+float a;
+boolean b = false;
+
+// Doit etre refuse.
+a = b;
+}

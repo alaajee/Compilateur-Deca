@@ -1,0 +1,23 @@
+// mon compilateur presque marche
+
+{
+    int x = 8;
+    boolean estVrai = true;
+
+    int a = 7;
+    int b = 8;
+
+    if (!estVrai){
+        x = x + 1;
+        println(x);
+    }
+    else if (false && (x==8)){
+        x = x - 1;
+        println(x);
+    } else if (false){
+        println("je suis la");
+    }
+    else {
+        println("mon compilateur presque marche");
+    }
+}

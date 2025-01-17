@@ -1,0 +1,14 @@
+// Description:
+//    Affectation d’une valeur non entière à une variable entière.
+//
+// Resultats:
+//    affectation_non_entier.deca:13:4: Type incompatible : attendu int, trouvé boolean
+//
+// Historique:
+//    cree le 11/01/2025
+{
+int x;
+
+// Doit etre refuse.
+x = true;
+}

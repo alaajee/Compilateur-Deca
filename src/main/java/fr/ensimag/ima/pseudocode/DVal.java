@@ -10,10 +10,15 @@ public abstract class DVal extends Operand {
     public boolean isRegistre;
     public boolean isOffSet;
     public boolean isVar;
+    public boolean isNull;
+    public boolean continuePush = false;
+
     public void DVal() {
         isRegistre = false;
         isOffSet = false;
         isVar = false;
+        isNull = false;
     }
 
 }
+

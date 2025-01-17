@@ -1,0 +1,10 @@
+{
+    boolean var = 0 > 1;
+    if (var){
+        println("vrai");
+    }
+    else {
+        println("faux");
+    }
+    // Sortie faux
+}

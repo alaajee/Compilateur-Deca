@@ -1,0 +1,23 @@
+{
+    int x = 12345; // Modifiez cette valeur pour tester
+    boolean isAscending = true;
+
+    int prevDigit = x % 10;
+    x = x / 10;
+
+    while (x > 0) {
+        int currentDigit = x % 10;
+        if (currentDigit > prevDigit) {
+            isAscending = false;
+            break;
+        }
+        prevDigit = currentDigit;
+        x = x / 10;
+    }
+
+    if (isAscending) {
+        println("Les chiffres du nombre sont en ordre croissant.");
+    } else {
+        println("Les chiffres du nombre ne sont pas en ordre croissant.");
+    }
+}
