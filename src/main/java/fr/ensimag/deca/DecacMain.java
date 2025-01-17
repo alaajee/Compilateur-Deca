@@ -26,10 +26,13 @@ public class DecacMain {
             System.exit(1);
         }
         if (options.getPrintBanner()) {
-            throw new UnsupportedOperationException("decac -b not yet implemented");
+            System.out.println("Project developped by group 26");
+            System.exit(0);
         }
         if (options.getSourceFiles().isEmpty()) {
-            throw new UnsupportedOperationException("decac without argument not yet implemented");
+            options.displayUsage();
+            System.exit(0); 
+            
         }
         if (options.getARM()){
             for (File source : options.getSourceFiles()){
@@ -48,6 +51,8 @@ public class DecacMain {
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
             throw new UnsupportedOperationException("Parallel build not yet implemented");
+        
+
         } else {
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source);

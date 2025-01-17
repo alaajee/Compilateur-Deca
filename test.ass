@@ -1,0 +1,67 @@
+	ADDSP #11
+; start main program
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction de la table des methodes de Point2D
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+	LOAD code.Point2D.diag, R0
+	STORE R0, 5(GB)
+; Construction de la table des methodes de Point3D
+	LEA 3(GB), R0
+	STORE R0, 6(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 7(GB)
+	LOAD code.Point3D.diag, R0
+	STORE R0, 8(GB)
+initPoint2D:
+	LOAD -2(LB), R1
+	STORE R0, 1(R1)
+	LOAD -2(LB), R1
+	STORE R0, 2(R1)
+	RTS
+code.Point2D.diag:
+	PUSH R2
+	PUSH R3
+	LOAD -2(LB), R2
+	LOAD -2(LB), R3
+	LOAD 1(R3), R3
+	ADD -3(LB), R3
+	STORE R3, 1(R2)
+	LOAD -2(LB), R2
+	LOAD -2(LB), R3
+	LOAD 2(R3), R3
+	ADD -3(LB), R3
+	STORE R3, 2(R2)
+	POP R3
+	POP R2
+initPoint3D:
+	LOAD -2(LB), R0
+	PUSH R0
+	BSR initPoint2D
+	SUBSP #1
+	LOAD -2(LB), R1
+	STORE R0, 2(R1)
+	RTS
+code.Point3D.diag:
+	PUSH R2
+	PUSH R3
+	LOAD -2(LB), R2
+	LOAD -2(LB), R3
+	LOAD 2(R3), R3
+	ADD -3(LB), R3
+	STORE R3, 2(R2)
+	POP R3
+	POP R2
+; Main program
+	WSTR "Il manque le main"
+	HALT
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

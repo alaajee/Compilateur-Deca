@@ -2,7 +2,6 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -10,11 +9,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  *
@@ -72,6 +68,8 @@ public class BooleanLiteral extends AbstractExpr {
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             reg.isRegistre = true;
+            compiler.isVar = false;
+            return adresse;
         }
         else {
             compiler.addInstruction(new LOAD(res,reg));

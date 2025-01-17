@@ -14,9 +14,14 @@ import org.apache.log4j.Logger;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateString;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.HALT;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.instructions.*;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
  * Deca complete program (class definition plus main block)
@@ -48,6 +53,8 @@ public class Program extends AbstractProgram {
 
         try {
             this.main.verifyMain(compiler);
+            this.classes.verifyListClass(compiler);
+            this.classes.verifyListClassMembers(compiler);
         } catch (ContextualError e) { 
             System.err.println("erreur dans verifyMain");
             throw e;
@@ -58,9 +65,34 @@ public class Program extends AbstractProgram {
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
         // A FAIRE: compléter ce squelette très rudimentaire de code
+        classes.codeGenClasses(compiler);
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
+        compiler.addComment("end main program");
+        if (compiler.label){
+            compiler.addLabel(compiler.labelMap.get("io_error"));
+            compiler.addInstruction(new WSTR("Error: Input/Output error"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+        if (compiler.isArith){
+            compiler.addLabel(compiler.labelMap.get("overflow_error"));
+            compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+        if (compiler.isDiv){
+            compiler.addLabel(compiler.labelMap.get("division_by_zero_error"));
+            compiler.addInstruction(new WSTR("Error: Division by zero"));
+            compiler.addInstruction(new WNL());
+        }
+        Label stackOverflowLabel = new Label("stack_overflow_error");
+        compiler.addLabel(stackOverflowLabel);
+        compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+
     }
 
     @Override

@@ -81,7 +81,7 @@ public class GreaterOrEqual extends AbstractOpIneq {
         compiler.addInstruction(new SGE(reg));
         System.out.println(compiler.or);
         if (compiler.or){
-            if (compiler.compteurOr == 1){
+            if (compiler.compteurOr != 0){
                 if (compiler.notCond){
                     compiler.addInstruction(new BLT(bodyLabel));
                 }
@@ -105,6 +105,3 @@ public class GreaterOrEqual extends AbstractOpIneq {
         return register;
     }
 }
-
-
-

@@ -1,8 +1,10 @@
 package fr.ensimag.deca.tree;
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
@@ -58,12 +60,12 @@ public abstract class AbstractExpr extends AbstractInst {
     }
     private Type type;
 
-    @Override
-    protected void checkDecoration() {
-        if (getType() == null) {
-            throw new DecacInternalError("Expression " + decompile() + " has no Type decoration");
-        }
-    }
+//    @Override
+//    protected void checkDecoration() {
+//        if (getType() == null) {
+//            throw new DecacInternalError("Expression " + decompile() + " has no Type decoration");
+//        }
+//    }
 
     /**
      * Verify the expression for contextual error.
@@ -211,7 +213,13 @@ public abstract class AbstractExpr extends AbstractInst {
         return null;
     }
 
-    protected void codeGenInstClass(DecacCompiler compiler){};
+    protected DVal codeGenInstClass(DecacCompiler compiler){
+        return null;
+    };
 
     public void codeGenField(DecacCompiler compiler){};
+
+    protected  DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        return null;
+    };
 }

@@ -2,7 +2,6 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;

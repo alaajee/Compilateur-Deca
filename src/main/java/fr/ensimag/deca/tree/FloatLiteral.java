@@ -6,7 +6,6 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -72,18 +71,24 @@ public class FloatLiteral extends AbstractExpr {
     protected DVal codeGenExpr(DecacCompiler compiler) {
         DAddr adresse = compiler.getCurrentAdresse();
         DVal res = new ImmediateFloat(value);
+        System.out.println("float " + value);
+        compiler.typeAssign = getType().toString();
         if (compiler.isVar == true){
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
-            return reg;
+            // Il faut liberer le registre
+            compiler.isVar = false;
+            compiler.typeAssign = getType().toString();
+            compiler.libererReg(reg.getNumber());
+            if (value == 0){
+                adresse.isNull = true;
+            }
+            return adresse;
         }
         else {
-
-            GPRegister reg = compiler.associerReg();
-            compiler.addInstruction(new LOAD(res,reg));
-            return reg;
+            return res;
         }
 
     }
@@ -100,4 +105,17 @@ public class FloatLiteral extends AbstractExpr {
         compiler.addInstruction(new WFLOATX());
     }
 
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        DVal register = codeGenExpr(compiler);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WFLOAT());
+    }
+
+    @Override
+    public DVal codeGenInit(DecacCompiler compiler){
+        compiler.typeAssign = this.getType().toString();
+        DVal res = new ImmediateFloat(value);
+        return res;
+    }
 }

@@ -46,6 +46,7 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         // A FAIRE: traiter les déclarations de variables.
+
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGen(compiler);
         insts.codeGenListInst(compiler);
@@ -65,7 +66,13 @@ public class Main extends AbstractMain {
         declVariables.codeGenARM(compiler);
         insts.codeGenListInstARM(compiler);
     }
-    
+
+    protected void whileGeneration(DecacCompiler compiler) {
+        if (!compiler.weAreinWhile){
+            compiler.addLabel(compiler.endIfLabel);
+        }
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");

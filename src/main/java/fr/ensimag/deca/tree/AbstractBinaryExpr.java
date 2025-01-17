@@ -1,7 +1,13 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
+
 import java.io.PrintStream;
+import java.util.LinkedList;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -66,4 +72,12 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel){
+        System.out.println("hhbin");
+        return null;
+    }
+
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, Register register){
+        return null;
+    }
 }

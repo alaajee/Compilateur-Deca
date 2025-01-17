@@ -1,6 +1,10 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.*;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -15,6 +19,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 public class Multiply extends AbstractOpArith {
     public Multiply(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
+        this.expression = "instruction";
     }
 
 
@@ -23,41 +28,7 @@ public class Multiply extends AbstractOpArith {
         return "*";
     }
 
-    @Override
-    public DVal codeGenExpr(DecacCompiler compiler){
-        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
-        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        GPRegister reg = compiler.associerReg();
-        if (reg.isOffSet){
-            if (leftOperand.isOffSet && rightOperand.isOffSet){
-                compiler.addInstruction(new POP(Register.R0));
-                compiler.spVal--;
-                compiler.addInstruction(new  POP(reg));
-                compiler.addInstruction(new MUL(Register.R0,reg));
-                return reg;
-            }
-            else if (leftOperand.isOffSet){
-                compiler.addInstruction(new POP(reg));
-                compiler.addInstruction(new MUL(rightOperand,reg));
-                compiler.addInstruction(new PUSH(reg));
-                return reg;}
-            else {
-                compiler.addInstruction(new LOAD(rightOperand,reg));
-                compiler.addInstruction(new MUL(leftOperand,reg));
-                compiler.addInstruction(new PUSH(reg));
-                return reg;
-            }
 
-        }
-        else {
-            System.out.println(rightOperand + " * " + leftOperand);
-            compiler.addInstruction(new LOAD(rightOperand,reg));
-            compiler.addInstruction(new MUL(leftOperand,reg));
-            return reg;
-        }
-
-
-    }
 
     @Override
     public void codeGenInst(DecacCompiler compiler){
@@ -72,21 +43,35 @@ public class Multiply extends AbstractOpArith {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
-       //  System.out.print(rightOperand + " * " + leftOperand + " = ");
-        compiler.addInstruction(new LOAD(rightOperand,reg));
-        compiler.addInstruction(new MUL(leftOperand,reg));
-        compiler.addInstruction(new LOAD(reg, Register.R1));
+        //  System.out.print(rightOperand + " * " + leftOperand + " = ");
+        constructeur constructeurMUL = new constructeurMUL();
+        codeGen gen = new codeGen();
+        gen.codeGenPrint(leftOperand,rightOperand,reg,constructeurMUL,compiler);
         if (getLeftOperand().getType().isFloat() || getRightOperand().getType().isFloat()){
             compiler.addInstruction(new WFLOAT());
         }
         else {
             compiler.addInstruction(new WINT());
         }
-
-
     }
 
+
+    public DVal codeGenInit(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenInit(compiler);
+        DVal rightOperand = getRightOperand().codeGenInit(compiler);
+        GPRegister reg = compiler.associerReg();
+        constructeur constructeur = new constructeurMUL();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+        gen.finalizeAndPush(reg, compiler);
+        DAddr adresse = compiler.getCurrentAdresse();
+        compiler.addInstruction(new STORE((GPRegister)register, adresse));
+        return register;
+    }
 
 }

@@ -1,5 +1,4 @@
 package fr.ensimag.deca;
-
 import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
@@ -19,11 +18,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.SUB;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
@@ -45,7 +45,7 @@ import org.apache.log4j.Logger;
  */
 public class DecacCompiler {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
-    
+
     /**
      * Portable newline character.
      */
@@ -109,7 +109,12 @@ public class DecacCompiler {
     public int regPush = 0;
     public LinkedList<Register> registeres = new LinkedList<Register>();;
 
-    private Map<String ,RegisterOffset> registerOffsets = new HashMap<>();
+    private Map<String ,Integer> registerOffsets = new HashMap<>();
+
+
+    public Label nouvLabel = new Label("And");
+    public boolean compteurAnd = false;
+    public int compterLabel = 0;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -124,7 +129,7 @@ public class DecacCompiler {
         this.OverflowVal = 15;
         this.OverflowValARM = 12;
         if (compilerOptions != null){
-            this.OverflowVal = 4;
+            this.OverflowVal = 15;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
@@ -215,6 +220,15 @@ public class DecacCompiler {
         program.addLabel(label);
     }
 
+    public void addFirst(Instruction instruction) {
+        program.addFirst(instruction);
+    }
+
+
+    public void addFirst(Instruction instruction, String comment) {
+        program.addFirst(instruction, comment);
+    }
+
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addFirst(fr.ensimag.ima.pseudocode.Instruction)
@@ -256,15 +270,15 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
-    
+
     /**
-     * @see 
+     * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {
         return program.display();
     }
-    
+
     private final CompilerOptions compilerOptions;
     private final File source;
     /**
@@ -296,6 +310,31 @@ public class DecacCompiler {
 
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
+            if (compilerOptions.getParse())
+            {
+                AbstractProgram program = doLexingAndParsing(sourceFile, err);
+                program.decompile(out);
+                return false;
+
+            }
+
+            if (compilerOptions.getVerify())
+            {
+                AbstractProgram program = doLexingAndParsing(sourceFile, err);
+                program.verifyProgram(this);
+                /*
+                 * pour afficher l'arbre syntaxique decoree
+                 * decommenter la ligne suivante
+                 */
+
+                //System.out.println(program.prettyPrint());
+                return false;
+
+            }
+
+
+
+
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
             e.display(err);
@@ -332,7 +371,7 @@ public class DecacCompiler {
      * @return true on error
      */
     private boolean doCompile(String sourceName, String destName,
-            PrintStream out, PrintStream err)
+                              PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
         AbstractProgram prog = doLexingAndParsing(sourceName, err);
 
@@ -348,7 +387,6 @@ public class DecacCompiler {
 
         addComment("start main program");
         prog.codeGenProgram(this);
-        addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
 
@@ -400,6 +438,14 @@ public class DecacCompiler {
 
     public DAddr associerAdresse(){
         this.adressVar++;
+        System.out.println(this.adressVar);
+//        if (this.adressVar == 4) {
+//            this.adressVar++;
+//        }
+//        else if (this.adressVar == 3) {
+//            this.adressVar++;
+//            this.adressVar++;
+//        }
         DAddr adresse = new RegisterOffset(adressVar,Register.GB);
         return adresse;
     }
@@ -523,6 +569,8 @@ public class DecacCompiler {
 
     public int getOverflow(){
         return this.Overflow;
+    public int getOverflowVal(){
+        return this.OverflowVal;
     }
 
     public GPRegister getRegister(int adresse){

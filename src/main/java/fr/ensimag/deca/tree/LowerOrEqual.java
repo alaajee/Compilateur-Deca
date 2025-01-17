@@ -30,11 +30,11 @@ public class LowerOrEqual extends AbstractOpIneq {
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
 
-        
+
         constructeur constructeur = new constructeurCMP();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
-        
+
         compiler.addInstruction(new SLE(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
@@ -100,9 +100,7 @@ public class LowerOrEqual extends AbstractOpIneq {
             compiler.addInstruction(new BGT(endLabel));
         }
 
-        gen.finalizeAndPush(reg, compiler);
-
-        compiler.notGreaterStric = true;
         return register;
     }
+
 }

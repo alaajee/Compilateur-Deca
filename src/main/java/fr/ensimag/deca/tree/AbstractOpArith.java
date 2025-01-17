@@ -5,6 +5,11 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Instruction;
+import fr.ensimag.ima.pseudocode.Register;
+
+import java.util.LinkedList;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -56,5 +61,12 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 
                 this.setType(returnType);
                 return returnType;
+    }
+
+    protected DVal codeGenInstClass(DecacCompiler compiler){
+        return null;
+    };
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, Register register){
+        return null;
     }
 }

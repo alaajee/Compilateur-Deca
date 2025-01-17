@@ -74,7 +74,19 @@ public class Equals extends AbstractOpExactCmp {
         DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
         compiler.addInstruction(new SEQ((GPRegister) register));
         if (compiler.and){
-            compiler.addInstruction(new BNE(endLabel));
+            if (compiler.compteurAnd){
+                compiler.addInstruction(new BEQ(bodyLabel));
+                compiler.compteurAnd = false;
+            }
+            else {
+                if (compiler.compteurOr > 1){
+                    compiler.addInstruction(new BEQ(endLabel));
+                }
+                else {
+                    compiler.addInstruction(new BNE(endLabel));
+                }
+                // celle laaaaaaaaaaa
+            }
         }
         else if (compiler.or){
             if (compiler.compteurOr == 1){
@@ -96,10 +108,18 @@ public class Equals extends AbstractOpExactCmp {
             compiler.notCond = false;
         }
         else {
-            compiler.addInstruction(new BNE(endLabel));
+            if (compiler.compteurAnd ){
+                compiler.addInstruction(new BEQ(bodyLabel));
+            }
+            else {
+                compiler.addInstruction(new BNE(endLabel));
+            }
         }
-       // gen.finalizeAndPush(reg, compiler);
+        // gen.finalizeAndPush(reg, compiler);
         compiler.libererReg(reg.getNumber());
         return register;
     }
 }
+
+
+

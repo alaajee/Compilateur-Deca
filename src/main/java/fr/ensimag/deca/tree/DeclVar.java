@@ -2,11 +2,17 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-import fr.ensimag.deca.context.*;
+import org.apache.commons.lang.Validate;
+
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
+import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -20,7 +26,7 @@ import fr.ensimag.arm.pseudocode.*;
  */
 public class DeclVar extends AbstractDeclVar {
 
-    
+
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
@@ -36,7 +42,7 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                 EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         Type t=this.type.verifyType(compiler);
         VariableDefinition varDef = new VariableDefinition(t, this.varName.getLocation());
@@ -46,14 +52,13 @@ public class DeclVar extends AbstractDeclVar {
             throw new ContextualError("Variable '" + this.varName.getName() + "' is already declared in this scope", this.varName.getLocation());
 
         }
-        this.setLocation(localEnv.getEnvExp().get(varName.getName()).getLocation());
         this.initialization.verifyInitialization(compiler, this.type.verifyType(compiler), localEnv, currentClass);
         this.varName.verifyExpr(compiler, localEnv, currentClass);
     }
 
 
 
-    
+
     @Override
     public void decompile(IndentPrintStream s) {
         this.type.decompile(s);
@@ -64,7 +69,7 @@ public class DeclVar extends AbstractDeclVar {
             initialization.decompile(s);
         }
         s.println(";");
-      
+
 
     }
 
@@ -75,7 +80,7 @@ public class DeclVar extends AbstractDeclVar {
         varName.iter(f);
         initialization.iter(f);
     }
-    
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);
@@ -94,6 +99,8 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addVar(variable,this.varName.getName().toString());
         compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
         compiler.addRegUn(this.varName.getName().toString(),adresse);
+        compiler.nbrVar++;
+       // System.out.println(this.type.getType().toString());
         if (this.initialization.initialization()) {
             // Générer le code pour initialiser la variable
             // La normalement on a tout initialisé

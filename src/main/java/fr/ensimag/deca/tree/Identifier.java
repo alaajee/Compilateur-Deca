@@ -1,6 +1,5 @@
 package fr.ensimag.deca.tree;
 
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -26,6 +25,8 @@ import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -36,12 +37,12 @@ import org.apache.commons.lang.Validate;
  */
 public class Identifier extends AbstractIdentifier {
     
-    @Override
-    protected void checkDecoration() {
-        if (getDefinition() == null) {
-            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
-        }
-    }
+//    @Override
+//    protected void checkDecoration() {
+//        if (getDefinition() == null) {
+//            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
+//        }
+//    }
 
     @Override
     public Definition getDefinition() {
@@ -180,7 +181,7 @@ public class Identifier extends AbstractIdentifier {
             ClassDefinition currentClass) throws ContextualError {
                 ExpDefinition definitionExp=localEnv.get(name);
                 if(definitionExp == null){
-                    throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
+                    throw new ContextualError("Identifier  '" + this.name + "' is not defined", this.getLocation());
                 }
                 if(!(definitionExp instanceof VariableDefinition)){
                     throw new ContextualError("Identifier '" + this.name + "' is not a variable", this.getLocation());
@@ -188,7 +189,6 @@ public class Identifier extends AbstractIdentifier {
 
                 this.setDefinition(definitionExp);
                 this.setType(definitionExp.getType());
-                this.setLocation(localEnv.getEnvExp().get(name).getLocation());
                 return definitionExp.getType();            
     }
 
@@ -198,13 +198,12 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        TypeDefinition definitionT = compiler.environmentType.getEnvtypes().get(this.name);
-
+        TypeDefinition definitionT = compiler.environmentType.getEnvtypes().get(name);
         if (definitionT == null)
         {
-            throw new ContextualError("Identifier '" + this.name + "' is not defined", this.getLocation());
+            throw new ContextualError("Identifier ' " + this.name + " ' is not defined", this.getLocation());
         }
-        this.setDefinition(definitionT); 
+        this.setDefinition(definitionT);
         this.setType(definitionT.getType());
         return definitionT.getType();
         
@@ -245,17 +244,18 @@ public class Identifier extends AbstractIdentifier {
             s.println();
         }
 
-        else 
-        {
-            System.out.println("lllll");
-        }
     }
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
-        System.out.println("reg: " + reg);
+        if (compiler.isVar){
+            GPRegister register = compiler.associerReg();
+            compiler.addInstruction(new LOAD(reg,register));
+            compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+            compiler.isVar = false;
+        }
         return reg;
 
     }
@@ -313,5 +313,69 @@ public class Identifier extends AbstractIdentifier {
         VariableDefinition variableDefinition = compiler.getVarTab().get(name);
         DAddr adresse = variableDefinition.getOperand();
         return adresse;
+    }
+
+    @Override
+    protected void codeGenPrintx(DecacCompiler compiler) {
+        String name = getName().toString();
+        DAddr register = compiler.getRegUn(name);
+        compiler.addInstruction(new LOAD(register, Register.R1));
+        compiler.addInstruction(new WFLOATX());
+    }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        // Récupère le nom et l'adresse du registre
+        String name = getName().toString();
+        DAddr register = compiler.getRegUn(name);
+
+        // Charge la valeur du registre dans R1
+        compiler.addInstruction(new LOAD(register, Register.R1));
+
+        // Compare R1 avec 0
+        compiler.addInstruction(new CMP(0, Register.R1));  // Comparer R1 à 0
+
+        if (compiler.notCond){
+            compiler.addInstruction(new BNE(endLabel));  // Si res == 0, saute à endLabel
+            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+            compiler.notCond = false;
+        }// Si res == 1, sauter à bodyLabel, sinon sauter à endLabel
+
+        else {
+            if (compiler.or){
+                if (compiler.compteurOr == 1){
+                    if (compiler.notCond){
+                        compiler.addInstruction(new BNE(endLabel));
+                        compiler.notCond = false;
+                    }
+                    else {
+                        compiler.addInstruction(new BEQ(endLabel));
+                    }
+                }
+                else {
+                    compiler.addInstruction(new BEQ(endLabel));
+                }
+                compiler.compteurOr--;
+            }
+            else {
+                compiler.addInstruction(new BEQ(endLabel));  // Si res == 0, saute à endLabel
+            }
+            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
+        }
+        return register;
+    }
+
+
+    @Override
+    protected  DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines,GPRegister register){
+        String name = getName().toString();
+        int i = compiler.getRegisterOffset(name);
+        if (i < 0){
+            DAddr adresse = new RegisterOffset(i,Register.LB);
+            return adresse;
+        }
+        else {
+            DAddr registre = new RegisterOffset(i,register);
+            return registre;
+        }
     }
 }

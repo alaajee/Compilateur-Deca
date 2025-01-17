@@ -6,8 +6,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
-
 
 /**
  *
@@ -52,5 +53,11 @@ public class Not extends AbstractUnaryExpr {
     @Override
     protected void codeGenPrint(DecacCompiler compiler){
         return;
+    }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel){
+        compiler.notCond = true;
+        DVal resultat = getOperand().codeGenInstrCond(compiler,endLabel,bodyLabel);
+        return resultat;
     }
 }

@@ -16,11 +16,7 @@
 	BNE else_block_1
 body_1:
 	LOAD 5(GB), R4
-	STORE R4, 6(GB)
-	LOAD #1, R4
-	STORE R4, 6(GB)
-	LOAD 5(GB), R4
-	ADD 6(GB), R4
+	ADD #1, R4
 	STORE R4, 5(GB)
 	BRA end_if_1
 else_block_1:

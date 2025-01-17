@@ -10,6 +10,8 @@ import fr.ensimag.arm.pseudocode.*;
 
 import org.mockito.stubbing.ValidableAnswer;
 
+import java.util.LinkedList;
+
 /**
  * Assignment, i.e. lvalue = expr.
  *
@@ -33,10 +35,11 @@ public class Assign extends AbstractBinaryExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         Type leftType = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        AbstractExpr expr = this.getRightOperand().verifyRValue(compiler,localEnv,currentClass,leftType);
         this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, leftType);
         this.setType(leftType);
-        return leftType;
-
+        this.setRightOperand(expr);
+        return expr.getType();
     }
 
 
@@ -47,17 +50,24 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler) {
+        compiler.isAssign = true;
+        compiler.typeAssign = getLeftOperand().getType().toString();
         DVal val = getRightOperand().codeGenExpr(compiler);
         DVal resultat = getLeftOperand().codeGenExpr(compiler);
         if (val instanceof GPRegister){
             compiler.addInstruction(new STORE((GPRegister)val,(DAddr )resultat));
+            compiler.libererReg(((GPRegister) val).getNumber());
             return resultat;
         }
         else {
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(val, reg));
+            if (compiler.typeAssign.equals("float")) {
+                compiler.addInstruction(new FLOAT(reg,reg));
+            }
             compiler.addInstruction(new STORE(reg,(DAddr )resultat));
-            return resultat;
+            compiler.libererReg(reg.getNumber());
+            return reg;
         }
 
     }

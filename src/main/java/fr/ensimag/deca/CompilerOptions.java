@@ -194,4 +194,8 @@ public class CompilerOptions {
     public int getRegistreLimitValue() {
         return registreLimitValue;
     }
+
+    public int getRegistreLimitValue() {
+        return registreLimitValue;
+    }
 }

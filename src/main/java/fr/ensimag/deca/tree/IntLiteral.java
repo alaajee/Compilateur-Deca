@@ -66,15 +66,20 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler) {
-        DAddr adresse = compiler.getCurrentAdresse();
+
+
         DVal res = new ImmediateInteger(value);
+        compiler.typeAssign = getType().toString();
         if (compiler.isVar == true){
+            // compiler.addInstruction(new WSTR("hh"));
+            DAddr adresse = compiler.getCurrentAdresse();
+            System.out.println("adresse int" + adresse.toString());
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));
             res.isRegistre = true;
-            compiler.isVar = false;
             // Il faut liberer le registre
+            compiler.isVar = false;
             compiler.libererReg(reg.getNumber());
             return adresse;
         }
@@ -139,5 +144,7 @@ public class IntLiteral extends AbstractExpr {
         compiler.typeAssign = this.getType().toString();
         DVal res = new ARMImmediateInteger(value);
         return res;
+    public void codeGenField(DecacCompiler compiler){
+        compiler.addInstruction(new LOAD(new ImmediateInteger(value), Register.R0));
     }
 }

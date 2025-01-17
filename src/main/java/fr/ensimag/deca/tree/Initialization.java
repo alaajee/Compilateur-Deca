@@ -2,9 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
-
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -12,6 +10,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 
 /**
  * @author gl02
@@ -25,6 +24,7 @@ public class Initialization extends AbstractInitialization {
 
     private AbstractExpr expression;
 
+
     public void setExpression(AbstractExpr expression) {
         Validate.notNull(expression);
         this.expression = expression;
@@ -33,13 +33,16 @@ public class Initialization extends AbstractInitialization {
     public Initialization(AbstractExpr expression) {
         Validate.notNull(expression);
         this.expression = expression;
+
     }
 
     @Override
     protected void verifyInitialization(DecacCompiler compiler, Type t,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-            this.expression.verifyRValue(compiler, localEnv, currentClass, t);
+            AbstractExpr exp= this.expression.verifyRValue(compiler, localEnv, currentClass, t);
+            this.setExpression(exp);
+            
         
     }
 
@@ -77,6 +80,7 @@ public class Initialization extends AbstractInitialization {
             return valeur;
         }
         else {
+            System.out.println(getExpression());
             DVal valeur = getExpression().codeGenExpr(compiler);
             return valeur;
         }
@@ -96,4 +100,7 @@ public class Initialization extends AbstractInitialization {
         }
     }
 
+    public void codeGenField(DecacCompiler compiler){
+        getExpression().codeGenField(compiler);
+    }
 }

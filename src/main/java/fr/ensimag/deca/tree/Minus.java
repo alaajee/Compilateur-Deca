@@ -62,8 +62,6 @@ public class Minus extends AbstractOpArith {
         else {
             compiler.addInstruction(new WINT());
         }
-
-
     }
 
 

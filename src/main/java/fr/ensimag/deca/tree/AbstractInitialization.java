@@ -31,4 +31,5 @@ public abstract class AbstractInitialization extends Tree {
     public abstract DVal codeGenExpr(DecacCompiler compiler);
     public abstract DVal codeGenExprARM(DecacCompiler compiler);
 
+    public abstract void codeGenField(DecacCompiler compiler);
 }
