@@ -6,12 +6,6 @@ import fr.ensimag.deca.codegen.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.*;
-
 /**
  * @author gl02
  * @date 01/01/2025
@@ -35,8 +29,34 @@ public class Multiply extends AbstractOpArith {
         codeGenExpr(compiler);
     }
 
+
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    public DVal codeGenExpr(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
+        DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+
+        if (leftOperand instanceof GPRegister){
+            constructeur constructeur = new constructeurMUL();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,(GPRegister) leftOperand,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return leftOperand;
+        }
+        else {
+            GPRegister reg = compiler.associerReg();
+            constructeur constructeur = new constructeurMUL();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return register;
+        }
+    }
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 

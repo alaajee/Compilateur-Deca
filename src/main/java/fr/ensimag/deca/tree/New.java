@@ -67,4 +67,9 @@ public void prettyPrintChildren(PrintStream s, String prefix) {
     protected DVal codeGenExpr(DecacCompiler compiler){
         return null;
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 }

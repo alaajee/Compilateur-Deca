@@ -550,9 +550,6 @@ public class DecacCompiler {
         this.regUn.put(name,reg);
     }
 
-    public int getOverflow(){
-        return this.Overflow;
-    }
     public int getOverflowVal(){
         return this.OverflowVal;
     }
@@ -561,6 +558,46 @@ public class DecacCompiler {
         return Register.getR(adresse);
     }
 
+    public RegisterOffset getRegisterClass(){
+        RegisterOffset reg = new RegisterOffset(this.RegisterOffset,Register.R1);
+        this.RegisterOffset++;
+        return reg;
+    }
+
+    public RegisterOffset getRegisterParam(){
+        RegisterOffset reg = new RegisterOffset(this.paramReg,Register.LB);
+        this.RegisterOffset--;
+        return reg;
+    }
+
+    public int getAdressVar(){
+        return this.adressVar;
+    }
+
+    public int getNbreField(){
+        return this.nbreField;
+    }
+
+    public void setNbreField(){
+        this.nbreField++;
+    }
+
+    public Map<String,Integer> getRegisterOffsets(){
+        return registerOffsets;
+    }
+
+    public Integer getRegisterOffset(String name){
+        return this.registerOffsets.get(name);
+    }
+
+    public void setRegisterOffsets(String name,Integer offset){
+         this.registerOffsets.put(name,offset);
+    }
+
+    public int getCurrentId(){
+        return uniqueIDCounter;
+    }
+    
     public boolean compileARM() {
         String sourceFile = source.getAbsolutePath();
         String destFile = sourceFile.substring(0, sourceFile.length()-4) + "s";
