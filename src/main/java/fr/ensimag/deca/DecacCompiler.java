@@ -107,6 +107,7 @@ public class DecacCompiler {
     public boolean compteurAnd = false;
     public int compterLabel = 0;
 
+    public boolean tas_plein = false;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();

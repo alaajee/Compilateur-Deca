@@ -15,11 +15,11 @@ public class Signature {
     public void add(Type t) {
         args.add(t);
     }
-    
+
     public Type paramNumber(int n) {
         return args.get(n);
     }
-    
+
     public int size() {
         return args.size();
     }
@@ -30,11 +30,11 @@ public class Signature {
         Signature signature = (Signature) o;
         return args.equals(signature.args); // Comparaison logique des listes
     }
-    
+
     @Override
     public int hashCode() {
         return args.hashCode(); // Délégué au hashCode de la liste
     }
-    
+
 
 }

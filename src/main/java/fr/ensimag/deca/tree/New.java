@@ -67,6 +67,7 @@ public class New extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        compiler.tas_plein = false;
         GPRegister reg = compiler.associerReg();
         int i = this.Identifier.getClassDefinition().getNumberOfFields() + 1;
         compiler.addInstruction(new NEW(new ImmediateInteger(i),reg));
