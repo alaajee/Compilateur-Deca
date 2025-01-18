@@ -3,6 +3,8 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.util.LinkedList;
 

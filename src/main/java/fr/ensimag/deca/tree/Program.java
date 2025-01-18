@@ -14,6 +14,8 @@ import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.HALT;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 /**
  * Deca complete program (class definition plus main block)

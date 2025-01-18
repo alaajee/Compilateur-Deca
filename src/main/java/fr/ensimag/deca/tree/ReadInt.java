@@ -62,7 +62,7 @@ public class ReadInt extends AbstractReadExpr {
     }
 
     @Override
-    protected DVal codeGenExpr(DecacCompiler compiler){
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 
