@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
-
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.*;
+
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.AbstractIdentifier;

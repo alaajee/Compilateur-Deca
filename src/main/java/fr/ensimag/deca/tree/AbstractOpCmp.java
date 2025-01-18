@@ -44,7 +44,15 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     else if ((getOperatorName().equals("==") || getOperatorName().equals("!=")) &&
              (leftType.isClassOrNull() && rightType.isClassOrNull())) {
         
-    } else {
+    }
+
+    else if ((getOperatorName().equals("==") || getOperatorName().equals("!=")) &&
+    (leftType.isBoolean() && rightType.isBoolean())) {
+
+}
+    
+
+    else {
         throw new ContextualError("Opérateur " + getOperatorName() +
             " non applicable to those types : " + leftType.getName() + " and " + rightType.getName(),
             getLocation());
