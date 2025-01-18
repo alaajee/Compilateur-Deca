@@ -82,6 +82,15 @@ public  class DeclMethod extends AbstractDeclMethod{
         // Vérification du type de retour
         Type returnType = this.type.verifyType(compiler);
     
+        // Vérifier si une variable porte le même nom que la méthode
+        ExpDefinition existingMember = currentClass.getMembers().get(this.methodName.getName());
+        if (existingMember != null && !(existingMember instanceof MethodDefinition)) {
+            throw new ContextualError(
+                "Le nom '" + methodName.getName() + "' est déjà utilisé par un champ ou une variable dans la classe.",
+                methodName.getLocation()
+            );
+        }
+    
         // Vérifier si la méthode redéfinit une méthode existante
         MethodDefinition overriddenMethod = null;
         ClassDefinition superClass = currentClass.getSuperClass();
@@ -142,6 +151,8 @@ public  class DeclMethod extends AbstractDeclMethod{
         }
     }
     
+
+
 
     @Override
     protected void codeGenMethod(DecacCompiler compiler,String className) {
