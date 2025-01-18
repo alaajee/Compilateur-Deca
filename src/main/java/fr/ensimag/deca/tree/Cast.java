@@ -81,7 +81,10 @@ public class Cast extends AbstractExpr {
     }
 
 
-        return targetType;
+    throw new ContextualError(
+        "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
+        getLocation()
+    );
     }
 
     @Override
