@@ -46,6 +46,21 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie7v2.deca"]="7
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sortie8.deca"]="8"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Vrai.deca"]="Vrai 4 je ne suis plus la"
 
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/amicaux.deca"]="220 et 284 sont des nombres amicaux."
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/calculLong.deca"]="62 62"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/MultiplicationCond.deca"]="Lerésultatfinalest:16"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/narcissique.deca"]="153 est un nombre narcissique."
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/OuAnd.deca"]="Lerésultatfinalest:8"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/OuCond.deca"]="Lerésultatfinalest:10"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/palindrome.deca"]="12321 est un palindrome."
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/parfait.deca"]="28 est un nombre parfait."
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/plusieursTests.deca"]="Reverse de 12345: 54321
+                                                                                              Reverse de 54321: 12345
+                                                                                              Somme des chiffres de 987654: 39
+                                                                                              Factorielle de 5: 120
+                                                                                              7 est un nombre positif impair.
+                                                                                              7 est supérieur à 5."
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/premier.deca"]="x n est pas un nombre premier."
 
 
 # Boucle sur chaque répertoire dans TEST_DIRS

@@ -76,7 +76,7 @@ public class LowerOrEqual extends AbstractOpIneq {
             compiler.addInstruction(new BGT(endLabel));
         }
         else if (compiler.or){
-            if (compiler.compteurOr == 1){
+            if (compiler.compteurOr > 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BGT(bodyLabel));
                 }
@@ -87,6 +87,7 @@ public class LowerOrEqual extends AbstractOpIneq {
             }
             else {
                 compiler.addInstruction(new BGT(endLabel));
+                compiler.compteurOr--;
             }
         } else if (compiler.ifcond){
             compiler.addInstruction(new BLE(endLabel));

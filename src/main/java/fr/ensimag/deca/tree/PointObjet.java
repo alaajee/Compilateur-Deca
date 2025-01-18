@@ -60,7 +60,9 @@ public class PointObjet extends AbstractExpr {
         GPRegister reg  = compiler.associerReg();
         compiler.addInstruction(new LOAD(adresse,reg));
         compiler.addInstruction(new STORE(reg,new RegisterOffset(0,Register.SP)));
-        method.codeGenExpr(compiler);
+        compiler.addInstruction(new LOAD(new RegisterOffset(0,Register.SP),reg));
+        method.codeGenExpr(compiler,reg);
+        compiler.libererReg();
         return adresse;
     }
 }

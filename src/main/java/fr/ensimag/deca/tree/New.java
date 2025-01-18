@@ -68,14 +68,16 @@ public class New extends AbstractExpr {
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
         GPRegister reg = compiler.associerReg();
-        int i = this.Identifier.getClassDefinition().getNumberOfFields();
+        int i = this.Identifier.getClassDefinition().getNumberOfFields() + 1;
         compiler.addInstruction(new NEW(new ImmediateInteger(i),reg));
         compiler.addInstruction(new BOV(new Label("Tas_plein")));
         String name = this.Identifier.getName().getName();
+
         DAddr adresse = compiler.getTableClassee(name);
         compiler.addInstruction(new LEA(adresse,Register.R0));
+        compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,reg)));
         compiler.addInstruction(new PUSH(reg));
-        compiler.addInstruction(new BSR(new Label(name)));
+        compiler.addInstruction(new BSR(new Label("init" + name)));
         compiler.addInstruction(new POP(reg));
         DAddr adresseNouvelle = compiler.getCurrentAdresse();
         compiler.addInstruction(new STORE(reg,adresseNouvelle));

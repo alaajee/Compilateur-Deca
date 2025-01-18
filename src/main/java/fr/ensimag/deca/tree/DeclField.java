@@ -65,14 +65,14 @@ public class DeclField extends AbstractDeclField{
         if (t.isVoid()) {
             throw new ContextualError("Cannot declare a field with type void", this.getLocation());
         }
-    
+
         Symbol fieldSymbol = fieldName.getName();
         EnvironmentExp localEnv = currentClass.getMembers();
-    
+
         if (localEnv.getEnvExp().containsKey(fieldSymbol)) {
             throw new ContextualError("Field " + fieldName.getName() + " already defined in the current class", this.getLocation());
         }
-    
+
         ClassDefinition curr = currentClass.getSuperClass();
         ClassDefinition originClass = null;
         while (curr != null) {
@@ -82,24 +82,24 @@ public class DeclField extends AbstractDeclField{
             }
             curr = curr.getSuperClass();
         }
-    
+
         if (originClass != null) {
-            throw new ContextualError("Field " + fieldName.getName() + " already defined in superclass " 
+            throw new ContextualError("Field " + fieldName.getName() + " already defined in superclass "
                                       + originClass.getType().getName(), this.getLocation());
         }
-    
+
         FieldDefinition fieldDef = new FieldDefinition(t, getLocation(), visibility, currentClass, index);
         try {
             localEnv.declare(fieldSymbol, fieldDef);
         } catch (EnvironmentExp.DoubleDefException e) {
             throw new ContextualError("Field " + fieldName.getName() + " already defined in the current class", this.getLocation());
         }
-    
+
         fieldName.setDefinition(fieldDef);
     }
     @Override
     protected void verifyinitField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
-        
+
             Type t = this.type.verifyType(compiler);
             if (t.isVoid()) {
                 throw new ContextualError("Cannot declare a field with type void", this.getLocation());
@@ -107,6 +107,8 @@ public class DeclField extends AbstractDeclField{
             EnvironmentExp localEnv = currentClass.getMembers();
             initialization.verifyInitialization(compiler, t, localEnv, currentClass);
         }
+
+
 
     @Override
     protected DVal codeGenField(DecacCompiler compiler) {

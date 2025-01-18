@@ -79,7 +79,7 @@ public class NotEquals extends AbstractOpExactCmp {
             compiler.addInstruction(new BEQ(endLabel));
         }
         else if (compiler.or){
-            if (compiler.compteurOr != 0){
+            if (compiler.compteurOr > 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BEQ(bodyLabel));
                 }

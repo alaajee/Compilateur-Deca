@@ -14,10 +14,14 @@
 	STORE R2, 3(GB)
 	LOAD 3(GB), R1
 	WINT
-code.Object.equals:
 	HALT
+code.Object.equals:
 ; end main program
 stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
 	WSTR "Error: Stack Overflow"
 	WNL
 	ERROR

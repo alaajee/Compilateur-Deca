@@ -1,0 +1,83 @@
+
+// Sortie Reverse de 12345: 54321
+//          Reverse de 54321: 12345
+//          Somme des chiffres de 987654: 39
+//          Factorielle de 5: 120
+//          7 est un nombre positif impair.
+//          7 est supérieur à 5.
+
+{
+    int a = 12345;
+    int b = 54321;
+    int sum = 0;
+    int product = 1;
+    int digitA;
+    int digitB;
+    int number = 987654;
+    int temp = number;
+    int n = 5; // Changez cette valeur pour tester
+    int factorial = 1;
+    int i = 1;
+    int x = 7;
+    int y = 1234;
+
+    // Test 1: Réversion des deux nombres
+    int reverseA = 0;
+    int reverseB = 0;
+    while (a > 0 || b > 0) {
+        if (a > 0) {
+            digitA = a % 10;
+            reverseA = reverseA * 10 + digitA;
+            a = a / 10;
+        }
+
+        if (b > 0) {
+            digitB = b % 10;
+            reverseB = reverseB * 10 + digitB;
+            b = b / 10;
+        }
+    }
+
+    println("Reverse de 12345: ", reverseA);
+    println("Reverse de 54321: ", reverseB);
+
+    // Test 2: Somme des chiffres d'un nombre donné
+
+    while (temp > 0) {
+        digitA = temp % 10;
+        sum = sum + digitA;
+        temp = temp / 10;
+
+    }
+
+    println("Somme des chiffres de 987654: ", sum);
+
+    // Test 3: Vérification de factorielle d'un nombre
+
+    while (i <= n) {
+        factorial = factorial * i;
+        i = i + 1;
+    }
+
+    println("Factorielle de 5: ", factorial);
+
+    // Test 4: Test imbriqué avec des multiples conditions
+     // Changez cette valeur pour tester
+    if (x > 0) {
+        if (x % 2 == 0) {
+            println(x, " est un nombre positif pair.");
+        } else {
+            println(x, " est un nombre positif impair.");
+        }
+
+        if (x > 5) {
+            println(x, " est supérieur à 5.");
+        } else {
+            println(x, " est inférieur ou égal à 5.");
+        }
+    } else {
+        println(x, " est un nombre négatif ou zéro.");
+    }
+
+
+}

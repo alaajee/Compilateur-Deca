@@ -81,7 +81,7 @@ public class Greater extends AbstractOpIneq {
             compiler.addInstruction(new BLE(endLabel));
         }
         else if (compiler.or){
-            if (compiler.compteurOr == 1){
+            if (compiler.compteurOr > 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BLE(bodyLabel));
                 }
@@ -92,6 +92,7 @@ public class Greater extends AbstractOpIneq {
             }
             else {
                 compiler.addInstruction(new BLE(endLabel));
+                compiler.compteurOr--;
             }
         }else if (compiler.ifcond){
             compiler.addInstruction(new BGT(endLabel));

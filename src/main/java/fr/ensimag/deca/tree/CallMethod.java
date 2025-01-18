@@ -11,6 +11,10 @@ import fr.ensimag.deca.tree.AbstractIdentifier;
 import fr.ensimag.deca.tree.AbstractLValue;
 import fr.ensimag.deca.tree.ListExpr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 import java.io.PrintStream;
 
@@ -71,6 +75,13 @@ public class CallMethod extends AbstractExpr {
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
         return null;
+    }
+
+    protected DVal codeGenExpr(DecacCompiler compiler, GPRegister register){
+        compiler.addInstruction(new LOAD(new RegisterOffset(0,register),register));
+        // 2 pour la premiere methode 3 pour la suivante etcc
+        compiler.addInstruction(new BSR(new RegisterOffset(2,register)));
+        return register;
     }
 
 }

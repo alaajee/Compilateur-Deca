@@ -1,0 +1,75 @@
+	ADDSP #5
+	TSTO #3
+	BOV stack_overflow_error
+	ADDSP #3
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #30, R2
+	STORE R2, 3(GB)
+	LOAD #1, R2
+	STORE R2, 4(GB)
+	LOAD #2, R3
+	STORE R3, 5(GB)
+	LOAD 3(GB), R3
+	CMP #2, R3
+	SLT R3
+	BGE else_block_1
+body_1:
+	LOAD #0, R3
+	LOAD #0, R4
+	STORE R4, 4(GB)
+	BRA end_if_1
+else_block_1:
+condition_2:
+	LOAD 5(GB), R4
+	MUL 5(GB), R4
+	LOAD R4, R5
+	CMP 3(GB), R5
+	SLE R5
+	BGT end_while_2
+	LOAD 4(GB), R1
+	CMP #0, R1
+	BEQ end_while_2
+body_2:
+	LOAD 3(GB), R6
+	REM 5(GB), R6
+	LOAD R6, R6
+	CMP #0, R6
+	SEQ R6
+	BNE else_block_3
+body_3:
+	LOAD #0, R6
+	LOAD #0, R7
+	STORE R7, 4(GB)
+	BRA end_if_3
+else_block_3:
+	LOAD 5(GB), R7
+	ADD #1, R7
+	STORE R7, 5(GB)
+end_if_3:
+	BRA condition_2
+end_while_2:
+end_if_1:
+	LOAD 4(GB), R1
+	CMP #0, R1
+	BEQ else_block_4
+body_4:
+	WSTR "x est un nombre premier."
+	WNL
+	BRA end_if_4
+else_block_4:
+	WSTR "x n est pas un nombre premier."
+	WNL
+end_if_4:
+	HALT
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

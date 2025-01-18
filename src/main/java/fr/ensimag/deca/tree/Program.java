@@ -47,12 +47,13 @@ public class Program extends AbstractProgram {
             this.main.verifyMain(compiler);
 
 
-        } catch (ContextualError e) { 
+        } catch (ContextualError e) {
             System.err.println("erreur dans verifyMain");
             throw e;
         }
         LOG.debug("verify program: end");
     }
+
 
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
@@ -87,7 +88,10 @@ public class Program extends AbstractProgram {
         compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
-
+        compiler.addLabel(new Label("Tas_plein"));
+        compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
     }
 
     @Override

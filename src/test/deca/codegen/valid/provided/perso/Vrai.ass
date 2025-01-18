@@ -67,10 +67,14 @@ end_if_4:
 	STORE R4, 6(GB)
 	BRA condition_3
 end_while_3:
-code.Object.equals:
 	HALT
+code.Object.equals:
 ; end main program
 stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
 	WSTR "Error: Stack Overflow"
 	WNL
 	ERROR

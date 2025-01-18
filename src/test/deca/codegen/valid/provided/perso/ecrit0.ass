@@ -8,10 +8,14 @@
 	WSTR "ok"
 	WSTR "ok"
 	WNL
-code.Object.equals:
 	HALT
+code.Object.equals:
 ; end main program
 stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
 	WSTR "Error: Stack Overflow"
 	WNL
 	ERROR

@@ -29,7 +29,6 @@ public class Or extends AbstractOpBool {
     public DVal codeGenExpr(DecacCompiler compiler){
         compiler.or = true;
         if (compiler.and ){
-            System.out.println("je suis la");
             compiler.and = false;
             DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
             DVal rightOperand = getRightOperand().codeGenExpr(compiler);
@@ -100,16 +99,16 @@ public class Or extends AbstractOpBool {
         compiler.compteurOr++;
         // System.out.println(compiler.nouvLabel);
         if (compiler.and ){
-            //compiler.and = false;
+            compiler.and = false;
             DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, compiler.nouvLabel,compiler.nouvLabel);
-            if (compiler.compteurOr != 1){
+            if (compiler.compteurOr > 1){
                 DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,compiler.nouvLabel);
                 compiler.compteurOr--;
             }
             else {
                 DVal rightOperand = getRightOperand().codeGenInstrCond(compiler, endLabel, bodylabel);
             }
-            //compiler.and = true;
+            compiler.and = true;
         }
         else {
            // compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());

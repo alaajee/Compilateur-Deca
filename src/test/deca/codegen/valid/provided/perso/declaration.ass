@@ -29,8 +29,8 @@
 	WFLOAT
 	LOAD 3(GB), R1
 	WINT
-code.Object.equals:
 	HALT
+code.Object.equals:
 ; end main program
 overflow_error:
 	WSTR "Error: Overflow during arithmetic operation"
@@ -40,6 +40,10 @@ division_by_zero_error:
 	WSTR "Error: Division by zero"
 	WNL
 stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
 	WSTR "Error: Stack Overflow"
 	WNL
 	ERROR

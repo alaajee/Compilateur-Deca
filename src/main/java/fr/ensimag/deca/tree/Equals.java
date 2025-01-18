@@ -58,63 +58,74 @@ public class Equals extends AbstractOpExactCmp {
         compiler.addInstruction(new WINT());
     }
 
-    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
-//        System.out.println(compiler.notCond);
-//        System.out.println(endLabel);
+    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        // Générer le code pour les opérandes gauche et droit
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+
+        // Associer un registre pour les opérations
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurCMP();
         codeGen gen = new codeGen();
-        DVal register = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
-        compiler.addInstruction(new SEQ((GPRegister) register));
-        if (compiler.and){
-            if (compiler.compteurAnd){
-                compiler.addInstruction(new BEQ(bodyLabel));
-                compiler.compteurAnd = false;
-            }
-            else {
-                if (compiler.compteurOr > 1){
-                    compiler.addInstruction(new BEQ(endLabel));
-                }
-                else {
-                    compiler.addInstruction(new BNE(endLabel));
-                }
-                // celle laaaaaaaaaaa
-            }
-        }
-        else if (compiler.or){
-            if (compiler.compteurOr == 1){
-                if (compiler.notCond){
-                    compiler.addInstruction(new BNE(bodyLabel));
-                }
-                else {
-                    compiler.addInstruction(new BEQ(bodyLabel));
-                }
-                compiler.compteurOr--;
-            }
-            else {
-                compiler.addInstruction(new BNE(endLabel));
-            }
 
+        // Générer le code de comparaison
+        DVal comparisonResult = gen.codeGen(leftOperand, rightOperand, reg, constructeur, compiler);
+        compiler.addInstruction(new SEQ((GPRegister) comparisonResult));
+
+        // Gérer les conditions AND
+        if (compiler.and) {
+            handleAndCondition(compiler, endLabel, bodyLabel);
         }
-        else if (compiler.notCond){
+        // Gérer les conditions OR
+        else if (compiler.or) {
+            handleOrCondition(compiler, endLabel, bodyLabel);
+        }
+        // Gérer les conditions NOT
+        else if (compiler.notCond) {
             compiler.addInstruction(new BEQ(endLabel));
             compiler.notCond = false;
         }
+        // Gérer les conditions par défaut
         else {
-            if (compiler.compteurAnd ){
-                compiler.addInstruction(new BEQ(bodyLabel));
-            }
-            else {
+            handleDefaultCondition(compiler, endLabel, bodyLabel);
+        }
+
+        // Libérer le registre utilisé
+        compiler.libererReg(reg.getNumber());
+        return comparisonResult;
+    }
+
+    private void handleAndCondition(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        if (compiler.compteurAnd) {
+            // Si c'est une condition AND avec compteur
+            compiler.addInstruction(compiler.notCond ? new BEQ(bodyLabel) : new BNE(endLabel));
+            compiler.compteurAnd = false;
+            compiler.notCond = false;
+        } else {
+            // Si c'est une condition AND sans compteur
+            if (compiler.compteurOr > 1) {
+                compiler.addInstruction(compiler.notCond ? new BNE(bodyLabel) : new BEQ(bodyLabel));
+            } else {
                 compiler.addInstruction(new BNE(endLabel));
             }
+            compiler.compteurOr--;
         }
-        // gen.finalizeAndPush(reg, compiler);
-        compiler.libererReg(reg.getNumber());
-        return register;
     }
-}
 
+    private void handleOrCondition(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        if (compiler.compteurOr > 1) {
+            compiler.addInstruction(compiler.notCond ? new BNE(bodyLabel) : new BEQ(bodyLabel));
+            compiler.compteurOr--;
+        } else {
+            compiler.addInstruction(new BNE(endLabel));
+            compiler.compteurOr--;
+        }
+    }
 
-
+    private void handleDefaultCondition(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+        if (compiler.compteurAnd) {
+            compiler.addInstruction(new BEQ(bodyLabel));
+        } else {
+            compiler.addInstruction(new BNE(endLabel));
+        }
+    }}
