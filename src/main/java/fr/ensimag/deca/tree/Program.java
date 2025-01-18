@@ -41,9 +41,12 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: start");
 
         try {
-            this.main.verifyMain(compiler);
             this.classes.verifyListClass(compiler);
             this.classes.verifyListClassMembers(compiler);
+            this.classes.verifyListClassBody(compiler);
+            this.main.verifyMain(compiler);
+
+
         } catch (ContextualError e) { 
             System.err.println("erreur dans verifyMain");
             throw e;
