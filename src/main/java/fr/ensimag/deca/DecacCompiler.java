@@ -79,12 +79,6 @@ public class DecacCompiler {
     private int maxTsto =0;
     private int nbreField = 0;
 
-    public boolean greater;
-    public boolean notGreater;
-    public boolean equals;
-    public boolean notGreaterStric;
-    public boolean greaterStric;
-    public boolean notEquals;
     public boolean and;
     public boolean or;
     public boolean condition;
@@ -103,11 +97,14 @@ public class DecacCompiler {
 
     private Map<String ,DAddr> tableClassees = new HashMap<>();
 
+    private Map<String ,Integer> tableFields = new HashMap<>();
+
     public Label nouvLabel = new Label("And");
     public boolean compteurAnd = false;
     public int compterLabel = 0;
 
     public boolean tas_plein = false;
+    public Label labelClasses = new Label("Tables.DES.Methodes");
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -545,6 +542,18 @@ public class DecacCompiler {
 
     public void setTableClassee(String name , DAddr tableClassee) {
         this.tableClassees.put(name,tableClassee);
+    }
+
+    public void addInstructionAfterLabel(Label label,  Instruction instruction) {
+        program.addInstructionAfterLabel(label,instruction);
+    }
+
+    public Integer getTableFields(String name){
+        return tableFields.get(name);
+    }
+
+    public void setTableClassee(String name , int fields) {
+        this.tableFields.put(name,fields);
     }
 
 }

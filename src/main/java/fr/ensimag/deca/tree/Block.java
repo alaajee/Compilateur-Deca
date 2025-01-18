@@ -65,8 +65,8 @@ public class Block extends AbstractBlock {
     @Override
     protected void codeGen(DecacCompiler compiler, LinkedList<Instruction> lines){
         compiler.regPush = 0;
-        //compiler.registeres.clear();
+        compiler.registeres.clear();
         instructions.codeGenInstClasse(compiler,lines);
-        compiler.addInstruction(new RTS());
+        //compiler.addInstruction(new RTS());
     }
 }

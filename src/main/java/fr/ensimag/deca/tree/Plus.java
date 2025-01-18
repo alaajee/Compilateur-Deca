@@ -97,10 +97,6 @@ public class Plus extends AbstractOpArith {
             compiler.registeres.add(reg);
         }
 
-
-//        System.out.println(leftOperand);
-//        System.out.println(rightOperand);
-
         lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
         lines.add(new LOAD(leftOperand,reg));
         lines.add(new ADD(rightOperand,reg));

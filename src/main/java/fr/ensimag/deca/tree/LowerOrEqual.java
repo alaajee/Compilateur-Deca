@@ -39,7 +39,7 @@ public class LowerOrEqual extends AbstractOpIneq {
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notGreaterStric = true;
+
         return register;
     }
 

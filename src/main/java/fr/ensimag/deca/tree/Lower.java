@@ -40,7 +40,7 @@ public class Lower extends AbstractOpIneq {
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notGreater = true;
+
         return register;
     }
 
@@ -104,7 +104,7 @@ public class Lower extends AbstractOpIneq {
         }
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notGreater = true;
+
         return register;
     }
 }

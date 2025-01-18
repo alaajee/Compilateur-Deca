@@ -11,10 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -28,7 +25,7 @@ public  class DeclMethod extends AbstractDeclMethod{
     final private AbstractIdentifier methodName;
     final private ListParam listParam;
     final private AbstractBlock block;
-
+    private Label nameMethod;
 
 
     public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodName,ListParam listParam,AbstractBlock block){
@@ -153,6 +150,7 @@ public  class DeclMethod extends AbstractDeclMethod{
         DVal dval = new classeNom(className,method);
         compiler.addInstruction(new LOAD(dval, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, adresse));
+        this.nameMethod = new Label(dval.toString());
     }
 
     @Override
@@ -182,8 +180,11 @@ public  class DeclMethod extends AbstractDeclMethod{
         for (Instruction i : lines) {
             compiler.addInstruction(i);
         }
-
+        compiler.addInstruction(new RTS());
     }
 
 
+    public Label getLabel(){
+        return new Label(this.nameMethod.toString());
+    }
 }

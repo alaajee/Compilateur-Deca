@@ -74,6 +74,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
 
     protected void codeGenClasses(DecacCompiler compiler){
         //System.out.println(getList());
+        compiler.addLabel(compiler.labelClasses);
         if (getList().size() > 0) {
             DAddr adresseUne = new RegisterOffset(1, Register.GB);
             DAddr adresseDeux = new RegisterOffset(2, Register.GB);
@@ -96,8 +97,6 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         }
 
         int adresse = compiler.getAdressVar() ;
-        adresse = adresse + compiler.getNbreField();
-        compiler.addFirst(new ADDSP(new ImmediateInteger(adresse)));
     }
 
 }
