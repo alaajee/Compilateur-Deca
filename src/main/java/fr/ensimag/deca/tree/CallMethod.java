@@ -35,11 +35,9 @@ public class CallMethod extends AbstractExpr {
         this.methodName = methodName;
         this.args = args;
     }
-
 @Override
 public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
     ClassDefinition objectClassDef;
-    System.out.println(currentClass);
     if (object != null) {
 
         Type objectType = object.verifyExpr(compiler, localEnv, currentClass);
@@ -54,8 +52,9 @@ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDef
         }
         objectClassDef = currentClass;
     }
+    
 
-    ExpDefinition methodDef = objectClassDef.getMembers().get(methodName.getName());
+    ExpDefinition methodDef = currentClass.getMembers().get(methodName.getName());
     if (methodDef == null || !(methodDef instanceof MethodDefinition)) {
         throw new ContextualError("Method " + methodName.getName() + " is not defined in class " + objectClassDef.getType().getName(), methodName.getLocation());
     }
@@ -86,6 +85,7 @@ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDef
     this.setType(method.getType());
     return method.getType();
 }
+
     @Override
     public void decompile(IndentPrintStream s) {
         object.decompile(s);
