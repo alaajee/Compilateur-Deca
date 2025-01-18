@@ -4,6 +4,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.tools.*;
+
+
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
@@ -26,25 +30,43 @@ public class PointObjet extends AbstractExpr {
         return "PointObjet [instance=" + instance + ", method=" + method + "]";
     }
 
-    @Override
-    public Type verifyExpr(DecacCompiler compiler,
-                           EnvironmentExp localEnv, ClassDefinition currentClass)
-    {
-        throw new UnsupportedOperationException();
-    }
+   @Override
+ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+ Type instanceType = instance.verifyExpr(compiler, localEnv, currentClass);
 
-    @Override
-    public void decompile(IndentPrintStream s){
-        instance.decompile(s);
-        s.print(".");
-        method.decompile(s);
-    }
+ if (!instanceType.isClass()) {
+ throw new ContextualError("The left part of '.' must be an object", instance.getLocation());
+ }
 
-    @Override
-    public void prettyPrintChildren(PrintStream s, String name){
-        instance.prettyPrint(s, name,false);
-        method.prettyPrint(s,name,false);
-    }
+ ClassDefinition instanceClass = (ClassDefinition) compiler.environmentType.getEnvtypes().get(instanceType.getName());
+ if (instanceClass == null) {
+ throw new ContextualError("Class " + instanceType.getName() + " is not defined", instance.getLocation());
+ }
+
+ Type methodType = method.verifyExpr(compiler, localEnv, instanceClass);
+ this.setType(methodType);
+ return methodType;
+ }
+
+
+
+ @Override
+ public void decompile(IndentPrintStream s) {
+ instance.decompile(s);
+ s.print(".");
+ method.decompile(s);
+ }
+ 
+ @Override
+ public void prettyPrintChildren(PrintStream s, String prefix) {
+ if (instance != null) {
+ instance.prettyPrint(s, prefix, false);
+ }
+ if (method != null) {
+ method.prettyPrint(s, prefix, true);
+ }
+ }
+ 
 
  @Override
  protected void iterChildren(TreeFunction f) {
