@@ -30,9 +30,10 @@ public class PointObjet extends AbstractExpr {
         return "PointObjet [instance=" + instance + ", method=" + method + "]";
     }
 
-    @Override
+   @Override
  public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
  Type instanceType = instance.verifyExpr(compiler, localEnv, currentClass);
+
  if (!instanceType.isClass()) {
  throw new ContextualError("The left part of '.' must be an object", instance.getLocation());
  }
@@ -41,10 +42,12 @@ public class PointObjet extends AbstractExpr {
  if (instanceClass == null) {
  throw new ContextualError("Class " + instanceType.getName() + " is not defined", instance.getLocation());
  }
- Type methodType = method.verifyExpr(compiler, instanceClass.getMembers(), instanceClass);
+ 
+ Type methodType = method.verifyExpr(compiler, localEnv, instanceClass);
  this.setType(methodType);
  return methodType;
  }
+
 
 
  @Override
