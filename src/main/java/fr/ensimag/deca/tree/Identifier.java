@@ -335,4 +335,14 @@ public class Identifier extends AbstractIdentifier {
             return registre;
         }
     }
+
+    @Override
+    protected DVal codeGenClassPrint(DecacCompiler compiler, LinkedList<Instruction> lines){
+        String name = getName().toString();
+        int i = compiler.getRegisterOffset(name);
+        GPRegister register = compiler.associerReg();
+        lines.add(new LOAD(new RegisterOffset(i,register),Register.R1));
+        lines.add(new WINT());
+        return register;
+    }
 }

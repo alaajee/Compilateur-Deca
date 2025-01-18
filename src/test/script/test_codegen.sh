@@ -63,6 +63,13 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/plusieursTests.deca
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/premier.deca"]="x n est pas un nombre premier."
 
 
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/NotEquals.deca"]="not ok"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/greaterEquals.deca"]="not ok"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/lower.deca"]="not ok"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Equals.deca"]="ok"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classPrint.deca"]="je suis la Non je suis la"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classSimple.deca"]="6"
+
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do
     echo "Scanning directory: $TEST_DIR"

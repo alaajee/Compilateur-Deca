@@ -107,9 +107,9 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
-        GPRegister reg = compiler.associerReg();
+        GPRegister reg = Register.R1;
         DVal res = new ImmediateInteger(value);
-        compiler.addInstruction(new LOAD(res, reg));
+        lines.add(new LOAD(res, reg));
         return reg;
     }
 }

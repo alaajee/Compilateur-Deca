@@ -1,7 +1,7 @@
 package fr.ensimag.deca.tree;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
 
+import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.AbstractIdentifier;
@@ -34,29 +34,30 @@ public class CallMethod extends AbstractExpr {
         this.methodName = methodName;
         this.args = args;
     }
-@Override
-public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-    ClassDefinition objectClassDef;
-    if (object != null) {
 
-        Type objectType = object.verifyExpr(compiler, localEnv, currentClass);
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        ClassDefinition objectClassDef;
+        System.out.println(currentClass);
+        if (object != null) {
 
-        if (!objectType.isClass()) {
-            throw new ContextualError("The expression before '.' must be an object.", object.getLocation());
+            Type objectType = object.verifyExpr(compiler, localEnv, currentClass);
+
+            if (!objectType.isClass()) {
+                throw new ContextualError("The expression before '.' must be an object.", object.getLocation());
+            }
+            objectClassDef = objectType.asClassType("Invalid object type for method call.", getLocation()).getDefinition();
+        } else {
+            if (currentClass == null) {
+                throw new ContextualError("Cannot call method without an object outside a class context.", getLocation());
+            }
+            objectClassDef = currentClass;
         }
-        objectClassDef = objectType.asClassType("Invalid object type for method call.", getLocation()).getDefinition();
-    } else {
-        if (currentClass == null) {
-            throw new ContextualError("Cannot call method without an object outside a class context.", getLocation());
+
+        ExpDefinition methodDef = currentClass.getMembers().get(methodName.getName());
+        if (methodDef == null || !(methodDef instanceof MethodDefinition)) {
+            throw new ContextualError("Method " + methodName.getName() + " is not defined in class " + objectClassDef.getType().getName(), methodName.getLocation());
         }
-        objectClassDef = currentClass;
-    }
-
-
-    ExpDefinition methodDef = currentClass.getMembers().get(methodName.getName());
-    if (methodDef == null || !(methodDef instanceof MethodDefinition)) {
-        throw new ContextualError("Method " + methodName.getName() + " is not defined in class " + objectClassDef.getType().getName(), methodName.getLocation());
-    }
 
         MethodDefinition method = (MethodDefinition) methodDef;
 
@@ -81,13 +82,10 @@ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDef
             }
         }
 
-    this.setType(method.getType());
-    return method.getType();
-}
-
         this.setType(method.getType());
         return method.getType();
     }
+
     @Override
     public void decompile(IndentPrintStream s) {
         object.decompile(s);
@@ -119,7 +117,8 @@ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDef
         methodName.prettyPrint(s, prefix, false);
         args.prettyPrint(s, prefix, true);
     }
-    
+
+
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
@@ -127,9 +126,12 @@ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDef
     }
 
     protected DVal codeGenExpr(DecacCompiler compiler, GPRegister register){
+
+
         compiler.addInstruction(new LOAD(new RegisterOffset(0,register),register));
         // 2 pour la premiere methode 3 pour la suivante etcc
-        compiler.addInstruction(new BSR(new RegisterOffset(2,register)));
+        int i = compiler.getTableAdresseMethode(methodName.getName().getName());
+        compiler.addInstruction(new BSR(new RegisterOffset(i,register)));
         return register;
     }
 

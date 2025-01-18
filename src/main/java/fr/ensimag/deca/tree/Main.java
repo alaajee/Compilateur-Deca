@@ -43,6 +43,7 @@ public class Main extends AbstractMain {
         LOG.debug("verify Main: end");
     }
 
+
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         // A FAIRE: traiter les déclarations de variables.

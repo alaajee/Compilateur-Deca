@@ -70,9 +70,6 @@ public class Or extends AbstractOpBool {
             gen.finalizeAndPush(reg, compiler);
             return reg;
         }
-
-
-
     }
 
 
@@ -112,14 +109,22 @@ public class Or extends AbstractOpBool {
         }
         else {
            // compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
+
             DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, endLabel,bodylabel);
             if (compiler.and){
                 compiler.addLabel(compiler.nouvLabel);
                 compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
                 compiler.compteurOr--;
+                if (compiler.compteurOr >= 1){
+                    DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,compiler.nouvLabel,bodylabel);
+                }
+                else {
+                    DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodylabel);
+                }
             }
-
-            DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodylabel);
+            else {
+                DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,endLabel,bodylabel);
+            }
         }
         GPRegister reg = compiler.associerReg();
         return reg;

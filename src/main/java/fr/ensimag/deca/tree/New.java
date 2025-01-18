@@ -69,7 +69,7 @@ public class New extends AbstractExpr {
     protected DVal codeGenExpr(DecacCompiler compiler){
         compiler.tas_plein = true;
         GPRegister reg = compiler.associerReg();
-        int i = this.Identifier.getClassDefinition().getNumberOfFields() + 1;
+        int i = compiler.getTableFields(this.Identifier.getName().getName())+ 1;
         compiler.addInstruction(new NEW(new ImmediateInteger(i),reg));
         compiler.addInstruction(new BOV(new Label("Tas_plein")));
         String name = this.Identifier.getName().getName();

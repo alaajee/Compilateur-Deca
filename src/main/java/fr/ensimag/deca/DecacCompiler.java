@@ -99,6 +99,9 @@ public class DecacCompiler {
 
     private Map<String ,Integer> tableFields = new HashMap<>();
 
+    private Map<String ,Integer> AdresseMethode = new HashMap<>();
+
+    public int AdresseMethodeOffset = 2;
     public Label nouvLabel = new Label("And");
     public boolean compteurAnd = false;
     public int compterLabel = 0;
@@ -552,10 +555,17 @@ public class DecacCompiler {
         return tableFields.get(name);
     }
 
-    public void setTableClassee(String name , int fields) {
+    public void setTableFields(String name , int fields) {
         this.tableFields.put(name,fields);
     }
 
+    public Integer getTableAdresseMethode(String name){
+        return AdresseMethode.get(name);
+    }
+
+    public void setTableAdresseMethode(String name , int fields) {
+        this.AdresseMethode.put(name,fields);
+    }
 }
 
 

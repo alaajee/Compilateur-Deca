@@ -1,0 +1,20 @@
+
+// Sortie je suis la Non je suis la
+
+class A {
+    int x;
+    int y;
+    int z = 6;
+    void m(){
+        println("je suis la");
+    }
+    void p(){
+        println("Non je suis la");
+    }
+}
+
+{
+   A a = new A();
+   a.m();
+   a.p();
+}

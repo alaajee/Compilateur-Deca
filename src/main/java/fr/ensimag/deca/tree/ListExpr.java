@@ -6,7 +6,11 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
+
+import java.util.LinkedList;
 
 /**
  * List of expressions (eg list of parameters).
@@ -35,5 +39,12 @@ public class ListExpr extends TreeList<AbstractExpr> {
         for (AbstractExpr expr : this.getList()) {
             expr.codeGenPrint(compiler);
         }
+    }
+
+    protected DVal codeGenClassPrint(DecacCompiler compiler, LinkedList<Instruction> lines){
+        for (AbstractExpr expr : this.getList()) {
+            expr.codeGenClassPrint(compiler, lines);
+        }
+        return null;
     }
 }

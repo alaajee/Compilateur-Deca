@@ -40,7 +40,7 @@ public class NotEquals extends AbstractOpExactCmp {
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notEquals = true;
+
         return register;
     }
 
@@ -104,7 +104,7 @@ public class NotEquals extends AbstractOpExactCmp {
         }
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notEquals = true;
+
         return register;
     }
 }

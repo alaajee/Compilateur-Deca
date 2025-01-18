@@ -154,16 +154,23 @@ public  class DeclMethod extends AbstractDeclMethod{
     @Override
     protected void codeGenMethod(DecacCompiler compiler,String className) {
         String method = methodName.getName().getName();
+
+        compiler.setTableAdresseMethode(method,compiler.AdresseMethodeOffset);
+        compiler.AdresseMethodeOffset++;
+
+
         DAddr adresse = compiler.associerAdresse();
         DVal dval = new classeNom(className,method);
         compiler.addInstruction(new LOAD(dval, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, adresse));
     }
 
+
     @Override
     protected void verifyBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         this.block.verifyBlock(compiler, localEnv, currentClass, type.getType());
     }
+
 
     @Override
     protected void codeGenBlock(DecacCompiler compiler,String className){
@@ -175,6 +182,10 @@ public  class DeclMethod extends AbstractDeclMethod{
         LinkedList<Instruction> lines = new LinkedList<Instruction>();
         listParam.codeGen(compiler);
         block.codeGen(compiler,lines);
+
+        System.out.println("methodenameeeeeeeeeeeeeeeeeee"+method);
+        compiler.setTableAdresseMethode(method,compiler.AdresseMethodeOffset);
+        compiler.AdresseMethodeOffset++;
 
 
         for (Iterator<Register> it = compiler.registeres.descendingIterator(); it.hasNext(); ) {
@@ -191,7 +202,7 @@ public  class DeclMethod extends AbstractDeclMethod{
     }
 
 
-    public Label getLabel(){
-        return new Label(this.nameMethod.toString());
-    }
+//    public Label getLabel(){
+//        return new Label(this.nameMethod.toString());
+//    }
 }

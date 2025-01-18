@@ -30,60 +30,62 @@ public class PointObjet extends AbstractExpr {
         return "PointObjet [instance=" + instance + ", method=" + method + "]";
     }
 
-   @Override
- public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
- Type instanceType = instance.verifyExpr(compiler, localEnv, currentClass);
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        Type instanceType = instance.verifyExpr(compiler, localEnv, currentClass);
 
- if (!instanceType.isClass()) {
- throw new ContextualError("The left part of '.' must be an object", instance.getLocation());
- }
+        if (!instanceType.isClass()) {
+            throw new ContextualError("The left part of '.' must be an object", instance.getLocation());
+        }
 
- ClassDefinition instanceClass = (ClassDefinition) compiler.environmentType.getEnvtypes().get(instanceType.getName());
- if (instanceClass == null) {
- throw new ContextualError("Class " + instanceType.getName() + " is not defined", instance.getLocation());
- }
+        ClassDefinition instanceClass = (ClassDefinition) compiler.environmentType.getEnvtypes().get(instanceType.getName());
+        if (instanceClass == null) {
+            throw new ContextualError("Class " + instanceType.getName() + " is not defined", instance.getLocation());
+        }
 
- Type methodType = method.verifyExpr(compiler, localEnv, instanceClass);
- this.setType(methodType);
- return methodType;
- }
+        Type methodType = method.verifyExpr(compiler, localEnv, instanceClass);
+        this.setType(methodType);
+        return methodType;
+    }
 
 
 
- @Override
- public void decompile(IndentPrintStream s) {
- instance.decompile(s);
- s.print(".");
- method.decompile(s);
- }
- 
- @Override
- public void prettyPrintChildren(PrintStream s, String prefix) {
- if (instance != null) {
- instance.prettyPrint(s, prefix, false);
- }
- if (method != null) {
- method.prettyPrint(s, prefix, true);
- }
- }
- 
+    @Override
+    public void decompile(IndentPrintStream s) {
+        instance.decompile(s);
+        s.print(".");
+        method.decompile(s);
+    }
 
- @Override
- protected void iterChildren(TreeFunction f) {
- if (instance != null) {
- instance.iter(f);
- }
- if (method != null) {
- method.iter(f);
- }
- }
+    @Override
+    public void prettyPrintChildren(PrintStream s, String prefix) {
+        if (instance != null) {
+            instance.prettyPrint(s, prefix, false);
+        }
+        if (method != null) {
+            method.prettyPrint(s, prefix, true);
+        }
+    }
+
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        if (instance != null) {
+            instance.iter(f);
+        }
+        if (method != null) {
+            method.iter(f);
+        }
+    }
 
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        String name = this.instance.getExpr();
+        Identifier identifier = (Identifier) this.instance;
+        String name = identifier.getName().getName();
         DAddr adresse = compiler.getRegUn(name);
         GPRegister reg  = compiler.associerReg();
+        System.out.println(name);
         compiler.addInstruction(new LOAD(adresse,reg));
         compiler.addInstruction(new STORE(reg,new RegisterOffset(0,Register.SP)));
         // Il faut s'assurer des arguments ici

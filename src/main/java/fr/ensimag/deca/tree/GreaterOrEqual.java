@@ -41,7 +41,7 @@ public class GreaterOrEqual extends AbstractOpIneq {
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.greaterStric = true;
+
         return register;
     }
 
@@ -105,7 +105,7 @@ public class GreaterOrEqual extends AbstractOpIneq {
 
         // Finaliser et pousser le registre
         gen.finalizeAndPush(reg, compiler);
-        compiler.greater = true; // Indiquer que la condition "greater" a été traitée
+
         return register;
     }
 

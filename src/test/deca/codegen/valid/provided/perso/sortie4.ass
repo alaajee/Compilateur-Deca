@@ -1,8 +1,8 @@
-	ADDSP #4
 	TSTO #3
 	BOV stack_overflow_error
-	ADDSP #2
+	ADDSP #6
 ; start main program
+Tables.DES.Methodes:
 ; Main program
 ; Beginning of main instructions:
 	LOAD #7, R2
@@ -34,10 +34,6 @@ end_while_1:
 code.Object.equals:
 ; end main program
 stack_overflow_error:
-	WSTR "Error: Stack Overflow"
-	WNL
-	ERROR
-Tas_plein:
 	WSTR "Error: Stack Overflow"
 	WNL
 	ERROR

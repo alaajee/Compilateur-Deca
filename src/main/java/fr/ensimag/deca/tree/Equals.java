@@ -41,7 +41,7 @@ public class Equals extends AbstractOpExactCmp {
         gen.finalizeAndPush(reg, compiler);
         compiler.libererReg(reg.getNumber());
 
-        compiler.equals = true;
+
         return register;
     }
 

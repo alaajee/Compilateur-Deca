@@ -72,22 +72,21 @@ public class DeclClass extends AbstractDeclClass {
         s.unindent();
         s.println("}");
     }
-    
 
-    
+
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         Symbol classSymbol = this.className.getName();
         Symbol superClassSymbol = this.superClassName.getName();
-    
+
         Map<Symbol, TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
-    
+
         if (!envTypes.containsKey(superClassSymbol)) {
             throw new ContextualError("Super-class '" + superClassSymbol.getName() + "' is not declared", this.getLocation());
         }
-    
+
         TypeDefinition superClassDef = envTypes.get(superClassSymbol);
-    
+
         if (!(superClassDef instanceof ClassDefinition)) {
             if (superClassSymbol.getName().equals("Object")) {
                 ClassType objectType = new ClassType(superClassSymbol, Location.BUILTIN, null);
@@ -97,34 +96,34 @@ public class DeclClass extends AbstractDeclClass {
                 throw new ContextualError("Super-class '" + superClassSymbol.getName() + "' is not a valid class", this.getLocation());
             }
         }
-    
+
         if (envTypes.containsKey(classSymbol)) {
             throw new ContextualError("Class '" + classSymbol.getName() + "' is already declared", this.getLocation());
         }
-    
+
         ClassDefinition classDef = new ClassDefinition(
-            new ClassType(classSymbol, this.getLocation(), (ClassDefinition) superClassDef),
-            this.getLocation(),
-            (ClassDefinition) superClassDef
+                new ClassType(classSymbol, this.getLocation(), (ClassDefinition) superClassDef),
+                this.getLocation(),
+                (ClassDefinition) superClassDef
         );
-    
+
         envTypes.put(classSymbol, classDef);
-    
+
         this.superClassName.setDefinition(superClassDef);
         this.className.setDefinition(classDef);
         this.className.setType(classDef.getType());
     }
-    
+
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
-        EnvironmentExp localEnv = currentClass.getMembers(); 
+        EnvironmentExp localEnv = currentClass.getMembers();
         this.fields.verifyListDeclField(compiler,localEnv,currentClass);
         this.methods.verifyListDeclMethod(compiler, localEnv, currentClass);
 
     }
-    
+
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
@@ -133,25 +132,26 @@ public class DeclClass extends AbstractDeclClass {
         this.methods.verifyListBlockMethod(compiler, localEnv, currentClass);
 
     }
-    
+
 
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-            className.prettyPrint(s, prefix, false);
-            superClassName.prettyPrint(s, prefix, false);
-            fields.prettyPrint(s, prefix, false);
-            methods.prettyPrint(s, prefix, true);
+        className.prettyPrint(s, prefix, false);
+        superClassName.prettyPrint(s, prefix, false);
+        fields.prettyPrint(s, prefix, false);
+        methods.prettyPrint(s, prefix, true);
     }
-    
+
 
     @Override
     protected void iterChildren(TreeFunction f) {
         className.iter(f);
         superClassName.iter(f);
         fields.iter(f);
-        methods.iter(f);  
+        methods.iter(f);
     }
+
 
     @Override
     protected void codeGenclasse(DecacCompiler compiler) {
@@ -167,6 +167,7 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addInstruction(new LOAD(Object, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, compiler.associerAdresse()));
         compiler.setTableClassee(className,adresse);
+        compiler.setTableFields(className, fields.size());
         for (AbstractDeclMethod method : methods.getList()) {
             method.codeGenMethod(compiler, className);
         }
@@ -200,7 +201,7 @@ public class DeclClass extends AbstractDeclClass {
                 field.codeGenField(compiler);
 
             }
-            System.out.println(className + compiler.RegisterOffset);
+            //System.out.println(className + compiler.RegisterOffset);
             compiler.addInstruction(new RTS());
             for (AbstractDeclMethod method : methods.getList()) {
                 method.codeGenBlock(compiler, className);
