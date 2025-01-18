@@ -167,7 +167,13 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addInstruction(new LOAD(Object, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, compiler.associerAdresse()));
         compiler.setTableClassee(className,adresse);
-        compiler.setTableFields(className, fields.size());
+        int somme =  fields.size();
+        if (!superClassName.getName().getName().equals("Object")){
+            int i = compiler.getTableFields(superClassName.getName().getName());
+            somme += i ;
+
+        }
+        compiler.setTableFields(className, somme);
         for (AbstractDeclMethod method : methods.getList()) {
             method.codeGenMethod(compiler, className);
         }

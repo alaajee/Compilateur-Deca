@@ -69,6 +69,8 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/lower.deca"]="not o
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Equals.deca"]="ok"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classPrint.deca"]="je suis la Non je suis la"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classSimple.deca"]="6"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classExtendsSimple.deca"]="je suis la"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classExtendsFields.deca"]="je suis la 6"
 
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do

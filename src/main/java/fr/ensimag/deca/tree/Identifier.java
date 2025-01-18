@@ -341,6 +341,7 @@ public class Identifier extends AbstractIdentifier {
         String name = getName().toString();
         int i = compiler.getRegisterOffset(name);
         GPRegister register = compiler.associerReg();
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),register));
         lines.add(new LOAD(new RegisterOffset(i,register),Register.R1));
         lines.add(new WINT());
         return register;

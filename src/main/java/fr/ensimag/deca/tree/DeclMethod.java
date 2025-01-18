@@ -166,10 +166,6 @@ public  class DeclMethod extends AbstractDeclMethod{
 
 
 
-    @Override
-    protected void verifyBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        this.block.verifyBlock(compiler, localEnv, currentClass, type.getType());
-    }
 
 
     @Override
