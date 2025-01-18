@@ -39,11 +39,56 @@ public class CallMethod extends AbstractExpr {
         this.args = args;
     }
 
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new ContextualError("pas encore implementey", getLocation());
+@Override
+public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+    ClassDefinition objectClassDef;
+    System.out.println(currentClass);
+    if (object != null) {
+
+        Type objectType = object.verifyExpr(compiler, localEnv, currentClass);
+
+        if (!objectType.isClass()) {
+            throw new ContextualError("The expression before '.' must be an object.", object.getLocation());
+        }
+        objectClassDef = objectType.asClassType("Invalid object type for method call.", getLocation()).getDefinition();
+    } else {
+        if (currentClass == null) {
+            throw new ContextualError("Cannot call method without an object outside a class context.", getLocation());
+        }
+        objectClassDef = currentClass;
     }
 
+    ExpDefinition methodDef = objectClassDef.getMembers().get(methodName.getName());
+    if (methodDef == null || !(methodDef instanceof MethodDefinition)) {
+        throw new ContextualError("Method " + methodName.getName() + " is not defined in class " + objectClassDef.getType().getName(), methodName.getLocation());
+    }
+
+    MethodDefinition method = (MethodDefinition) methodDef;
+
+    Signature methodSignature = method.getSignature();
+    if (args.size() != methodSignature.size()) {
+        throw new ContextualError(
+            "Invalid number of arguments for method " + methodName.getName() +
+            ". Expected: " + methodSignature.size() + ", Provided: " + args.size(),
+            getLocation()
+        );
+    }
+
+    for (int i = 0; i < args.size(); i++) {
+        Type expectedType = methodSignature.paramNumber(i);
+        Type actualType = args.getList().get(i).verifyExpr(compiler, localEnv, currentClass);
+        if (!actualType.sameType(expectedType)) {
+            throw new ContextualError(
+                "Invalid type for argument " + (i + 1) + " of method " + methodName.getName() +
+                ". Expected: " + expectedType + ", Provided: " + actualType,
+                args.getList().get(i).getLocation()
+            );
+        }
+    }
+
+    this.setType(method.getType());
+    return method.getType();
+}
     @Override
     public void decompile(IndentPrintStream s) {
         object.decompile(s);
@@ -58,19 +103,24 @@ public class CallMethod extends AbstractExpr {
     protected void codeGenInst(DecacCompiler compiler) {
     }
 
-    @Override
-    protected void iterChildren(TreeFunction f) {
+@Override
+protected void iterChildren(TreeFunction f) {
+    if (object != null) {
         object.iter(f);
-        methodName.iter(f);
-        args.iter(f);
     }
+    methodName.iter(f);
+    args.iter(f);
+}
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        object.prettyPrint(s, prefix,false);
+        if (object != null) {
+            object.prettyPrint(s, prefix, false);
+        }
         methodName.prettyPrint(s, prefix, false);
         args.prettyPrint(s, prefix, true);
     }
+    
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
