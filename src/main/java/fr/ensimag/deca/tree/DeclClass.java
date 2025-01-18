@@ -114,13 +114,14 @@ public class DeclClass extends AbstractDeclClass {
         this.className.setDefinition(classDef);
         this.className.setType(classDef.getType());
     }
+    
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         ClassDefinition currentClass = className.getClassDefinition();
-        System.out.println(currentClass);
         EnvironmentExp localEnv = currentClass.getMembers(); 
         this.fields.verifyListDeclField(compiler,localEnv,currentClass);
+        this.methods.verifyListDeclMethod(compiler, localEnv, currentClass);
 
     }
     
