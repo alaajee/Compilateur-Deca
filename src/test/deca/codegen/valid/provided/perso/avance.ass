@@ -1,5 +1,5 @@
 	ADDSP #4
-	TSTO #2
+	TSTO #4
 	BOV stack_overflow_error
 	ADDSP #2
 ; start main program

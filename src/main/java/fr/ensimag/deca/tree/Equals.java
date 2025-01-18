@@ -28,6 +28,10 @@ public class Equals extends AbstractOpExactCmp {
     @Override
     public DVal codeGenExpr(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
+        compiler.incrementTsto();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurCMP();
@@ -61,6 +65,10 @@ public class Equals extends AbstractOpExactCmp {
     public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
         // Générer le code pour les opérandes gauche et droit
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
+        compiler.incrementTsto();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
         // Associer un registre pour les opérations

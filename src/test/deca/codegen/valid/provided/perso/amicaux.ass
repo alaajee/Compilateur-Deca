@@ -1,5 +1,5 @@
 	ADDSP #8
-	TSTO #6
+	TSTO #8
 	BOV stack_overflow_error
 	ADDSP #6
 ; start main program
@@ -59,8 +59,10 @@ condition_3:
 body_3:
 	LOAD 4(GB), R4
 	REM 7(GB), R4
-	LOAD R4, R4
-	CMP #0, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
 	SEQ R4
 	BNE else_block_4
 body_4:

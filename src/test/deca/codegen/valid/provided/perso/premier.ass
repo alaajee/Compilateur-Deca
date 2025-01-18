@@ -1,5 +1,5 @@
 	ADDSP #5
-	TSTO #3
+	TSTO #4
 	BOV stack_overflow_error
 	ADDSP #3
 ; start main program
@@ -24,29 +24,33 @@ else_block_1:
 condition_2:
 	LOAD 5(GB), R4
 	MUL 5(GB), R4
-	LOAD R4, R5
-	CMP 3(GB), R5
-	SLE R5
+	PUSH R4
+	LOAD 3(GB), R0
+	POP R4
+	CMP R0, R4
+	SLE R4
 	BGT end_while_2
 	LOAD 4(GB), R1
 	CMP #0, R1
 	BEQ end_while_2
 body_2:
-	LOAD 3(GB), R6
-	REM 5(GB), R6
-	LOAD R6, R6
-	CMP #0, R6
-	SEQ R6
+	LOAD 3(GB), R4
+	REM 5(GB), R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
+	SEQ R4
 	BNE else_block_3
 body_3:
-	LOAD #0, R6
-	LOAD #0, R7
-	STORE R7, 4(GB)
+	LOAD #0, R4
+	LOAD #0, R4
+	STORE R4, 4(GB)
 	BRA end_if_3
 else_block_3:
-	LOAD 5(GB), R7
-	ADD #1, R7
-	STORE R7, 5(GB)
+	LOAD 5(GB), R4
+	ADD #1, R4
+	STORE R4, 5(GB)
 end_if_3:
 	BRA condition_2
 end_while_2:

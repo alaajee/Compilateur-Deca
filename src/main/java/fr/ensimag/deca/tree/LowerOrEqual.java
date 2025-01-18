@@ -62,6 +62,11 @@ public class LowerOrEqual extends AbstractOpIneq {
 
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
+        }
+
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
 

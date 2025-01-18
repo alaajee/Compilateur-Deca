@@ -1,5 +1,5 @@
 	ADDSP #6
-	TSTO #4
+	TSTO #9
 	BOV stack_overflow_error
 	ADDSP #4
 ; start main program
@@ -39,50 +39,62 @@ body_1:
 	BEQ body_2
 	LOAD 5(GB), R4
 	REM #7, R4
-	LOAD R4, R4
-	CMP #0, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
 	SEQ R4
 	BEQ body_2
-	LOAD 5(GB), R5
-	REM #11, R5
-	LOAD R5, R5
-	CMP #0, R5
-	SEQ R5
+	LOAD 5(GB), R4
+	REM #11, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
+	SEQ R4
 	BEQ body_2
-	LOAD 5(GB), R6
-	REM #13, R6
-	LOAD R6, R6
-	CMP #0, R6
-	SEQ R6
+	LOAD 5(GB), R4
+	REM #13, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
+	SEQ R4
 	BEQ body_2
-	LOAD 5(GB), R7
-	REM #17, R7
-	LOAD R7, R7
-	CMP #0, R7
-	SEQ R7
+	LOAD 5(GB), R4
+	REM #17, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
+	SEQ R4
 	BEQ body_2
-	LOAD 5(GB), R8
-	REM #19, R8
-	LOAD R8, R8
-	CMP #0, R8
-	SEQ R8
+	LOAD 5(GB), R4
+	REM #19, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
+	SEQ R4
 	BEQ body_2
-	LOAD 5(GB), R9
-	REM #23, R9
-	LOAD R9, R9
-	CMP #0, R9
-	SEQ R9
+	LOAD 5(GB), R4
+	REM #23, R4
+	PUSH R4
+	LOAD #0, R0
+	POP R4
+	CMP R0, R4
+	SEQ R4
 	BNE else_block_2
 body_2:
-	LOAD 6(GB), R10
-	ADD #1, R10
-	STORE R10, 6(GB)
+	LOAD 6(GB), R4
+	ADD #1, R4
+	STORE R4, 6(GB)
 	BRA end_if_2
 else_block_2:
 end_if_2:
-	LOAD 5(GB), R10
-	SUB #1, R10
-	STORE R10, 5(GB)
+	LOAD 5(GB), R4
+	SUB #1, R4
+	STORE R4, 5(GB)
 	BRA condition_1
 end_while_1:
 	WSTR "Le résultat final est : "

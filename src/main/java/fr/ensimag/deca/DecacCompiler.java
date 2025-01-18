@@ -120,7 +120,7 @@ public class DecacCompiler {
         this.spVal = 0;
         this.OverflowVal = 15;
         if (compilerOptions != null){
-            this.OverflowVal = 15;
+            this.OverflowVal = 4;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){

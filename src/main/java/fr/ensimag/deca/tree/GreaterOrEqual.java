@@ -65,6 +65,10 @@ public class GreaterOrEqual extends AbstractOpIneq {
     public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
         // Générer le code pour les opérandes gauche et droit
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
+        compiler.incrementTsto();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
         // Associer un registre pour les opérations
