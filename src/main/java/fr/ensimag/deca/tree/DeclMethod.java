@@ -79,10 +79,8 @@ public  class DeclMethod extends AbstractDeclMethod{
 @Override
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        // Vérification du type de retour
         Type returnType = this.type.verifyType(compiler);
 
-        // Vérifier si une variable porte le même nom que la méthode
         ExpDefinition existingMember = currentClass.getMembers().get(this.methodName.getName());
         if (existingMember != null && !(existingMember instanceof MethodDefinition)) {
             throw new ContextualError(
@@ -90,7 +88,6 @@ public  class DeclMethod extends AbstractDeclMethod{
                     methodName.getLocation());
         }
 
-        // Vérifier si la méthode redéfinit une méthode existante
         MethodDefinition overriddenMethod = null;
         ClassDefinition superClass = currentClass.getSuperClass();
         while (superClass != null) {
@@ -102,7 +99,6 @@ public  class DeclMethod extends AbstractDeclMethod{
             superClass = superClass.getSuperClass();
         }
 
-        // Comparer la signature si la méthode redéfinit une méthode existante
         if (overriddenMethod != null) {
             if (!returnType.sameType(overriddenMethod.getType())) {
                 throw new ContextualError(
@@ -111,7 +107,6 @@ public  class DeclMethod extends AbstractDeclMethod{
                         methodName.getLocation());
             }
 
-            // Vérifier la signature des paramètres avec un nouvel environnement
             EnvironmentExp methodEnv = new EnvironmentExp(localEnv);
             Signature currentSignature = this.listParam.verifyListParam(compiler, methodEnv, currentClass);
 
@@ -122,14 +117,12 @@ public  class DeclMethod extends AbstractDeclMethod{
                         methodName.getLocation());
             }
 
-            methodName.setDefinition(overriddenMethod); // Associer la méthode redéfinie
+            methodName.setDefinition(overriddenMethod); 
         }
 
-        // Vérifier et déclarer les paramètres dans un nouvel environnement
         EnvironmentExp methodEnv = new EnvironmentExp(localEnv);
         Signature methodSignature = this.listParam.verifyListParam(compiler, methodEnv, currentClass);
 
-        // Définir la méthode dans l'environnement de la classe actuelle
         MethodDefinition methodDefinition = new MethodDefinition(
                 returnType,
                 methodName.getLocation(),
