@@ -74,6 +74,7 @@ public class DeclClass extends AbstractDeclClass {
     }
     
 
+    
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         Symbol classSymbol = this.className.getName();
@@ -113,7 +114,6 @@ public class DeclClass extends AbstractDeclClass {
         this.className.setDefinition(classDef);
         this.className.setType(classDef.getType());
     }
-
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
