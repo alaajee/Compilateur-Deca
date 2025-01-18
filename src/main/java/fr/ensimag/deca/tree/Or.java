@@ -26,12 +26,58 @@ public class Or extends AbstractOpBool {
     }
 
     @Override
-    protected DVal codeGenExpr(DecacCompiler compiler){
-        return null;
+    public DVal codeGenExpr(DecacCompiler compiler){
+        compiler.or = true;
+        if (compiler.and ){
+            System.out.println("je suis la");
+            compiler.and = false;
+            DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+            DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+            compiler.and = true;
+            GPRegister reg = compiler.associerReg();
+            constructeur constructeur = new constructeurADD();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+            // GPRegister reg1 = compiler.associerReg();
+            // constructeur constructeur1 = new constructeurCMP();
+            // codeGen gen1 = new codeGen();
+            // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
+            compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
+            // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
+            // compiler.addInstruction(new LOAD(leftOperand,reg));
+            // constructeur.constructeur(compiler, rightOperand, reg);
+            compiler.addInstruction(new SNE(reg));
+            compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
+            gen.finalizeAndPush(reg, compiler);
+            return reg;
+        }
+        else {
+            DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+            DVal rightOperand = getRightOperand().codeGenExpr(compiler);
+            GPRegister reg = compiler.associerReg();
+            constructeur constructeur = new constructeurADD();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+            // GPRegister reg1 = compiler.associerReg();
+            // constructeur constructeur1 = new constructeurCMP();
+            // codeGen gen1 = new codeGen();
+            // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
+            compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
+            // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
+            // compiler.addInstruction(new LOAD(leftOperand,reg));
+            // constructeur.constructeur(compiler, rightOperand, reg);
+            compiler.addInstruction(new SNE(reg));
+            compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
+            gen.finalizeAndPush(reg, compiler);
+            return reg;
+        }
+
+
+
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    public DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 

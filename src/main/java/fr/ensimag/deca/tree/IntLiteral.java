@@ -90,6 +90,7 @@ public class IntLiteral extends AbstractExpr {
     }
 
 
+
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         System.out.println("im here");
@@ -114,12 +115,11 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new RFLOAT());
         DVal register = codeGenExpr(compiler);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        compiler.addInstruction(new WSTR(new ImmediateString("mok")));
         compiler.addInstruction(new WINT());
     }
+
 
     @Override
     protected void codeGenPrintARM(DecacCompiler compiler) {

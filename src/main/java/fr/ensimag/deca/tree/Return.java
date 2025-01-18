@@ -51,7 +51,7 @@ public class Return extends AbstractInst {
     }
 
     @Override
-    public void codeGenInstARM(DecacCompiler compiler) {
+    protected  void codeGenInstARM(DecacCompiler compiler) {
     }
 
 

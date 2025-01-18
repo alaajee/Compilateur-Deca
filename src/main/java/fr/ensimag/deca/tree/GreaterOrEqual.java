@@ -46,10 +46,10 @@ public class GreaterOrEqual extends AbstractOpIneq {
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
-
+    
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);

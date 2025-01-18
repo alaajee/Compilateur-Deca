@@ -64,8 +64,7 @@ public class NoInitialization extends AbstractInitialization {
         return null;
     }
 
-
-
+    @Override
     public void codeGenField(DecacCompiler compiler){
 
     }

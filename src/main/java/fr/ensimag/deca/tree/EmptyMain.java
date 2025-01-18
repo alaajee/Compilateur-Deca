@@ -27,7 +27,7 @@ public class EmptyMain extends AbstractMain {
 
     @Override
     protected void codeGenMainARM(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+       
     }
 
     /**

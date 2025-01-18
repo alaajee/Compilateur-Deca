@@ -13,11 +13,6 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
-
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.arm.pseudocode.*;
 
 /**
@@ -105,13 +100,14 @@ public class DeclVar extends AbstractDeclVar {
             // Générer le code pour initialiser la variable
             // La normalement on a tout initialisé
             compiler.isVar = true;
+            compiler.isAssign = true;
+            System.out.println(this.initialization);
             DVal valeur = this.initialization.codeGenExpr(compiler);
-            System.out.println("valeur = " + valeur);
             compiler.addRegUn(this.varName.getName().toString(),adresse);
-
-
         }
+
     }
+
 
     protected void codegenVarARM(DecacCompiler compiler) {
         VariableDefinition variable = new VariableDefinition(this.type.getDefinition().getType(), this.getLocation());

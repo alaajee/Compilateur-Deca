@@ -41,7 +41,6 @@ public class Equals extends AbstractOpExactCmp {
         return register;
     }
 
-    @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
     }

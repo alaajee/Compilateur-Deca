@@ -50,15 +50,19 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        Label label = compiler.labelMap.get("io_error");
         compiler.addInstruction(new RINT());
+        compiler.addInstruction(new BOV(label));
         GPRegister register = Register.R1;
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));
+        compiler.label = true;
+        compiler.libererReg(reg.getNumber());
         return reg;
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    protected DVal codeGenExpr(DecacCompiler compiler){
         return null;
     }
 

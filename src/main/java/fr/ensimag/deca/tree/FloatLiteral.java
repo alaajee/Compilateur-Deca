@@ -94,10 +94,10 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
-
+    
     @Override
     protected void codeGenPrintx(DecacCompiler compiler) {
         DVal res = new ImmediateFloat(value);

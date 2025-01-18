@@ -44,12 +44,10 @@ public class NotEquals extends AbstractOpExactCmp {
         return register;
     }
 
-
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
         return null;
     }
-
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {

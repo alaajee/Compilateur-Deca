@@ -2,12 +2,6 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.ImmediateString;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.ERROR;
-import fr.ensimag.ima.pseudocode.instructions.WNL;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
-
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -18,8 +12,6 @@ import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.HALT;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.instructions.*;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
@@ -52,9 +44,12 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: start");
 
         try {
-            this.main.verifyMain(compiler);
             this.classes.verifyListClass(compiler);
             this.classes.verifyListClassMembers(compiler);
+            this.classes.verifyListClassBody(compiler);
+            this.main.verifyMain(compiler);
+
+
         } catch (ContextualError e) { 
             System.err.println("erreur dans verifyMain");
             throw e;
@@ -105,28 +100,6 @@ public class Program extends AbstractProgram {
         }
         compiler.addInstruction(new MOV(ARMRegister.R7, new ARMImmediateInteger(1)));
         compiler.addInstruction(new SVC(0));
-    //     if (compiler.label){
-    //         compiler.addLabel(compiler.labelMap.get("io_error"));
-    //         compiler.addInstruction(new WSTR("Error: Input/Output error"));
-    //         compiler.addInstruction(new WNL());
-    //         compiler.addInstruction(new ERROR());
-    //     }
-    //     if (compiler.isArith){
-    //         compiler.addLabel(compiler.labelMap.get("overflow_error"));
-    //         compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
-    //         compiler.addInstruction(new WNL());
-    //         compiler.addInstruction(new ERROR());
-    //     }
-    //     if (compiler.isDiv){
-    //         compiler.addLabel(compiler.labelMap.get("division_by_zero_error"));
-    //         compiler.addInstruction(new WSTR("Error: Division by zero"));
-    //         compiler.addInstruction(new WNL());
-    //     }
-    //     Label stackOverflowLabel = new Label("stack_overflow_error");
-    //     compiler.addLabel(stackOverflowLabel);
-    //     compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
-    //     compiler.addInstruction(new WNL());
-    //     compiler.addInstruction(new ERROR());
     }
 
     @Override

@@ -25,41 +25,33 @@ public class Plus extends AbstractOpArith {
         return "+";
     }
 
+
+    public String setExpr(){
+        this.expression = "instruction";
+        return expression;
+    }
+
+    public String getExpr(){
+        return expression;
+    }
+
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
-        if (reg.isOffSet){
-            if (leftOperand.isOffSet && rightOperand.isOffSet){
-                compiler.addInstruction(new POP(Register.R0));
-                compiler.spVal--;
-                compiler.addInstruction(new  POP(reg));
-                compiler.addInstruction(new ADD(Register.R0,reg));
-                return reg;
-            }
-            else if (leftOperand.isOffSet){
-                compiler.addInstruction(new POP(reg));
-                compiler.addInstruction(new ADD(rightOperand,reg));
-                compiler.addInstruction(new PUSH(reg));
-                return reg;}
-            else {
-                compiler.addInstruction(new LOAD(rightOperand,reg));
-                compiler.addInstruction(new ADD(leftOperand,reg));
-                compiler.addInstruction(new PUSH(reg));
-                return reg;
-            }
-
-        }
-        else {
-            compiler.addInstruction(new LOAD(rightOperand,reg));
-            compiler.addInstruction(new ADD(leftOperand,reg));
-            return reg;
-        }
-        }
+        constructeur constructeur = new constructeurADD();
+        codeGen gen = new codeGen();
+        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+        gen.finalizeAndPush(reg, compiler);
+        return register;
+    }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    public DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 

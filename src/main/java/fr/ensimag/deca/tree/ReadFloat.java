@@ -52,15 +52,19 @@ public class ReadFloat extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        Label label = compiler.labelMap.get("io_error");
         compiler.addInstruction(new RFLOAT());
+        compiler.addInstruction(new BOV(label));
         GPRegister register = Register.R1;
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction( new LOAD(register, reg));
+        compiler.libererReg(reg.getNumber());
+        compiler.label = true;
         return reg;
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 }

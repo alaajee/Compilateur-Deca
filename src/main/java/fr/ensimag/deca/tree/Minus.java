@@ -35,14 +35,13 @@ public class Minus extends AbstractOpArith {
         constructeur constructeur = new constructeurSUB();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-        //gen.finalizeAndPush(reg, compiler);
         return register;
     }
-    
+
     @Override
-        public DVal codeGenExprARM(DecacCompiler compiler) {
-            return null;
-        }
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {

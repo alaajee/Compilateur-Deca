@@ -46,7 +46,7 @@ public class Greater extends AbstractOpIneq {
     }
 
     @Override
-    public DVal codeGenExprARM(DecacCompiler compiler) {
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 

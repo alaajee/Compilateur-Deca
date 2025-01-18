@@ -85,7 +85,6 @@ public class Initialization extends AbstractInitialization {
             return valeur;
         }
     }
-
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler){
         System.out.println("im in Initialisation");
@@ -100,6 +99,7 @@ public class Initialization extends AbstractInitialization {
         }
     }
 
+    @Override
     public void codeGenField(DecacCompiler compiler){
         getExpression().codeGenField(compiler);
     }

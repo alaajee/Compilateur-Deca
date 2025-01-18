@@ -3,9 +3,6 @@ package fr.ensimag.deca.tree;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import fr.ensimag.arm.pseudocode.ARMImmediateString;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.instructions.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;

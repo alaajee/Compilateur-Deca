@@ -178,9 +178,7 @@ public class Identifier extends AbstractIdentifier {
                 if(definitionExp == null){
                     throw new ContextualError("Identifier  '" + this.name + "' is not defined", this.getLocation());
                 }
-                if(!(definitionExp instanceof VariableDefinition)){
-                    throw new ContextualError("Identifier '" + this.name + "' is not a variable", this.getLocation());
-                }
+
 
                 this.setDefinition(definitionExp);
                 this.setType(definitionExp.getType());
@@ -260,8 +258,6 @@ public class Identifier extends AbstractIdentifier {
         String name = getName().toString();
         DAddr reg = compiler.getRegUnARM(name);
         return reg;
-        // System.out.println("im in Identifier");
-        // return null;
     }
 
     @Override
@@ -269,8 +265,12 @@ public class Identifier extends AbstractIdentifier {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        compiler.addInstruction(new WINT());
-
+        if (getType().isInt()){
+            compiler.addInstruction(new WINT());
+        }
+        else if (getType().isFloat()){
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override

@@ -111,14 +111,9 @@ public class IfThenElse extends AbstractInst {
 
     }
 
-
-
     @Override
-    public void codeGenInstARM(DecacCompiler compiler) {
+    protected void codeGenInstARM(DecacCompiler compiler) {
     }
-
-
-
 
     @Override
     public void decompile(IndentPrintStream s) {

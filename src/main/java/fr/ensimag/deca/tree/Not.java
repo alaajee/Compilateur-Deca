@@ -42,12 +42,14 @@ public class Not extends AbstractUnaryExpr {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
-        return new NullOperand();
+        compiler.notCond = true;
+        DVal resultat = getOperand().codeGenExpr(compiler);
+        return resultat;
     }
 
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler){
-        return new NullOperand();
+        return null;
     }
 
     @Override
