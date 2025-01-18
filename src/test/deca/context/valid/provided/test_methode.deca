@@ -1,0 +1,22 @@
+class B {
+    int m;
+    int n = m;
+
+    int process() {
+        int m = 7; // Variable locale
+        this.m = 5; // Modification de l'attribut m de l'objet
+        m = 9; // Modification de la variable locale
+        return m; // Retourne la variable locale
+    }
+}
+
+{
+    B b = new B(); // Création d'un objet de classe B
+    int result = b.process(); // Appel de la méthode process()
+
+    if (result == 9 && b.m == 5) {
+        print("SUCCESS"); // Test réussi
+    } else {
+        print("FAIL"); // Test échoué
+    }
+}
