@@ -1,0 +1,18 @@
+// Description:
+//    Un opérateur logique ou est utilisé entre un entier et un booléen.
+//
+// Résultats:
+//    logical_or_int_boolean_error.deca:13:8: Boolean Operation '||' failed: both operands should be of type boolean
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int x = 10;
+    boolean isReady = false;
+
+    if (x || isReady) { // Erreur ici : opérateur logique entre int et boolean
+        print("Condition vérifiée.");
+    } else {
+        print("Condition non vérifiée.");
+    }
+}
