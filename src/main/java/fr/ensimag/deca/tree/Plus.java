@@ -74,7 +74,6 @@ public class Plus extends AbstractOpArith {
 
     public DVal codeGenInit(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenInit(compiler);
-        System.out.println("iciiiiiiiiiiiiii"+leftOperand);
         DVal rightOperand = getRightOperand().codeGenInit(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurADD();

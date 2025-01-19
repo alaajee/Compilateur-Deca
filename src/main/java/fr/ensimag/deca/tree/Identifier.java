@@ -310,7 +310,12 @@ public class Identifier extends AbstractIdentifier {
         compiler.addInstruction(new LOAD(register, Register.R1));
 
         // Compare R1 avec 0
-        compiler.addInstruction(new CMP(0, Register.R1));  // Comparer R1 à 0
+        if (this.getType().isInt()){
+            compiler.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
+        }
+        else {
+            compiler.addInstruction(new CMP(new ImmediateFloat(0), Register.R1));
+        }
 
         if (compiler.notCond){
             compiler.addInstruction(new BNE(endLabel));  // Si res == 0, saute à endLabel
