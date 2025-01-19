@@ -71,7 +71,10 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classPrint.deca"]="
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classSimple.deca"]="6"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classExtendsSimple.deca"]="je suis la"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/classExtendsFields.deca"]="je suis la 6"
-
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/CastSimple.deca"]="3"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/FloatCastSimple.deca"]="5"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/paramClass.deca"]="1"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/deuxArgsMethod.deca"]="3"
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do
     echo "Scanning directory: $TEST_DIR"

@@ -108,6 +108,7 @@ public class DecacCompiler {
 
     public boolean tas_plein = false;
     public Label labelClasses = new Label("Tables.DES.Methodes");
+    public boolean init = false;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -121,7 +122,7 @@ public class DecacCompiler {
         this.spVal = 0;
         this.OverflowVal = 15;
         if (compilerOptions != null){
-            this.OverflowVal = 4;
+            this.OverflowVal = 15;
         }
         this.GP = new Boolean[OverflowVal+1];
         for(int i = 0 ; i < OverflowVal+1 ; i++){
@@ -504,6 +505,7 @@ public class DecacCompiler {
 
     public RegisterOffset getRegisterParam(){
         RegisterOffset reg = new RegisterOffset(this.paramReg,Register.LB);
+        this.paramReg--;
         return reg;
     }
 

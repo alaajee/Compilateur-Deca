@@ -24,6 +24,7 @@ Tables.DES.Methodes:
 	BSR initA
 	POP R2
 	STORE R2, 6(GB)
+	ADDSP #1
 	LOAD 6(GB), R3
 	STORE R3, 0(SP)
 	LOAD 0(SP), R3

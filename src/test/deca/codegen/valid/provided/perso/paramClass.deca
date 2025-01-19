@@ -1,0 +1,14 @@
+// Sortie 1
+
+class A {
+    int x;
+
+    void diag(int a){
+        x = x + a;
+        println(x);
+    }
+}
+{
+A a = new A();
+    a.diag(1);
+}

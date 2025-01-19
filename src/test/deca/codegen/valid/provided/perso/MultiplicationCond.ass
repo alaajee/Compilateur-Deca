@@ -1,4 +1,4 @@
-	TSTO #8
+	TSTO #7
 	BOV stack_overflow_error
 	ADDSP #10
 ; start main program
@@ -40,22 +40,20 @@ body_1:
 And:
 	LOAD 5(GB), R4
 	REM #13, R4
-	PUSH R4
-	LOAD #0, R0
-	POP R4
-	CMP R0, R4
+	LOAD R4, R4
+	CMP #0, R4
 	SNE R4
 	BEQ else_block_2
 body_2:
-	LOAD 6(GB), R4
-	ADD #2, R4
-	STORE R4, 6(GB)
+	LOAD 6(GB), R5
+	ADD #2, R5
+	STORE R5, 6(GB)
 	BRA end_if_2
 else_block_2:
 end_if_2:
-	LOAD 5(GB), R4
-	SUB #1, R4
-	STORE R4, 5(GB)
+	LOAD 5(GB), R5
+	SUB #1, R5
+	STORE R5, 5(GB)
 	BRA condition_1
 end_while_1:
 	WSTR "Le résultat final est : "

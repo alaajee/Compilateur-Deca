@@ -24,9 +24,9 @@ And:
 	SEQ R4
 	BNE nouvLabel2
 nouvLabel2:
-	LOAD 4(GB), R4
-	CMP #6, R4
-	SNE R4
+	LOAD 4(GB), R5
+	CMP #6, R5
+	SNE R5
 	BEQ else_block_1
 body_1:
 	WSTR "ok"

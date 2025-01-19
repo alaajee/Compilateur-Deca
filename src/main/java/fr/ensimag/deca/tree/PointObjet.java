@@ -10,6 +10,7 @@ import fr.ensimag.deca.tools.*;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
@@ -81,11 +82,14 @@ public class PointObjet extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+
+
         Identifier identifier = (Identifier) this.instance;
         String name = identifier.getName().getName();
         DAddr adresse = compiler.getRegUn(name);
         GPRegister reg  = compiler.associerReg();
-        System.out.println(name);
+        int i = method.getNbreFields();
+        compiler.addInstruction(new ADDSP(1+i));
         compiler.addInstruction(new LOAD(adresse,reg));
         compiler.addInstruction(new STORE(reg,new RegisterOffset(0,Register.SP)));
         // Il faut s'assurer des arguments ici

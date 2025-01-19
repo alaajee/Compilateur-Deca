@@ -8,6 +8,8 @@ import fr.ensimag.deca.tree.AbstractIdentifier;
 import fr.ensimag.deca.tree.AbstractLValue;
 import fr.ensimag.deca.tree.ListExpr;
 import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.ADD;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
@@ -126,8 +128,12 @@ public class CallMethod extends AbstractExpr {
     }
 
     protected DVal codeGenExpr(DecacCompiler compiler, GPRegister register){
+        int init = -1;
+        for (AbstractExpr arg : args.getList()) {
 
-
+            arg.codeGenInitParam(compiler,init);
+            init -=1;
+        }
         compiler.addInstruction(new LOAD(new RegisterOffset(0,register),register));
         // 2 pour la premiere methode 3 pour la suivante etcc
         int i = compiler.getTableAdresseMethode(methodName.getName().getName());
@@ -142,4 +148,7 @@ public class CallMethod extends AbstractExpr {
         return null;
     }
 
+    protected int getNbreFields(){
+        return args.getList().size();
+    }
 }

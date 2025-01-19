@@ -11,6 +11,8 @@ import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.AbstractIdentifier;
 import fr.ensimag.deca.tree.TreeFunction;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 import java.io.PrintStream;
 
@@ -43,48 +45,48 @@ public class Cast extends AbstractExpr {
                 this.expr.setType(targetType);
                 return targetType;
             }
-        
+
             if (exprType.isFloat() && targetType.isInt()) {
                 this.expr.setType(targetType);
                 return targetType;
             }
-        
+
             if (exprType.sameType(targetType)) {
                 this.setType(targetType);
                 return targetType;
             }
-        
+
             throw new ContextualError("Incompatible types for explicit cast: " +
-                exprType + " to " + targetType, getLocation());
+                    exprType + " to " + targetType, getLocation());
         }
-    else if (exprType.isClass() && targetType.isClass()) {
-        ClassType exprClassType = exprType.asClassType("Invalid class type for casting.", getLocation());
-        ClassType targetClassType = targetType.asClassType("Invalid target class type for casting.", getLocation());
+        else if (exprType.isClass() && targetType.isClass()) {
+            ClassType exprClassType = exprType.asClassType("Invalid class type for casting.", getLocation());
+            ClassType targetClassType = targetType.asClassType("Invalid target class type for casting.", getLocation());
 
-        // Vérification si exprType est une sous-classe de targetType
-        if (exprClassType.isSubClassOf(targetClassType)) {
-            this.expr.setType(targetClassType);
-            return targetClassType;
+            // Vérification si exprType est une sous-classe de targetType
+            if (exprClassType.isSubClassOf(targetClassType)) {
+                this.expr.setType(targetClassType);
+                return targetClassType;
+            }
+
+            // Vérification si targetType est une sous-classe de exprType
+            if (targetClassType.isSubClassOf(exprClassType)) {
+                this.expr.setType(targetClassType);
+                return targetClassType;
+            }
+
+            // Si aucune des conditions ci-dessus n'est vraie, le cast est invalide
+            throw new ContextualError(
+                    "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
+                    getLocation()
+            );
         }
 
-        // Vérification si targetType est une sous-classe de exprType
-        if (targetClassType.isSubClassOf(exprClassType)) {
-            this.expr.setType(targetClassType);
-            return targetClassType;
-        }
 
-        // Si aucune des conditions ci-dessus n'est vraie, le cast est invalide
         throw new ContextualError(
-            "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
-            getLocation()
+                "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
+                getLocation()
         );
-    }
-
-
-    throw new ContextualError(
-        "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
-        getLocation()
-    );
     }
 
     @Override
@@ -95,22 +97,35 @@ public class Cast extends AbstractExpr {
         expr.decompile(s);
         s.print(")");
     }
-    
+
     @Override
     public void prettyPrintChildren(PrintStream s, String name) {
         type.prettyPrint(s, name + "type", false);
         expr.prettyPrint(s, name + "expr", true);
     }
-    
+
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);
         expr.iter(f);
     }
-    
+
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler) {
-        return null;
+       Type type = this.type.getType();
+        GPRegister register = compiler.associerReg();
+        DVal dval = expr.codeGenExpr(compiler);
+        compiler.addInstruction(new LOAD(dval,register));
+       if (type.isInt()){
+           compiler.addInstruction(new INT(register,register));
+            if (compiler.init){
+                compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+                compiler.init = false;
+            }
+
+       }
+
+       return register;
     }
 }
