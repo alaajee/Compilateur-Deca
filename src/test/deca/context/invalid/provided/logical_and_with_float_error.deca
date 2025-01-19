@@ -1,0 +1,18 @@
+// Description:
+//    Une condition utilise un float comme opérande logique.
+//
+// Résultats:
+//    Erreur : Operator && is not applicable to those types : float and boolean.
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    float threshold = 30.5;
+    boolean isActive = false;
+
+    if (isActive && threshold) { // Erreur ici : opérande logique float && boolean
+        print("Condition vérifiée.");
+    } else {
+        print("Condition non vérifiée.");
+    }
+}

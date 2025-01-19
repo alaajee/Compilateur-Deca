@@ -1,0 +1,18 @@
+// Description:
+//    Un paramètre de type incorrect est passé à une méthode.
+//
+// Résultats:
+//    method_parameter_type_error.deca:16:21: Invalid type for argument 1 of method setField. Expected: int, Provided: boolean
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void setField(int value) {
+        print("Valeur assignée : ", value);
+    }
+
+    void test() {
+        A obj = new A();
+        obj.setField(true); 
+    }
+}

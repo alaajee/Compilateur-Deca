@@ -1,0 +1,7 @@
+class A{
+    protected int a;
+    int z = this.a;
+}
+{
+    A elem = new A();
+}

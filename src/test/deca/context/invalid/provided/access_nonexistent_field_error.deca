@@ -1,0 +1,17 @@
+// Description:
+//    Tentative d’accès à un champ qui n’existe pas dans l’objet.
+//
+// Résultats:
+//   access_nonexistent_field_error.deca:14:24: The member 'unknownField' is not defined in class 'A' or its superclasses.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int existingField;
+
+    void test() {
+        A obj = new A();
+        int value = obj.unknownField; 
+        print("Valeur : ", value);
+    }
+}

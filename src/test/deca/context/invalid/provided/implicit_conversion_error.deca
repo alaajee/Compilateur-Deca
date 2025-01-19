@@ -1,0 +1,22 @@
+// Description:
+//    Une conversion implicite entre deux types incompatibles est tentée.
+//
+// Résultats:
+//    implicit_conversion_error.deca:20:11: Cannot cast from type B to type A
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int fieldA;
+}
+
+class B {
+    int fieldB;
+}
+
+{  
+    A objA;
+    B objB = new B();
+    objA = (A) (objB); 
+    
+}

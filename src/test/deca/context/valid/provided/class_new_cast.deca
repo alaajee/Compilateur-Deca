@@ -1,0 +1,26 @@
+class Person {
+    int age;
+}
+
+class Student extends Person {
+    int studentId;
+    int getId() {
+        return studentId;
+    }
+}
+
+class Teacher extends Person {
+    int teacherId;
+
+}
+
+{
+    Person person = new Student();
+    ((Student)person).studentId = 12345;
+    person = new Teacher();
+
+    println(((Student)person).getId()); // 12345
+
+    ((Teacher)person).teacherId = 67890;
+    println(((Teacher)person).getId()); // 67890
+}
