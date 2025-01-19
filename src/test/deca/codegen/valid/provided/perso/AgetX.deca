@@ -1,0 +1,12 @@
+// Sortie a.getX() = 0
+
+class A {
+   protected int x ;
+   int getX() {
+      return x ;
+   }
+}
+{
+    A a = new A() ;
+    println("a.getX() = ", a.getX()) ;
+}

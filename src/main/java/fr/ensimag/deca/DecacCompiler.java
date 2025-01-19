@@ -112,6 +112,7 @@ public class DecacCompiler {
     public boolean tas_plein = false;
     public Label labelClasses = new Label("Tables.DES.Methodes");
     public boolean init = false;
+    public boolean Print = false;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();

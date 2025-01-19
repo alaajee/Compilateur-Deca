@@ -1,0 +1,20 @@
+// Sortie 6
+
+class A {
+    int x;
+    int y;
+    int z = 6;
+    void m(int a){
+        z = z - a;
+        z = z*a;
+        z = z + a;
+        println(z);
+    }
+}
+
+
+{
+   A a = new A();
+   a.m(1);
+
+}

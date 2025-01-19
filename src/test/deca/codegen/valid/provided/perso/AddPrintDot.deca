@@ -1,0 +1,15 @@
+// Sortie a.z = 7
+
+class A {
+    int z = 6;
+    void m(int a){
+        z = z + 1;
+    }
+}
+
+
+{
+   A a = new A();
+   a.m(1);
+   println("a.z = " , a.z);
+}

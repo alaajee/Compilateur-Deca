@@ -7,11 +7,13 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractInst;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 
 public class Return extends AbstractInst {
@@ -48,6 +50,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected  void codeGenInst(DecacCompiler compiler) {
+        //compiler.addInstruction(new WSTR("hh"));
     }
 
 
@@ -68,5 +71,15 @@ public class Return extends AbstractInst {
     @Override
     protected void iterChildren(TreeFunction f) {
         expr.iter(f);
+    }
+
+
+    @Override
+    protected  DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines) {
+        GPRegister register = compiler.associerReg();
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2,Register.LB),register));
+        compiler.addInstruction(new LOAD(new RegisterOffset(1,register),register));
+        compiler.addInstruction(new LOAD(register,Register.R0));
+        return null;
     }
 }

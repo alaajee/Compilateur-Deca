@@ -77,7 +77,10 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/paramClass.deca"]="
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/deuxArgsMethod.deca"]="3"
 
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/InitVarField.deca"]="5"
-
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/MultOpArithClass.deca"]="6"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/printDot.deca"]="a.z = 6"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/AddPrintDot.deca"]="a.z = 7"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/AgetX.deca"]="a.getX() = 0"
 
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do

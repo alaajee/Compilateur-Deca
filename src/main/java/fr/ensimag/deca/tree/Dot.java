@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -12,6 +13,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Instruction;
 
 public class Dot extends AbstractLValue{
     private AbstractExpr left;
@@ -91,6 +93,18 @@ public class Dot extends AbstractLValue{
 
     @Override
     public DAddr getAddr(DecacCompiler compiler){
+        return null;
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler){
+        left.codeGenInst(compiler);
+        right.codeGenInst(compiler);
+    }
+
+    protected DVal codeGenInst(DecacCompiler compiler, LinkedList<Instruction> lines){
+        left.codeGenPrint(compiler);
+        right.codeGenPrint(compiler);
         return null;
     }
 }

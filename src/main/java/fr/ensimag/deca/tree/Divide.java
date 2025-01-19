@@ -8,6 +8,8 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author gl02
@@ -171,6 +173,28 @@ public class Divide extends AbstractOpArith {
         }
 
     }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        GPRegister reg = compiler.associerReg();
+
+        // LeftOperand et RightOperand ...
+        DVal leftOperand = getLeftOperand().codeGenInstClass(compiler,lines,reg);
+        DVal rightOperand = getRightOperand().codeGenInstClass(compiler,lines,reg);
+
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
+        lines.add(new LOAD(leftOperand,reg));
+        lines.add(new QUO(rightOperand,reg));
+        // DVal dval = getRightOperand().codeGenExpr(compiler);
+        compiler.libererReg(reg.getNumber());
+        return reg;
+    }
+
+    // A revoir
 }
 
 

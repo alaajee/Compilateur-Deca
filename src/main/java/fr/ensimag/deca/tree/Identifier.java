@@ -255,10 +255,15 @@ public class Identifier extends AbstractIdentifier {
         }
         if (this.getExpDefinition().isField()){
             GPRegister register = compiler.associerReg();
-            System.out.println(compiler.getFieldNombre());
             compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
             compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
-            compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+            if (compiler.Print){
+                compiler.addInstruction(new LOAD(register,Register.R1));
+                compiler.addInstruction(new WINT());
+            }
+            else {
+                compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+            }
             compiler.libererReg(register.getNumber());
         }
         return reg;
@@ -269,6 +274,7 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
+        System.out.println(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
         if (getType().isInt()){
             compiler.addInstruction(new WINT());

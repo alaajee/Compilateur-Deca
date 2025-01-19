@@ -10,14 +10,13 @@ import fr.ensimag.deca.tools.*;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.ADDSP;
-import fr.ensimag.ima.pseudocode.instructions.BSR;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.*;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 
 public class PointObjet extends AbstractExpr {
+    private static final Logger log = Logger.getLogger(PointObjet.class);
     private AbstractExpr instance;
     private CallMethod method;
 
@@ -82,8 +81,6 @@ public class PointObjet extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-
-
         Identifier identifier = (Identifier) this.instance;
         String name = identifier.getName().getName();
         DAddr adresse = compiler.getRegUn(name);
@@ -97,5 +94,12 @@ public class PointObjet extends AbstractExpr {
         method.codeGenExpr(compiler,reg);
         compiler.libererReg();
         return adresse;
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        System.out.println("iciiiiiiiiiiii");
+       instance.codeGenInst(compiler);
+       method.codeGenInst(compiler);
     }
 }
