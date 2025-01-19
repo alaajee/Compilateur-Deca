@@ -45,12 +45,12 @@ public class Cast extends AbstractExpr {
                 this.expr.setType(targetType);
                 return targetType;
             }
-
+        
             if (exprType.isFloat() && targetType.isInt()) {
                 this.expr.setType(targetType);
                 return targetType;
             }
-
+        
             if (exprType.sameType(targetType)) {
                 this.setType(targetType);
                 return targetType;
@@ -63,18 +63,31 @@ public class Cast extends AbstractExpr {
             ClassType exprClassType = exprType.asClassType("Invalid class type for casting.", getLocation());
             ClassType targetClassType = targetType.asClassType("Invalid target class type for casting.", getLocation());
 
+        if (exprClassType.isSubClassOf(targetClassType)) {
+            this.setType(targetClassType);
+            return targetClassType;
+        }
             // Vérification si exprType est une sous-classe de targetType
             if (exprClassType.isSubClassOf(targetClassType)) {
                 this.expr.setType(targetClassType);
                 return targetClassType;
             }
 
+        if (targetClassType.isSubClassOf(exprClassType)) {
+            this.setType(targetClassType);
+            return targetClassType;
+        }
             // Vérification si targetType est une sous-classe de exprType
             if (targetClassType.isSubClassOf(exprClassType)) {
                 this.expr.setType(targetClassType);
                 return targetClassType;
             }
 
+        throw new ContextualError(
+            "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
+            getLocation()
+        );
+    }
             // Si aucune des conditions ci-dessus n'est vraie, le cast est invalide
             throw new ContextualError(
                     "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
@@ -97,19 +110,23 @@ public class Cast extends AbstractExpr {
         expr.decompile(s);
         s.print(")");
     }
+    
+@Override
+public void prettyPrintChildren(PrintStream s, String name) {
+    type.prettyPrint(s, name + "type", false);
+    expr.prettyPrint(s, name + "expr", true);
+}
 
-    @Override
-    public void prettyPrintChildren(PrintStream s, String name) {
-        type.prettyPrint(s, name + "type", false);
-        expr.prettyPrint(s, name + "expr", true);
-    }
+    
+
+
 
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);
         expr.iter(f);
     }
-
+    
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler) {
