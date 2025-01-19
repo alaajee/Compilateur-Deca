@@ -135,4 +135,30 @@ public class CallMethod extends AbstractExpr {
         return null;
     }
 
+    protected DVal codeGenExpr(DecacCompiler compiler, GPRegister register){
+        int init = -1;
+        for (AbstractExpr arg : args.getList()) {
+
+            arg.codeGenInitParam(compiler,init);
+            init -=1;
+        }
+        compiler.addInstruction(new LOAD(new RegisterOffset(0,register),register));
+        // 2 pour la premiere methode 3 pour la suivante etcc
+        int i = compiler.getTableAdresseMethode(methodName.getName().getName());
+        compiler.addInstruction(new BSR(new RegisterOffset(i,register)));
+        return register;
+    }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+        // Il faut avoir la definition d'abord
+        compiler.addInstruction(new BSR(new Label("code."+"A."+methodName.getName() )));
+        return null;
+    }
+
+    protected int getNbreFields(){
+        return args.getList().size();
+    }
+
+
 }

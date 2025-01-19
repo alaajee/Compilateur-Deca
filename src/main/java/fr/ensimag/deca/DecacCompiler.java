@@ -608,6 +608,49 @@ public class DecacCompiler {
     public int getCurrentId(){
         return uniqueIDCounter;
     }
+    public Map<String,DAddr> getTableClassees(){
+        return tableClassees;
+    }
+
+    public DAddr getTableClassee(String name){
+        return tableClassees.get(name);
+    }
+
+    public void setTableClassee(String name , DAddr tableClassee) {
+        this.tableClassees.put(name,tableClassee);
+    }
+
+    public void addInstructionAfterLabel(Label label,  Instruction instruction) {
+        program.addInstructionAfterLabel(label,instruction);
+    }
+
+    public Integer getTableFields(String name){
+        return tableFields.get(name);
+    }
+
+    public void setTableFields(String name , int fields) {
+        this.tableFields.put(name,fields);
+    }
+
+    public Integer getTableAdresseMethode(String name){
+        return AdresseMethode.get(name);
+    }
+
+    public void setTableAdresseMethode(String name , int fields) {
+        this.AdresseMethode.put(name,fields);
+    }
+
+    public void setTableNombreField(String name, int fields) {
+        this.FieldNombre.put(name,fields);
+    }
+
+    public int getTableNombreField(String name){
+        return this.FieldNombre.get(name);
+    }
+
+    public Map<String ,Integer> getFieldNombre(){
+        return FieldNombre;
+    }
     
     public boolean compileARM() {
         String sourceFile = source.getAbsolutePath();

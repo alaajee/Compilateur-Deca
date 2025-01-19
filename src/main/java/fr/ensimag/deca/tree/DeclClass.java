@@ -96,19 +96,7 @@ public class DeclClass extends AbstractDeclClass {
                 throw new ContextualError("Super-class '" + superClassSymbol.getName() + "' is not a valid class", this.getLocation());
             }
         }
-    
-        TypeDefinition superClassDef = envTypes.get(superClassSymbol);
-    
-        if (!(superClassDef instanceof ClassDefinition)) {
-            if (superClassSymbol.getName().equals("Object")) {
-                ClassType objectType = new ClassType(superClassSymbol, Location.BUILTIN, null);
-                superClassDef = new ClassDefinition(objectType, Location.BUILTIN, null);
-                envTypes.put(superClassSymbol, superClassDef);
-            } else {
-                throw new ContextualError("Super-class '" + superClassSymbol.getName() + "' is not a valid class", this.getLocation());
-            }
-        }
-    
+
         if (envTypes.containsKey(classSymbol)) {
             throw new ContextualError("Class '" + classSymbol.getName() + "' is already declared", this.getLocation());
         }
@@ -125,6 +113,7 @@ public class DeclClass extends AbstractDeclClass {
         this.className.setDefinition(classDef);
         this.className.setType(classDef.getType());
     }
+
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
