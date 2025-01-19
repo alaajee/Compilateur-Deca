@@ -1,0 +1,20 @@
+class Book {
+    int title;
+}
+
+class EBook extends Book {
+    float fileSize;
+}
+
+class PrintedBook extends Book {
+    int pageCount;
+}
+
+{
+    Book b = new EBook();
+    EBook eb = (EBook)(b);
+    PrintedBook pb = (PrintedBook)(new PrintedBook());
+    eb.fileSize = 2.5;
+
+    pb.pageCount = 300;
+}
