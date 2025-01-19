@@ -1,0 +1,16 @@
+{
+    int n = 5; // Nombre de lignes et colonnes de la table
+    int i = 1;
+    int j;
+    int product;
+    while (i <= n) {
+        j = 1;
+        while (j <= n) {
+            product = i * j;
+            print(product,"     ");
+            j=j+1;
+        }
+        println("");
+        i=i+1;
+    }
+}
