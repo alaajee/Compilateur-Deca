@@ -1,0 +1,32 @@
+// Description:
+//    Comparaison d'un boolean avec un float dans une condition imbriquée.
+//
+// Résultats:
+//    TestComparaisonBooleanFloat.deca:16:35: Operator ' > ' is not applicable to those types : boolean and float
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int x = 8;
+    float y = 14.7;
+    boolean isValid = false;
+    boolean isReady = true;
+    float result;
+
+    if(x > 5 && (y < 20 || isValid > y)) {
+        print("Les conditions sont remplies.");
+    } else {
+        print("Les conditions ne sont pas remplies.");
+    }
+
+    result = (x * y) + 10;
+    if (result > 50) {
+        print("Résultat supérieur à 50.");
+    } else {
+        print("Résultat inférieur ou égal à 50.");
+    }
+
+    if (isReady && result < 100) {
+        print("Le système est prêt avec un résultat acceptable.");
+    }
+}
