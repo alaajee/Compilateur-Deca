@@ -243,6 +243,7 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
+        System.out.println(reg);
         if (compiler.isVar){
             GPRegister register = compiler.associerReg();
             compiler.addInstruction(new LOAD(reg,register));
@@ -364,6 +365,13 @@ public class Identifier extends AbstractIdentifier {
         lines.add(new LOAD(new RegisterOffset(-2,Register.LB),register));
         lines.add(new LOAD(new RegisterOffset(i,register),Register.R1));
         lines.add(new WINT());
+        return register;
+    }
+
+    @Override
+    public DVal codeGenInit(DecacCompiler compiler){
+        String name = getName().toString();
+        DAddr register = compiler.getRegUn(name);
         return register;
     }
 }
