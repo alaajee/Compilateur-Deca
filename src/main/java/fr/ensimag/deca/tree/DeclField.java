@@ -48,6 +48,7 @@ public class DeclField extends AbstractDeclField{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        s.println(prefix+fieldName.getLocation()+ "[visibilty="+ visibility+ "]");
         type.prettyPrint(s, prefix, false);     
         fieldName.prettyPrint(s, prefix, false); 
         initialization.prettyPrint(s, prefix, true); 
