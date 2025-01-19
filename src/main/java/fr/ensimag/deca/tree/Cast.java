@@ -96,11 +96,7 @@ public class Cast extends AbstractExpr {
         }
 
 
-        throw new ContextualError(
-                "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
-                getLocation()
-        );
-    }
+
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -110,12 +106,12 @@ public class Cast extends AbstractExpr {
         expr.decompile(s);
         s.print(")");
     }
-    
-@Override
-public void prettyPrintChildren(PrintStream s, String name) {
-    type.prettyPrint(s, name + "type", false);
-    expr.prettyPrint(s, name + "expr", true);
-}
+
+    @Override
+    public void prettyPrintChildren(PrintStream s, String name) {
+        type.prettyPrint(s, name + "type", false);
+        expr.prettyPrint(s, name + "expr", true);
+    }
 
     
 
