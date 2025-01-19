@@ -6,7 +6,7 @@ import org.apache.commons.lang.Validate;
 import fr.ensimag.arm.pseudocode.ARMInstruction;
 import fr.ensimag.ima.pseudocode.*;
     
-public class ARMBinaryInstructionCond extends ARMInstruction {
+public class ARMBinaryInstructionVLDRF64 extends ARMInstruction {
     private Operand operand1, operand2;
 
     public Operand getOperand1() {
@@ -19,7 +19,7 @@ public class ARMBinaryInstructionCond extends ARMInstruction {
 
     @Override
     public String getName() {
-        return "VMOV"; // Custom instruction name
+        return "VLDR"; // Custom instruction name
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ARMBinaryInstructionCond extends ARMInstruction {
         s.print(operand2);
     }
 
-    protected ARMBinaryInstructionCond(Operand op1, Operand op2) {
+    protected ARMBinaryInstructionVLDRF64(Operand op1, Operand op2) {
         Validate.notNull(op1);
         Validate.notNull(op2);
         this.operand1 = op1;

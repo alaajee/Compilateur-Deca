@@ -127,8 +127,10 @@ public class DeclVar extends AbstractDeclVar {
             if(this.type.getDefinition().getType().isInt()){
                 line = "data"+ID+ ": .word " + valeur.toString().substring(1,valeur.toString().length());
             } else if(this.type.getDefinition().getType().isFloat()){
-                line = "data"+ID+ ": .float " + valeur.toString().substring(1,valeur.toString().length());
-            }
+                line = "data"+ID+ ": .double " + valeur.toString().substring(1,valeur.toString().length());
+                compiler.addFirstComment(line);
+                line = ".align 2";
+                }
             compiler.addFirstComment(line);
         }
         else{
