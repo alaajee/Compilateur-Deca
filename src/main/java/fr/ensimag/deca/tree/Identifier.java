@@ -21,6 +21,7 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Deca Identifier
@@ -29,13 +30,14 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2025
  */
 public class Identifier extends AbstractIdentifier {
-    
-//    @Override
-//    protected void checkDecoration() {
-//        if (getDefinition() == null) {
-//            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
-//        }
-//    }
+    private static final Logger log = Logger.getLogger(Identifier.class);
+
+    @Override
+    protected void checkDecoration() {
+        if (getDefinition() == null) {
+            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
+        }
+    }
 
     @Override
     public Definition getDefinition() {
@@ -244,8 +246,20 @@ public class Identifier extends AbstractIdentifier {
         if (compiler.isVar){
             GPRegister register = compiler.associerReg();
             compiler.addInstruction(new LOAD(reg,register));
+            if (this.isParam){
+                System.out.println(name);
+            }
             compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
             compiler.isVar = false;
+            compiler.libererReg(register.getNumber());
+        }
+        if (this.getExpDefinition().isField()){
+            GPRegister register = compiler.associerReg();
+            System.out.println(compiler.getFieldNombre());
+            compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
+            compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
+            compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+            compiler.libererReg(register.getNumber());
         }
         return reg;
 

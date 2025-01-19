@@ -84,8 +84,8 @@ public class Dot extends AbstractLValue{
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
         left.codeGenExpr(compiler);
-        right.codeGenInstClass(compiler);
-
+        right.isParam = true;
+        right.codeGenExpr(compiler);
         return null;
     }
 

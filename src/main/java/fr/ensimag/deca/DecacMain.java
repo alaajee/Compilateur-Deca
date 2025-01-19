@@ -1,6 +1,10 @@
 package fr.ensimag.deca;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -42,8 +46,46 @@ public class DecacMain {
             // compiler, et lancer l'exécution des méthodes compile() de chaque
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
-            throw new UnsupportedOperationException("Parallel build not yet implemented");
-        
+            if (options.getParallel()) {
+                // Utilisation d'un thread pool pour exécuter les compilations en parallèle
+                ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+                // Liste pour stocker les tâches de compilation
+                List<Callable<Void>> tasks = new ArrayList<>();
+
+                for (File sourceFile :  options.getSourceFiles()) {
+                    tasks.add(() -> {
+                        DecacCompiler compiler = new DecacCompiler(options, sourceFile);
+                        try {
+                            compiler.compile(); // Méthode compile() exécutée pour chaque fichier
+                        } catch (Exception e) {
+                            System.err.println("Erreur lors de la compilation de " + sourceFile.getName());
+                            e.printStackTrace();
+                            throw e; // Propagation de l'exception pour gestion
+                        }
+                        return null; // Void Callable
+                    });
+                }
+
+                try {
+                    // Exécution parallèle des tâches
+                    List<Future<Void>> futures = executor.invokeAll(tasks);
+
+                    // Vérification des résultats
+                    for (Future<Void> future : futures) {
+                        try {
+                            future.get(); // Bloque jusqu'à la fin de chaque tâche
+                        } catch (ExecutionException e) {
+                            System.err.println("Erreur pendant la compilation : " + e.getCause());
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    System.err.println("La compilation a été interrompue.");
+                    Thread.currentThread().interrupt();
+                } finally {
+                    executor.shutdown(); // Libération des ressources
+                }
+            }
 
         } else {
             for (File source : options.getSourceFiles()) {

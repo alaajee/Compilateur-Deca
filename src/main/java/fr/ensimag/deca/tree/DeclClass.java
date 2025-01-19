@@ -177,6 +177,12 @@ public class DeclClass extends AbstractDeclClass {
         for (AbstractDeclMethod method : methods.getList()) {
             method.codeGenMethod(compiler, className);
         }
+        int x = 1;
+        for (AbstractDeclField field : fields.getList()) {
+            compiler.setTableNombreField(field.getName(),x);
+            x +=1;
+        }
+
     }
 
     protected void codeGenMethod(DecacCompiler compiler){

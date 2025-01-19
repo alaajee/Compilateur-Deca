@@ -44,7 +44,11 @@ public class Divide extends AbstractOpArith {
             compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.R0));
         }
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
-        compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+        }
+       // compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
@@ -123,7 +127,10 @@ public class Divide extends AbstractOpArith {
         DVal rightOperand = getRightOperand().codeGenInit(compiler);
         compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
-        compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+        }
+        //compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         DVal leftOperand = getLeftOperand().codeGenInit(compiler);
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();

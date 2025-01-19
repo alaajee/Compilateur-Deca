@@ -178,8 +178,7 @@ public  class DeclMethod extends AbstractDeclMethod{
         LinkedList<Instruction> lines = new LinkedList<Instruction>();
         listParam.codeGen(compiler);
         block.codeGen(compiler,lines);
-
-        System.out.println("methodenameeeeeeeeeeeeeeeeeee"+method);
+        
         compiler.setTableAdresseMethode(method,compiler.AdresseMethodeOffset);
         compiler.AdresseMethodeOffset++;
 

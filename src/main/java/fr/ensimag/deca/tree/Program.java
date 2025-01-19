@@ -66,30 +66,32 @@ public class Program extends AbstractProgram {
         compiler.addLabel(new Label("code.Object.equals"));
 
         compiler.addComment("end main program");
-        if (compiler.label){
+        if (compiler.label && !compiler.getCompilerOptions().getNoCHeck()){
             compiler.addLabel(compiler.labelMap.get("io_error"));
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
-        if (compiler.isArith){
+        if (compiler.isArith && !compiler.getCompilerOptions().getNoCHeck()){
             compiler.addLabel(compiler.labelMap.get("overflow_error"));
             compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
-        if (compiler.isDiv){
+        if (compiler.isDiv && !compiler.getCompilerOptions().getNoCHeck()){
             compiler.addLabel(compiler.labelMap.get("division_by_zero_error"));
             compiler.addInstruction(new WSTR("Error: Division by zero"));
             compiler.addInstruction(new WNL());
         }
-        Label stackOverflowLabel = new Label("stack_overflow_error");
-        compiler.addLabel(stackOverflowLabel);
-        compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            Label stackOverflowLabel = new Label("stack_overflow_error");
+            compiler.addLabel(stackOverflowLabel);
+            compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
 
-        if (compiler.tas_plein){
+        if (compiler.tas_plein && !compiler.getCompilerOptions().getNoCHeck()){
             compiler.addLabel(new Label("Tas_plein"));
             compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
             compiler.addInstruction(new WNL());

@@ -113,10 +113,6 @@ public class Cast extends AbstractExpr {
         expr.prettyPrint(s, name + "expr", true);
     }
 
-    
-
-
-
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);
@@ -136,9 +132,7 @@ public class Cast extends AbstractExpr {
                 compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
                 compiler.init = false;
             }
-
        }
-
        return register;
     }
 }

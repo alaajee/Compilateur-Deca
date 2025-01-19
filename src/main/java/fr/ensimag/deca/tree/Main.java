@@ -53,7 +53,10 @@ public class Main extends AbstractMain {
         int maximum = compiler.getAdressVar() + compiler.nbrVar;
         compiler.addFirst(new ADDSP(new ImmediateInteger(maximum)));
         Label stackOverflowLabel = new Label("stack_overflow_error");
-        compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addFirst(new BOV(stackOverflowLabel));
+        }
+       // compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
         compiler.addFirst(new TSTO(compiler.getMaxTsto()+compiler.nbrVar));
         //whileGeneration(compiler);
     }

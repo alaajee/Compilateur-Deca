@@ -72,7 +72,7 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
         GPRegister reg = compiler.associerReg();
-        System.out.println(reg);
+        //System.out.println(reg);
         if (!compiler.registeres.contains(reg)) {
             compiler.registeres.add(reg);
         }

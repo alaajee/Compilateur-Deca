@@ -62,7 +62,7 @@ public class CallMethod extends AbstractExpr {
         }
 
         MethodDefinition method = (MethodDefinition) methodDef;
-
+        methodName.setDefinition(method);
         Signature methodSignature = method.getSignature();
         if (args.size() != methodSignature.size()) {
             throw new ContextualError(

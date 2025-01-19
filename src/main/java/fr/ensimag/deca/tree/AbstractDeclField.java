@@ -15,5 +15,5 @@ public abstract class AbstractDeclField extends Tree {
     protected abstract DVal codeGenField(DecacCompiler compiler);
     protected abstract void verifyinitField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError ;
 
-    
+    protected abstract String getName();
 }

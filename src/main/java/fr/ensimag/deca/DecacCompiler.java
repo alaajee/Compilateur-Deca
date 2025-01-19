@@ -101,6 +101,9 @@ public class DecacCompiler {
 
     private Map<String ,Integer> AdresseMethode = new HashMap<>();
 
+    private Map<String  ,Integer> FieldNombre= new HashMap<>();
+
+
     public int AdresseMethodeOffset = 2;
     public Label nouvLabel = new Label("And");
     public boolean compteurAnd = false;
@@ -567,6 +570,18 @@ public class DecacCompiler {
 
     public void setTableAdresseMethode(String name , int fields) {
         this.AdresseMethode.put(name,fields);
+    }
+
+    public void setTableNombreField(String name, int fields) {
+        this.FieldNombre.put(name,fields);
+    }
+
+    public int getTableNombreField(String name){
+        return this.FieldNombre.get(name);
+    }
+
+    public Map<String ,Integer> getFieldNombre(){
+        return FieldNombre;
     }
 }
 
