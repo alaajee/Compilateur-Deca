@@ -1,0 +1,9 @@
+{
+    float f = 123.456;
+    int i = (int)(f);
+    float diff = f - (float)(i);
+
+    println("Flottant initial : " , f);
+    println("Converti en entier : " , i);
+    println("Différence après conversion : " , diff);
+}
