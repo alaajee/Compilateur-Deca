@@ -34,9 +34,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 
                 if (!rightType.isFloat() && !rightType.isInt() || !leftType.isInt() && !leftType.isFloat() )
                 {
-                    throw new ContextualError("Type mismatch: the left operand is of type " 
-                    + leftType.getName() + " while the right operand is of type " 
-                    + rightType.getName(), this.getLocation());
+                                throw new ContextualError("Operation arithmetic: ' "+ this.getOperatorName()+ " ' failed : one or both of operands is not of type int or float " , this.getLocation());
+
                 }
 
                 else if (rightType.isInt() && leftType.isFloat()) {
