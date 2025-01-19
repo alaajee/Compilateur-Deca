@@ -1,0 +1,7 @@
+{
+    int a = 97; // Code ASCII de 'a'
+    float asciiAsFloat = (float)(a);
+
+    println("Entier : " , a);
+    println("Code ASCII converti en flottant : " , asciiAsFloat);
+}
