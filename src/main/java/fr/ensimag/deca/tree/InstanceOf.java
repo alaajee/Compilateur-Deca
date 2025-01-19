@@ -26,10 +26,19 @@ public class InstanceOf extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-                throw new UnsupportedOperationException("verifyExpr() not implemented yet for InstanceOf.");
+        Type exprType = nom.verifyExpr(compiler, localEnv, currentClass);
+        if (!exprType.isClassOrNull()) {
+            throw new ContextualError("The left-hand side of 'instanceof' must be a class type or null.", nom.getLocation());
+        }
+        Type targetType = type.verifyType(compiler);
+        if (!targetType.isClass()) {
+            throw new ContextualError("The target type in 'instanceof' must be a class type.", type.getLocation());
+        }
+        this.setType(compiler.environmentType.BOOLEAN);
+        return compiler.environmentType.BOOLEAN;
     }
     
-
+    
 
     @Override
     public void decompile(IndentPrintStream s) {
