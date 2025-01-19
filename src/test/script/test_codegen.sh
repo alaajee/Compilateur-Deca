@@ -82,6 +82,10 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/printDot.deca"]="a.
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/AddPrintDot.deca"]="a.z = 7"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/AgetX.deca"]="a.getX() = 0"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/EstGrand.deca"]="Devinezlenombre(entre1et100)!Essai1:Tropgrand!Essai2:Tropgrand!Essai3:Tropgrand!Essai4:Tropgrand!Essai5:Tropgrand!Désolé,vousn'avezpasdeviné.Lenombreétait:42"
+
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Moyenne.deca"]="Moyenne pondérée : 3.45000e+01
+                                                                             La moyenne dépasse-t-elle le seuil de 30 ?  :true"
+
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do
     echo "Scanning directory: $TEST_DIR"

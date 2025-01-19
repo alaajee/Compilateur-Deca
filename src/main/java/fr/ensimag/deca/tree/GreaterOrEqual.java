@@ -39,10 +39,11 @@ public class GreaterOrEqual extends AbstractOpIneq {
 
         compiler.addInstruction(new SGE(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
-        gen.finalizeAndPush(reg, compiler);
-
-
-        return register;
+        if (compiler.init){
+            compiler.addInstruction(new STORE(reg,compiler.getCurrentAdresse()));
+            compiler.init = false;
+        }
+        return reg;
     }
 
     @Override
