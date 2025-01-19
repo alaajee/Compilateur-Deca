@@ -1,0 +1,18 @@
+// Description:
+//    Condition incorrecte impliquant une addition entre un boolean et un int.
+//
+// Résultats:
+//    Operation arithmetic: ' + ' failed : one or both of operands is not of type int or float 
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int threshold = 10;
+    boolean isValid = false;
+
+    if (isValid + threshold > 15) { 
+        print("Condition validée.");
+    } else {
+        print("Condition non validée.");
+    }
+}
