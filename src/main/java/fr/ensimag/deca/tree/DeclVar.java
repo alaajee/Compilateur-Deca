@@ -101,7 +101,6 @@ public class DeclVar extends AbstractDeclVar {
             // La normalement on a tout initialisé
             compiler.isVar = true;
             compiler.isAssign = true;
-            System.out.println(this.initialization);
             DVal valeur = this.initialization.codeGenExpr(compiler);
             compiler.addRegUn(this.varName.getName().toString(),adresse);
         }
@@ -117,6 +116,7 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addVar(variable,this.varName.getName().toString());
         compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
         compiler.addRegUnARM(this.varName.getName().toString(),adresse);
+        System.out.println(compiler.regUnARM);
         compiler.nbrVar++;
         if (this.initialization.initialization()) {
             compiler.isVar = true;

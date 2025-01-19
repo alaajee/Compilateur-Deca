@@ -257,6 +257,9 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExprARM(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr reg = compiler.getRegUnARM(name);
+        if(compiler.isVar){
+            compiler.isVar = false;
+        }
         return reg;
     }
 

@@ -12,6 +12,6 @@ public class ARMImmediateFloat extends DVal {
 
     @Override
     public String toString() {
-        return "#" + Float.toHexString(value);
+        return "#" + value;
     }
 }

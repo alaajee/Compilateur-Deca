@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
+import fr.ensimag.arm.pseudocode.*;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -58,7 +59,9 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     protected DVal codeGenExprARM(DecacCompiler compiler){
-        return null;
+        ARMGPRegister reg = compiler.associerRegARM();
+        compiler.typeAssign = "float";
+        return reg;
     }
 
 }

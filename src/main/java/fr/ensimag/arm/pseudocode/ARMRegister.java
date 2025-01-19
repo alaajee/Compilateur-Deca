@@ -32,6 +32,10 @@ public class ARMRegister extends DVal {
      * made immutable, use getR(i) to access it.
      */
     private static final ARMGPRegister[] R = initRegisters();
+
+    private static final ARMGPRegister[] S = initRegistersS();
+
+    private static final ARMGPRegister[] D = initRegistersD();
     /**
      * General Purpose Registers
      */
@@ -47,7 +51,13 @@ public class ARMRegister extends DVal {
      */
     public static final ARMGPRegister R1 = R[1];
 
+    public static final ARMGPRegister R3 = R[3];
+
     public static final ARMGPRegister R7 = R[7];
+
+    public static final ARMGPRegister S0 = S[0];
+
+    public static final ARMGPRegister D0 = D[0];
 
 
     // static private ARMGPRegister[] initRegisters() {
@@ -62,6 +72,22 @@ public class ARMRegister extends DVal {
         ARMGPRegister [] res = new ARMGPRegister[16];
         for (int i = 0; i <= 15; i++) {
             res[i] = new ARMGPRegister("R" + i, i);
+        }
+        return res;
+    }
+
+    static private ARMGPRegister[] initRegistersS() {
+        ARMGPRegister [] res = new ARMGPRegister[32];
+        for (int i = 0; i <= 31; i++) {
+            res[i] = new ARMGPRegister("S" + i, i);
+        }
+        return res;
+    }
+
+    static private ARMGPRegister[] initRegistersD() {
+        ARMGPRegister [] res = new ARMGPRegister[16];
+        for (int i = 0; i <= 15; i++) {
+            res[i] = new ARMGPRegister("D" + i, i);
         }
         return res;
     }

@@ -97,14 +97,7 @@ public class IntLiteral extends AbstractExpr {
         DVal res = new ARMImmediateInteger(value);
         if(compiler.isVar){
             DAddr adresse = compiler.associerAdresseARM();
-            // ARMGPRegister reg = compiler.associerRegARM();
-            // compiler.addInstruction(new MOV(reg, res));
-            // compiler.addInstruction(new STR(reg, new ARMImmediateString(adresse.toString())));
-            // res.isRegistre = true;
-            // Il faut liberer le registre
-            // compiler.isVar = false;
-            // compiler.libererReg(reg.getNumber());
-            System.out.println("im here bossssssssss" + adresse);
+            System.out.println("im here bossssssssss" + res);
             return res;
         }
         return res;
@@ -124,10 +117,12 @@ public class IntLiteral extends AbstractExpr {
     @Override
     protected void codeGenPrintARM(DecacCompiler compiler) {
         compiler.print = true;
-        int ID = compiler.getUniqueDataID();
-        String line = "data" + ID + ": .asciz " + "\"%d\"";
-        compiler.addFirstComment(line);
-        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"data"+ID)));
+        if(!compiler.printint){
+            String line = "formatint" + ": .asciz " + "\"%d\"";
+            compiler.addFirstComment(line);
+            compiler.printint = true;
+        }
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
         compiler.addInstruction(new MOV(ARMRegister.R1, new ARMImmediateInteger(value)));
         compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }

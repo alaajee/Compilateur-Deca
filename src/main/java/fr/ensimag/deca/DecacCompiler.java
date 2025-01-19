@@ -69,7 +69,7 @@ public class DecacCompiler {
     private Map<String, VariableDefinition> varTab = new HashMap<>();
     private Map<Location,String> nameVal = new HashMap<>();
     private Map<String ,DAddr> regUn = new HashMap<>();
-    private Map<String ,DAddr> regUnARM = new HashMap<>();
+    public Map<String ,DAddr> regUnARM = new HashMap<>();
     private Boolean [] GP;
     public Boolean Offset;
     public int spVal;
@@ -457,7 +457,7 @@ public class DecacCompiler {
     }
 
     public ARMGPRegister associerRegARM(){
-        for (int i = 2; i < OverflowValARM+1; i++){
+        for (int i = 4; i < OverflowValARM+1; i++){
             if(!RegistersARM[i]){
                 RegistersARM[i] = true;
                 this.adresseReg = i;
