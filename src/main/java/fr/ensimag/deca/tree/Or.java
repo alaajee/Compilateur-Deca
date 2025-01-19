@@ -4,10 +4,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.codegen.constructeur;
+import fr.ensimag.deca.codegen.constructeurADD;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
-import fr.ensimag.deca.codegen.constructeurCMP;
-import fr.ensimag.deca.codegen.constructeurADD;
 
 /**
  *
@@ -22,7 +21,7 @@ public class Or extends AbstractOpBool {
 
     @Override
     protected String getOperatorName() {
-        return "&&";
+        return "||";
     }
 
     @Override
