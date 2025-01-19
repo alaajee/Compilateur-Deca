@@ -1,0 +1,28 @@
+// Description:
+//    Utilisation d'un opérateur incompatible entre un float et un boolean dans une condition complexe.
+//
+// Résultats:
+//    logical_and_float_boolean_error.deca:15:20: Boolean Operation '&&' failed: both operands should be of type boolean
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int value1 = 30;
+    float value2 = 15.5;
+    boolean isEnabled = true;
+    boolean isFinished = false;
+    float finalResult ;
+    if (value1 > 20 && value2 && isEnabled) { 
+        print("Les valeurs et conditions sont valides.");
+    } else {
+        print("Les valeurs ne sont pas conformes.");
+    }
+
+    finalResult = (value1 / 2.0) + value2;
+
+    if (finalResult > 40) {
+        print("Résultat final élevé : ", finalResult);
+    } else {
+        print("Résultat final bas : ", finalResult);
+    }
+}

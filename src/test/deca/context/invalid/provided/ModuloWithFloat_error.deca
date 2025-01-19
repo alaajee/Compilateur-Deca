@@ -1,0 +1,32 @@
+// Description:
+//    Tentative de calcul de modulo avec un float dans une condition complexe.
+//
+// Résultats:
+//    ModuloWithFloat_error.deca:17:20: Modulo operation failed: both operands should be of type int
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int a = 15;
+    float b = 4.5;
+    int c = 7;
+    float total;
+    float adjusted;
+    float finalValue ;
+
+    if (a > c && (c % b > 2)) { // Erreur ici : modulo avec un float
+        total = (a * c) + b;
+        print("Condition remplie, calcul effectué : ", total);
+    } else {
+        print("Condition non remplie, aucun calcul.");
+    }
+
+    adjusted = (total / b) + c;
+
+    if (adjusted > 10) {
+        print("Valeur ajustée : ", adjusted);
+    }
+
+    finalValue = adjusted * a - b;
+    print("Valeur finale : ", finalValue);
+}

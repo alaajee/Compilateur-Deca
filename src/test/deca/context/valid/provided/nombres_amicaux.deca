@@ -3,22 +3,28 @@
     int y = 284; // Modifiez cette valeur pour tester
 
     int sumX = 0, sumY = 0;
+    int i = 1;
+    int j = 1;
 
-    for (int i = 1; i <= x / 2; i++) {
+    while (i <= x / 2) {
         if (x % i == 0) {
-            sumX += i;
+            sumX =sumX + i;
         }
+        i=i+1;
     }
 
-    for (int j = 1; j <= y / 2; j++) {
+    // Calcul de la somme des diviseurs propres de y
+    while (j <= y / 2) {
         if (y % j == 0) {
-            sumY += j;
+            sumY =sumY +  j;
         }
+        j=j+1;
     }
 
+    // Vérification si les nombres sont amicaux
     if (sumX == y && sumY == x) {
-        println(x + " et " + y + " sont des nombres amicaux.");
+        println(x , " et " , y , " sont des nombres amicaux.");
     } else {
-        println(x + " et " + y + " ne sont pas des nombres amicaux.");
+        println(x , " et " , y , " ne sont pas des nombres amicaux.");
     }
 }
