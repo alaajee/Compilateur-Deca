@@ -1,0 +1,22 @@
+// Description:
+//    Cast incorrect d’un boolean dans une opération conditionnelle.
+//
+// Résultats:
+//  CastBooleanToInt_error.deca:14:18: Incompatible types for explicit cast: boolean to int
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int x = 10;
+    boolean isReady = true;
+    boolean isValid = false;
+    int total;
+    if ((x > 5 && (int) (isReady)) || isValid) { 
+        print("Condition vérifiée !");
+    } else {
+        print("Condition non vérifiée.");
+    }
+
+    total = x + (int) (isValid); 
+    print("Total calculé : ", total);
+}
