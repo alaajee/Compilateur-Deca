@@ -1,0 +1,18 @@
+// Description:
+//    Une méthode qui n’existe pas est appelée sur un objet.
+//
+// Résultats:
+//    call_nonexistent_method_error.deca:16:12: Method undefinedMethod is not defined in class A
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void existingMethod() {
+        print("Méthode existante.");
+    }
+
+    void test() {
+        A obj = new A();
+        obj.undefinedMethod(); // Erreur ici : méthode 'undefinedMethod' n’existe pas
+    }
+}
