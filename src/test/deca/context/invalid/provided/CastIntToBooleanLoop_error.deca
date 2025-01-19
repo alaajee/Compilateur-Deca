@@ -1,0 +1,19 @@
+// Description:
+//    Tentative de cast d’un `int` en `boolean` dans une condition de boucle.
+//
+// Résultats:
+//    CastIntToBooleanLoop_error.deca:13:11: Incompatible types for explicit cast: int to boolean
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int counter = 5;
+
+    // Cast incorrect d’un int vers un boolean
+    while ((boolean) (counter)) { 
+        print("Compteur : ", counter);
+        counter=counter -1;
+    }
+
+    print("Boucle terminée.");
+}
