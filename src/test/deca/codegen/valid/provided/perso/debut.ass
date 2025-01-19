@@ -5,21 +5,21 @@
 ; Main program
 ; Beginning of main instructions:
 	LOAD #5, R2
-	STORE R2, 5(GB)
+	STORE R2, 3(GB)
 	LOAD #10, R2
-	STORE R2, 6(GB)
-	LOAD 5(GB), R2
+	STORE R2, 4(GB)
+	LOAD 3(GB), R2
 	CMP #2, R2
 	SGT R2
 	BLE else_block_1
-	LOAD 6(GB), R2
+	LOAD 4(GB), R2
 	CMP #20, R2
 	SLT R2
 	BGE else_block_1
 body_1:
 	LOAD #1, R3
 	LOAD #1, R4
-	STORE R4, 7(GB)
+	STORE R4, 5(GB)
 	WSTR "ca marche"
 	WNL
 	BRA end_if_1

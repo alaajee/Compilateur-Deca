@@ -5,21 +5,21 @@
 ; Main program
 ; Beginning of main instructions:
 	LOAD #8, R2
-	STORE R2, 5(GB)
+	STORE R2, 3(GB)
 	LOAD #1, R2
-	STORE R2, 6(GB)
+	STORE R2, 4(GB)
 	LOAD #7, R3
-	STORE R3, 7(GB)
+	STORE R3, 5(GB)
 	LOAD #8, R3
-	STORE R3, 8(GB)
-	LOAD 6(GB), R1
+	STORE R3, 6(GB)
+	LOAD 4(GB), R1
 	CMP #0, R1
 	BNE else_block_1
 body_1:
-	LOAD 5(GB), R3
+	LOAD 3(GB), R3
 	ADD #1, R3
-	STORE R3, 5(GB)
-	LOAD 5(GB), R1
+	STORE R3, 3(GB)
+	LOAD 3(GB), R1
 	WINT
 	WNL
 	BRA end_if_1
@@ -27,15 +27,15 @@ else_block_1:
 	LOAD #0, R0
 	CMP #0, R0
 	BEQ else_block_2
-	LOAD #8, R3
-	CMP 5(GB), R3
+	LOAD 3(GB), R3
+	CMP #8, R3
 	SEQ R3
 	BNE else_block_2
 body_2:
-	LOAD 5(GB), R4
+	LOAD 3(GB), R4
 	SUB #1, R4
-	STORE R4, 5(GB)
-	LOAD 5(GB), R1
+	STORE R4, 3(GB)
+	LOAD 3(GB), R1
 	WINT
 	WNL
 	BRA end_if_2
