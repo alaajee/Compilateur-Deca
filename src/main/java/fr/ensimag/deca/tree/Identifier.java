@@ -278,7 +278,6 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenPrintARM(DecacCompiler compiler) {
-        System.out.println("im in Identifier print ARM");
         compiler.print = true;
         String name = getName().toString();
         DAddr register = compiler.getRegUnARM(name);

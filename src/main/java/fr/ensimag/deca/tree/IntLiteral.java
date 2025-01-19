@@ -93,11 +93,9 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
-        System.out.println("im here");
         DVal res = new ARMImmediateInteger(value);
         if(compiler.isVar){
             DAddr adresse = compiler.associerAdresseARM();
-            System.out.println("im here bossssssssss" + res);
             return res;
         }
         return res;

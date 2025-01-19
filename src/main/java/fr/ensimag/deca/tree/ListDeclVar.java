@@ -57,7 +57,6 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
     public void codeGenARM(DecacCompiler compiler){
         // System.out.println("im in ListDeclVar");
         for (AbstractDeclVar declVar : this.getList()) {
-            System.out.println("im in ListDeclVar");
             declVar.codegenVarARM(compiler);
         }
     }

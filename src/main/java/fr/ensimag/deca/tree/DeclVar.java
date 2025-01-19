@@ -116,7 +116,6 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addVar(variable,this.varName.getName().toString());
         compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
         compiler.addRegUnARM(this.varName.getName().toString(),adresse);
-        System.out.println(compiler.regUnARM);
         compiler.nbrVar++;
         if (this.initialization.initialization()) {
             compiler.isVar = true;
@@ -139,7 +138,9 @@ public class DeclVar extends AbstractDeclVar {
             if (this.type.getDefinition().getType().isInt()) {
                 line = "data" + ID + ": .word 0"; // Default for integers
             } else if (this.type.getDefinition().getType().isFloat()) {
-                line = "data" + ID + ": .float 0.0"; // Default for floats
+                line = "data" + ID + ": .double 0.0"; // Default for floats
+                compiler.addFirstComment(line);
+                line = ".align 2";
             }
             compiler.addFirstComment(line);
         }
