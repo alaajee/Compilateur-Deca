@@ -1,13 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
-
 import java.io.PrintStream;
 
 /**
@@ -26,7 +25,7 @@ public class ThisLiteral extends AbstractExpr {
             ClassDefinition currentClass) throws ContextualError {
         // 'this' renvoie le type de la classe dans laquelle il est utilisé
         if (currentClass == null) {
-            throw new ContextualError("Cannot use 'this' outside of a class context.", null);
+            throw new ContextualError("Cannot use 'this' outside of a class context.", getLocation());
         }
         this.setType(currentClass.getType());
         return currentClass.getType();  // Renvoie le type de la classe courante (ex: ClassType)
