@@ -8,14 +8,16 @@
 //    créé le 19/01/2025
 class A {
     int fieldA;
-    protected int b;
 }
 
-class B extends A{
+class B {
     int fieldB;
 }
 
-{
-    B c=new B();
-    int a=c.b;
+class Main {
+    void test() {
+        A objA;
+        B objB = new B();
+        objA = objB; 
+    }
 }
