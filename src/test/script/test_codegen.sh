@@ -81,7 +81,7 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/MultOpArithClass.de
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/printDot.deca"]="a.z = 6"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/AddPrintDot.deca"]="a.z = 7"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/AgetX.deca"]="a.getX() = 0"
-
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/EstGrand.deca"]="Devinezlenombre(entre1et100)!Essai1:Tropgrand!Essai2:Tropgrand!Essai3:Tropgrand!Essai4:Tropgrand!Essai5:Tropgrand!Désolé,vousn'avezpasdeviné.Lenombreétait:42"
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do
     echo "Scanning directory: $TEST_DIR"

@@ -113,6 +113,8 @@ public class DecacCompiler {
     public Label labelClasses = new Label("Tables.DES.Methodes");
     public boolean init = false;
     public boolean Print = false;
+    public int LabelFinWhile = 2;
+    public int debut = 0;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
