@@ -1,0 +1,18 @@
+// Description:
+//    Une méthode est appelée sur un champ inexistant.
+//
+// Résultats:
+//    call_method_on_nonexistent_field_error.deca:16:24: The member 'nonexistentField' is not defined in class 'A' or its superclasses.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int existingField = 5;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        int value = obj.nonexistentField.someMethod(); 
+    }
+}

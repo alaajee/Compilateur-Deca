@@ -1,0 +1,15 @@
+// Description:
+//    Une sous-classe redéfinit un champ avec un type différent.
+//
+// Résultats:
+//    field_redefinition_incompatible_error.deca:14:10: Field field already defined in superclass A
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field;
+}
+
+class B extends A {
+    float field;
+}

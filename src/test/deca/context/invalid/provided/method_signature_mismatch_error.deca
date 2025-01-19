@@ -1,0 +1,20 @@
+// Description:
+//    Une méthode est appelée avec des paramètres incorrects.
+//
+// Résultats:
+//    method_signature_mismatch_error.deca:18:21: Invalid number of arguments for method setField. Expected: 1, Provided: 2
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void setField(int value) {
+        print("Valeur assignée : ", value);
+    }
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        obj.setField(10, 20); 
+    }
+}

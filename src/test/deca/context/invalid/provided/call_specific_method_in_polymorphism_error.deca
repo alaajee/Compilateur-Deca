@@ -1,0 +1,26 @@
+// Description:
+//    Une méthode appelée n’est pas définie dans la classe parent.
+//
+// Résultats:
+//    call_specific_method_in_polymorphism_error.deca:24:12: Method specificMethod is not defined in class A
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void existingMethod() {
+        print("Méthode existante.");
+    }
+}
+
+class B extends A {
+    void specificMethod() {
+        print("Méthode spécifique à B.");
+    }
+}
+
+class C {
+    void test() {
+        A obj = new B();
+        obj.specificMethod(); 
+    }
+}

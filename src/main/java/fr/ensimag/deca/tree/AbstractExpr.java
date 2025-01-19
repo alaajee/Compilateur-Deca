@@ -155,7 +155,7 @@ public abstract class AbstractExpr extends AbstractInst {
 
         if (!typeCondition.isBoolean())
         {
-            throw new ContextualError("The type of the consdition must be boolean", this.getLocation());
+            throw new ContextualError("The type of the condition must be boolean", this.getLocation());
         }
     }
 

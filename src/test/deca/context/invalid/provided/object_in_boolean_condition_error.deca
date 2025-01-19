@@ -1,0 +1,20 @@
+// Description:
+//    Une condition utilise un objet au lieu d’un booléen.
+//
+// Résultats:
+//    Erreur : Condition doit être booléenne.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field = 10;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        if (obj) { 
+            print("Condition vérifiée.");
+        }
+    }
+}
