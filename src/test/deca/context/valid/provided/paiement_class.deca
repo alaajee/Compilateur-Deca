@@ -1,0 +1,38 @@
+class Payment {
+    float amount;
+
+    void process() {
+        println("Processing payment of "  , amount  , "€");
+    }
+}
+
+class CreditCardPayment extends Payment {
+    int cardNumber;
+
+     void process() {
+        println("Processing credit card payment: "  , amount  , "€");
+    }
+}
+
+class PayPalPayment extends Payment {
+    int email;
+
+     void process() {
+        println("Processing PayPal payment for "  , email  , ": "  , amount  , "€");
+    }
+}
+
+{
+    Payment p = new CreditCardPayment();
+    CreditCardPayment cc = (CreditCardPayment)(p);
+    PayPalPayment pp = (PayPalPayment)(new PayPalPayment());
+    
+    p.amount = 50.0;
+
+    cc.cardNumber = 875;
+    cc.process();
+
+
+    pp.email = 1;
+    pp.process();
+}
