@@ -42,12 +42,12 @@ public class Cast extends AbstractExpr {
         if (!exprType.isClass() && !targetType.isClass()) {
             if (exprType.isInt() && targetType.isFloat()) {
                 this.expr = this.expr.verifyRValue(compiler, localEnv, currentClass, targetType);
-                this.expr.setType(targetType);
+                this.setType(targetType);
                 return targetType;
             }
         
             if (exprType.isFloat() && targetType.isInt()) {
-                this.expr.setType(targetType);
+                this.setType(targetType);
                 return targetType;
             }
         
@@ -69,7 +69,7 @@ public class Cast extends AbstractExpr {
         }
             // Vérification si exprType est une sous-classe de targetType
             if (exprClassType.isSubClassOf(targetClassType)) {
-                this.expr.setType(targetClassType);
+                this.setType(targetClassType);
                 return targetClassType;
             }
 
@@ -79,7 +79,7 @@ public class Cast extends AbstractExpr {
         }
             // Vérification si targetType est une sous-classe de exprType
             if (targetClassType.isSubClassOf(exprClassType)) {
-                this.expr.setType(targetClassType);
+                this.setType(targetClassType);
                 return targetClassType;
             }
 

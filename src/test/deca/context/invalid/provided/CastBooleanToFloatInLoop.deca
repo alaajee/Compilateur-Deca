@@ -1,0 +1,22 @@
+// Description:
+//    Tentative de cast d’un boolean vers un float dans une boucle complexe.
+//
+// Résultats:
+//    CastBooleanToFloatInLoop.deca:16:29: Incompatible types for explicit cast: boolean to float
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int counter = 0;
+    float threshold = 15.0;
+    boolean isActive = true;
+    float result ;
+
+    while (counter < 10) {
+        result = threshold + (float) (isActive); 
+        print("Résultat à l'itération ", counter, " : ", result);
+        counter=counter +1;
+    }
+
+    print("Boucle terminée.");
+}
