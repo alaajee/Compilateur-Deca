@@ -1,0 +1,22 @@
+// Description:
+//    Tentative de cast d’un boolean en int dans une opération de division.
+//
+// Résultats:
+//    CastBooleanDivision_error.deca:14:17: Incompatible types for explicit cast: boolean to int
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int a = 25;
+    boolean isActive = true;
+    float result;
+
+    result = a / (int) (isActive); 
+    print("Résultat : ", result);
+
+    if (result > 10) {
+        print("Résultat supérieur à 10.");
+    } else {
+        print("Résultat inférieur ou égal à 10.");
+    }
+}
