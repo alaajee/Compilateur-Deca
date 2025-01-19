@@ -61,19 +61,16 @@ public class Cast extends AbstractExpr {
         ClassType exprClassType = exprType.asClassType("Invalid class type for casting.", getLocation());
         ClassType targetClassType = targetType.asClassType("Invalid target class type for casting.", getLocation());
 
-        // Vérification si exprType est une sous-classe de targetType
         if (exprClassType.isSubClassOf(targetClassType)) {
             this.setType(targetClassType);
             return targetClassType;
         }
 
-        // Vérification si targetType est une sous-classe de exprType
         if (targetClassType.isSubClassOf(exprClassType)) {
             this.setType(targetClassType);
             return targetClassType;
         }
 
-        // Si aucune des conditions ci-dessus n'est vraie, le cast est invalide
         throw new ContextualError(
             "Cannot cast from type " + exprType.getName() + " to type " + targetType.getName(),
             getLocation()
