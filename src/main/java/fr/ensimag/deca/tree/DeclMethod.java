@@ -11,10 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -76,88 +73,100 @@ public  class DeclMethod extends AbstractDeclMethod{
         block.iter(f);
     }
     
+@Override
+    protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+        Type returnType = this.type.verifyType(compiler);
 
-    @Override
-    protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        Type t = this.type.verifyType(compiler);
-        SymbolTable.Symbol methodSymbol = this.methodName.getName();
-        Map<SymbolTable.Symbol,TypeDefinition> envTypes = compiler.environmentType.getEnvtypes();
-
-        if (envTypes.containsKey(methodSymbol)) {
-            throw new ContextualError("La méthode " + methodName.getName() + " existe déjà dans la classe.", methodName.getLocation());
+        ExpDefinition existingMember = currentClass.getMembers().get(this.methodName.getName());
+        if (existingMember != null && !(existingMember instanceof MethodDefinition)) {
+            throw new ContextualError(
+                    "Le nom '" + methodName.getName() + "' est déjà utilisé par un champ ou une variable dans la classe.",
+                    methodName.getLocation());
         }
 
+
+        // Vérifier si la méthode redéfinit une méthode existante
         MethodDefinition overriddenMethod = null;
         ClassDefinition superClass = currentClass.getSuperClass();
         while (superClass != null) {
-            ExpDefinition superMethod = superClass.getMembers().get(methodSymbol);
-            if (superMethod!=null)
-            {
-                if (superMethod instanceof MethodDefinition) {
-                    overriddenMethod = (MethodDefinition) superMethod;
-                    break;
-                }
+            ExpDefinition existingMethod = superClass.getMembers().get(this.methodName.getName());
+            if (existingMethod != null && existingMethod instanceof MethodDefinition) {
+                overriddenMethod = (MethodDefinition) existingMethod;
+                break;
             }
             superClass = superClass.getSuperClass();
         }
 
-        if (overriddenMethod!=null)
-        {
-            if(!t.sameType(overriddenMethod.getType()))
-            {
-                throw new ContextualError("Le type de retour de la méthode " + methodName.getName() +
-                " n'est pas compatible avec celui de la méthode redéfinie dans une superclasse.", methodName.getLocation());
-            }
-
-            if (!overriddenMethod.getSignature().equals(this.listParam.verifyListParam(compiler, localEnv, currentClass)))
-            {
+        if (overriddenMethod != null) {
+            if (!returnType.sameType(overriddenMethod.getType())) {
                 throw new ContextualError(
-                    "La signature des paramètres de la méthode " + methodName.getName() +
-                    " n'est pas compatible avec celle de la méthode redéfinie dans une superclasse.",
-                    methodName.getLocation()
-                );
+                        "Le type de retour de la méthode " + methodName.getName()
+                                + " n'est pas compatible avec celui de la méthode redéfinie.",
+                        methodName.getLocation());
             }
-            methodName.setDefinition(overriddenMethod);
 
+            EnvironmentExp methodEnv = new EnvironmentExp(localEnv);
+            Signature currentSignature = this.listParam.verifyListParam(compiler, methodEnv, currentClass);
+
+            if (!overriddenMethod.getSignature().equals(currentSignature)) {
+                throw new ContextualError(
+                        "La signature des paramètres de la méthode " + methodName.getName()
+                                + " n'est pas compatible avec celle de la méthode redéfinie.",
+                        methodName.getLocation());
+            }
+
+            methodName.setDefinition(overriddenMethod);
         }
 
+        EnvironmentExp methodEnv = new EnvironmentExp(localEnv);
+        Signature methodSignature = this.listParam.verifyListParam(compiler, methodEnv, currentClass);
 
-
-
-        Signature methodSignature = this.listParam.verifyListParam(compiler, localEnv,currentClass);
         MethodDefinition methodDefinition = new MethodDefinition(
-            t,
-            methodName.getLocation(),
-            methodSignature,
-            currentClass.incNumberOfMethods()
-        );
+                returnType,
+                methodName.getLocation(),
+                methodSignature,
+                currentClass.incNumberOfMethods());
         methodName.setDefinition(methodDefinition);
-    
+
         try {
-            currentClass.getMembers().declare(methodSymbol, methodDefinition);
+            currentClass.getMembers().declare(methodName.getName(), methodDefinition);
         } catch (EnvironmentExp.DoubleDefException e) {
             throw new ContextualError(
-                "La méthode " + methodName.getName() + " est déjà définie dans l'environnement local.",
-                methodName.getLocation()
-            );
+                    "La méthode " + methodName.getName() + " est déjà définie dans l'environnement local.",
+                    methodName.getLocation());
         }
-        
-
     }
+
+    @Override
+    protected void verifyBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError {
+
+        EnvironmentExp methodEnv = new EnvironmentExp(localEnv);
+
+        this.listParam.verifyListParam(compiler, methodEnv, currentClass);
+
+        this.block.verifyBlock(compiler, methodEnv, currentClass, type.getType());
+    }
+
 
     @Override
     protected void codeGenMethod(DecacCompiler compiler,String className) {
         String method = methodName.getName().getName();
+
+        compiler.setTableAdresseMethode(method,compiler.AdresseMethodeOffset);
+        compiler.AdresseMethodeOffset++;
+
+
         DAddr adresse = compiler.associerAdresse();
         DVal dval = new classeNom(className,method);
         compiler.addInstruction(new LOAD(dval, Register.R0));
         compiler.addInstruction(new STORE(Register.R0, adresse));
     }
 
-    @Override
-    protected void verifyBlockMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        this.block.verifyBlock(compiler, localEnv, currentClass, type.getType());
-    }
+
+
+
 
     @Override
     protected void codeGenBlock(DecacCompiler compiler,String className){
@@ -170,6 +179,9 @@ public  class DeclMethod extends AbstractDeclMethod{
         listParam.codeGen(compiler);
         block.codeGen(compiler,lines);
 
+        compiler.setTableAdresseMethode(method,compiler.AdresseMethodeOffset);
+        compiler.AdresseMethodeOffset++;
+
 
         for (Iterator<Register> it = compiler.registeres.descendingIterator(); it.hasNext(); ) {
             Register reg = it.next();
@@ -181,5 +193,11 @@ public  class DeclMethod extends AbstractDeclMethod{
         for (Instruction i : lines) {
             compiler.addInstruction(i);
         }
+        compiler.addInstruction(new RTS());
     }
+
+
+//    public Label getLabel(){
+//        return new Label(this.nameMethod.toString());
+//    }
 }

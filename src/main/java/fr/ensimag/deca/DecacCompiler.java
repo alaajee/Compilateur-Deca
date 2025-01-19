@@ -89,12 +89,6 @@ public class DecacCompiler {
     public boolean isHex;
     private Boolean [] RegistersARM;
 
-    public boolean greater;
-    public boolean notGreater;
-    public boolean equals;
-    public boolean notGreaterStric;
-    public boolean greaterStric;
-    public boolean notEquals;
     public boolean and;
     public boolean or;
     public boolean condition;
@@ -111,10 +105,26 @@ public class DecacCompiler {
 
     private Map<String ,Integer> registerOffsets = new HashMap<>();
 
+    private Map<String ,DAddr> tableClassees = new HashMap<>();
 
+    private Map<String ,Integer> tableFields = new HashMap<>();
+
+    private Map<String ,Integer> AdresseMethode = new HashMap<>();
+
+    private Map<String  ,Integer> FieldNombre= new HashMap<>();
+
+
+    public int AdresseMethodeOffset = 2;
     public Label nouvLabel = new Label("And");
     public boolean compteurAnd = false;
     public int compterLabel = 0;
+
+    public boolean tas_plein = false;
+    public Label labelClasses = new Label("Tables.DES.Methodes");
+    public boolean init = false;
+    public boolean Print = false;
+    public int LabelFinWhile = 2;
+    public int debut = 0;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
@@ -558,14 +568,16 @@ public class DecacCompiler {
     }
 
     public RegisterOffset getRegisterClass(){
+        System.out.println(this.RegisterOffset);
         RegisterOffset reg = new RegisterOffset(this.RegisterOffset,Register.R1);
         this.RegisterOffset++;
+        //System.out.println(this.RegisterOffset);
         return reg;
     }
 
     public RegisterOffset getRegisterParam(){
         RegisterOffset reg = new RegisterOffset(this.paramReg,Register.LB);
-        this.RegisterOffset--;
+        this.paramReg--;
         return reg;
     }
 
@@ -684,3 +696,5 @@ public class DecacCompiler {
         return false;
     }
 }
+
+

@@ -1,0 +1,98 @@
+	TSTO #14
+	BOV stack_overflow_error
+	ADDSP #10
+; start main program
+Tables.DES.Methodes:
+; Main program
+; Beginning of main instructions:
+	LOAD #10, R2
+	STORE R2, 3(GB)
+	LOAD #15, R2
+	STORE R2, 4(GB)
+	LOAD #20, R2
+	STORE R2, 5(GB)
+	LOAD #0, R2
+	STORE R2, 6(GB)
+condition_1:
+	LOAD 5(GB), R2
+	CMP #10, R2
+	SGT R2
+	BLE end_while_1
+body_1:
+	LOAD 5(GB), R2
+	REM #2, R2
+	LOAD R2, R2
+	CMP #0, R2
+	SEQ R2
+	BEQ body_2
+	LOAD 5(GB), R2
+	REM #3, R2
+	LOAD R2, R2
+	CMP #0, R2
+	SEQ R2
+	BEQ body_2
+	LOAD 5(GB), R3
+	REM #5, R3
+	LOAD R3, R3
+	CMP #0, R3
+	SEQ R3
+	BEQ body_2
+	LOAD 5(GB), R4
+	REM #7, R4
+	LOAD R4, R4
+	CMP #0, R4
+	SEQ R4
+	BEQ body_2
+	LOAD 5(GB), R5
+	REM #11, R5
+	LOAD R5, R5
+	CMP #0, R5
+	SEQ R5
+	BEQ body_2
+	LOAD 5(GB), R6
+	REM #13, R6
+	LOAD R6, R6
+	CMP #0, R6
+	SEQ R6
+	BEQ body_2
+	LOAD 5(GB), R7
+	REM #17, R7
+	LOAD R7, R7
+	CMP #0, R7
+	SEQ R7
+	BEQ body_2
+	LOAD 5(GB), R8
+	REM #19, R8
+	LOAD R8, R8
+	CMP #0, R8
+	SEQ R8
+	BEQ body_2
+	LOAD 5(GB), R9
+	REM #23, R9
+	LOAD R9, R9
+	CMP #0, R9
+	SEQ R9
+	BNE else_block_2
+body_2:
+	LOAD 6(GB), R10
+	ADD #1, R10
+	STORE R10, 6(GB)
+	BRA end_if_2
+else_block_2:
+end_if_2:
+	LOAD 5(GB), R10
+	SUB #1, R10
+	STORE R10, 5(GB)
+	BRA condition_1
+end_while_1:
+	WSTR "Le résultat final est : "
+	LOAD 6(GB), R1
+	WINT
+	WNL
+	HALT
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

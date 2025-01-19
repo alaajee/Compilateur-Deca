@@ -330,6 +330,8 @@ inequality_expr returns[AbstractExpr tree]
     | e1=inequality_expr INSTANCEOF type {
             assert($e1.tree != null);
             assert($type.tree != null);
+            $tree = new InstanceOf($e1.tree, $type.tree);
+            setLocation($tree, $INSTANCEOF);
 
         }
     ;
@@ -544,7 +546,7 @@ class_extension[Token name] returns[AbstractIdentifier tree]
     | /* epsilon */ {
             SymbolTable.Symbol symbol= table.create("Object");
             $tree = new Identifier(symbol);
-            setLocation($tree,$name);
+            $tree.setLocation(Location.BUILTIN);
 
         }
     ;

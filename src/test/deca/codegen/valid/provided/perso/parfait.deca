@@ -1,0 +1,21 @@
+
+// Sortie 28 est un nombre parfait.
+
+{
+    int x = 28; // Modifiez cette valeur pour tester
+    int sum = 0;
+    int i = 1;
+
+    while (i <= x / 2) {
+        if (x % i == 0) {
+            sum =sum+ i;
+        }
+        i = i + 1; // Incrémentation de i
+    }
+
+    if (sum == x) {
+        println(x , " est un nombre parfait.");
+    } else {
+        println(x , " n est pas un nombre parfait.");
+    }
+}

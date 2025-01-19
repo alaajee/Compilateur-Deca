@@ -48,6 +48,7 @@ public class DeclField extends AbstractDeclField{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        s.println(prefix+fieldName.getLocation()+ "[visibilty="+ visibility+ "]");
         type.prettyPrint(s, prefix, false);     
         fieldName.prettyPrint(s, prefix, false); 
         initialization.prettyPrint(s, prefix, true); 
@@ -99,7 +100,7 @@ public class DeclField extends AbstractDeclField{
     }
     @Override
     protected void verifyinitField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
-        
+
             Type t = this.type.verifyType(compiler);
             if (t.isVoid()) {
                 throw new ContextualError("Cannot declare a field with type void", this.getLocation());
@@ -108,17 +109,21 @@ public class DeclField extends AbstractDeclField{
             initialization.verifyInitialization(compiler, t, localEnv, currentClass);
         }
 
+
+
     @Override
     protected DVal codeGenField(DecacCompiler compiler) {
         compiler.setNbreField();
         RegisterOffset reg = compiler.getRegisterClass();
+       // System.out.println("je suis ici" + reg);
         // System.out.println(reg);
         FieldDefinition variable = new FieldDefinition(this.type.getDefinition().getType(), this.getLocation(),null,null,0);
         variable.setOperand(reg);
         compiler.setRegisterOffsets(this.fieldName.getName().getName(), reg.getOffset());
         // System.out.println(compiler.getRegUn());
+        System.out.println(compiler.getRegisterOffsets());
         RegisterOffset reg2 = new RegisterOffset(-2,Register.LB);
-        if (this.initialization != null) {
+        if (this.initialization.initialization()) {
             // Ici traiter l'initialisation
             this.initialization.codeGenField(compiler);
         }
@@ -128,5 +133,10 @@ public class DeclField extends AbstractDeclField{
         compiler.addInstruction(new LOAD(reg2, Register.R1));
         compiler.addInstruction(new STORE(Register.R0,reg));
         return reg;
+    }
+
+    @Override
+    protected String getName(){
+        return this.fieldName.getName().getName();
     }
 }

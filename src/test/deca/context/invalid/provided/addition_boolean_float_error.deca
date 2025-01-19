@@ -1,0 +1,28 @@
+// Description:
+//    Tentative d'ajout d'un boolean à un float dans un calcul final.
+//
+// Résultats:
+//    addition_boolean_float_error.deca:19:29: Operation arithmetic: ' + ' failed : one or both of operands is not of type int or float 
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int num = 10;
+    float multiplier = 3.5;
+    boolean isEnabled = false;
+    float total;
+
+    if (num > 5 && !isEnabled) {
+        print("Les conditions initiales sont valides.");
+    }
+
+    total = num * multiplier + isEnabled; 
+
+    print("Valeur finale calculée : ", total);
+
+    if (total > 30) {
+        print("Le total dépasse 30.");
+    } else {
+        print("Le total est inférieur ou égal à 30.");
+    }
+}

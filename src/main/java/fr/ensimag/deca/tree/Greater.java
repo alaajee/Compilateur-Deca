@@ -41,7 +41,7 @@ public class Greater extends AbstractOpIneq {
         compiler.addInstruction(new SGT(reg));
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
-        compiler.greater = true;
+
         return register;
     }
 
@@ -71,6 +71,10 @@ public class Greater extends AbstractOpIneq {
 
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+        }
+        compiler.incrementTsto();
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
 
@@ -86,7 +90,7 @@ public class Greater extends AbstractOpIneq {
             compiler.addInstruction(new BLE(endLabel));
         }
         else if (compiler.or){
-            if (compiler.compteurOr == 1){
+            if (compiler.compteurOr > 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BLE(bodyLabel));
                 }
@@ -97,6 +101,7 @@ public class Greater extends AbstractOpIneq {
             }
             else {
                 compiler.addInstruction(new BLE(endLabel));
+                compiler.compteurOr--;
             }
         }else if (compiler.ifcond){
             compiler.addInstruction(new BGT(endLabel));
@@ -105,7 +110,7 @@ public class Greater extends AbstractOpIneq {
             compiler.addInstruction(new BLE(endLabel));
         }
         gen.finalizeAndPush(reg, compiler);
-        compiler.greater = true;
+
         return register;
     }
 

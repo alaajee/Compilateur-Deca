@@ -40,6 +40,7 @@ public class Plus extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
             compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
@@ -60,6 +61,7 @@ public class Plus extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
             compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
@@ -77,6 +79,7 @@ public class Plus extends AbstractOpArith {
 
     public DVal codeGenInit(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenInit(compiler);
+        System.out.println("iciiiiiiiiiiiiii"+leftOperand);
         DVal rightOperand = getRightOperand().codeGenInit(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurADD();
@@ -99,10 +102,6 @@ public class Plus extends AbstractOpArith {
         if (!compiler.registeres.contains(reg)) {
             compiler.registeres.add(reg);
         }
-
-
-//        System.out.println(leftOperand);
-//        System.out.println(rightOperand);
 
         lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
         lines.add(new LOAD(leftOperand,reg));

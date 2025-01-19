@@ -1,0 +1,29 @@
+// Description:
+//    Comparaison entre un boolean et un float dans une condition étendue.
+//
+// Résultats:
+//    Opérateur > non applicable to those types : boolean and float
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int x = 10;
+    float y = 5.5;
+    boolean isValid = true;
+    float result;
+
+    if ((x > y && isValid > y) || (x < 20 && y < 10)) { // Erreur ici : comparaison boolean > float
+        print("Condition vérifiée !");
+    } else {
+        print("Condition non vérifiée.");
+    }
+
+    result = (x * y) / 2;
+    print("Résultat intermédiaire : ", result);
+
+    if (result > 15) {
+        print("Résultat élevé.");
+    } else {
+        print("Résultat bas.");
+    }
+}

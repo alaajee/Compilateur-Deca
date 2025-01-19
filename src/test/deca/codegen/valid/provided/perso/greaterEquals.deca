@@ -1,0 +1,15 @@
+// Sortie not ok
+
+{
+    int x = 5;
+    int y = 6;
+    boolean estVrai = true;
+
+    if ( (x != 5 && false) || y == 7 || y > 6){
+        println("ok");
+    }
+    else {
+        println("not ok");
+    }
+     //  not ok
+}

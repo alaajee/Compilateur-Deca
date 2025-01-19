@@ -1,0 +1,73 @@
+	TSTO #1
+	BOV stack_overflow_error
+	ADDSP #9
+; start main program
+Tables.DES.Methodes:
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction de la table des methodes de A
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+; Construction de la table des methodes de B
+	LEA 3(GB), R0
+	STORE R0, 5(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 6(GB)
+	LOAD code.B.m, R0
+	STORE R0, 7(GB)
+; Main program
+; Beginning of main instructions:
+	NEW #4, R2
+	BOV Tas_plein
+	LEA 5(GB), R0
+	STORE R0, 0(R2)
+	PUSH R2
+	BSR initB
+	POP R2
+	STORE R2, 8(GB)
+	ADDSP #1
+	LOAD 8(GB), R3
+	STORE R3, 0(SP)
+	LOAD 0(SP), R3
+	LOAD 0(R3), R3
+	BSR 2(R3)
+	HALT
+initA:
+	LOAD #0, R0
+	LOAD -2(LB), R1
+	STORE R0, 1(R1)
+	LOAD #0, R0
+	LOAD -2(LB), R1
+	STORE R0, 2(R1)
+	LOAD #6, R0
+	LOAD -2(LB), R1
+	STORE R0, 3(R1)
+	RTS
+initB:
+	LOAD -2(LB), R0
+	PUSH R0
+	BSR initA
+	SUBSP #1
+	RTS
+code.B.m:
+	WSTR "je suis la"
+	WNL
+	LOAD -2(LB), R4
+	LOAD 3(R4), R1
+	WINT
+	WNL
+	RTS
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

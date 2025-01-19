@@ -1,0 +1,69 @@
+	TSTO #7
+	BOV stack_overflow_error
+	ADDSP #10
+; start main program
+Tables.DES.Methodes:
+; Main program
+; Beginning of main instructions:
+	LOAD #10, R2
+	STORE R2, 3(GB)
+	LOAD #15, R2
+	STORE R2, 4(GB)
+	LOAD #20, R2
+	STORE R2, 5(GB)
+	LOAD #0, R2
+	STORE R2, 6(GB)
+condition_1:
+	LOAD 5(GB), R2
+	CMP #10, R2
+	SGT R2
+	BLE end_while_1
+body_1:
+	LOAD 5(GB), R2
+	REM #6, R2
+	LOAD R2, R2
+	CMP #0, R2
+	SNE R2
+	BNE And
+	LOAD 5(GB), R2
+	REM #5, R2
+	LOAD R2, R2
+	CMP #0, R2
+	SEQ R2
+	BEQ And
+	LOAD 5(GB), R3
+	REM #4, R3
+	LOAD R3, R3
+	CMP #0, R3
+	SEQ R3
+	BNE else_block_2
+And:
+	LOAD 5(GB), R4
+	REM #13, R4
+	LOAD R4, R4
+	CMP #0, R4
+	SNE R4
+	BEQ else_block_2
+body_2:
+	LOAD 6(GB), R5
+	ADD #2, R5
+	STORE R5, 6(GB)
+	BRA end_if_2
+else_block_2:
+end_if_2:
+	LOAD 5(GB), R5
+	SUB #1, R5
+	STORE R5, 5(GB)
+	BRA condition_1
+end_while_1:
+	WSTR "Le résultat final est : "
+	LOAD 6(GB), R1
+	WINT
+	WNL
+	HALT
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

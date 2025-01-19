@@ -1,16 +1,21 @@
 {
-    //Changer la valeur de x pour tester
-    int x = 29; 
+    // Changer la valeur de x pour tester
+    int x = 47;
     boolean isPrime = true;
-
+    boolean foundDivisor = false;
+    int i ;
     if (x < 2) {
         isPrime = false;
     } else {
-        for (int i = 2; i * i <= x; i++) {
+         i = 2;
+        while (i * i <= x && !foundDivisor) {
             if (x % i == 0) {
-                isPrime = false;
-                break;
+                foundDivisor = true;
             }
+            i = i + 1;
+        }
+        if (foundDivisor) {
+            isPrime = false;
         }
     }
 

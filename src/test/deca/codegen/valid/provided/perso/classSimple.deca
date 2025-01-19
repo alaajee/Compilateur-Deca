@@ -1,0 +1,17 @@
+
+// Sortie 6
+
+class A {
+    int x;
+    int y;
+    int z = 6;
+    void m(){
+        x = 6;
+        println(x);
+    }
+}
+
+{
+   A a = new A();
+   a.m();
+}

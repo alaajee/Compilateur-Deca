@@ -1,0 +1,19 @@
+// Sortie je suis la
+
+class A {
+    int x;
+    int y;
+    int z = 6;
+
+}
+
+class B extends A {
+    void m(){
+        println("je suis la");
+    }
+}
+
+{
+   B a = new B();
+   a.m();
+}

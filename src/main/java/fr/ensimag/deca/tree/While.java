@@ -80,6 +80,7 @@ public class While extends AbstractInst {
 //            // Par exemple, pour `!=` vous pouvez utiliser BNE
 //        }
         // Generate code for the body of the while loop
+        compiler.debut =0;
         compiler.addLabel(bodyLabel);
         body.codeGenListInst(compiler);
 
@@ -87,6 +88,8 @@ public class While extends AbstractInst {
         compiler.addInstruction(new BRA(conditionLabel));
         //compiler.addLabel(compiler.endIfLabel);
         // End of the while loop
+        compiler.LabelFinWhile += compiler.debut ;
+        compiler.weAreinWhile = false;
         compiler.addLabel(endLabel);
     }
 

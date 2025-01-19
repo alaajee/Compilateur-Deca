@@ -1,0 +1,12 @@
+// Sortie 62 62
+
+{
+    int x = 1;
+    int y = 2;
+    int z = 3;
+    z  = (2*x*x*x*x*x*x*x*x + y*2*2*2*2)*2 - 6 ;
+   // z = 2*x*x*x*x + y*2*2;
+    println(z);
+    print((2*x*x*x*x*x*x*x*x + y*2*2*2*2)*2 - 6);
+    // Sortie 62
+}

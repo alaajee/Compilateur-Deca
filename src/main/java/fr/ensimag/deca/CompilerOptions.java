@@ -139,7 +139,6 @@ public class CompilerOptions {
                     }
                     verify = true;
                     break;
-                
                 default:
                     File file = new File(args[i]);
                     if (file.exists() && file.isFile()) {

@@ -6,6 +6,8 @@ import fr.ensimag.deca.codegen.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
+import java.util.LinkedList;
+
 /**
  * @author gl02
  * @date 01/01/2025
@@ -35,7 +37,9 @@ public class Multiply extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
             compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
         }
+
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
 
         if (leftOperand instanceof GPRegister){
@@ -92,6 +96,26 @@ public class Multiply extends AbstractOpArith {
         DAddr adresse = compiler.getCurrentAdresse();
         compiler.addInstruction(new STORE((GPRegister)register, adresse));
         return register;
+    }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        GPRegister reg = compiler.associerReg();
+
+        // LeftOperand et RightOperand ...
+        DVal leftOperand = getLeftOperand().codeGenInstClass(compiler,lines,reg);
+        DVal rightOperand = getRightOperand().codeGenInstClass(compiler,lines,reg);
+
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
+        lines.add(new LOAD(leftOperand,reg));
+        lines.add(new MUL(rightOperand,reg));
+        // DVal dval = getRightOperand().codeGenExpr(compiler);
+        compiler.libererReg(reg.getNumber());
+        return reg;
     }
 
 }

@@ -1,0 +1,33 @@
+// Description:
+//    Tentative de multiplication entre un boolean et un float dans un calcul complexe.
+//
+// Résultats:
+//    multiplication_boolean_float_error.deca:21:26: Operation arithmetic: ' * ' failed : one or both of operands is not of type int or float 
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int a = 20;
+    int b = 5;
+    float c = 12.5;
+    boolean isRunning = true;
+    boolean isComplete = false;
+    float total;
+
+    if ((a > b && c < 15) || (isRunning && b == 5)) {
+        print("Condition initiale vérifiée !");
+    }
+
+    total = (a + b) * c - (isComplete * 2.5);
+
+    print("Valeur calculée intermédiaire : ", total);
+
+    if (total > 50 && !isComplete) {
+        print("Résultat supérieur à 50 !");
+    } else {
+        print("Résultat inférieur ou égal à 50.");
+    }
+
+    total = total +c / b;
+    print("Valeur finale : ", total);
+}

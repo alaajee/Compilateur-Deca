@@ -28,6 +28,7 @@ public class ThisLiteral extends AbstractExpr {
         if (currentClass == null) {
             throw new ContextualError("Cannot use 'this' outside of a class context.", null);
         }
+        this.setType(currentClass.getType());
         return currentClass.getType();  // Renvoie le type de la classe courante (ex: ClassType)
     }
 

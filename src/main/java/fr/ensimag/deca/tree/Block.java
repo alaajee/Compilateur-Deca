@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import org.apache.commons.lang.Validate;
 
 
@@ -66,5 +67,6 @@ public class Block extends AbstractBlock {
         compiler.regPush = 0;
         compiler.registeres.clear();
         instructions.codeGenInstClasse(compiler,lines);
+        //compiler.addInstruction(new RTS());
     }
 }

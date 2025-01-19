@@ -40,7 +40,7 @@ public class NotEquals extends AbstractOpExactCmp {
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notEquals = true;
+
         return register;
     }
 
@@ -70,6 +70,11 @@ public class NotEquals extends AbstractOpExactCmp {
 
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
+
+        }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
 
@@ -84,7 +89,7 @@ public class NotEquals extends AbstractOpExactCmp {
             compiler.addInstruction(new BEQ(endLabel));
         }
         else if (compiler.or){
-            if (compiler.compteurOr != 0){
+            if (compiler.compteurOr > 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BEQ(bodyLabel));
                 }
@@ -104,7 +109,7 @@ public class NotEquals extends AbstractOpExactCmp {
         }
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notEquals = true;
+
         return register;
     }
 }

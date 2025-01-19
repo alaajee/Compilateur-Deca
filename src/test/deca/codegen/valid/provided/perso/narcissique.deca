@@ -1,0 +1,22 @@
+
+// Sortie 153 est un nombre narcissique
+
+{
+      int number = 153; // Modifiez cette valeur pour tester
+      int original = number;
+      int sum = 0;
+      int a;
+
+      while (number > 0) {
+          a = number % 10;
+          sum =sum+ (a * a * a);
+          number = number / 10;
+      }
+
+
+      if (sum == original) {
+          println(original ," est un nombre narcissique.");
+      } else {
+          println(original , " n est pas un nombre narcissique.");
+      }
+  }

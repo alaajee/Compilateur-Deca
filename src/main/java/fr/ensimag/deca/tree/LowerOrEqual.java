@@ -39,7 +39,7 @@ public class LowerOrEqual extends AbstractOpIneq {
         compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
         gen.finalizeAndPush(reg, compiler);
 
-        compiler.notGreaterStric = true;
+
         return register;
     }
 
@@ -67,6 +67,11 @@ public class LowerOrEqual extends AbstractOpIneq {
 
     public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
+        if (leftOperand.isOffSet){
+            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
+        }
+
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
 
@@ -81,7 +86,7 @@ public class LowerOrEqual extends AbstractOpIneq {
             compiler.addInstruction(new BGT(endLabel));
         }
         else if (compiler.or){
-            if (compiler.compteurOr == 1){
+            if (compiler.compteurOr > 1){
                 if (compiler.notCond){
                     compiler.addInstruction(new BGT(bodyLabel));
                 }
@@ -92,6 +97,7 @@ public class LowerOrEqual extends AbstractOpIneq {
             }
             else {
                 compiler.addInstruction(new BGT(endLabel));
+                compiler.compteurOr--;
             }
         } else if (compiler.ifcond){
             compiler.addInstruction(new BLE(endLabel));

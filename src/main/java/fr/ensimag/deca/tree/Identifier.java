@@ -23,6 +23,7 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Deca Identifier
@@ -31,13 +32,14 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2025
  */
 public class Identifier extends AbstractIdentifier {
-    
-//    @Override
-//    protected void checkDecoration() {
-//        if (getDefinition() == null) {
-//            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
-//        }
-//    }
+    private static final Logger log = Logger.getLogger(Identifier.class);
+
+    @Override
+    protected void checkDecoration() {
+        if (getDefinition() == null) {
+            throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
+        }
+    }
 
     @Override
     public Definition getDefinition() {
@@ -243,11 +245,29 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
+        System.out.println(reg);
         if (compiler.isVar){
             GPRegister register = compiler.associerReg();
             compiler.addInstruction(new LOAD(reg,register));
+            if (this.isParam){
+                System.out.println(name);
+            }
             compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
             compiler.isVar = false;
+            compiler.libererReg(register.getNumber());
+        }
+        if (this.getExpDefinition().isField()){
+            GPRegister register = compiler.associerReg();
+            compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
+            compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
+            if (compiler.Print){
+                compiler.addInstruction(new LOAD(register,Register.R1));
+                compiler.addInstruction(new WINT());
+            }
+            else {
+                compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
+            }
+            compiler.libererReg(register.getNumber());
         }
         return reg;
 
@@ -267,6 +287,7 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
+        System.out.println(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
         if (getType().isInt()){
             compiler.addInstruction(new WINT());
@@ -375,5 +396,23 @@ public class Identifier extends AbstractIdentifier {
             DAddr registre = new RegisterOffset(i,register);
             return registre;
         }
+    }
+
+    @Override
+    protected DVal codeGenClassPrint(DecacCompiler compiler, LinkedList<Instruction> lines){
+        String name = getName().toString();
+        int i = compiler.getRegisterOffset(name);
+        GPRegister register = compiler.associerReg();
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),register));
+        lines.add(new LOAD(new RegisterOffset(i,register),Register.R1));
+        lines.add(new WINT());
+        return register;
+    }
+
+    @Override
+    public DVal codeGenInit(DecacCompiler compiler){
+        String name = getName().toString();
+        DAddr register = compiler.getRegUn(name);
+        return register;
     }
 }

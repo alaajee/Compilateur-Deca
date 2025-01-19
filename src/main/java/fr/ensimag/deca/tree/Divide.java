@@ -8,6 +8,8 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author gl02
@@ -44,7 +46,11 @@ public class Divide extends AbstractOpArith {
             compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.R0));
         }
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
-        compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+        }
+       // compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
@@ -128,7 +134,10 @@ public class Divide extends AbstractOpArith {
         DVal rightOperand = getRightOperand().codeGenInit(compiler);
         compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
-        compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
+        }
+        //compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         DVal leftOperand = getLeftOperand().codeGenInit(compiler);
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();
@@ -169,6 +178,28 @@ public class Divide extends AbstractOpArith {
         }
 
     }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        GPRegister reg = compiler.associerReg();
+
+        // LeftOperand et RightOperand ...
+        DVal leftOperand = getLeftOperand().codeGenInstClass(compiler,lines,reg);
+        DVal rightOperand = getRightOperand().codeGenInstClass(compiler,lines,reg);
+
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
+        lines.add(new LOAD(leftOperand,reg));
+        lines.add(new QUO(rightOperand,reg));
+        // DVal dval = getRightOperand().codeGenExpr(compiler);
+        compiler.libererReg(reg.getNumber());
+        return reg;
+    }
+
+    // A revoir
 }
 
 

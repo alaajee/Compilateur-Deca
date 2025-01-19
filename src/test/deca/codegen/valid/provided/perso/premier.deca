@@ -1,0 +1,27 @@
+
+// Sortie x n est pas un nombre premier.
+
+{
+    // Changer la valeur de x pour tester
+    int x = 30;
+    boolean isPrime = true;
+    int i = 2;
+
+    if (x < 2) {
+        isPrime = false;
+    } else {
+        while (i * i <= x && isPrime) {
+            if (x % i == 0) {
+                isPrime = false;
+            } else {
+                i = i + 1; // Incrémentation de i
+            }
+        }
+    }
+
+    if (isPrime) {
+        println("x est un nombre premier.");
+    } else {
+        println("x n est pas un nombre premier.");
+    }
+}

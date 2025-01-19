@@ -17,6 +17,7 @@ import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import fr.ensimag.ima.pseudocode.GPRegister;
 
+
 /**
  * Full if/else if/else statement.
  *
@@ -89,8 +90,10 @@ public class IfThenElse extends AbstractInst {
         thenBranch.codeGenListInst(compiler);
         if (elseBranch != null) {
             if (compiler.weAreinWhile){
-                compiler.addInstruction(new BRA(endIfLabel));
-
+                ID = compiler.LabelFinWhile;
+               // endIfLabel = new Label("end_if_" + ID);
+                compiler.addInstruction(new BRA( new Label("end_if_" + ID)));
+                compiler.debut++;
             }
             else {
                 compiler.addInstruction(new BRA(endIfLabel));
@@ -101,14 +104,16 @@ public class IfThenElse extends AbstractInst {
 
         if (elseBranch != null) {
             compiler.addLabel(elseLabel);
+            if (!compiler.weAreinWhile){
+                compiler.LabelFinWhile++;
+            }
+            //compiler.LabelFinWhile++;
             elseBranch.codeGenListInst(compiler);
         }
         compiler.addLabel(endIfLabel);
         // Bloc "else"
-
-
-
-
+        compiler.LabelFinWhile++;
+        compiler.weAreinWhile = false;
     }
 
     @Override

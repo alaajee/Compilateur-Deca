@@ -24,8 +24,10 @@ public class Println extends AbstractPrint {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        super.codeGenInst(compiler);
+        compiler.Print = true;
+        getArguments().codeGenInst(compiler);
         compiler.addInstruction(new WNL());
+        compiler.Print = false;
     }
 
     @Override
@@ -47,8 +49,10 @@ public class Println extends AbstractPrint {
 
     @Override
     protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
-        super.codeGenInst(compiler);
-        compiler.addInstruction(new WNL());
+        getArguments().codeGenClassPrint(compiler, lines);
+        lines.add(new WNL());
         return null;
     }
+
+
 }

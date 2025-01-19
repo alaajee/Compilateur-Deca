@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
+import java.util.LinkedList;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -130,6 +131,9 @@ public class IntLiteral extends AbstractExpr {
     public DVal codeGenInit(DecacCompiler compiler){
         compiler.typeAssign = this.getType().toString();
         DVal res = new ImmediateInteger(value);
+        GPRegister reg = compiler.associerReg();
+        compiler.addInstruction(new LOAD(res, reg));
+        compiler.addInstruction(new STORE(reg,new RegisterOffset(-1,Register.SP)));
         return res;
     }
 
@@ -141,4 +145,23 @@ public class IntLiteral extends AbstractExpr {
     public void codeGenField(DecacCompiler compiler){
         compiler.addInstruction(new LOAD(new ImmediateInteger(value), Register.R0));
     }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        GPRegister reg = Register.R1;
+        DVal res = new ImmediateInteger(value);
+        lines.add(new LOAD(res, reg));
+        return reg;
+    }
+
+    @Override
+    public DVal codeGenInitParam(DecacCompiler compiler, int index) {
+        compiler.typeAssign = this.getType().toString();
+        DVal res = new ImmediateInteger(value);
+        GPRegister reg = compiler.associerReg();
+        compiler.addInstruction(new LOAD(res, reg));
+        compiler.addInstruction(new STORE(reg,new RegisterOffset(index,Register.SP)));
+        return res;
+    }
+
 }

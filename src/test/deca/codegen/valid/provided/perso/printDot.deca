@@ -1,0 +1,11 @@
+// Sortie a.z = 6
+
+class A {
+    int z = 6;
+}
+
+
+{
+   A a = new A();
+   println("a.z = " , a.z);
+}

@@ -1,7 +1,8 @@
 	TSTO #1
 	BOV stack_overflow_error
-	ADDSP #1
+	ADDSP #4
 ; start main program
+Tables.DES.Methodes:
 ; Main program
 ; Beginning of main instructions:
 	LOAD #5, R2
@@ -15,6 +16,7 @@
 	LOAD 3(GB), R1
 	WINT
 	HALT
+code.Object.equals:
 ; end main program
 division_by_zero_error:
 	WSTR "Error: Division by zero"

@@ -16,7 +16,7 @@ public class codeGen {
                     compiler.addInstruction(new LOAD((RegisterOffset) rightOperand, reg));
                     constructeur.constructeur(compiler, Register.R0, reg);
                     //compiler.addInstruction(new PUSH(reg));
-                    compiler.incrementTsto();
+                    compiler.decrementTsto();
                     return reg;
                 }
                 else {
@@ -25,7 +25,7 @@ public class codeGen {
                     compiler.decrementTsto();
                     constructeur.constructeur(compiler, Register.R0,reg);
                     //compiler.addInstruction(new PUSH(reg));
-                    compiler.incrementTsto();
+                    compiler.decrementTsto();
                     return reg;
                 }
             }  else {
@@ -78,7 +78,7 @@ public class codeGen {
                     compiler.addInstruction(new LOAD((RegisterOffset) rightOperand, reg));
                     constructeur.constructeur(compiler, Register.R0, reg);
                     //compiler.addInstruction(new PUSH(reg));
-                    compiler.incrementTsto();
+                    compiler.decrementTsto();
                     compiler.addInstruction(new LOAD(reg, Register.R1));
                 } else {
                     compiler.addInstruction(new LOAD(rightOperand, Register.R0));
@@ -86,7 +86,7 @@ public class codeGen {
                     compiler.decrementTsto();
                     constructeur.constructeur(compiler, Register.R0, reg);
                     //compiler.addInstruction(new PUSH(reg));
-                    compiler.incrementTsto();
+                    compiler.decrementTsto();
                     compiler.addInstruction(new LOAD(reg, Register.R1));
                 }
             } else {

@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Instruction;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -16,6 +17,8 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
+import java.util.LinkedList;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -50,6 +53,12 @@ public class StringLiteral extends AbstractStringLiteral {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new WSTR(new ImmediateString(value)));
+    }
+
+    @Override
+    protected DVal codeGenClassPrint(DecacCompiler compiler, LinkedList<Instruction> lines){
+        lines.add(new WSTR(new ImmediateString(value)));
+        return null;
     }
 
     @Override

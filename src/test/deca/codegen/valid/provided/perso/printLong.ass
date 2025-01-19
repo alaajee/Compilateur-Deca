@@ -1,7 +1,8 @@
 	TSTO #3
 	BOV stack_overflow_error
-	ADDSP #3
+	ADDSP #8
 ; start main program
+Tables.DES.Methodes:
 ; Main program
 ; Beginning of main instructions:
 	LOAD #1, R2
@@ -34,6 +35,7 @@
 	WINT
 	WNL
 	HALT
+code.Object.equals:
 ; end main program
 overflow_error:
 	WSTR "Error: Overflow during arithmetic operation"

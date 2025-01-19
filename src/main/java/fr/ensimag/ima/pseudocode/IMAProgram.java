@@ -75,4 +75,18 @@ public class IMAProgram {
     public void addFirst(Instruction i, String comment) {
         addFirst(new Line(null, i, comment));
     }
+
+    public void addInstructionAfterLabel(Label label, Instruction instruction) {
+        // Parcourir les lignes pour trouver le label
+        for (int i = 0; i < lines.size(); i++) {
+            AbstractLine line = lines.get(i);
+            if (line instanceof Line && ((Line) line).getLabel() != null && ((Line) line).getLabel().equals(label)) {
+                // Insérer l'instruction juste après le label
+                lines.add(i + 1, new Line(instruction));
+                return; // Sortir de la méthode après l'insertion
+            }
+        }
+        // Si le label n'est pas trouvé, lever une exception
+        throw new IllegalArgumentException("Label not found: " + label);
+    }
 }

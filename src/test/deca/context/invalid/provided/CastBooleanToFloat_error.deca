@@ -1,0 +1,26 @@
+// Description:
+//    Tentative de cast d’un `boolean` en `float` dans une opération mathématique.
+//
+// Résultats:
+//    CastBooleanToFloat_error.deca:15:16: Incompatible types for explicit cast: boolean to float
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int a = 10;
+    float b = 3.5;
+    boolean isActive = true;
+    float total;
+    float adjusted;
+    total = a + (float) (isActive) + b; 
+
+    print("Résultat intermédiaire : ", total);
+
+    adjusted = total / 2;
+
+    if (adjusted > 15) {
+        print("Valeur ajustée supérieure à 15.");
+    } else {
+        print("Valeur ajustée inférieure ou égale à 15.");
+    }
+}

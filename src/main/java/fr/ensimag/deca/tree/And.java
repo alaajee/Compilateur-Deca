@@ -80,9 +80,9 @@ public class And extends AbstractOpBool {
         //compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
         if (compiler.or){
            // compiler.nouvLabel = new Label("nouvLabel" + compiler.getUniqueID());
-            if (compiler.compteurOr != 1){
+            if (compiler.compteurOr > 1){
                 compiler.compteurAnd = true;
-                DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler, compiler.nouvLabel,bodyLabel);
+                DVal leftOperand = getLeftOperand().codeGenInstrCond(compiler,compiler.nouvLabel,compiler.nouvLabel);
                 DVal rightOperand = getRightOperand().codeGenInstrCond(compiler,compiler.nouvLabel,bodyLabel);
             }
             else {

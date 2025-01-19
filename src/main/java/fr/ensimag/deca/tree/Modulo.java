@@ -9,6 +9,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author gl02
@@ -29,7 +31,7 @@ public class Modulo extends AbstractOpArith {
 
                 if (!rightType.isInt() || !leftType.isInt())
                 {
-                    throw new ContextualError("Type mismatch:both operands must be of type int" , this.getLocation());             
+                    throw new ContextualError("Modulo operation failed: both operands should be of type int" , this.getLocation());             
                 }
 
                 this.setType(leftType);
@@ -48,13 +50,16 @@ public class Modulo extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
             compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
         }
+
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         constructeur constructeur = new constructeurREM();
         codeGen gen = new codeGen();
         DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-        gen.finalizeAndPush(reg, compiler);
+//        gen.finalizeAndPush(reg, compiler);
+        compiler.libererReg(reg.getNumber());
         return register;
     }
 
@@ -68,7 +73,9 @@ public class Modulo extends AbstractOpArith {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
             compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.incrementTsto();
         }
+
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
@@ -96,5 +103,25 @@ public class Modulo extends AbstractOpArith {
         DAddr adresse = compiler.getCurrentAdresse();
         compiler.addInstruction(new STORE((GPRegister)register, adresse));
         return register;
+    }
+
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
+        GPRegister reg = compiler.associerReg();
+
+        // LeftOperand et RightOperand ...
+        DVal leftOperand = getLeftOperand().codeGenInstClass(compiler,lines,reg);
+        DVal rightOperand = getRightOperand().codeGenInstClass(compiler,lines,reg);
+
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+
+        lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
+        lines.add(new LOAD(leftOperand,reg));
+        lines.add(new REM(rightOperand,reg));
+        // DVal dval = getRightOperand().codeGenExpr(compiler);
+        compiler.libererReg(reg.getNumber());
+        return reg;
     }
 }

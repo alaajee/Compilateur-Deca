@@ -43,16 +43,20 @@ public class Main extends AbstractMain {
         LOG.debug("verify Main: end");
     }
 
+
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         // A FAIRE: traiter les déclarations de variables.
-
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGen(compiler);
         insts.codeGenListInst(compiler);
-        compiler.addFirst(new ADDSP(new ImmediateInteger(compiler.nbrVar)));
+        int maximum = compiler.getAdressVar() + compiler.nbrVar;
+        compiler.addFirst(new ADDSP(new ImmediateInteger(maximum)));
         Label stackOverflowLabel = new Label("stack_overflow_error");
-        compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addFirst(new BOV(stackOverflowLabel));
+        }
+       // compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
         compiler.addFirst(new TSTO(compiler.getMaxTsto()+compiler.nbrVar));
         //whileGeneration(compiler);
     }
@@ -68,11 +72,11 @@ public class Main extends AbstractMain {
         insts.codeGenListInstARM(compiler);
     }
 
-    protected void whileGeneration(DecacCompiler compiler) {
-        if (!compiler.weAreinWhile){
-            compiler.addLabel(compiler.endIfLabel);
-        }
-    }
+    // protected void whileGeneration(DecacCompiler compiler) {
+    //     if (!compiler.weAreinWhile){
+    //         compiler.addLabel(compiler.endIfLabel);
+    //     }
+    // }
 
     @Override
     public void decompile(IndentPrintStream s) {

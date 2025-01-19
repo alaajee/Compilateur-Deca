@@ -1,0 +1,195 @@
+	TSTO #23
+	BOV stack_overflow_error
+	ADDSP #32
+; start main program
+Tables.DES.Methodes:
+; Main program
+; Beginning of main instructions:
+	LOAD #12345, R2
+	STORE R2, 3(GB)
+	LOAD #54321, R2
+	STORE R2, 4(GB)
+	LOAD #0, R2
+	STORE R2, 5(GB)
+	LOAD #1, R2
+	STORE R2, 6(GB)
+	LOAD #987654, R2
+	STORE R2, 9(GB)
+	LOAD 9(GB), R2
+	STORE R2, 10(GB)
+	LOAD #5, R2
+	STORE R2, 11(GB)
+	LOAD #1, R2
+	STORE R2, 12(GB)
+	LOAD #1, R2
+	STORE R2, 13(GB)
+	LOAD #7, R2
+	STORE R2, 14(GB)
+	LOAD #1234, R2
+	STORE R2, 15(GB)
+	LOAD #0, R2
+	STORE R2, 16(GB)
+	LOAD #0, R2
+	STORE R2, 17(GB)
+condition_1:
+	LOAD 3(GB), R2
+	CMP #0, R2
+	SGT R2
+	BGT body_1
+	LOAD 4(GB), R2
+	CMP #0, R2
+	SGT R2
+	BLE end_while_1
+body_1:
+	LOAD 3(GB), R3
+	CMP #0, R3
+	SGT R3
+	BLE else_block_2
+body_2:
+	LOAD 3(GB), R3
+	REM #10, R3
+	STORE R3, 7(GB)
+	LOAD 16(GB), R3
+	MUL #10, R3
+	LOAD R3, R4
+	ADD 7(GB), R4
+	STORE R4, 16(GB)
+	LOAD #0, R0
+	CMP #10, R0
+	BEQ division_by_zero_error
+	LOAD 3(GB), R4
+	QUO #10, R4
+	STORE R4, 3(GB)
+	BRA end_if_2
+else_block_2:
+end_if_2:
+	LOAD 4(GB), R4
+	CMP #0, R4
+	SGT R4
+	BLE else_block_3
+body_3:
+	LOAD 4(GB), R4
+	REM #10, R4
+	STORE R4, 8(GB)
+	LOAD 17(GB), R4
+	MUL #10, R4
+	LOAD R4, R5
+	ADD 8(GB), R5
+	STORE R5, 17(GB)
+	LOAD #0, R0
+	CMP #10, R0
+	BEQ division_by_zero_error
+	LOAD 4(GB), R5
+	QUO #10, R5
+	STORE R5, 4(GB)
+	BRA end_if_3
+else_block_3:
+end_if_3:
+	BRA condition_1
+end_while_1:
+	WSTR "Reverse de 12345: "
+	LOAD 16(GB), R1
+	WINT
+	WNL
+	WSTR "Reverse de 54321: "
+	LOAD 17(GB), R1
+	WINT
+	WNL
+condition_4:
+	LOAD 10(GB), R5
+	CMP #0, R5
+	SGT R5
+	BLE end_while_4
+body_4:
+	LOAD 10(GB), R5
+	REM #10, R5
+	STORE R5, 7(GB)
+	LOAD 5(GB), R5
+	ADD 7(GB), R5
+	STORE R5, 5(GB)
+	LOAD #0, R0
+	CMP #10, R0
+	BEQ division_by_zero_error
+	LOAD 10(GB), R5
+	QUO #10, R5
+	STORE R5, 10(GB)
+	BRA condition_4
+end_while_4:
+	WSTR "Somme des chiffres de 987654: "
+	LOAD 5(GB), R1
+	WINT
+	WNL
+condition_5:
+	LOAD 13(GB), R5
+	CMP 11(GB), R5
+	SLE R5
+	BGT end_while_5
+body_5:
+	LOAD 12(GB), R5
+	MUL 13(GB), R5
+	STORE R5, 12(GB)
+	LOAD 13(GB), R5
+	ADD #1, R5
+	STORE R5, 13(GB)
+	BRA condition_5
+end_while_5:
+	WSTR "Factorielle de 5: "
+	LOAD 12(GB), R1
+	WINT
+	WNL
+	LOAD 14(GB), R5
+	CMP #0, R5
+	SGT R5
+	BLE else_block_6
+body_6:
+	LOAD 14(GB), R5
+	REM #2, R5
+	LOAD R5, R5
+	CMP #0, R5
+	SEQ R5
+	BNE else_block_7
+body_7:
+	LOAD 14(GB), R1
+	WINT
+	WSTR " est un nombre positif pair."
+	WNL
+	BRA end_if_7
+else_block_7:
+	LOAD 14(GB), R1
+	WINT
+	WSTR " est un nombre positif impair."
+	WNL
+end_if_7:
+	LOAD 14(GB), R5
+	CMP #5, R5
+	SGT R5
+	BLE else_block_8
+body_8:
+	LOAD 14(GB), R1
+	WINT
+	WSTR " est supérieur à 5."
+	WNL
+	BRA end_if_8
+else_block_8:
+	LOAD 14(GB), R1
+	WINT
+	WSTR " est inférieur ou égal à 5."
+	WNL
+end_if_8:
+	BRA end_if_6
+else_block_6:
+	LOAD 14(GB), R1
+	WINT
+	WSTR " est un nombre négatif ou zéro."
+	WNL
+end_if_6:
+	HALT
+code.Object.equals:
+; end main program
+division_by_zero_error:
+	WSTR "Error: Division by zero"
+	WNL
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

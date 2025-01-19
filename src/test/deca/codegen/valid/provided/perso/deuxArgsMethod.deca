@@ -1,0 +1,15 @@
+// Sortie 3
+
+class A {
+    int x;
+
+    void diag(int a,int b){
+        x = x + a;
+        x = x + b;
+        println(x);
+    }
+}
+{
+    A a = new A();
+    a.diag(1,2);
+}

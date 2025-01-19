@@ -81,7 +81,8 @@ public class Initialization extends AbstractInitialization {
             return valeur;
         }
         else {
-            System.out.println(getExpression());
+            //System.out.println(getExpression());
+            compiler.init = true;
             DVal valeur = getExpression().codeGenExpr(compiler);
             return valeur;
         }
