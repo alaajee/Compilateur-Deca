@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -41,25 +42,46 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        System.out.println("je viens ici");
+        System.out.println(this.getOperand());
         DVal dVal = this.getOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         compiler.typeAssign = "float";
-        if ( dVal instanceof DAddr){
-            compiler.addInstruction(new FLOAT(dVal,reg));
-            // compiler.addInstruction(new STORE(reg,(DAddr) dVal));
-            // compiler.libererReg(reg.getNumber());
-            return reg;
+        System.out.println(getOperand().getType());
+        if (!getOperand().getType().equals("float")) {
+            if ( dVal instanceof DAddr){
+                compiler.addInstruction(new FLOAT(dVal,reg));
+                    if (compiler.init && compiler.isAssign){
+                        System.out.println("j'entre ici");
+                        compiler.addInstruction(new STORE(reg,(DAddr) dVal));
+                        compiler.init = false;
+                     }
+                // compiler.addInstruction(new STORE(reg,(DAddr) dVal));
+                // compiler.libererReg(reg.getNumber());
+                return reg;
+            }
+            else {
+                if (dVal.name.equals("float")) {
+                    compiler.addInstruction(new STORE((GPRegister)dVal,compiler.getCurrentAdresse()));
+                }
+                else {
+                    compiler.addInstruction(new FLOAT(dVal,reg));
+                    if (compiler.init && compiler.isAssign){
+                        System.out.println("j'entre ici");
+                        compiler.addInstruction(new STORE(reg,compiler.getCurrentAdresse()));
+                        compiler.init = false;
+                    }
+                }
+
+
+                return reg;
+            }
         }
-        else {
-            compiler.addInstruction(new FLOAT(dVal,reg));
-            return reg;
-        }
+        return reg;
     }
 
     @Override
     public DVal codeGenInit(DecacCompiler compiler){
-        System.out.println("je viens ici");
+       // System.out.println("je viens ici");
         DVal dVal = this.getOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         compiler.typeAssign = "float";

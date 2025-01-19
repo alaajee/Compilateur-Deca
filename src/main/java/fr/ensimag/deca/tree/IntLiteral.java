@@ -62,8 +62,6 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler) {
-
-
         DVal res = new ImmediateInteger(value);
         compiler.typeAssign = getType().toString();
         if (compiler.isVar == true){
@@ -82,7 +80,6 @@ public class IntLiteral extends AbstractExpr {
         else {
             return res;
         }
-
     }
 
     @Override

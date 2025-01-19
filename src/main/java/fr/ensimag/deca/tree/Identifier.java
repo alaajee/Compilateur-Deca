@@ -273,12 +273,12 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
-        System.out.println(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        if (getType().isInt()){
+        String nameType = this.getType().getName().getName();
+        if (nameType.equals("int")) {
             compiler.addInstruction(new WINT());
         }
-        else if (getType().isFloat()){
+        else if (nameType.equals("float")) {
             compiler.addInstruction(new WFLOAT());
         }
     }

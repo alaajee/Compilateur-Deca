@@ -479,9 +479,9 @@ literal returns[AbstractExpr tree]
         $tree = new IntLiteral(Integer.parseInt($INT.text));
         setLocation($tree, $INT);
         }
-    | fd=FLOAT {
-        $tree = new FloatLiteral(Float.parseFloat($fd.text));
-        setLocation($tree, $fd);
+    | FLOAT {
+        $tree = new FloatLiteral(Float.parseFloat($FLOAT.text));
+        setLocation($tree, $FLOAT);
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);

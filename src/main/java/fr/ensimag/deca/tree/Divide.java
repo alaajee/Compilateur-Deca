@@ -57,6 +57,7 @@ public class Divide extends AbstractOpArith {
         if (assign) {
             System.out.println(compiler.typeAssign);
             if (compiler.typeAssign.equals("float")) {
+
                 constructeurDIV constructeurDIV = new constructeurDIV();
                 codeGen gen = new codeGen();
                 if (rightOperand instanceof GPRegister) {
@@ -64,17 +65,25 @@ public class Divide extends AbstractOpArith {
                         compiler.addInstruction(new FLOAT(rightOperand, (GPRegister) rightOperand));
                     }
                     compiler.addInstruction(new LOAD(leftOperand, Register.R0));
-                    compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    if (getRightOperand().getType().isInt()){
+                        compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    }
                     gen.codeGenPrint(Register.R0, rightOperand, reg, constructeurDIV, compiler);
                     DVal regis = gen.codeGen(Register.R0, rightOperand, reg, constructeurDIV, compiler);
                     return regis;
                 } else {
+                    System.out.println("ou ici ?");
                     compiler.addInstruction(new LOAD(rightOperand, Register.R0));
-                    compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    if (getRightOperand().getType().isInt()){
+                        compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    }
                     compiler.addInstruction(new LOAD(leftOperand, Register.R1));
-                    compiler.addInstruction(new FLOAT(Register.R1, Register.R1));
-                    gen.codeGenPrint(Register.R1, Register.R0, reg, constructeurDIV, compiler);
+                    if (getLeftOperand().getType().isInt()){
+                        compiler.addInstruction(new FLOAT(Register.R1, Register.R1));
+                    }
+                    //gen.codeGenPrint(Register.R1, Register.R0, reg, constructeurDIV, compiler);
                     DVal regis = gen.codeGen(Register.R1, Register.R0, reg, constructeurDIV, compiler);
+                    regis.name = "float";
                     return regis;
                 }
             } else {
@@ -127,7 +136,12 @@ public class Divide extends AbstractOpArith {
         compiler.isDiv = true;
         GPRegister reg = compiler.associerReg();
         DVal rightOperand = getRightOperand().codeGenInit(compiler);
-        compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        if (getRightOperand().getType().isInt()) {
+            compiler.addInstruction(new LOAD(new ImmediateInteger(0), Register.R0));
+        }
+        else if (getRightOperand().getType().isFloat()) {
+            compiler.addInstruction(new LOAD(new ImmediateFloat(0), Register.R0));
+        }
         compiler.addInstruction(new CMP(rightOperand, Register.R0));
         if (!compiler.getCompilerOptions().getNoCHeck()){
             compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
@@ -144,24 +158,33 @@ public class Divide extends AbstractOpArith {
                 constructeurDIV constructeurDIV = new constructeurDIV();
                 codeGen gen = new codeGen();
                 if (rightOperand instanceof GPRegister) {
-                    compiler.addInstruction(new FLOAT(rightOperand, (GPRegister) rightOperand));
+                    if (getRightOperand().getType().isInt()) {
+                        compiler.addInstruction(new FLOAT(rightOperand, (GPRegister) rightOperand));
+                    }
                     compiler.addInstruction(new LOAD(leftOperand, Register.R0));
-                    compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    if (getRightOperand().getType().isInt()) {
+                        compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    }
                     gen.codeGenPrint(Register.R0, rightOperand, reg, constructeurDIV, compiler);
                     DVal regis = gen.codeGen(Register.R0, rightOperand, reg, constructeurDIV, compiler);
                     compiler.addInstruction(new STORE((GPRegister)regis, adresse));
                     return regis;
                 } else {
                     compiler.addInstruction(new LOAD(rightOperand, Register.R0));
-                    compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    if (getRightOperand().getType().isInt()){
+                        compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
+                    }
                     compiler.addInstruction(new LOAD(leftOperand, Register.R1));
-                    compiler.addInstruction(new FLOAT(Register.R1, Register.R1));
+                    if (getLeftOperand().getType().isInt()) {
+                        compiler.addInstruction(new FLOAT(Register.R1, Register.R1));
+                    }
                     gen.codeGenPrint(Register.R1, Register.R0, reg, constructeurDIV, compiler);
                     DVal regis = gen.codeGen(Register.R1, Register.R0, reg, constructeurDIV, compiler);
                     compiler.addInstruction(new STORE((GPRegister)regis, adresse));
                     return regis;
                 }
             } else {
+
                 constructeurQUO constructeurQUO = new constructeurQUO();
                 codeGen gen = new codeGen();
                 DVal regis = gen.codeGen(leftOperand, rightOperand, reg, constructeurQUO, compiler);

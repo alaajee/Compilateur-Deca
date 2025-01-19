@@ -75,13 +75,16 @@ public class Initialization extends AbstractInitialization {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler){
+
         if (getExpression().getExpr().equals("instruction")){
             DVal valeur = getExpression().codeGenInit(compiler);
             return valeur;
         }
         else {
             compiler.init = true;
+            System.out.println(getExpression());
             DVal valeur = getExpression().codeGenExpr(compiler);
+            compiler.init = false;
             return valeur;
         }
     }
