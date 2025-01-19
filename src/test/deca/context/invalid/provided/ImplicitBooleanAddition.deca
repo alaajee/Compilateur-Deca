@@ -1,0 +1,24 @@
+// Description:
+//    Addition implicite d'un boolean avec un float.
+//
+// Résultats:
+//    ImplicitBooleanAddition.deca:14:19: Operation arithmetic: ' + ' failed : one or both of operands is not of type int or float 
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int a = 20;
+    float b = 7.3;
+    boolean isComplete = true;
+
+    float result = (a * b) + isComplete; 
+    float finalResul;
+    if (result > 50) {
+        print("Résultat supérieur à 50 : ", result);
+    } else {
+        print("Résultat inférieur ou égal à 50.");
+    }
+
+    finalResult = result / 2 + a;
+    print("Valeur finale calculée : ", finalResult);
+}

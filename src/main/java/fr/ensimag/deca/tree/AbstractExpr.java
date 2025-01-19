@@ -100,25 +100,35 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return this with an additional ConvFloat if needed...
      */
     public AbstractExpr verifyRValue(DecacCompiler compiler,
-                                     EnvironmentExp localEnv, ClassDefinition currentClass,
-                                     Type expectedType)
-            throws ContextualError {
-        Type TypeExp=this.verifyExpr(compiler, localEnv, currentClass);
-        if(expectedType.sameType(TypeExp)){
+                                 EnvironmentExp localEnv, ClassDefinition currentClass,
+                                 Type expectedType)
+        throws ContextualError {
+        Type TypeExp = this.verifyExpr(compiler, localEnv, currentClass);
+
+        if (expectedType.sameType(TypeExp)) {
             return this;
         }
 
-        if(TypeExp.isInt() && expectedType.isFloat()){
+        if (TypeExp.isInt() && expectedType.isFloat()) {
             AbstractExpr convExpr = new ConvFloat(this);
             Type convExprType = convExpr.verifyExpr(compiler, localEnv, currentClass);
             convExpr.setType(convExprType);
             return convExpr;
         }
+
+        if (TypeExp.isClass() && expectedType.isClass()) {
+            ClassType classTypeExp = (ClassType) TypeExp;
+            ClassType classExpectedType = (ClassType) expectedType;
+
+            if (classTypeExp.isSubClassOf(classExpectedType)) {
+                return this;
+            }
+        }
+
+        // Si aucune vérification n'est valide, on lève une erreur contextuelle
         throw new ContextualError("Type incompatible : attendu " + expectedType.getName() +
                 ", trouvé " + TypeExp.getName(), getLocation());
-
     }
-
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
                               ClassDefinition currentClass, Type returnType)
