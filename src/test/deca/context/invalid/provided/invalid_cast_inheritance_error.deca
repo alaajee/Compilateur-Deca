@@ -1,0 +1,22 @@
+// Description:
+//    Un cast incorrect est effectué dans une hiérarchie d’héritage.
+//
+// Résultats:
+//    invalid_cast_inheritance_error.deca:20:22: Cannot cast from type A to type D
+//
+// Historique:
+//    créé le 19/01/2025
+class A {}
+
+class B extends A {}
+
+class C {}
+
+class D extends C {}
+
+class E {
+    void test() {
+        A obj = new A();
+        D castedObj = (D) (obj); 
+    }
+}

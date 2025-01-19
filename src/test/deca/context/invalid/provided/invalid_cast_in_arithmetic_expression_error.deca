@@ -1,0 +1,18 @@
+// Description:
+//    Une opération arithmétique utilise un cast incorrect entre types.
+//
+// Résultats:
+//    invalid_cast_in_arithmetic_expression_error.deca:16:21: Cannot cast from type Object to type int
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field = 10;
+}
+
+class B {
+    void test() {
+        Object obj = new A();
+        int result = (int) (obj) + 5; 
+    }
+}

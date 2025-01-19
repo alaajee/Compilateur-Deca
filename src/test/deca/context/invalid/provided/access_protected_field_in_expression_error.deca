@@ -1,0 +1,19 @@
+// Description:
+//    Une expression complexe tente d'accéder à un champ protégé depuis une classe non liée.
+//
+// Résultats:
+//    access_protected_field_in_expression_error.deca:16:25: The field 'protectedField' is protected and cannot be accessed from the current context.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    protected int protectedField = 42;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        int result = obj.protectedField * 10 + 5; 
+        print("Résultat : ", result);
+    }
+}

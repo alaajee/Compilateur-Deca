@@ -1,0 +1,26 @@
+// Description:
+//    Une méthode est appelée sur une référence null dans une hiérarchie complexe.
+//
+// Résultats:
+//    Erreur : Null pointer exception.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void display() {
+        print("Affichage.");
+    }
+}
+
+class B extends A {}
+
+class C {}
+
+class D {}
+
+class E {
+    void test() {
+        A obj = null;
+        obj.display(); // Erreur : appel de méthode sur une référence null
+    }
+}

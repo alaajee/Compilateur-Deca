@@ -1,0 +1,23 @@
+// Description:
+//    Un cast est effectué vers une classe qui n'est pas dans la hiérarchie.
+//
+// Résultats:
+//    invalid_cast_in_inheritance_error.deca:20:17: Cannot cast from type A to type B
+
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field = 10;
+}
+
+class B {
+    int field = 20;
+}
+
+class C {
+    void test() {
+        A objA = new A();
+        B objB = (B) (objA); 
+    }
+}
