@@ -544,7 +544,7 @@ class_extension[Token name] returns[AbstractIdentifier tree]
     | /* epsilon */ {
             SymbolTable.Symbol symbol= table.create("Object");
             $tree = new Identifier(symbol);
-            setLocation($tree,$name);
+            $tree.setLocation(Location.BUILTIN);
 
         }
     ;
