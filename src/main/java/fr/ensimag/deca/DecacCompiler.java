@@ -121,7 +121,6 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.Offset = false;
-        // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
         this.environmentType = new EnvironmentType(this);
         this.envTypes = environmentType.getEnvtypes();
@@ -252,9 +251,7 @@ public class DecacCompiler {
      */
     private final IMAProgram program = new IMAProgram();
 
-    /** The global environment for types (and the symbolTable) */
-    // public final EnvironmentType environmentType = new EnvironmentType(this);
-    // public final SymbolTable symbolTable = new SymbolTable();
+    
 
     public Symbol createSymbol(String name) {
         return symbolTable.create(name);
