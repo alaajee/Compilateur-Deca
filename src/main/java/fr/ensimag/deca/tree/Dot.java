@@ -106,18 +106,27 @@ public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDef
 
     @Override
     public void decompile(IndentPrintStream s){
+        if(left!=null){
+            left.decompile(s);
+            s.print(".");
+        }
+        right.decompile(s);
 
     }
 
     @Override
     public void prettyPrintChildren(PrintStream s, String name){
-        left.prettyPrint(s,name,false);
+        if(left!=null){
+            left.prettyPrint(s,name,false);
+        }
         right.prettyPrint(s,name,false);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        left.iterChildren(f);
+        if(left!=null){
+            left.iterChildren(f);
+        }
         right.iterChildren(f);
     }
 
