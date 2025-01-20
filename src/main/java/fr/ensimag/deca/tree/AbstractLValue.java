@@ -11,6 +11,5 @@ import fr.ensimag.ima.pseudocode.DAddr;
  */
 public abstract class AbstractLValue extends AbstractExpr {
     public boolean isParam = false;
-    public abstract DAddr getAddr(DecacCompiler compiler);
 
 }

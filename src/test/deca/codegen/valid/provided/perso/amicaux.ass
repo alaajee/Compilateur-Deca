@@ -30,58 +30,58 @@ condition_1:
 body_1:
 	LOAD 3(GB), R3
 	REM 8(GB), R3
-	LOAD R3, R3
-	CMP #0, R3
-	SEQ R3
+	LOAD R3, R4
+	CMP #0, R4
+	SEQ R4
 	BNE else_block_2
 body_2:
-	LOAD 5(GB), R3
-	ADD 8(GB), R3
-	STORE R3, 5(GB)
+	LOAD 5(GB), R4
+	ADD 8(GB), R4
+	STORE R4, 5(GB)
 	BRA end_if_2
 else_block_2:
 end_if_2:
-	LOAD 8(GB), R3
-	ADD #1, R3
-	STORE R3, 8(GB)
+	LOAD 8(GB), R4
+	ADD #1, R4
+	STORE R4, 8(GB)
 	BRA condition_1
 end_while_1:
 condition_3:
 	LOAD #0, R0
 	CMP #2, R0
 	BEQ division_by_zero_error
-	LOAD 4(GB), R3
-	QUO #2, R3
-	LOAD 7(GB), R4
-	CMP R3, R4
-	SLE R4
+	LOAD 4(GB), R4
+	QUO #2, R4
+	LOAD 7(GB), R7
+	CMP R4, R7
+	SLE R7
 	BGT end_while_3
 body_3:
-	LOAD 4(GB), R4
-	REM 7(GB), R4
-	LOAD R4, R4
-	CMP #0, R4
-	SEQ R4
+	LOAD 4(GB), R7
+	REM 7(GB), R7
+	LOAD R7, R8
+	CMP #0, R8
+	SEQ R8
 	BNE else_block_4
 body_4:
-	LOAD 6(GB), R4
-	ADD 7(GB), R4
-	STORE R4, 6(GB)
+	LOAD 6(GB), R8
+	ADD 7(GB), R8
+	STORE R8, 6(GB)
 	BRA end_if_4
 else_block_4:
 end_if_4:
-	LOAD 7(GB), R4
-	ADD #1, R4
-	STORE R4, 7(GB)
+	LOAD 7(GB), R8
+	ADD #1, R8
+	STORE R8, 7(GB)
 	BRA condition_3
 end_while_3:
-	LOAD 5(GB), R4
-	CMP 4(GB), R4
-	SEQ R4
+	LOAD 5(GB), R8
+	CMP 4(GB), R8
+	SEQ R8
 	BNE else_block_5
-	LOAD 6(GB), R4
-	CMP 3(GB), R4
-	SEQ R4
+	LOAD 6(GB), R8
+	CMP 3(GB), R8
+	SEQ R8
 	BNE else_block_5
 body_5:
 	LOAD 3(GB), R1

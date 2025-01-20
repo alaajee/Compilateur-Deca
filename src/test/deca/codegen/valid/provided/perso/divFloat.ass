@@ -1,0 +1,48 @@
+	TSTO #4
+	BOV stack_overflow_error
+	ADDSP #10
+; start main program
+Tables.DES.Methodes:
+; Main program
+; Beginning of main instructions:
+	LOAD #7, R2
+	STORE R2, 3(GB)
+	LOAD #2, R2
+	STORE R2, 4(GB)
+	LOAD 3(GB), R4
+	STORE R4, 5(GB)
+	LOAD #0, R0
+	CMP 4(GB), R0
+	BEQ division_by_zero_error
+	LOAD 4(GB), R0
+	FLOAT R0, R0
+	LOAD 3(GB), R1
+	FLOAT R1, R1
+	LOAD R1, R3
+	DIV R0, R3
+	STORE R3, 5(GB)
+	LOAD R4, R2
+	LOAD #0, R0
+	CMP 4(GB), R0
+	BEQ division_by_zero_error
+	LOAD 3(GB), R5
+	QUO 4(GB), R5
+	STORE R5, 6(GB)
+	WSTR "Division réelle : "
+	LOAD 5(GB), R1
+	WFLOAT
+	WNL
+	WSTR "Division entière : "
+	LOAD 6(GB), R1
+	WINT
+	WNL
+	HALT
+code.Object.equals:
+; end main program
+division_by_zero_error:
+	WSTR "Error: Division by zero"
+	WNL
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

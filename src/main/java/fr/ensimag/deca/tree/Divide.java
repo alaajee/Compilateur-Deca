@@ -30,6 +30,7 @@ public class Divide extends AbstractOpArith {
 
     @Override
     public DVal codeGenExpr(DecacCompiler compiler) {
+
         boolean assign = compiler.isAssign;
         boolean var = compiler.isVar;
         compiler.isDiv = true;
@@ -70,9 +71,11 @@ public class Divide extends AbstractOpArith {
                     }
                     gen.codeGenPrint(Register.R0, rightOperand, reg, constructeurDIV, compiler);
                     DVal regis = gen.codeGen(Register.R0, rightOperand, reg, constructeurDIV, compiler);
+                    regis.name = "float";
+                    compiler.isAssign = false;
+                    compiler.init = false;
                     return regis;
                 } else {
-                    System.out.println("ou ici ?");
                     compiler.addInstruction(new LOAD(rightOperand, Register.R0));
                     if (getRightOperand().getType().isInt()){
                         compiler.addInstruction(new FLOAT(Register.R0, Register.R0));
@@ -84,6 +87,7 @@ public class Divide extends AbstractOpArith {
                     //gen.codeGenPrint(Register.R1, Register.R0, reg, constructeurDIV, compiler);
                     DVal regis = gen.codeGen(Register.R1, Register.R0, reg, constructeurDIV, compiler);
                     regis.name = "float";
+                    compiler.etatDivide = true;
                     return regis;
                 }
             } else {
@@ -146,7 +150,6 @@ public class Divide extends AbstractOpArith {
         if (!compiler.getCompilerOptions().getNoCHeck()){
             compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         }
-        //compiler.addInstruction(new BEQ(compiler.labelMap.get("division_by_zero_error")));
         DVal leftOperand = getLeftOperand().codeGenInit(compiler);
         Type typeLeft = getLeftOperand().getType();
         Type typeRight = getRightOperand().getType();
@@ -212,14 +215,9 @@ public class Divide extends AbstractOpArith {
         lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
         lines.add(new LOAD(leftOperand,reg));
         lines.add(new QUO(rightOperand,reg));
-        // DVal dval = getRightOperand().codeGenExpr(compiler);
         compiler.libererReg(reg.getNumber());
         return reg;
     }
 
-    // A revoir
 }
 
-
-// QUO
-// DIV

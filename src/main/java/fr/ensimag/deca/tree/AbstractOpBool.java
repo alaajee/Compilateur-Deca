@@ -39,7 +39,6 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     }
 
     public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel){
-        System.out.println("hhbool");
         return null;
     }
 }

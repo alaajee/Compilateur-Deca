@@ -7,6 +7,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 public class codeGen {
     public codeGen(){}
     public DVal codeGen(DVal leftOperand, DVal rightOperand, GPRegister reg, constructeur constructeur , DecacCompiler compiler) {
+        compiler.etatDivide = false;
         if (reg.isOffSet) {
             if (leftOperand.isOffSet) {
                 if (rightOperand.isVar){

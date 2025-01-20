@@ -94,7 +94,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      */
     public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
 
-    @Override
+
     public abstract DAddr getAddr(DecacCompiler compiler);
 
 

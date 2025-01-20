@@ -46,7 +46,6 @@ public class ConvFloat extends AbstractUnaryExpr {
         DVal dVal = this.getOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
         compiler.typeAssign = "float";
-        System.out.println(getOperand().getType());
         if (!getOperand().getType().equals("float")) {
             if ( dVal instanceof DAddr){
                 compiler.addInstruction(new FLOAT(dVal,reg));
@@ -55,8 +54,6 @@ public class ConvFloat extends AbstractUnaryExpr {
                         compiler.addInstruction(new STORE(reg,(DAddr) dVal));
                         compiler.init = false;
                      }
-                // compiler.addInstruction(new STORE(reg,(DAddr) dVal));
-                // compiler.libererReg(reg.getNumber());
                 return reg;
             }
             else {
@@ -87,8 +84,6 @@ public class ConvFloat extends AbstractUnaryExpr {
         compiler.typeAssign = "float";
         if ( dVal instanceof DAddr){
             compiler.addInstruction(new FLOAT(dVal,reg));
-            // compiler.addInstruction(new STORE(reg,(DAddr) dVal));
-            // compiler.libererReg(reg.getNumber());
             return reg;
         }
         else {

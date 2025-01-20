@@ -33,9 +33,9 @@ else_block_1:
 	SEQ R3
 	BNE else_block_2
 body_2:
-	LOAD 3(GB), R4
-	SUB #1, R4
-	STORE R4, 3(GB)
+	LOAD 3(GB), R5
+	SUB #1, R5
+	STORE R5, 3(GB)
 	LOAD 3(GB), R1
 	WINT
 	WNL

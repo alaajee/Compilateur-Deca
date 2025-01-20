@@ -65,9 +65,5 @@ public class Selection extends AbstractLValue {
         return null;
     }
 
-    @Override
-    public DAddr getAddr(DecacCompiler compiler){
-        return null;
-    }
 
 }

@@ -86,6 +86,26 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/EstGrand.deca"]="De
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Moyenne.deca"]="Moyenne pondérée : 3.45000e+01
                                                                              La moyenne dépasse-t-elle le seuil de 30 ?  :true"
 
+
+
+
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Attribution_Field.deca"]="10"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cast_float_int.deca"]="5"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cast_int.deca"]="Résultataprèscastetaddition:7"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cast_Moyenne.deca"]="Flottantinitial:3.70000e+00Arrondiàl'entierleplusproche:4"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cast_print.deca"]="Lesvaleurssontidentiquesaprèscast."
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cast_print_float.deca"]="Multiplicationd'unentieretd'unflottant:2.50000e+00"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/class_incremente.deca"]="1"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/divFloat.deca"]="Divisionréelle:3.50000e+00Divisionentière:3"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/floatArrondi.decaa"]="Flottantinitial:3.70000e+00Arrondiàl'entierleplusproche:4"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Minus_cast.deca"]="Multiplicationd'unentieretd'unflottant:2.50000e+00"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/Moyenne_ponderee.deca"]="Moyennepondérée:3.45000e+01Lamoyennedépasse-t-elleleseuilde30?:true"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/mult.deca"]="Multiplicationd'unentieretd'unflottant:1.25000e+01"
+
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sommeImpairs.deca"]="SuitedeFibonacci(termesimpairsseulement):11351321Sommedestermesimpairs:44"
+
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/floatArrondi.deca"]="Flottantinitial:3.70000e+00Arrondiàl'entierleplusproche:4"
+
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do
     echo "Scanning directory: $TEST_DIR"

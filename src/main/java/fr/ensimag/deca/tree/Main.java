@@ -56,16 +56,10 @@ public class Main extends AbstractMain {
         if (!compiler.getCompilerOptions().getNoCHeck()){
             compiler.addFirst(new BOV(stackOverflowLabel));
         }
-       // compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
         compiler.addFirst(new TSTO(compiler.getMaxTsto()+compiler.nbrVar));
-        //whileGeneration(compiler);
+
     }
 
-//    protected void whileGeneration(DecacCompiler compiler) {
-//        if (!compiler.weAreinWhile){
-//            compiler.addLabel(compiler.endIfLabel);
-//        }
-//    }
 
     @Override
     public void decompile(IndentPrintStream s) {

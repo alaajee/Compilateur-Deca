@@ -51,37 +51,37 @@ body_2:
 	STORE R3, 7(GB)
 	LOAD 16(GB), R3
 	MUL #10, R3
-	LOAD R3, R4
-	ADD 7(GB), R4
-	STORE R4, 16(GB)
+	LOAD R3, R3
+	ADD 7(GB), R3
+	STORE R3, 16(GB)
 	LOAD #0, R0
 	CMP #10, R0
 	BEQ division_by_zero_error
-	LOAD 3(GB), R4
-	QUO #10, R4
-	STORE R4, 3(GB)
+	LOAD 3(GB), R3
+	QUO #10, R3
+	STORE R3, 3(GB)
 	BRA end_if_2
 else_block_2:
 end_if_2:
-	LOAD 4(GB), R4
-	CMP #0, R4
-	SGT R4
+	LOAD 4(GB), R3
+	CMP #0, R3
+	SGT R3
 	BLE else_block_3
 body_3:
-	LOAD 4(GB), R4
-	REM #10, R4
-	STORE R4, 8(GB)
-	LOAD 17(GB), R4
-	MUL #10, R4
-	LOAD R4, R5
-	ADD 8(GB), R5
-	STORE R5, 17(GB)
+	LOAD 4(GB), R3
+	REM #10, R3
+	STORE R3, 8(GB)
+	LOAD 17(GB), R3
+	MUL #10, R3
+	LOAD R3, R3
+	ADD 8(GB), R3
+	STORE R3, 17(GB)
 	LOAD #0, R0
 	CMP #10, R0
 	BEQ division_by_zero_error
-	LOAD 4(GB), R5
-	QUO #10, R5
-	STORE R5, 4(GB)
+	LOAD 4(GB), R3
+	QUO #10, R3
+	STORE R3, 4(GB)
 	BRA end_if_3
 else_block_3:
 end_if_3:
@@ -96,23 +96,23 @@ end_while_1:
 	WINT
 	WNL
 condition_4:
-	LOAD 10(GB), R5
-	CMP #0, R5
-	SGT R5
+	LOAD 10(GB), R3
+	CMP #0, R3
+	SGT R3
 	BLE end_while_4
 body_4:
-	LOAD 10(GB), R5
-	REM #10, R5
-	STORE R5, 7(GB)
-	LOAD 5(GB), R5
-	ADD 7(GB), R5
-	STORE R5, 5(GB)
+	LOAD 10(GB), R3
+	REM #10, R3
+	STORE R3, 7(GB)
+	LOAD 5(GB), R3
+	ADD 7(GB), R3
+	STORE R3, 5(GB)
 	LOAD #0, R0
 	CMP #10, R0
 	BEQ division_by_zero_error
-	LOAD 10(GB), R5
-	QUO #10, R5
-	STORE R5, 10(GB)
+	LOAD 10(GB), R3
+	QUO #10, R3
+	STORE R3, 10(GB)
 	BRA condition_4
 end_while_4:
 	WSTR "Somme des chiffres de 987654: "
@@ -120,33 +120,33 @@ end_while_4:
 	WINT
 	WNL
 condition_5:
-	LOAD 13(GB), R5
-	CMP 11(GB), R5
-	SLE R5
+	LOAD 13(GB), R3
+	CMP 11(GB), R3
+	SLE R3
 	BGT end_while_5
 body_5:
-	LOAD 12(GB), R5
-	MUL 13(GB), R5
-	STORE R5, 12(GB)
-	LOAD 13(GB), R5
-	ADD #1, R5
-	STORE R5, 13(GB)
+	LOAD 12(GB), R3
+	MUL 13(GB), R3
+	STORE R3, 12(GB)
+	LOAD 13(GB), R3
+	ADD #1, R3
+	STORE R3, 13(GB)
 	BRA condition_5
 end_while_5:
 	WSTR "Factorielle de 5: "
 	LOAD 12(GB), R1
 	WINT
 	WNL
-	LOAD 14(GB), R5
-	CMP #0, R5
-	SGT R5
+	LOAD 14(GB), R3
+	CMP #0, R3
+	SGT R3
 	BLE else_block_6
 body_6:
-	LOAD 14(GB), R5
-	REM #2, R5
-	LOAD R5, R5
-	CMP #0, R5
-	SEQ R5
+	LOAD 14(GB), R3
+	REM #2, R3
+	LOAD R3, R15
+	CMP #0, R15
+	SEQ R15
 	BNE else_block_7
 body_7:
 	LOAD 14(GB), R1
@@ -160,9 +160,9 @@ else_block_7:
 	WSTR " est un nombre positif impair."
 	WNL
 end_if_7:
-	LOAD 14(GB), R5
-	CMP #5, R5
-	SGT R5
+	LOAD 14(GB), R15
+	CMP #5, R15
+	SGT R15
 	BLE else_block_8
 body_8:
 	LOAD 14(GB), R1

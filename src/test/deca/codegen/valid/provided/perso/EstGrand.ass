@@ -31,20 +31,20 @@ body_1:
 	WINT
 	WSTR ": "
 	WNL
-	LOAD #50, R4
-	STORE R4, 5(GB)
-	LOAD 5(GB), R4
-	CMP 3(GB), R4
-	SLT R4
+	LOAD #50, R5
+	STORE R5, 5(GB)
+	LOAD 5(GB), R5
+	CMP 3(GB), R5
+	SLT R5
 	BGE else_block_2
 body_2:
 	WSTR "Trop petit !"
 	WNL
 	BRA end_if_2
 else_block_2:
-	LOAD 5(GB), R4
-	CMP 3(GB), R4
-	SGT R4
+	LOAD 5(GB), R5
+	CMP 3(GB), R5
+	SGT R5
 	BLE else_block_3
 body_3:
 	WSTR "Trop grand !"
@@ -54,13 +54,13 @@ else_block_3:
 end_if_3:
 	WSTR "Bravo ! Vous avez trouvé le nombre."
 	WNL
-	LOAD #1, R4
 	LOAD #1, R5
-	STORE R5, 6(GB)
+	LOAD #1, R7
+	STORE R7, 6(GB)
 end_if_2:
-	LOAD 7(GB), R5
-	ADD #1, R5
-	STORE R5, 7(GB)
+	LOAD 7(GB), R7
+	ADD #1, R7
+	STORE R7, 7(GB)
 	BRA condition_1
 end_while_1:
 	LOAD 6(GB), R1

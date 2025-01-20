@@ -69,10 +69,8 @@ public class FloatLiteral extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler) {
-        System.out.println("stp iciiiiiiiiiiii");
         DAddr adresse = compiler.getCurrentAdresse();
         DVal res = new ImmediateFloat(value);
-        System.out.println("float " + value);
         compiler.typeAssign = getType().toString();
         if (compiler.isVar == true){
             GPRegister reg = compiler.associerReg();

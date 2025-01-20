@@ -65,9 +65,7 @@ public class IntLiteral extends AbstractExpr {
         DVal res = new ImmediateInteger(value);
         compiler.typeAssign = getType().toString();
         if (compiler.isVar == true){
-            // compiler.addInstruction(new WSTR("hh"));
             DAddr adresse = compiler.getCurrentAdresse();
-            System.out.println("adresse int" + adresse.toString());
             GPRegister reg = compiler.associerReg();
             compiler.addInstruction(new LOAD(res, reg));
             compiler.addInstruction(new STORE(reg, adresse));

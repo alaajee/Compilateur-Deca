@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.codegen.constructeur;
 import fr.ensimag.deca.codegen.constructeurADD;
+import fr.ensimag.deca.codegen.constructeurMUL;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -43,12 +44,21 @@ public class Plus extends AbstractOpArith {
             compiler.incrementTsto();
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        GPRegister reg = compiler.associerReg();
-        constructeur constructeur = new constructeurADD();
-        codeGen gen = new codeGen();
-        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-
-        return register;
+        if (leftOperand instanceof GPRegister){
+            constructeur constructeur = new constructeurADD();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,(GPRegister) leftOperand,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return leftOperand;
+        }
+        else {
+            GPRegister reg = compiler.associerReg();
+            constructeur constructeur = new constructeurADD();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return register;
+        }
     }
 
     @Override

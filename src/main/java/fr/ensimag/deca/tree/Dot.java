@@ -11,9 +11,8 @@ import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Instruction;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 public class Dot extends AbstractLValue{
     private AbstractExpr left;
@@ -106,16 +105,18 @@ public class Dot extends AbstractLValue{
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
-        left.codeGenExpr(compiler);
+        GPRegister register = compiler.associerReg();
+        DVal dval1 = left.codeGenExpr(compiler);
         right.isParam = true;
-        right.codeGenExpr(compiler);
-        return null;
+        System.out.println(dval1);
+        DVal dval = right.codeGenExpr(compiler);
+        int i = ((RegisterOffset) dval).getOffset();
+        if (compiler.isAssign){
+            compiler.addInstruction(new LOAD(dval1,register));
+        }
+        return new RegisterOffset(i,register);
     }
 
-    @Override
-    public DAddr getAddr(DecacCompiler compiler){
-        return null;
-    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler){

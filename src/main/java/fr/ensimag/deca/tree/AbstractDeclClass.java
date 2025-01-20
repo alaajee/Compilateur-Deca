@@ -36,5 +36,4 @@ public abstract class AbstractDeclClass extends Tree {
 
     protected abstract void initClass(DecacCompiler compiler);
 
-    protected abstract void codeGenMethod(DecacCompiler compiler);
 }

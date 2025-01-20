@@ -196,8 +196,4 @@ public  class DeclMethod extends AbstractDeclMethod{
         compiler.addInstruction(new RTS());
     }
 
-
-//    public Label getLabel(){
-//        return new Label(this.nameMethod.toString());
-//    }
 }

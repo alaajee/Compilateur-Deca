@@ -243,7 +243,9 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
+        compiler.etatDivide = true;
         // System.out.println(reg);
+
         if (compiler.isVar){
             GPRegister register = compiler.associerReg();
             compiler.addInstruction(new LOAD(reg,register));
@@ -254,8 +256,12 @@ public class Identifier extends AbstractIdentifier {
         }
         if (this.getExpDefinition().isField()){
             GPRegister register = compiler.associerReg();
-            compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
-            compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
+            System.out.println(compiler.needToPush);
+            if (!compiler.needToPush){
+                compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
+                compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
+
+            }
             if (compiler.Print){
                 compiler.addInstruction(new LOAD(register,Register.R1));
                 compiler.addInstruction(new WINT());
@@ -264,7 +270,9 @@ public class Identifier extends AbstractIdentifier {
                 compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
             }
             compiler.libererReg(register.getNumber());
+            return new RegisterOffset(compiler.getTableNombreField(name),register);
         }
+
         return reg;
 
     }
@@ -320,7 +328,6 @@ public class Identifier extends AbstractIdentifier {
 
         if (compiler.notCond){
             compiler.addInstruction(new BNE(endLabel));  // Si res == 0, saute à endLabel
-            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
             compiler.notCond = false;
         }// Si res == 1, sauter à bodyLabel, sinon sauter à endLabel
 
@@ -343,7 +350,6 @@ public class Identifier extends AbstractIdentifier {
             else {
                 compiler.addInstruction(new BEQ(endLabel));  // Si res == 0, saute à endLabel
             }
-            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
         }
         return register;
     }
