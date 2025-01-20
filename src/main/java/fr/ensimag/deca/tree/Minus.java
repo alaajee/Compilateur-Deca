@@ -8,6 +8,8 @@ import fr.ensimag.deca.codegen.constructeurADD;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import fr.ensimag.deca.codegen.constructeurSUB;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.util.LinkedList;
 
@@ -43,9 +45,29 @@ public class Minus extends AbstractOpArith {
         return register;
     }
 
-    @Override
     public DVal codeGenExprARM(DecacCompiler compiler){
-        return null;
+        DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
+        DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
+        ARMGPRegister regLeft = compiler.associerRegARM();
+        ARMGPRegister regRight = compiler.associerRegARM();
+        ARMGPRegister regResult = compiler.associerRegARM();
+        if (leftOperand instanceof DAddr) {
+            compiler.addInstruction(new LDR(regLeft, leftOperand));
+            compiler.addInstruction(new LDR(regLeft, new ARMImmediateString("[R"+regLeft.getNumber()+"]")));
+        } else {
+            compiler.addInstruction(new MOV(regLeft, leftOperand));
+        }
+    
+        if (rightOperand instanceof DAddr) {
+            compiler.addInstruction(new LDR(regRight, rightOperand));
+            compiler.addInstruction(new LDR(regRight, new ARMImmediateString("[R"+regRight.getNumber()+"]")));
+        } else {
+            compiler.addInstruction(new MOV(regRight, rightOperand));
+        }
+        compiler.addInstruction(new fr.ensimag.arm.pseudocode.instructions.SUB(regResult, regLeft, regRight));
+        compiler.libererRegARM(regLeft.getNumber());
+        compiler.libererRegARM(regRight.getNumber());
+        return regResult;
     }
 
     @Override
@@ -98,7 +120,7 @@ public class Minus extends AbstractOpArith {
 
         lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
         lines.add(new LOAD(leftOperand,reg));
-        lines.add(new SUB(rightOperand,reg));
+        lines.add(new fr.ensimag.ima.pseudocode.instructions.SUB(rightOperand,reg));
         // DVal dval = getRightOperand().codeGenExpr(compiler);
         compiler.libererReg(reg.getNumber());
         return reg;

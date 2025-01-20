@@ -6,7 +6,7 @@ import fr.ensimag.arm.pseudocode.ARMGPRegister;
 import fr.ensimag.ima.pseudocode.*;
 
 public class SUB extends ARMTernaryInstructionDValToReg {
-    public SUB(DVal op1, DVal op2, ARMGPRegister op3) {
+    public SUB(ARMGPRegister op1, DVal op2,  DVal op3) {
         super(op1, op2, op3);
     }
 }

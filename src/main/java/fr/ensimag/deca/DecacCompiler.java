@@ -451,6 +451,10 @@ public class DecacCompiler {
         GP[adresseReg] = false;
     }
 
+    public void libererRegARM(int adresseReg){
+        RegistersARM[adresseReg] = false;
+    }
+
     public GPRegister associerReg() {
         for (int i = 2; i < OverflowVal+1; i++) {
             if (!GP[i]) {
