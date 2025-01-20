@@ -5,6 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.NullType;
+import fr.ensimag.deca.context.StringType;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -25,8 +27,11 @@ public class NullLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type NullType = new NullType(compiler.createSymbol("null"));
+            this.setType(NullType);
+            return NullType;
     }
+    
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
