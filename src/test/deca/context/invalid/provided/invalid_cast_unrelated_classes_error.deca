@@ -1,0 +1,21 @@
+// Description:
+//    Un cast est effectué entre deux classes non liées.
+//
+// Résultats:
+//    invalid_cast_unrelated_classes_error.deca:19:17: Type incompatible : attendu A, trouvé B
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int fieldA;
+}
+
+class B {
+    int fieldB;
+}
+
+class C {
+    void test() {
+        A objA = new B(); 
+    }
+}

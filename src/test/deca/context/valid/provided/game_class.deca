@@ -1,0 +1,37 @@
+class GameObject {
+    int x, y;
+
+    void move(int dx, int dy) {
+        x =x+ dx;
+        y=y+ dy;
+    }
+}
+
+class Character extends GameObject {
+    int health;
+
+    void attack(Character target) {
+        target.health =target.health - 10;
+    }
+}
+
+class Boss extends Character {
+    int damageMultiplier;
+
+    void attack(Character target) {
+        target.health = target.health - (10 * damageMultiplier);
+    }
+}
+
+{
+    Character c = new Character();
+    Boss b = new Boss();
+
+    c.health = 100;
+
+    b.health = 200;
+    b.damageMultiplier = 2;
+
+    b.attack(c);
+    println("Character health: " , c.health);
+}

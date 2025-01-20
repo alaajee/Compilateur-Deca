@@ -1,0 +1,17 @@
+// Description:
+//    Une méthode est appelée avec des arguments de types incorrects.
+//
+// Résultats:
+//   method_argument_type_error.deca:15:17: Invalid type for argument 1 of method setField. Expected: int, Provided: string
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void setField(int value) {
+        print("Valeur assignée : ", value);
+    }
+
+    void test() {
+        setField("stringValue"); // Erreur : type incorrect
+    }
+}

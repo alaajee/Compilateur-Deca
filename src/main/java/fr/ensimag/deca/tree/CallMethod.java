@@ -87,8 +87,11 @@ public class CallMethod extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        object.decompile(s);
-        s.print(".");
+        if(object!=null){
+            object.decompile(s);
+            s.print(".");
+        }
+        
         methodName.decompile(s);
         s.print("(");
         args.decompile(s);

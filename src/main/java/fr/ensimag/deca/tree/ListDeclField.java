@@ -20,14 +20,15 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     public void decompile(IndentPrintStream s) {
         for (AbstractDeclField declField : this.getList()) {
             declField.decompile(s); 
-        }    }
+        }    
+    }
 
     void verifyListDeclField(DecacCompiler compiler,EnvironmentExp localEnv,ClassDefinition currentClass) throws ContextualError {
 
         Iterator<AbstractDeclField> iterator = this.iterator(); 
         int index =0;
         while (iterator.hasNext()) {
-            AbstractDeclField declField = iterator.next(); // Récupère l'élément suivant
+            AbstractDeclField declField = iterator.next(); 
             declField.verifyDeclField(compiler, currentClass, index);
             index++;
         }    
@@ -37,7 +38,7 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     {
         Iterator<AbstractDeclField> iterator = this.iterator(); 
         while (iterator.hasNext()) {
-            AbstractDeclField declField = iterator.next(); // Récupère l'élément suivant
+            AbstractDeclField declField = iterator.next(); 
             declField.verifyinitField(compiler, currentClass);
         }    
     }

@@ -1,0 +1,20 @@
+// Description:
+//    Une boucle infinie causée par une condition qui utilise un objet au lieu d'un booléen.
+//
+// Résultats:
+//    infinite_loop_with_object_condition_error.deca:16:15: The type of the condition must be boolean
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field = 10;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        while (obj) { 
+            print("Valeur de field : ", obj.field);
+        }
+    }
+}

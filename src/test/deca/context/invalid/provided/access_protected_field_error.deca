@@ -1,0 +1,19 @@
+// Description:
+//    Une classe non liée tente d’accéder à un champ protégé.
+//
+// Résultats:
+//   access_protected_field_error.deca:16:24: The field 'protectedField' is protected and cannot be accessed from the current context.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    protected int protectedField = 10;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        int value = obj.protectedField; 
+    }
+}
+

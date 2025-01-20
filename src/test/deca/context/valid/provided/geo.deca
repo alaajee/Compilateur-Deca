@@ -1,0 +1,32 @@
+class Shape {
+    float area() {
+        return 0.0;
+    }
+}
+
+class Circle extends Shape {
+    float radius;
+
+    float area() {
+        return 3.14 * radius * radius;
+    }
+}
+
+class Rectangle extends Shape {
+    float length, width;
+
+    float area() {
+        return length * width;
+    }
+}
+
+{
+    Shape s = new Circle();
+    Circle c = (Circle)(s);
+    Rectangle r = new Rectangle();
+    c.radius = 5;
+    println("Circle Area: "  , c.area());
+    r.length = 4;
+    r.width = 6;
+    println("Rectangle Area: "  , r.area());
+}

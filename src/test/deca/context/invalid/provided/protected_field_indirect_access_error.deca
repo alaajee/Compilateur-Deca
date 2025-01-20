@@ -1,0 +1,20 @@
+// Description:
+//    Une sous-classe indirecte tente d'accéder à un champ protégé.
+//
+// Résultats:
+//    protected_field_indirect_access_error.deca:18:24: The field 'protectedField' is protected and cannot be accessed from the current context.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    protected int protectedField = 10;
+}
+
+class B extends A {}
+
+class C {
+    void test() {
+        B obj = new B();
+        int value = obj.protectedField; 
+    }
+}

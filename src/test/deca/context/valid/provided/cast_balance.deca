@@ -1,0 +1,37 @@
+class Account {
+    int balance;
+
+    int getBalance() {
+        return this.balance;
+    }
+}
+
+class SavingsAccount extends Account {
+    float interestRate;
+
+    float calculateInterest() {
+        return (float)(this.balance) * interestRate;
+    }
+}
+
+class CheckingAccount extends Account {
+    int overdraftLimit;
+
+    int getOverdraftLimit() {
+        return this.overdraftLimit;
+    }
+}
+
+{
+    Account acc = new SavingsAccount();
+    ((SavingsAccount)(acc)).balance = 1000;
+    ((SavingsAccount)(acc)).interestRate = 0.05;
+    println("Savings account balance: " , acc.getBalance());
+    println("Interest earned: " , ((SavingsAccount)(acc)).calculateInterest());
+
+    acc = new CheckingAccount();
+    ((CheckingAccount)(acc)).balance = 500;
+    ((CheckingAccount)(acc)).overdraftLimit = 200;
+    println("Checking account balance: " , acc.getBalance());
+    println("Overdraft limit: " , ((CheckingAccount)(acc)).getOverdraftLimit());
+}

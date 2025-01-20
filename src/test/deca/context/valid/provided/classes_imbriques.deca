@@ -1,0 +1,108 @@
+// Classe de base
+class Entity {
+    int id;
+
+    int getId() {
+        return this.id;
+    }
+}
+
+// Hérite d'Entity
+class LivingEntity extends Entity {
+    int health;
+    int maxHealth;
+
+    void heal(int amount) {
+        if (this.health + amount > this.maxHealth)
+        {
+            this.health = this.maxHealth;
+        }
+        else{
+          this.health = this.health + amount;  
+        }
+    }
+
+    boolean isAlive() {
+        return this.health > 0;
+    }
+}
+
+// Hérite de LivingEntity
+class Player extends LivingEntity {
+    int name;
+    int level;
+
+    int getPower() {
+        return this.level * this.health; // Puissance = niveau * santé actuelle
+    }
+}
+
+// Hérite de LivingEntity
+class Enemy extends LivingEntity {
+    int damage;
+
+    int attack(Player target) {
+        if (this.isAlive()) {
+            target.health = target.health - this.damage;
+            return this.damage;
+        }
+        return 0;
+    }
+}
+
+// Hérite d'Enemy
+class Boss extends Enemy {
+    int specialDamage;
+    int totalDamage;
+    int specialAttack(Player target) {
+        if (this.isAlive()) {
+            totalDamage = this.damage + this.specialDamage;
+            target.health =target.health -  totalDamage;
+            return totalDamage;
+        }
+        return 0;
+    }
+}
+
+// Programme principal
+{
+    Player player = new Player();
+    Enemy enemy = new Enemy();
+    Boss boss = new Boss();
+
+    player.id = 1;
+    player.name = 23;
+    player.health = 100;
+    player.maxHealth = 100;
+    player.level = 5;
+
+    enemy.id = 2;
+    enemy.health = 50;
+    enemy.maxHealth = 50;
+    enemy.damage = 15;
+
+    boss.id = 3;
+    boss.health = 200;
+    boss.maxHealth = 200;
+    boss.damage = 20;
+    boss.specialDamage = 30;
+
+    println("Player's initial health: " , player.health);
+    println("Enemy attacks Player...");
+    println("Damage dealt: " , enemy.attack(player));
+    println("Player's health after attack: " , player.health);
+
+    println("Boss special attacks Player...");
+    println("Special damage dealt: " , boss.specialAttack(player));
+    println("Player's health after special attack: " , player.health);
+
+    println("Player uses heal...");
+    player.heal(30);
+    println("Player's health after healing: " , player.health);
+
+    if (!player.isAlive()) {
+        println(player.name , " is defeated.");
+    } else {
+        println(player.name , " survives with " , player.health , " health.");
+    }
+}

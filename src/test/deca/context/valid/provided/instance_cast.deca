@@ -1,0 +1,44 @@
+class Vehicle {
+    int speed;
+}
+
+class Car extends Vehicle {
+    int doors;
+}
+
+class Bike extends Vehicle {
+    boolean hasBell;
+}
+
+{
+    Vehicle v1 = new Car();
+    ((Car)v1).doors = 4;
+
+    Vehicle v2 = new Bike();
+    ((Bike)v2).hasBell = true;
+
+    if (v1 instanceof Car) {
+        println("v1 is a Car with " + ((Car)v1).doors + " doors.");
+    } else {
+        println("v1 is not a Car.");
+    }
+
+    if (v2 instanceof Bike) {
+        println("v2 is a Bike with bell: " + ((Bike)v2).hasBell);
+    } else {
+        println("v2 is not a Bike.");
+    }
+
+    if (v1 instanceof Vehicle) {
+        println("v1 is definitely a Vehicle.");
+    }
+
+    if (v2 instanceof Vehicle) {
+        println("v2 is also a Vehicle.");
+    }
+
+    // Test de cast incorrect
+    if (!(v1 instanceof Bike)) {
+        println("v1 cannot be cast to Bike.");
+    }
+}
