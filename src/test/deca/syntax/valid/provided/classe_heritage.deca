@@ -1,0 +1,23 @@
+class Parent {
+    int x;
+
+    int getX() {
+        return x;
+    }
+}
+
+class Child extends Parent {
+    int y;
+
+    int getY() {
+        return y;
+    }
+}
+
+{
+    Child obj = new Child();
+    obj.getX();
+    obj.x = 9;
+    obj.y = 30;
+    println(obj.getX() + obj.getY());
+}

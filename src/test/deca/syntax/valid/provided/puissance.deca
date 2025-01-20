@@ -1,0 +1,13 @@
+{
+    int a = 3; // Base
+    int b = 4; // Exposant
+    int result = 1;
+
+    int i = 0;
+    while (i < b) {
+        result = result * a;
+        i=i+1;
+    }
+
+    println(a , " à la puissance " , b , " est : " , result);
+}

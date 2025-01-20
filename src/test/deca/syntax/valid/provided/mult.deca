@@ -1,0 +1,10 @@
+{
+    int x = 15; // Modifiez cette valeur pour tester
+    int y = 5;  // Modifiez cette valeur pour tester
+
+    if (x % y == 0) {
+        println(x , " est un multiple de " , y , ".");
+    } else {
+        println(x , " n'est pas un multiple de " , y , ".");
+    }
+}

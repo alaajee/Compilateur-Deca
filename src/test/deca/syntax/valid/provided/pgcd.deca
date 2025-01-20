@@ -1,0 +1,12 @@
+{
+    int a = 56; // Modifiez cette valeur pour tester
+    int b = 98; // Modifiez cette valeur pour tester
+
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    println("Le PGCD des deux nombres est : " + a);
+}

@@ -1,0 +1,14 @@
+{
+    int x = 28; // Modifiez cette valeur pour tester
+    int i = 1;
+
+    println("Les diviseurs de " , x , " sont :");
+
+    while (i <= x) {
+        if (x % i == 0) {
+            print(i , " ");
+        }
+        i=i+1;
+    }
+    println("");
+}

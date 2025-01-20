@@ -1,0 +1,13 @@
+{
+    int a = 6; // Modifiez cette valeur pour tester
+    int b = 4; // Modifiez cette valeur pour tester
+    int result = 0;
+
+    int i = 0;
+    while (i < b) {
+        result = result + a;
+        i=i+1;
+    }
+
+    println(a , " multiplié par " , b , " donne : " , result);
+}

@@ -1,0 +1,10 @@
+{
+    int x = 10;
+    float y = 10.0;
+
+    if ((float)(x) == y) {
+        println("Les valeurs sont identiques après cast.");
+    } else {
+        println("Les valeurs diffèrent après cast.");
+    }
+}

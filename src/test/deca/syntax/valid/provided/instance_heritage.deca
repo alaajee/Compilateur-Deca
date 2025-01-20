@@ -1,0 +1,45 @@
+class Person {
+    int age;
+
+    int getAge() {
+        return this.age;
+    }
+}
+
+class Student extends Person {
+    int studentID;
+
+    int getStudentID() {
+        return this.studentID;
+    }
+}
+
+class Teacher extends Person {
+    int teacherID;
+
+    int getTeacherID() {
+        return this.teacherID;
+    }
+}
+
+{
+    Person p = new Student();
+    ((Student)(p)).age = 20;
+    ((Student)(p)).studentID = 12345;
+
+    if (p instanceof Student) {
+        println("Student ID: " , ((Student)(p)).getStudentID());
+    }
+
+    p = new Teacher();
+    ((Teacher)(p)).age = 40;
+    ((Teacher)(p)).teacherID = 67890;
+
+    if (p instanceof Teacher) {
+        println("Teacher ID: " , ((Teacher)(p)).getTeacherID());
+    }
+
+    if (!(p instanceof Student)) {
+        println("p is not a Student.");
+    }
+}

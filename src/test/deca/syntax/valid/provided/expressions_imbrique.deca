@@ -1,0 +1,15 @@
+{
+    int p = 15;
+    int q = 25;
+    int r = 5;
+
+    boolean complexCheck = ((p + q) * r / 5 == 75) && ((q - r) > p) || !(r < 10);
+    if (complexCheck)
+    {
+        println("Vérification complexe : vrai ");
+   
+    }
+else{
+            println("Vérification complexe : faux" );
+
+}}

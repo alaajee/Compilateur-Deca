@@ -1,0 +1,12 @@
+{
+    int x = 12345; // Modifiez cette valeur pour tester
+    int reversed = 0;
+    int digit ;
+    while (x > 0) {
+        digit = x % 10;
+        reversed = reversed * 10 + digit;
+        x = x / 10;
+    }
+
+    println("Le nombre inversé est : " , reversed);
+}

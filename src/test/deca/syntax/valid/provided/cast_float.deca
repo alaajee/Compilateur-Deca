@@ -1,0 +1,7 @@
+{
+    float f1 = 5.5;
+    float f2 = 2.2;
+    int result = (int)(f1 + f2);
+
+    println("Résultat après cast et addition : " , result);
+}

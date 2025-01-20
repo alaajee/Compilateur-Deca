@@ -1,0 +1,29 @@
+class Vehicle {
+    int speed() {
+        return 50; // Default speed
+    }
+}
+
+class Car extends Vehicle {
+     int speed() {
+        return 120; // Speed of Car
+    }
+}
+
+class SportsCar extends Car {
+     int speed() {
+        return 200; // Speed of SportsCar
+    }
+}
+
+{
+    Vehicle v = new SportsCar();
+    Car car = (Car)(v);
+    SportsCar sportsCar = (SportsCar)(car);
+
+    println(v.speed()); // 200 (SportsCar speed)
+
+    println(car.speed()); // 200 (SportsCar speed)
+
+    println(sportsCar.speed()); // 200 (SportsCar speed)
+}
