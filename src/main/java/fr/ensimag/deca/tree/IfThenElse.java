@@ -91,7 +91,9 @@ public class IfThenElse extends AbstractInst {
         compiler.weAreinWhile = false;
     }
 
-
+    @Override
+    protected void codeGenInstARM(DecacCompiler compiler) {
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {

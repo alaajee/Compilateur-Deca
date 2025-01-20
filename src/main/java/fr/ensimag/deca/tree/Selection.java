@@ -65,5 +65,9 @@ public class Selection extends AbstractLValue {
         return null;
     }
 
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 
 }

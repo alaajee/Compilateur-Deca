@@ -16,6 +16,8 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -277,6 +279,16 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler) {
+        String name = getName().toString();
+        DAddr reg = compiler.getRegUnARM(name);
+        if(compiler.isVar){
+            compiler.isVar = false;
+        }
+        return reg;
+    }
+
+    @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
@@ -287,6 +299,35 @@ public class Identifier extends AbstractIdentifier {
         }
         else if (nameType.equals("float")) {
             compiler.addInstruction(new WFLOAT());
+        }
+    }
+
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler) {
+        compiler.print = true;
+        String name = getName().toString();
+        DAddr register = compiler.getRegUnARM(name);
+        if(getType().isInt()){
+            if(!compiler.printint){
+                String line = "formatint" + ": .asciz " + "\"%d\"";
+                compiler.addFirstComment(line);
+                compiler.printint = true;
+            }
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
+            compiler.addInstruction(new LDR(ARMRegister.R1, register));
+            compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+        } else if (getType().isFloat()){
+            if(!compiler.printfloat){
+                String line = "formatfloat" + ": .asciz " + "\"%f\"";
+                compiler.addFirstComment(line);
+                compiler.printfloat = true;
+            };
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+            compiler.addInstruction(new LDR(ARMRegister.R1, register));
+            compiler.addInstruction(new VLDRF64(ARMRegister.D0, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, ARMRegister.D0));
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
         }
     }
 

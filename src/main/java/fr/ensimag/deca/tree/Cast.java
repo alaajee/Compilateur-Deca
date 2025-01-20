@@ -140,4 +140,9 @@ public class Cast extends AbstractExpr {
 
        return register;
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 }

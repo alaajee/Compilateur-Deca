@@ -64,4 +64,9 @@ public class InstanceOf extends AbstractExpr {
         throw new UnsupportedOperationException("codeGenExpr() not implemented yet for InstanceOf.");
     }
 
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("codeGenExpr() not implemented yet for InstanceOf.");
+    }
+
 }

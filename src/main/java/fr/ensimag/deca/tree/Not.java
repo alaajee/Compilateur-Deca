@@ -48,6 +48,11 @@ public class Not extends AbstractUnaryExpr {
     }
 
     @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
+
+    @Override
     protected void codeGenPrint(DecacCompiler compiler){
     }
 

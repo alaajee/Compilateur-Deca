@@ -25,6 +25,11 @@ public class EmptyMain extends AbstractMain {
        compiler.addInstruction(new WSTR("Il manque le main"));
     }
 
+    @Override
+    protected void codeGenMainARM(DecacCompiler compiler) {
+       
+    }
+
     /**
      * Contains no real information => nothing to check.
      */

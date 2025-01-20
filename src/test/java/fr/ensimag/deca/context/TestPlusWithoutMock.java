@@ -67,6 +67,11 @@ public class TestPlusWithoutMock {
             return null;
         }
 
+        @Override
+        public DVal codeGenExprARM(DecacCompiler compiler){
+            return null;
+        }
+
     }
 
     @Test

@@ -41,6 +41,11 @@ public class ListExpr extends TreeList<AbstractExpr> {
         }
     }
 
+    public void codeGenInstARM(DecacCompiler compiler){
+        for (AbstractExpr expr : this.getList()){
+            expr.codeGenPrintARM(compiler);
+        }
+    }
     protected DVal codeGenClassPrint(DecacCompiler compiler, LinkedList<Instruction> lines){
         for (AbstractExpr expr : this.getList()) {
             expr.codeGenClassPrint(compiler, lines);

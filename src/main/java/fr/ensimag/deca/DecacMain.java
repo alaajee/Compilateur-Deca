@@ -37,7 +37,15 @@ public class DecacMain {
             System.exit(0); 
             
         }
-
+        if (options.getARM()){
+            for (File source : options.getSourceFiles()){
+                DecacCompiler compiler = new DecacCompiler(options, source);
+                if(compiler.compileARM()){
+                    error = true;
+                }
+            }
+            System.exit(0);
+        }
 
 
         if (options.getParallel()) {

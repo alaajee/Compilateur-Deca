@@ -60,6 +60,11 @@ public class NoInitialization extends AbstractInitialization {
     }
 
     @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
+
+    @Override
     public void codeGenField(DecacCompiler compiler){
 
     }

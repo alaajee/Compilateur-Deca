@@ -121,9 +121,18 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void codeGenPrint(DecacCompiler compiler) {
     }
 
+    protected void codeGenPrintARM(DecacCompiler compiler){
+        return;
+    } ;
+
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         codeGenExpr(compiler);
+    }
+
+    @Override
+    protected void codeGenInstARM(DecacCompiler compiler) {
+        codeGenExprARM(compiler);
     }
 
     @Override
@@ -145,14 +154,25 @@ public abstract class AbstractExpr extends AbstractInst {
 
     protected abstract DVal codeGenExpr(DecacCompiler compiler);
 
-    public DVal codeGenInit(DecacCompiler compiler) {
+    protected abstract DVal codeGenExprARM(DecacCompiler compiler);
+
+    public DVal codeGenInit(DecacCompiler compiler){
         return null;
     }
 
-    protected void codeGenPrintx(DecacCompiler compiler) {
+    public DVal codeGenInitARM(DecacCompiler compiler){
+        return null;
     }
 
-    public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
+    protected void codeGenPrintx(DecacCompiler compiler){
+        return;
+    }
+
+    protected void codeGenPrintxARM(DecacCompiler compiler){
+        return;
+    }
+
+    public DVal codeGenInstrCond(DecacCompiler compiler,Label endLabel,Label bodyLabel){
         return null;
     }
 

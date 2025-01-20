@@ -104,6 +104,11 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
+    
+    @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){

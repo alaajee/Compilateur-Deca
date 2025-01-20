@@ -53,6 +53,10 @@ public class Return extends AbstractInst {
         //compiler.addInstruction(new WSTR("hh"));
     }
 
+    @Override
+    protected  void codeGenInstARM(DecacCompiler compiler) {
+    }
+
 
     @Override
     public void decompile(IndentPrintStream s) {

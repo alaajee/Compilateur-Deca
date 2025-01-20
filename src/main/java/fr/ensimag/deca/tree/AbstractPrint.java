@@ -65,6 +65,18 @@ public abstract class AbstractPrint extends AbstractInst {
         }
     }
 
+    @Override
+    protected void codeGenInstARM(DecacCompiler compiler) {
+        for (AbstractExpr a : getArguments().getList()) {
+            if (printHex) {
+                a.codeGenPrintxARM(compiler);
+            }
+            else {
+                a.codeGenPrintARM(compiler);
+            }
+        }
+    }
+
     private boolean getPrintHex() {
         return printHex;
     }

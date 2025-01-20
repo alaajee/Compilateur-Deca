@@ -62,4 +62,9 @@ public class ThisLiteral extends AbstractExpr {
     protected DVal codeGenExpr(DecacCompiler compiler){
         return null;
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 }

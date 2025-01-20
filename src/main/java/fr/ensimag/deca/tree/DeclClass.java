@@ -113,6 +113,7 @@ public class DeclClass extends AbstractDeclClass {
         this.className.setType(classDef.getType());
     }
 
+
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {

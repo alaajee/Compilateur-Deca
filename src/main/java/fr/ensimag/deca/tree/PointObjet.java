@@ -100,4 +100,9 @@ public class PointObjet extends AbstractExpr {
        instance.codeGenInst(compiler);
        method.codeGenInst(compiler);
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 }

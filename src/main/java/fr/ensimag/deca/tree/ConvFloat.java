@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
+import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
@@ -88,4 +89,12 @@ public class ConvFloat extends AbstractUnaryExpr {
             return reg;
         }
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        ARMGPRegister reg = compiler.associerRegARM();
+        compiler.typeAssign = "float";
+        return reg;
+    }
+
 }

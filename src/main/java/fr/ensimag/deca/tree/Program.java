@@ -11,6 +11,12 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.HALT;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 /**
  * Deca complete program (class definition plus main block)
@@ -101,6 +107,18 @@ public class Program extends AbstractProgram {
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
+    }
+
+    @Override
+    public void codeGenProgramARM(DecacCompiler compiler) {
+        // A FAIRE: compléter ce squelette très rudimentaire de code
+        main.codeGenMainARM(compiler);
+        if(compiler.print){
+            compiler.addInstruction(new MOV(ARMRegister.R0, new ARMImmediateInteger(0)));
+            compiler.addInstruction(new BL(new ARMImmediateString("fflush")));
+        }
+        compiler.addInstruction(new MOV(ARMRegister.R7, new ARMImmediateInteger(1)));
+        compiler.addInstruction(new SVC(0));
     }
 
     @Override

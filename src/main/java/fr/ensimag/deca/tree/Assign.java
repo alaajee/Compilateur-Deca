@@ -5,6 +5,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
+
+import org.mockito.stubbing.ValidableAnswer;
 
 import java.util.LinkedList;
 
@@ -90,4 +94,34 @@ public class Assign extends AbstractBinaryExpr {
         compiler.libererReg(reg.getNumber());
         return reg;
     }
+
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        compiler.isAssign = true;
+        compiler.typeAssign = getLeftOperand().getType().toString();
+        DVal val = getRightOperand().codeGenExprARM(compiler);
+        DAddr addr = (DAddr) getLeftOperand().codeGenExprARM(compiler);
+        System.out.println(addr);
+        if (val instanceof ARMGPRegister) {
+            compiler.addInstruction(new LDR(ARMRegister.R1, addr));
+            compiler.addInstruction(new STR((ARMGPRegister) val, new ARMImmediateString("[R1]")));
+            return addr;
+        } else {
+            ARMGPRegister reg = compiler.associerRegARM();
+            if (compiler.typeAssign.equals("int")) {
+                compiler.addInstruction(new MOV(reg, val));
+                compiler.addInstruction(new LDR(ARMRegister.R1, addr));
+                compiler.addInstruction(new STR(reg, new ARMImmediateString("[R1]")));
+            } else if (compiler.typeAssign.equals("float")){
+                compiler.addInstruction(new VMOVF64(ARMRegister.D0, val));
+                compiler.addInstruction(new LDR(ARMRegister.R1, addr));
+                compiler.addInstruction(new VSTR(ARMRegister.D0, new ARMImmediateString("[R1]")));
+            }
+            
+            compiler.libererReg(reg.getNumber());
+            return addr;
+        }
+    }
+
 }

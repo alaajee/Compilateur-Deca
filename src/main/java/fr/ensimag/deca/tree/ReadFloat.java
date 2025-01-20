@@ -62,4 +62,9 @@ public class ReadFloat extends AbstractReadExpr {
         compiler.label = true;
         return reg;
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 }

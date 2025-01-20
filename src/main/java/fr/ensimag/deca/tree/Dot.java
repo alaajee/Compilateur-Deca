@@ -143,6 +143,10 @@ public class Dot extends AbstractLValue{
         }
         return new RegisterOffset(i,register);
     }
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 
 
     @Override

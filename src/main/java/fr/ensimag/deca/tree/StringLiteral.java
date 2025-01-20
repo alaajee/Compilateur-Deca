@@ -86,4 +86,9 @@ public class StringLiteral extends AbstractStringLiteral {
         return null;
     }
 
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
+
 }

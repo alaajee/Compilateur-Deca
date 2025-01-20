@@ -45,6 +45,10 @@ public class Equals extends AbstractOpExactCmp {
         return register;
     }
 
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        return null;
+    }
+
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);

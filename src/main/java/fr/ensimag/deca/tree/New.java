@@ -92,4 +92,9 @@ public class New extends AbstractExpr {
     protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines, GPRegister register){
         return null;
     }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
 }

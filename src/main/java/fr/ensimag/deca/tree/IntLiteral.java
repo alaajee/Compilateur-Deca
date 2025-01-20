@@ -12,6 +12,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.ARMGPRegister;
+import fr.ensimag.arm.pseudocode.ARMImmediateString;
+import fr.ensimag.arm.pseudocode.ARMImmediateInteger;
+import fr.ensimag.arm.pseudocode.ARMRegister;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 /**
  * Integer literal
@@ -80,6 +85,18 @@ public class IntLiteral extends AbstractExpr {
         }
     }
 
+
+
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        DVal res = new ARMImmediateInteger(value);
+        if(compiler.isVar){
+            DAddr adresse = compiler.associerAdresseARM();
+            return res;
+        }
+        return res;
+    }
+
     @Override
     public void codeGenInst(DecacCompiler compiler){};
 
@@ -90,6 +107,22 @@ public class IntLiteral extends AbstractExpr {
         compiler.addInstruction(new WINT());
     }
 
+
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler) {
+        compiler.print = true;
+        if(!compiler.printint){
+            String line = "formatint" + ": .asciz " + "\"%d\"";
+            compiler.addFirstComment(line);
+            compiler.printint = true;
+        }
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
+        compiler.addInstruction(new MOV(ARMRegister.R1, new ARMImmediateInteger(value)));
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+    }
+
+    
+
     public DVal codeGenInit(DecacCompiler compiler){
         compiler.typeAssign = this.getType().toString();
         DVal res = new ImmediateInteger(value);
@@ -99,6 +132,11 @@ public class IntLiteral extends AbstractExpr {
         return res;
     }
 
+    public DVal codeGenInitARM(DecacCompiler compiler){
+        compiler.typeAssign = this.getType().toString();
+        DVal res = new ARMImmediateInteger(value);
+        return res;
+    }
     public void codeGenField(DecacCompiler compiler){
         compiler.addInstruction(new LOAD(new ImmediateInteger(value), Register.R0));
     }

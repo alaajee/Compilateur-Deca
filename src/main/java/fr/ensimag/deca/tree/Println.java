@@ -3,6 +3,8 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.util.LinkedList;
 
@@ -26,6 +28,17 @@ public class Println extends AbstractPrint {
         getArguments().codeGenInst(compiler);
         compiler.addInstruction(new WNL());
         compiler.Print = false;
+    }
+
+    @Override
+    protected void codeGenInstARM(DecacCompiler compiler) {
+        super.codeGenInstARM(compiler);
+        if(!compiler.println){
+            compiler.addFirstComment("line: .asciz \"\\n\"");
+            compiler.println = true;
+        }
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"line")));
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }
 
     @Override

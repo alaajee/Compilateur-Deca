@@ -104,6 +104,10 @@ public class CallMethod extends AbstractExpr {
     }
 
     @Override
+    protected void codeGenInstARM(DecacCompiler compiler) {
+    }
+
+    @Override
     protected void iterChildren(TreeFunction f) {
         if (object != null) {
             object.iter(f);
@@ -125,6 +129,11 @@ public class CallMethod extends AbstractExpr {
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
+        return null;
+    }
+
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
         return null;
     }
 

@@ -32,7 +32,11 @@ public class CompilerOptions {
     }
     public boolean getVerify() {
         return verify;
-    }    
+    }
+
+    public boolean getARM() {
+        return ARM;
+    }
     
     public boolean getParse() {
         return parse;
@@ -57,6 +61,7 @@ public class CompilerOptions {
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
     private int registreLimitValue = 15;
+    private boolean ARM = false;
 
 
     
@@ -65,7 +70,10 @@ public class CompilerOptions {
         for (int i = 0 ;i< args.length; i++ )
         {
             switch(args[i])
-            {
+            {   
+                case "-a":
+                    ARM = true;
+                    break;
                 case "-p":
                     if (verify)
                     {

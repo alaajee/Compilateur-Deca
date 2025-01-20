@@ -13,6 +13,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.arm.pseudocode.*;
 
 /**
  * @author gl02
@@ -109,6 +110,46 @@ public class DeclVar extends AbstractDeclVar {
             compiler.addRegUn(this.varName.getName().toString(),adresse);
         }
 
+    }
+
+
+    protected void codegenVarARM(DecacCompiler compiler) {
+        VariableDefinition variable = new VariableDefinition(this.type.getDefinition().getType(), this.getLocation());
+        // Setoperand ?
+        DAddr adresse = compiler.associerAdresseARM();
+        variable.setOperand(adresse);
+        compiler.addVar(variable,this.varName.getName().toString());
+        compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
+        compiler.addRegUnARM(this.varName.getName().toString(),adresse);
+        compiler.nbrVar++;
+        if (this.initialization.initialization()) {
+            compiler.isVar = true;
+            compiler.isAssign = true;
+            DVal valeur = this.initialization.codeGenExprARM(compiler);
+            int ID = compiler.getUniqueDataID();
+            String line ="";
+            if(this.type.getDefinition().getType().isInt()){
+                line = "data"+ID+ ": .word " + valeur.toString().substring(1,valeur.toString().length());
+            } else if(this.type.getDefinition().getType().isFloat()){
+                line = "data"+ID+ ": .double " + valeur.toString().substring(1,valeur.toString().length());
+                compiler.addFirstComment(line);
+                line = ".align 2";
+                }
+            compiler.addFirstComment(line);
+        }
+        else{
+            int ID = compiler.getUniqueDataID();
+            String line = "";
+            if (this.type.getDefinition().getType().isInt()) {
+                line = "data" + ID + ": .word 0"; // Default for integers
+            } else if (this.type.getDefinition().getType().isFloat()) {
+                line = "data" + ID + ": .double 0.0"; // Default for floats
+                compiler.addFirstComment(line);
+                line = ".align 2";
+            }
+            compiler.addFirstComment(line);
+        }
+        compiler.nbrVar++;
     }
 
 }

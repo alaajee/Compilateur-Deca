@@ -2,12 +2,18 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.ARMconstructeur;
+import fr.ensimag.deca.codegen.ARMconstructeurADD;
 import fr.ensimag.deca.codegen.codeGen;
+import fr.ensimag.deca.codegen.codeGenARM;
 import fr.ensimag.deca.codegen.constructeur;
 import fr.ensimag.deca.codegen.constructeurADD;
 import fr.ensimag.deca.codegen.constructeurMUL;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
+
 
 import java.util.LinkedList;
 
@@ -62,6 +68,32 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
+        DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
+        ARMGPRegister regLeft = compiler.associerRegARM();
+        ARMGPRegister regRight = compiler.associerRegARM();
+        ARMGPRegister regResult = compiler.associerRegARM();
+        if (leftOperand instanceof DAddr) {
+            compiler.addInstruction(new LDR(regLeft, leftOperand));
+            compiler.addInstruction(new LDR(regLeft, new ARMImmediateString("[R"+regLeft.getNumber()+"]")));
+        } else {
+            compiler.addInstruction(new MOV(regLeft, leftOperand));
+        }
+    
+        if (rightOperand instanceof DAddr) {
+            compiler.addInstruction(new LDR(regRight, rightOperand));
+            compiler.addInstruction(new LDR(regRight, new ARMImmediateString("[R"+regRight.getNumber()+"]")));
+        } else {
+            compiler.addInstruction(new MOV(regRight, rightOperand));
+        }
+        compiler.addInstruction(new fr.ensimag.arm.pseudocode.instructions.ADD(regResult, regLeft, regRight));
+        compiler.libererRegARM(regLeft.getNumber());
+        compiler.libererRegARM(regRight.getNumber());
+        return regResult;
+    }
+
+    @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
@@ -109,7 +141,7 @@ public class Plus extends AbstractOpArith {
 
         lines.add(new LOAD(new RegisterOffset(-2,Register.LB),reg));
         lines.add(new LOAD(leftOperand,reg));
-        lines.add(new ADD(rightOperand,reg));
+        lines.add(new fr.ensimag.ima.pseudocode.instructions.ADD(rightOperand,reg));
         // DVal dval = getRightOperand().codeGenExpr(compiler);
         compiler.libererReg(reg.getNumber());
         return reg;

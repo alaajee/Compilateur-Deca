@@ -4,6 +4,8 @@ import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -93,6 +95,17 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
+    public DVal codeGenExprARM(DecacCompiler compiler) {
+        System.out.println("");
+        DVal res = new ARMImmediateFloat(value);
+        if(compiler.isVar){
+            DAddr adresse = compiler.associerAdresseARM();
+            return res;
+        }
+        return res;
+    }
+    
+    @Override
     protected void codeGenPrintx(DecacCompiler compiler) {
         DVal res = new ImmediateFloat(value);
         compiler.addInstruction(new LOAD(res, Register.R1));
@@ -107,12 +120,32 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
+    protected void codeGenPrintARM(DecacCompiler compiler) {
+        compiler.print = true;
+        if(!compiler.printfloat){
+            String line = "formatfloat" + ": .asciz " + "\"%f\"";
+            compiler.addFirstComment(line);
+            compiler.printfloat = true;
+        }
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+        compiler.addInstruction(new VMOVF64(ARMRegister.D0, new ARMImmediateFloat(value)));
+        compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, ARMRegister.D0));
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
+    }
+
+    @Override
     public DVal codeGenInit(DecacCompiler compiler){
         compiler.typeAssign = this.getType().toString();
         DVal res = new ImmediateFloat(value);
         GPRegister reg = compiler.associerReg();
         compiler.addInstruction(new LOAD(res, reg));
         compiler.addInstruction(new STORE(reg,new RegisterOffset(-1,Register.SP)));
+        return res;
+    }
+
+    public DVal codeGenInitARM(DecacCompiler compiler){
+        compiler.typeAssign = this.getType().toString();
+        DVal res = new ARMImmediateFloat(value);
         return res;
     }
 }

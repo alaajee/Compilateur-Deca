@@ -77,6 +77,11 @@ public class BooleanLiteral extends AbstractExpr {
         return new ImmediateInteger(res);
     }
 
+    @Override
+    protected DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
+
     public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel) {
         // Assignation de la valeur 1 si true, 0 si false
         int res = value ? 1 : 0;

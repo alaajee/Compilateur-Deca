@@ -55,4 +55,9 @@ public class UnaryMinus extends AbstractUnaryExpr {
        }
     }
 
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        return null;
+    }
+
 }

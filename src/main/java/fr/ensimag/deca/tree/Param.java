@@ -88,6 +88,11 @@ public class Param extends AbstractParam{
     }
 
     @Override
+    protected  DVal codeGenExprARM(DecacCompiler compiler){
+        return this.register;
+    }
+
+    @Override
     protected DVal codeGenInstClass(DecacCompiler compiler){
         return this.register;
     }

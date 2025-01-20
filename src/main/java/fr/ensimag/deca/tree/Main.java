@@ -56,6 +56,16 @@ public class Main extends AbstractMain {
 
     }
 
+    @Override
+    protected void codeGenMainARM(DecacCompiler compiler) {
+        // A FAIRE: traiter les déclarations de variables.
+        compiler.addFirstComment("main:");
+        compiler.addFirstComment(".global main");
+        compiler.addFirstComment(".section .text");
+        compiler.addFirstComment("");
+        declVariables.codeGenARM(compiler);
+        insts.codeGenListInstARM(compiler);
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {

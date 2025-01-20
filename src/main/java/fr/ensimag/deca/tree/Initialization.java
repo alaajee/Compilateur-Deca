@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+
 import org.apache.commons.lang.Validate;
 
 import fr.ensimag.deca.DecacCompiler;
@@ -84,6 +85,17 @@ public class Initialization extends AbstractInitialization {
             compiler.init = true;
             DVal valeur = getExpression().codeGenExpr(compiler);
             compiler.init = false;
+            return valeur;
+        }
+    }
+    @Override
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        if (getExpression().getExpr().equals("instruction")){
+            DVal valeur = getExpression().codeGenInitARM(compiler);
+            return valeur;
+        }
+        else {
+            DVal valeur = getExpression().codeGenExprARM(compiler);
             return valeur;
         }
     }
