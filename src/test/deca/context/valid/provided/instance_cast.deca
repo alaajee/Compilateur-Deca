@@ -12,19 +12,19 @@ class Bike extends Vehicle {
 
 {
     Vehicle v1 = new Car();
-    ((Car)v1).doors = 4;
-
     Vehicle v2 = new Bike();
-    ((Bike)v2).hasBell = true;
+    ((Car)(v1)).doors = 4;
+
+    ((Bike)(v2)).hasBell = true;
 
     if (v1 instanceof Car) {
-        println("v1 is a Car with " + ((Car)v1).doors + " doors.");
+        println("v1 is a Car with " , ((Car)(v1)).doors , " doors.");
     } else {
         println("v1 is not a Car.");
     }
 
     if (v2 instanceof Bike) {
-        println("v2 is a Bike with bell: " + ((Bike)v2).hasBell);
+        println("v2 is a Bike with bell: " );
     } else {
         println("v2 is not a Bike.");
     }

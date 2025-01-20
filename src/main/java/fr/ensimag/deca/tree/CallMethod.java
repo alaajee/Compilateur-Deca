@@ -37,7 +37,6 @@ public class CallMethod extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         ClassDefinition objectClassDef;
-        System.out.println(currentClass);
         if (object != null) {
 
             Type objectType = object.verifyExpr(compiler, localEnv, currentClass);
