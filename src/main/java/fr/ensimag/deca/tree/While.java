@@ -54,31 +54,6 @@ public class While extends AbstractInst {
         compiler.addLabel(conditionLabel);
         DVal conditionResult = condition.codeGenInstrCond(compiler,endLabel,bodyLabel);  // Condition
 
-
-//        // Choisir l'opérateur de comparaison en fonction du type de la condition (supérieur, inférieur, égal, etc.)
-//        if (compiler.notGreater) {
-//            compiler.addInstruction(new BGE(endLabel));
-//        } else if (compiler.notGreaterStric){
-//            compiler.addInstruction(new BGT(endLabel));
-//        }
-//        else if (compiler.greater) {
-//            compiler.addInstruction(new BLE(endLabel));
-//        } else if (compiler.greaterStric){
-//            compiler.addInstruction(new BLT(endLabel));
-//        }
-//        else if (compiler.equals) {
-//            compiler.addInstruction(new BNE(endLabel));
-//        }
-//        else if (compiler.notEquals){
-//            compiler.addInstruction(new BEQ(endLabel));
-//        }
-//        else if(compiler.and){
-//            body.codeGenListInst(compiler);
-//        }
-//        else {
-//            // Vous pouvez ajouter d'autres cas selon la condition nécessaire
-//            // Par exemple, pour `!=` vous pouvez utiliser BNE
-//        }
         // Generate code for the body of the while loop
         compiler.debut =0;
         compiler.addLabel(bodyLabel);
@@ -86,7 +61,6 @@ public class While extends AbstractInst {
 
         // Jump back to the condition label to check again
         compiler.addInstruction(new BRA(conditionLabel));
-        //compiler.addLabel(compiler.endIfLabel);
         // End of the while loop
         compiler.LabelFinWhile += compiler.debut ;
         compiler.weAreinWhile = false;

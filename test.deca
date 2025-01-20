@@ -339,8 +339,7 @@
           number = number / 10;
       }
 
-      println(sum);
-      println(original);
+
       if (sum == original) {
           println(original ," est un nombre narcissique.");
       } else {
@@ -371,7 +370,7 @@
 
 /*{
     // Changer la valeur de x pour tester
-    int x = 29;
+    int x = 30;
     boolean isPrime = true;
     int i = 2;
 
@@ -393,7 +392,6 @@
         println("x n est pas un nombre premier.");
     }
 }*/
-
 
 /*{
     int x = 220; // Modifiez cette valeur pour tester
@@ -495,18 +493,6 @@ class Point3D extends Point2D {
 }*/
 
 
-/*class A {
-    void m(){
-        println("ok");
-    }
-}*/
-
-
-/*{
-    A a = new A();
-    a.m();
-}*/
-
 
 /*{
     float x ;
@@ -594,19 +580,7 @@ class Point3D extends Point2D {
         println(x, " est un nombre négatif ou zéro.");
     }
 
-    // Test 5: Somme et produit des chiffres d'un nombre
 
-    sum = 0;
-    product = 1;
-    while (y > 0) {
-        digitA = y % 10;
-        sum = sum + digitA;
-        product = product * digitA;
-        y = y / 10;
-    }
-
-    println("Somme des chiffres de 1234: ", sum);
-    println("Produit des chiffres de 1234: ", product);
 }*/
 
 /*{
@@ -614,7 +588,7 @@ class Point3D extends Point2D {
     int y = 15;
     int z = 20;
     int result = 0;
-    // Boucle 3 : Multiplication conditionnelle
+
     while (z > 10) {
       if ((z % 6 != 0 || z % 5 == 0 || z % 4 == 0) && z % 13 != 0 ) {
                    result = result + 2;
@@ -680,7 +654,7 @@ class Point3D extends Point2D {
           }
                z = z - 1;
            }
-    // Affichage final
+    // Affichage final // 8
     println("Le résultat final est : ", result);
 }*/
 
@@ -698,15 +672,14 @@ class Point3D extends Point2D {
           }
     // Affichage final
     println("Le résultat final est : ", result); // 4
-}*/
+}*:
 
 
 /*{
-
     int x = 5;
     boolean estVrai = true;
 
-    if (((x== 5 || false ) && !true && true )){
+    if (((x!= 5 || false || true) && true   )){
         println("ok");
     }
     else {
@@ -726,9 +699,166 @@ class Point3D extends Point2D {
 
 }*/
 
+/*class Point2D {
+    int x; // Abscisse
+    // Deplace ce point
+    // de a en diagonale.
+    void diag() {
+        x = 6;
+        //println(x);
+    }
+}
+
+{
+    Point2D point = new Point2D();
+    point.diag();
+
+}*/
 
 
-class Point2D {
+/*class A {
+    int x;
+    int y;
+    int z = 6;
+    void m(){
+        println("je suis la");
+    }
+    void p(){
+        println("Non je suis la");
+    }
+}
+
+{
+   A a = new A();
+   a.m();
+   a.p();
+}*/
+
+
+/*{
+    int x;
+    x = readint();
+    if (x >= 0 && x <= 5) {
+        print("x est dans l'intervalle [0, 5]");
+    } else {
+        print("x n'est pas dans l'intervalle [0, 5]");
+    }
+}*/
+
+/*class A {
+    int a;
+    int b(int k){
+    }
+    int c(int c){
+       a = b(c);
+    }
+}
+
+{
+    //int w;
+    //A z = new A();
+    //w = z.b(1);
+}*/
+
+/*{
+    int x = 5;
+    int y = 6;
+    boolean estVrai = true;
+
+    if ( (x != 5 && false) || y < 7){
+        println("ok");
+    }
+     // ok
+}*/
+
+/*{
+    int x = 5;
+    int y = 6;
+    boolean estVrai = true;
+
+    if ( (x != 5 && false) || y > 7){
+        println("ok");
+    }
+    else {
+        println("not ok");
+    }
+     // not ok
+}*/
+
+/*{
+    int x = 5;
+    int y = 6;
+    boolean estVrai = true;
+
+    if ( (x != 5 && false) || y == 7 || y == 6){
+        println("ok");
+    }
+    else {
+        println("not ok");
+    }
+     //  ok
+}*/
+
+/*{
+    int x = 5;
+    int y = 6;
+    boolean estVrai = true;
+
+    if ( (x != 5 && false) || y == 7 || y != 6){
+        println("ok");
+    }
+    else {
+        println("not ok");
+    }
+     //  not ok
+}*/
+
+/*{
+    int x = 5;
+    int y = 6;
+    boolean estVrai = true;
+
+    if ( (x != 5 && false) || y == 7 || y > 6){
+        println("ok");
+    }
+    else {
+        println("not ok");
+    }
+     //  not ok
+}*/
+
+
+/*class A {
+    int x;
+    int y;
+    int z = 6;
+    void m(){
+        x = 6;
+        println(x);
+    }
+}
+
+{
+   A a = new A();
+   a.m();
+}*/
+
+/*class A {
+    int z = 6;
+    void m(int a){
+        z = z + 1;
+    }
+}
+
+
+{
+   A a = new A();
+   a.m(1);
+   println("a.z = " , a.z);
+}*/
+
+
+/*class Point2D {
     int x; // Abscisse
     int y; // Ordonnee
     // Deplace ce point
@@ -738,11 +868,331 @@ class Point2D {
         y = y + a;
     }
 }
-class Point3D extends Point2D {
-    int z; // Hauteur
-    // On redefinit la methode diag,
-    // pour tenir compte de z
-    void diag(int a) {
-        z = z + a;
+
+{
+    Point2D point = new Point2D();
+    point.diag(1);
+}*/
+
+/*{
+    float f = 3.14;
+    int i = 5;
+    f = (float) (i);
+    print(i);
+}*/
+
+/*class A {
+    int x;
+
+    void diag(int a,int b){
+        x = x + a;
+        x = x + b;
+        println(x);
     }
 }
+{
+    A a = new A();
+    a.diag(1,2);
+}*/
+
+/*class A {
+    int x;
+
+    void diag(int a,int b){
+        x = x + a;
+        x = x + b;
+        println(x);
+    }
+}
+{
+    A a = new A();
+    int i = a.x;
+    a.diag(1,2);
+    println(i);
+}*/
+
+/*{
+    float x ;
+    x = 1/2;
+}*/
+
+/*class A {
+    int x = 6;
+    int y = 5;
+    void diag(int a){
+        y = y + a;
+    }
+}
+{
+    A a = new A();
+    int i = a.y;
+    a.diag(1);
+    println(i);
+}*/
+
+/*class A {
+   protected int x ;
+   int getX() {
+      return x ;
+   }
+}
+{
+    A a = new A() ;
+    println("a.getX() = ", a.getX()) ;
+}*/
+
+/*{
+    int x = 12345; // Modifiez cette valeur pour tester
+    boolean isAscending = true;
+
+    int prevDigit = x % 10;
+    int currentDigit ;
+    boolean continueChecking = true; // Flag pour gérer l'arrêt manuel de la boucle
+
+    x = x / 10;
+
+
+    while (x > 0 && continueChecking) {
+        currentDigit = x % 10;
+        if (currentDigit > prevDigit) {
+            isAscending = false;
+            continueChecking = false; // Stoppe la vérification
+        } else {
+            prevDigit = currentDigit;
+            x = x / 10;
+        }
+    }
+
+    if (isAscending) {
+        println("Les chiffres du nombre sont en ordre croissant.");
+    } else {
+        println("Les chiffres du nombre ne sont pas en ordre croissant.");
+    }
+}*/
+
+
+/*{
+    int target = 42; // Nombre cible
+    int maxTries = 5; // Nombre maximum d'essais
+    int guess = 0;
+    boolean guessed = false;
+    int tries = 1; // Initialisation du compteur d'essais
+
+    println("Devinez le nombre (entre 1 et 100) !");
+
+    while (tries <= maxTries && !guessed) {
+        println("Essai " , tries , ": ");
+        guess = 50; // Simule une entrée (modifiez pour tester)
+
+        if (guess < target) {
+            println("Trop petit !");
+        } else if (guess > target) {
+            println("Trop grand !");
+        } else {
+            println("Bravo ! Vous avez trouvé le nombre.");
+            guessed = true;
+        }
+
+
+        tries = tries + 1; // Incrémenter le compteur d'essais
+    }
+
+    if (!guessed) {
+        println("Désolé, vous n'avez pas deviné. Le nombre était : " , target);
+    }
+}*/
+
+// Sortie
+// 220 et 284 sont des nombres amicaux.
+
+/*{
+    int x = 220; // Modifiez cette valeur pour tester
+    int y = 284; // Modifiez cette valeur pour tester
+
+    int sumX = 0, sumY = 0;
+    int j = 1;
+    int i = 1;
+    while (i <= x / 2) {
+        if (x % i == 0) {
+            sumX =sumX+ i;
+        }
+        i = i + 1; // Incrémentation de i
+    }
+
+    while (j <= y / 2) {
+        if (y % j == 0) {
+            sumY =sumY +j;
+        }
+        j = j + 1; // Incrémentation de j
+    }
+
+    if (sumX == y && sumY == x) {
+        println(x , " et " , y , " sont des nombres amicaux.");
+    } else {
+        println(x , " et " , y , " ne sont pas des nombres amicaux.");
+    }
+}*/
+
+
+// Sortie 153 est un nombre narcissique
+
+/*{
+      int number = 153; // Modifiez cette valeur pour tester
+      int original = number;
+      int sum = 0;
+      int a;
+
+      while (number > 0) {
+          a = number % 10;
+          sum =sum+ (a * a * a);
+          number = number / 10;
+      }
+
+
+      if (sum == original) {
+          println(original ," est un nombre narcissique.");
+      } else {
+          println(original , " n est pas un nombre narcissique.");
+      }
+  }*/
+
+  /*{
+      boolean estVrai = true;
+      int a = 7;
+      int b = 8;
+      int x  = 1;
+
+      if (estVrai){
+          println("Vrai");
+      }
+      else {
+          println("Faux");
+      }
+
+      while (a > 3 && b <=  10){
+              a = a - 1;
+              b = b + 1;
+      }
+      println(a);
+
+      while (x > 0){
+          if (false){
+                println(" je suis la ");
+          }
+          else {
+              println("je ne suis plus la");
+          }
+          x = x -1;
+      }
+
+      // Sortie Vrai 4 je ne suis plus la
+  }*/
+
+  /*{
+      int n = 10; // Modifiez cette valeur pour tester
+      int sum = 0;
+      float moyenne;
+      int i = 1;
+      while (i <= n) {
+          sum =sum+ i;
+          i=i+1;
+      }
+
+      moyenne = sum / (float)(n);
+      println("La moyenne des " , n , " premiers nombres est : " , moyenne);
+  }*/
+
+ /* {
+      int x = 25;
+      int y = 40;
+      int z = 35;
+      float moyenne = (x * 0.3 + y * 0.5 + z * 0.2);
+      boolean isAboveThreshold = moyenne >= 30.0;
+
+      println("Moyenne pondérée : " , moyenne);
+      if (isAboveThreshold)
+      {
+          println("La moyenne dépasse-t-elle le seuil de 30 ?  :true " );
+
+      }
+      else{
+          println("La moyenne dépasse-t-elle le seuil de 30 ?  : faux " );
+
+      }
+  }*/
+
+  /*{
+      float a = 2;
+      float b = 1;
+      float result1 = a / b;
+      println(result1);
+  }*/
+
+
+// Sortie 5
+
+/*{
+    float f = 3.14;
+    int i = 5;
+    f = (float) (i);
+    print(i);
+}*/
+
+/*{
+    int n = 10; // Nombre de termes à calculer
+    int a = 0, b = 1;
+    int sum = 0;
+    int temp;
+    int i = 0; // Compteur pour suivre le nombre de termes générés
+
+    println("Suite de Fibonacci (termes impairs seulement) :");
+
+    while (i < n) {
+        if (a % 2 != 0) {
+            print(a, " ");
+            sum = sum + a;
+        }
+        temp = b;
+        b = a + b;
+        a = temp;
+        i = i + 1; // Incrémenter le compteur
+    }
+
+    println("");
+    println("Somme des termes impairs : ", sum);
+}*/
+
+{
+    int a = 7;
+    int b = 2;
+    float result1 = (float)(a / b);
+    int result2 = a / b;
+
+    println("Division réelle : " , result1);
+    println("Division entière : " , result2);
+}
+
+/*{
+    int a = 5;
+    float b = 2.5;
+    float result = (a * b);
+
+    println("Multiplication d'un entier et d'un flottant : " , result);
+}*/
+
+/*{
+    int a = 5;
+    float b = 2.5;
+    float result = (a + b);
+
+    println("Multiplication d'un entier et d'un flottant : " , result);
+}*/
+
+/*{
+    int a = 5;
+    float b = 2.5;
+    float result = (float)(a + b);
+
+    println("Multiplication d'un entier et d'un flottant : " , result);
+}*/
+

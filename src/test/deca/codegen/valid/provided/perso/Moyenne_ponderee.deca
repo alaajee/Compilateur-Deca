@@ -1,0 +1,22 @@
+
+// Sortie
+
+
+{
+      int x = 25;
+      int y = 40;
+      int z = 35;
+      float moyenne = (x * 0.3 + y * 0.5 + z * 0.2);
+      boolean isAboveThreshold = moyenne >= 30.0;
+
+      println("Moyenne pondérée : " , moyenne);
+      if (isAboveThreshold)
+      {
+          println("La moyenne dépasse-t-elle le seuil de 30 ?  :true " );
+
+      }
+      else{
+          println("La moyenne dépasse-t-elle le seuil de 30 ?  : faux " );
+
+      }
+  }

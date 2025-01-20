@@ -1,0 +1,107 @@
+class Shape {
+    float area() {
+        return 0.0; 
+    }
+
+    float perimeter() {
+        return 0.0; 
+    }
+}
+
+// Sous-classe représentant un cercle
+class Circle extends Shape {
+    float radius;
+
+       float area() {
+        return 3.14 * radius * radius;
+    }
+
+       float perimeter() {
+        return 2 * 3.14 * radius;
+    }
+}
+
+// Sous-classe représentant des formes quadrilatérales
+class Quadrilateral extends Shape {
+    float length, width;
+
+       float area() {
+        return length * width;
+    }
+
+       float perimeter() {
+        return 2 * (length + width);
+    }
+}
+
+// Sous-classe représentant des carrés
+class Square extends Quadrilateral {
+       float area() {
+        return length * length;
+    }
+
+       float perimeter() {
+        return 4 * length;
+    }
+}
+
+// Sous-classe représentant des rectangles
+class Rectangle extends Quadrilateral {
+    // Aucun changement requis ici
+}
+
+// Sous-classe représentant des triangles
+class Triangle extends Shape {
+    float base, height, side1, side2, side3;
+
+       float area() {
+        return 0.5 * base * height;
+    }
+
+       float perimeter() {
+        return side1 + side2 + side3;
+    }
+}
+
+// Sous-classe représentant des triangles équilatéraux
+class EquilateralTriangle extends Triangle {
+    float area() {
+
+        return 0.5 * base * height;
+    }
+
+       float perimeter() {
+        return 3 * side1; 
+    }
+}
+
+{
+    Circle c = new Circle();
+
+    Square sq = new Square();
+    Rectangle rect = new Rectangle();
+    Triangle tri = new Triangle();
+    EquilateralTriangle et = new EquilateralTriangle();
+
+    c.radius = 5.0;
+
+    sq.length = 4.0;
+    println("Cercle : Aire = "   , c.area()   , ", Périmètre = "   , c.perimeter());
+    println("Carré : Aire = "   , sq.area()   , ", Périmètre = "   , sq.perimeter());
+
+    rect.length = 6.0;
+    rect.width = 3.0;
+    println("Rectangle : Aire = "   , rect.area()   , ", Périmètre = "   , rect.perimeter());
+
+    tri.base = 6.0;
+    tri.height = 4.0;
+    tri.side1 = 6.0;
+    tri.side2 = 5.0;
+    tri.side3 = 4.0;
+    println("Triangle : Aire = "   , tri.area()   , ", Périmètre = "   , tri.perimeter());
+
+    et.base = 6.0;
+    et.height = 5.2; // Hauteur correspondant à un triangle équilatéral de côté 6
+    et.side1 = 6.0;
+    println("Triangle équilatéral : Aire = "   , et.area()   , ", Périmètre = "   , et.perimeter());
+}

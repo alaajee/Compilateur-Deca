@@ -1,65 +1,60 @@
-	ADDSP #11
+	TSTO #5
+	BOV stack_overflow_error
+	ADDSP #12
 ; start main program
-	LOAD #null, R0
-	STORE R0, 1(GB)
-	LOAD code.Object.equals, R0
-	STORE R0, 2(GB)
-; Construction de la table des methodes de Point2D
-	LEA 1(GB), R0
-	STORE R0, 3(GB)
-	LOAD code.Object.equals, R0
-	STORE R0, 4(GB)
-	LOAD code.Point2D.diag, R0
-	STORE R0, 5(GB)
-; Construction de la table des methodes de Point3D
-	LEA 3(GB), R0
-	STORE R0, 6(GB)
-	LOAD code.Object.equals, R0
-	STORE R0, 7(GB)
-	LOAD code.Point3D.diag, R0
-	STORE R0, 8(GB)
-initPoint2D:
-	LOAD -2(LB), R1
-	STORE R0, 1(R1)
-	LOAD -2(LB), R1
-	STORE R0, 2(R1)
-	RTS
-code.Point2D.diag:
-	PUSH R2
-	PUSH R3
-	LOAD -2(LB), R2
-	LOAD -2(LB), R3
-	LOAD 1(R3), R3
-	ADD -3(LB), R3
-	STORE R3, 1(R2)
-	LOAD -2(LB), R2
-	LOAD -2(LB), R3
-	LOAD 2(R3), R3
-	ADD -3(LB), R3
-	STORE R3, 2(R2)
-	POP R3
-	POP R2
-initPoint3D:
-	LOAD -2(LB), R0
-	PUSH R0
-	BSR initPoint2D
-	SUBSP #1
-	LOAD -2(LB), R1
-	STORE R0, 2(R1)
-	RTS
-code.Point3D.diag:
-	PUSH R2
-	PUSH R3
-	LOAD -2(LB), R2
-	LOAD -2(LB), R3
-	LOAD 2(R3), R3
-	ADD -3(LB), R3
-	STORE R3, 2(R2)
-	POP R3
-	POP R2
+Tables.DES.Methodes:
 ; Main program
-	WSTR "Il manque le main"
+; Beginning of main instructions:
+	LOAD #25, R2
+	STORE R2, 3(GB)
+	LOAD #40, R2
+	STORE R2, 4(GB)
+	LOAD #35, R2
+	STORE R2, 5(GB)
+	LOAD 3(GB), R2
+	STORE R2, 6(GB)
+	FLOAT 3(GB), R2
+	LOAD R2, R3
+	MUL #0x1.333334p-2, R3
+	STORE R3, 6(GB)
+	FLOAT 4(GB), R4
+	LOAD R4, R5
+	MUL #0x1.0p-1, R5
+	STORE R5, 6(GB)
+	LOAD R3, R6
+	ADD R5, R6
+	STORE R6, 6(GB)
+	FLOAT 5(GB), R7
+	LOAD R7, R8
+	MUL #0x1.99999ap-3, R8
+	STORE R8, 6(GB)
+	LOAD R6, R9
+	ADD R8, R9
+	STORE R9, 6(GB)
+	LOAD 6(GB), R10
+	STORE R10, 7(GB)
+	LOAD 6(GB), R10
+	CMP #0x1.ep4, R10
+	SGE R10
+	CMP #0, R10
+	STORE R10, 7(GB)
+	WSTR "Moyenne pondérée : "
+	LOAD 6(GB), R1
+	WFLOAT
+	WNL
+	LOAD 7(GB), R1
+	CMP #0, R1
+	BEQ else_block_1
+body_1:
+	WSTR "La moyenne dépasse-t-elle le seuil de 30 ?  :true "
+	WNL
+	BRA end_if_1
+else_block_1:
+	WSTR "La moyenne dépasse-t-elle le seuil de 30 ?  : faux "
+	WNL
+end_if_1:
 	HALT
+code.Object.equals:
 ; end main program
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"

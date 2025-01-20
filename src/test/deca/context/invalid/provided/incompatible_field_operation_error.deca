@@ -1,0 +1,19 @@
+// Description:
+//    Une opération mathématique utilise deux champs de types incompatibles.
+//
+// Résultats:
+//    incompatible_field_operation_error.deca:17:21: Operation arithmetic: ' + ' failed : one or both of operands is not of type int or float
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int number = 10;
+    boolean text = true;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        int result = obj.number + obj.text; 
+    }
+}

@@ -13,7 +13,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
-import org.mockito.exceptions.misusing.CannotVerifyStubOnlyMock;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -186,16 +185,7 @@ public class DeclClass extends AbstractDeclClass {
 
     }
 
-    protected void codeGenMethod(DecacCompiler compiler){
 
-    }
-
-//        protected void codeGenMethod(DecacCompiler compiler){
-//            String className = this.className.getName().getName();
-//            for (AbstractDeclMethod method : methods.getList()) {
-//                method.codeGenMethod(compiler, className);
-//            }
-//        }
 
         @Override
         protected void initClass(DecacCompiler compiler){
@@ -214,7 +204,6 @@ public class DeclClass extends AbstractDeclClass {
                 field.codeGenField(compiler);
 
             }
-            //System.out.println(className + compiler.RegisterOffset);
             compiler.addInstruction(new RTS());
             for (AbstractDeclMethod method : methods.getList()) {
                 method.codeGenBlock(compiler, className);

@@ -1,0 +1,30 @@
+// Description:
+//    Une méthode redéfinie dans une sous-classe ne respecte pas la signature de la classe parent.
+//
+// Résultats:
+//    src/test/deca/context/invalid/provided/invalid_method_override_signature_error.deca:20:9: La signature des paramètres de la méthode display n'est pas compatible avec celle de la méthode redéfinie.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void display(int value) {
+        print("Valeur : ", value);
+    }
+}
+
+class B extends A {}
+
+class C extends B {}
+
+class D extends C {
+    void display(float value) { 
+        print("Valeur (float) : ", value);
+    }
+}
+
+class E {
+    void test() {
+        D obj = new D();
+        obj.display(42);
+    }
+}

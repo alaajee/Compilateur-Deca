@@ -1,0 +1,10 @@
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+}
+
+{
+    Calculator calc = new Calculator();
+    println(calc.add(7, 8));
+}

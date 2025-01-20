@@ -1,0 +1,18 @@
+// Description:
+//    Un champ d’un type non compatible est utilisé dans une opération arithmétique.
+//
+// Résultats:
+//    invalid_field_in_arithmetic_error.deca:16:21: Operation arithmetic: ' + ' failed : one or both of operands is not of type int or float
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    boolean text = true;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        int result = obj.text + 10; // Erreur : opération sur un String et un int
+    }
+}

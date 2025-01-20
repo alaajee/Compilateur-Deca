@@ -1,0 +1,24 @@
+class Employee {
+    int id;
+    float salary;
+}
+
+class Manager extends Employee {
+    int teamSize;
+}
+
+class Director extends Manager {
+    float bonus;
+
+    float totalCompensation() {
+        return salary + bonus;
+    }
+}
+
+{
+    Employee e = new Director();
+    Director d = (Director)(e);
+    d.salary = 5000;
+    d.bonus = 2000;
+    println("Total Compensation: " , d.totalCompensation());
+}

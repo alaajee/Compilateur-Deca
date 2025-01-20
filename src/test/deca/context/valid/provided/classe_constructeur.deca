@@ -1,0 +1,16 @@
+class B {
+    int x;
+
+    void const(int init) {
+        this.x = init;
+    }
+
+    int getX() {
+        return x;
+    }
+}
+
+{
+    B obj = new B();
+    println(obj.getX());
+}

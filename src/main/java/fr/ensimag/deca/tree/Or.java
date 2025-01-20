@@ -4,10 +4,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.codeGen;
 import fr.ensimag.deca.codegen.constructeur;
+import fr.ensimag.deca.codegen.constructeurADD;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
-import fr.ensimag.deca.codegen.constructeurCMP;
-import fr.ensimag.deca.codegen.constructeurADD;
 
 /**
  *
@@ -22,7 +21,7 @@ public class Or extends AbstractOpBool {
 
     @Override
     protected String getOperatorName() {
-        return "&&";
+        return "||";
     }
 
     @Override
@@ -37,17 +36,9 @@ public class Or extends AbstractOpBool {
             constructeur constructeur = new constructeurADD();
             codeGen gen = new codeGen();
             DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-            // GPRegister reg1 = compiler.associerReg();
-            // constructeur constructeur1 = new constructeurCMP();
-            // codeGen gen1 = new codeGen();
-            // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
             compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
-            // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
-            // compiler.addInstruction(new LOAD(leftOperand,reg));
-            // constructeur.constructeur(compiler, rightOperand, reg);
-            compiler.addInstruction(new SNE(reg));
+           compiler.addInstruction(new SNE(reg));
             compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
-            gen.finalizeAndPush(reg, compiler);
             return reg;
         }
         else {
@@ -57,15 +48,8 @@ public class Or extends AbstractOpBool {
             constructeur constructeur = new constructeurADD();
             codeGen gen = new codeGen();
             DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-            // GPRegister reg1 = compiler.associerReg();
-            // constructeur constructeur1 = new constructeurCMP();
-            // codeGen gen1 = new codeGen();
-            // DVal register1 = gen1.codeGen(register, new ImmediateInteger(2), reg1, constructeur1, compiler);
-            compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
-            // compiler.addInstruction(new CMP(new ImmediateInteger(2), reg1));
-            // compiler.addInstruction(new LOAD(leftOperand,reg));
-            // constructeur.constructeur(compiler, rightOperand, reg);
-            compiler.addInstruction(new SNE(reg));
+             compiler.addInstruction(new CMP(new ImmediateInteger(0), reg));
+             compiler.addInstruction(new SNE(reg));
             compiler.addInstruction(new CMP(new ImmediateInteger(0),reg));
             gen.finalizeAndPush(reg, compiler);
             return reg;

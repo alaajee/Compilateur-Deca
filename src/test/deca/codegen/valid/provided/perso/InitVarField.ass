@@ -24,19 +24,20 @@ Tables.DES.Methodes:
 	BSR initA
 	POP R2
 	STORE R2, 6(GB)
+	LOAD 6(GB), R4
+	STORE R4, 7(GB)
+	LOAD 7(GB), R4
+	LOAD 2(R4), R4
+	STORE R4, 7(GB)
 	LOAD 6(GB), R3
-	STORE R3, 7(GB)
-	LOAD 7(GB), R3
-	LOAD 2(R3), R3
-	STORE R3, 7(GB)
 	ADDSP #2
-	LOAD 6(GB), R3
-	STORE R3, 0(SP)
-	LOAD 0(SP), R3
-	LOAD #1, R4
-	STORE R4, -1(SP)
-	LOAD 0(R3), R3
-	BSR 2(R3)
+	LOAD 6(GB), R4
+	STORE R4, 0(SP)
+	LOAD 0(SP), R4
+	LOAD #1, R5
+	STORE R5, -1(SP)
+	LOAD 0(R4), R4
+	BSR 2(R4)
 	LOAD 7(GB), R1
 	WINT
 	WNL
@@ -50,15 +51,15 @@ initA:
 	STORE R0, 2(R1)
 	RTS
 code.A.diag:
-	PUSH R5
 	PUSH R6
-	LOAD -2(LB), R5
+	PUSH R7
 	LOAD -2(LB), R6
-	LOAD 2(R6), R6
-	ADD -3(LB), R6
-	STORE R6, 2(R5)
+	LOAD -2(LB), R7
+	LOAD 2(R7), R7
+	ADD -3(LB), R7
+	STORE R7, 2(R6)
+	POP R7
 	POP R6
-	POP R5
 	RTS
 code.Object.equals:
 ; end main program

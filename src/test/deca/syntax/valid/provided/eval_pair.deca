@@ -1,0 +1,15 @@
+{
+    int n = 12; // Changez cette valeur pour tester
+    boolean isEven = n % 2 == 0;
+    boolean divisibleBy3 = n % 3 == 0;
+    boolean result = isEven && divisibleBy3;
+    if (!result)
+    {
+        println(n , " est-il divisible par 2 et 3 ? faux" );
+
+    }
+    else{
+        println(n , " est-il divisible par 2 et 3 ? vrai" );
+    }
+
+}

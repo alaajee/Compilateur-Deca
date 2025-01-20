@@ -24,25 +24,25 @@ condition_1:
 body_1:
 	LOAD 3(GB), R3
 	REM 5(GB), R3
-	LOAD R3, R3
-	CMP #0, R3
-	SEQ R3
+	LOAD R3, R4
+	CMP #0, R4
+	SEQ R4
 	BNE else_block_2
 body_2:
-	LOAD 4(GB), R3
-	ADD 5(GB), R3
-	STORE R3, 4(GB)
+	LOAD 4(GB), R4
+	ADD 5(GB), R4
+	STORE R4, 4(GB)
 	BRA end_if_2
 else_block_2:
 end_if_2:
-	LOAD 5(GB), R3
-	ADD #1, R3
-	STORE R3, 5(GB)
+	LOAD 5(GB), R4
+	ADD #1, R4
+	STORE R4, 5(GB)
 	BRA condition_1
 end_while_1:
-	LOAD 4(GB), R3
-	CMP 3(GB), R3
-	SEQ R3
+	LOAD 4(GB), R4
+	CMP 3(GB), R4
+	SEQ R4
 	BNE else_block_3
 body_3:
 	LOAD 3(GB), R1

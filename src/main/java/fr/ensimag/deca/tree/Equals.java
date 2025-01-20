@@ -54,13 +54,10 @@ public class Equals extends AbstractOpExactCmp {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
-
         constructeurCMP constructeurCMP = new constructeurCMP();
         codeGen gen = new codeGen();
         gen.codeGenPrint(leftOperand, rightOperand, reg, constructeurCMP, compiler);
-
         compiler.addInstruction(new SEQ(reg));
-
         // Affichage du résultat
         compiler.addInstruction(new LOAD(reg, Register.R1));
         compiler.addInstruction(new WINT());

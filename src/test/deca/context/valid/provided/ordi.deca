@@ -1,0 +1,44 @@
+class Computer {
+    int ram;
+
+    void displaySpecs() {
+        println("Computer with " , ram , "GB RAM");
+    }
+}
+
+class Laptop extends Computer {
+    boolean hasTouchscreen;
+
+    void displaySpecs() {
+        if (!hasTouchscreen)
+        {
+            println("Laptop with " , ram , "GB RAM and touchscreen: " , "faux");
+
+        }
+        else{
+            println("Laptop with " , ram , "GB RAM and touchscreen: " , "vrai");
+        }
+    }
+}
+
+class GamingLaptop extends Laptop {
+    int gpuMemory;
+
+    void displaySpecs() {
+        println("Gaming Laptop with " , ram , "GB RAM and " , gpuMemory , "GB GPU");
+    }
+}
+
+{
+    Computer c = new GamingLaptop();
+    Laptop l = (Laptop)(c);
+    GamingLaptop g = (GamingLaptop)(l);
+
+
+    c.ram = 16;
+
+    l.hasTouchscreen = true;
+
+    g.gpuMemory = 8;
+    g.displaySpecs();
+}

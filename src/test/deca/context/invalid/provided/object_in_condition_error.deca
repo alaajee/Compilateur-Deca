@@ -1,0 +1,16 @@
+// Description:
+//    Une condition utilise un objet directement, ce qui n'est pas autorisé.
+//
+// Résultats:
+//    object_in_condition_error.deca:12:12: The type of the condition must be boolean
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void test() {
+        A obj = new A();
+        if (obj) { 
+            print("Condition vérifiée.");
+        }
+    }
+}

@@ -1,0 +1,19 @@
+// Description:
+//    Une méthode redéfinie retourne un type incompatible.
+//
+// Résultats:
+//    method_return_type_mismatch_error.deca:16:10: Le type de retour de la méthode getValue n'est pas compatible avec celui de la méthode redéfinie
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int getValue() {
+        return 10;
+    }
+}
+
+class B extends A {
+    float getValue() { 
+        return 10.5f;
+    }
+}

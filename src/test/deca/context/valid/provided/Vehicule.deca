@@ -1,0 +1,20 @@
+class Vehicle {
+    int type() {
+        
+    }
+}
+
+class Car extends Vehicle {
+    int  type() {
+        
+    }
+}
+
+{
+    Vehicle v = new Car();
+    println(v.type());
+
+    if (v instanceof Car) {
+        println("This is a car.");
+    }
+}

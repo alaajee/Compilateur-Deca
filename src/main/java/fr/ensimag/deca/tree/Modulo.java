@@ -16,7 +16,7 @@ import java.util.LinkedList;
  * @author gl02
  * @date 01/01/2025
  */
-public class Modulo extends AbstractOpArith {
+public class  Modulo extends AbstractOpArith {
 
     public Modulo(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
@@ -54,13 +54,21 @@ public class Modulo extends AbstractOpArith {
         }
 
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
-        GPRegister reg = compiler.associerReg();
-        constructeur constructeur = new constructeurREM();
-        codeGen gen = new codeGen();
-        DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
-//        gen.finalizeAndPush(reg, compiler);
-        compiler.libererReg(reg.getNumber());
-        return register;
+        if (leftOperand instanceof GPRegister){
+            constructeur constructeur = new constructeurREM();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,(GPRegister) leftOperand,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return leftOperand;
+        }
+        else {
+            GPRegister reg = compiler.associerReg();
+            constructeur constructeur = new constructeurREM();
+            codeGen gen = new codeGen();
+            DVal register = gen.codeGen(leftOperand,rightOperand,reg,constructeur,compiler);
+            gen.finalizeAndPush((GPRegister) register, compiler);
+            return register;
+        }
     }
 
     @Override

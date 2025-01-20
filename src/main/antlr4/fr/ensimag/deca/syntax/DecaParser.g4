@@ -479,9 +479,9 @@ literal returns[AbstractExpr tree]
         $tree = new IntLiteral(Integer.parseInt($INT.text));
         setLocation($tree, $INT);
         }
-    | fd=FLOAT {
-        $tree = new FloatLiteral(Float.parseFloat($fd.text));
-        setLocation($tree, $fd);
+    | FLOAT {
+        $tree = new FloatLiteral(Float.parseFloat($FLOAT.text));
+        setLocation($tree, $FLOAT);
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);
@@ -515,41 +515,44 @@ ident returns [AbstractIdentifier tree]
 
 
 /****     Class related rules     ****/
-
 list_classes returns[ListDeclClass tree]
 @init{
-        $tree=new ListDeclClass();
+        $tree = new ListDeclClass();
     }
     :
       (c1=class_decl {
-            assert($c1.tree!=null);
+            assert($c1.tree != null);
             $tree.add($c1.tree);
         }
       )*
     ;
+
 class_decl returns [AbstractDeclClass tree]
     : CLASS name=ident superclass=class_extension[$CLASS] OBRACE class_body CBRACE {
         assert($name.tree != null);
+        assert($superclass.tree != null);
+        assert($class_body.fields != null);
+        assert($class_body.methods != null);
         $tree = new DeclClass($name.tree, $superclass.tree, $class_body.fields, $class_body.methods);
         setLocation($tree, $CLASS);
     }
     ;
 
-
 class_extension[Token name] returns[AbstractIdentifier tree]
     : EXTENDS ident {
         assert($ident.tree != null);
         SymbolTable.Symbol symbol = table.create($ident.text);
-        $tree=new Identifier(symbol);
-        setLocation($tree,$ident.start);
-        }
+        $tree = new Identifier(symbol);
+        setLocation($tree, $ident.start);
+    }
     | /* epsilon */ {
-            SymbolTable.Symbol symbol= table.create("Object");
-            $tree = new Identifier(symbol);
-            $tree.setLocation(Location.BUILTIN);
-
-        }
+        SymbolTable.Symbol symbol = table.create("Object");
+        $tree = new Identifier(symbol);
+        assert($tree != null);
+        $tree.setLocation(Location.BUILTIN);
+    }
     ;
+
 class_body returns [ListDeclField fields, ListMethod methods]
 @init {
     $fields = new ListDeclField();
@@ -563,25 +566,30 @@ class_body returns [ListDeclField fields, ListMethod methods]
     )*
     ;
 
-
 visibility returns [Visibility tree]
     : /* epsilon */ {
-        $tree = Visibility.PUBLIC;  // Visibilité par défaut : PUBLIC
+        $tree = Visibility.PUBLIC;  
     }
     | PROTECTED {
-        $tree = Visibility.PROTECTED;  // Visibilité spécifiée : PROTECTED
+        $tree = Visibility.PROTECTED;  
     }
     ;
 
 decl_field_set [ListDeclField l]
-    : v=visibility t=type list_decl_field[$l,$t.tree,$v.tree] SEMI
+    : v=visibility t=type list_decl_field[$l,$t.tree,$v.tree] SEMI {
+        assert($t.tree != null);
+        assert($v.tree != null);
+    }
     ;
+
 list_decl_field [ListDeclField l, AbstractIdentifier t, Visibility v]
     : dv1=decl_field[$t,$v] {
-        $l.add($dv1.tree);  // Ajout du premier champ
+        assert($dv1.tree != null);
+        $l.add($dv1.tree);  
     }
-      (COMMA dv2=decl_field [$t,$v]{
-        $l.add($dv2.tree);  // Ajout des champs suivants séparés par des virgules
+      (COMMA dv2=decl_field[$t,$v] {
+        assert($dv2.tree != null);
+        $l.add($dv2.tree);  
       }
       )*
     ;
@@ -590,16 +598,19 @@ decl_field[AbstractIdentifier t, Visibility v] returns [AbstractDeclField tree]
     : i=ident {
         assert($i.tree != null);
         NoInitialization noinit = new NoInitialization();
-        $tree = new DeclField($t, $i.tree,noinit,$v);
+        assert(noinit != null);
+        $tree = new DeclField($t, $i.tree, noinit, $v);
         setLocation($tree, $i.start);
       }
       (EQUALS e=expr {
-        Initialization init = new Initialization($e.tree);  // Initialisation avec une expression
-        $tree = new DeclField($t,$i.tree, init,$v);
+        assert($e.tree != null);
+        Initialization init = new Initialization($e.tree);  
+        assert(init != null);
+        $tree = new DeclField($t, $i.tree, init, $v);
         setLocation(init, $i.start);
       }
-      )?{
-        setLocation($tree,$i.start);
+      )? {
+        setLocation($tree, $i.start);
       }
     ;
 
@@ -609,26 +620,31 @@ decl_method returns [AbstractDeclMethod tree]
 }
     : t=type m=ident OPARENT params=list_params CPARENT (
         block {
-            assert($t.tree != null && $m.tree != null && $block.decls != null && $block.insts != null);
+            assert($t.tree != null);
+            assert($m.tree != null);
+            assert($block.decls != null);
+            assert($block.insts != null);
             methodBlock = new Block($block.insts, $block.decls);
             setLocation(methodBlock, $block.start);
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
             assert($code.text != null);
-            methodBlock = new asm( $code.text);
+            methodBlock = new asm($code.text);
             methodBlock.setLocation($code.location);
         }
-
-      ){
-                $tree = new DeclMethod($t.tree, $m.tree, $params.tree, methodBlock);
-                setLocation($tree,$type.start);
-
+      ) {
+        assert($t.tree != null);
+        assert($m.tree != null);
+        assert($params.tree != null);
+        assert(methodBlock != null);
+        $tree = new DeclMethod($t.tree, $m.tree, $params.tree, methodBlock);
+        setLocation($tree, $t.start);
       }
     ;
 
 list_params returns [ListParam tree]
 @init{
-    $tree=new ListParam();
+    $tree = new ListParam();
 }
     : (p1=param {
         assert($p1.tree != null);
@@ -642,16 +658,17 @@ list_params returns [ListParam tree]
     )?
     ;
 
-
-multi_line_string returns[String text, Location location]
+multi_line_string returns [String text, Location location]
     : s=STRING {
-            $text = $s.text;
-            $location = tokenLocation($s);
-        }
+        assert($s.text != null);
+        $text = $s.text;
+        $location = tokenLocation($s);
+    }
     | s=MULTI_LINE_STRING {
-            $text = $s.text;
-            $location = tokenLocation($s);
-        }
+        assert($s.text != null);
+        $text = $s.text;
+        $location = tokenLocation($s);
+    }
     ;
 
 param returns [AbstractParam tree]

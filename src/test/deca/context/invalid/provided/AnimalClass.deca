@@ -1,0 +1,50 @@
+// Description:
+//     Cast incompatible entre deux classes qui sont des sous classes de la meme classe 
+//
+// Résultats:
+//    Erreur : Null pointer exception.
+//
+// Historique:
+//    créé le 19/01/2025
+class Animal {
+    int age;
+}
+
+class Dog extends Animal {
+    float weight;
+    int barkCount;
+}
+
+class Cat extends Animal {
+    int lives;
+    int ageM() {
+        return this.age;
+    }
+}
+
+{
+    Animal a = new Animal();
+    Dog d = (Dog)(a);
+    Cat c = (Cat)(d);
+    int steps ;
+    float calorieBurned;
+    Animal backToAnimal ;
+    a.age = 5;
+
+    d.weight = 12.5;
+    d.barkCount = 3;
+
+    c.lives = 9;
+
+    steps = 5000;
+    calorieBurned = (float)(steps) * 0.05;
+
+    println("Animal's age: " , a.age);
+    println("Dog's weight: " , d.weight);
+    println("Cat's lives: " , c.lives);
+    println("Calories burned: " , calorieBurned);
+
+    // Cast en Animal depuis un Cat
+    backToAnimal = (Animal)(c);
+    println("Back to animal's age: " , backToAnimal.age);
+}

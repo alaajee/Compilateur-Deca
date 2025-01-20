@@ -1,0 +1,27 @@
+{
+    // Changer la valeur de x pour tester
+    int x = 47;
+    boolean isPrime = true;
+    boolean foundDivisor = false;
+    int i ;
+    if (x < 2) {
+        isPrime = false;
+    } else {
+         i = 2;
+        while (i * i <= x && !foundDivisor) {
+            if (x % i == 0) {
+                foundDivisor = true;
+            }
+            i = i + 1;
+        }
+        if (foundDivisor) {
+            isPrime = false;
+        }
+    }
+
+    if (isPrime) {
+        println("x est un nombre premier.");
+    } else {
+        println("x n'est pas un nombre premier.");
+    }
+}

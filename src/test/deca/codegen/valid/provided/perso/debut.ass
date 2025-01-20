@@ -19,8 +19,8 @@ Tables.DES.Methodes:
 	BGE else_block_1
 body_1:
 	LOAD #1, R3
-	LOAD #1, R4
-	STORE R4, 5(GB)
+	LOAD #1, R5
+	STORE R5, 5(GB)
 	WSTR "ca marche"
 	WNL
 	BRA end_if_1

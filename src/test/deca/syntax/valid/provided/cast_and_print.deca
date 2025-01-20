@@ -1,0 +1,9 @@
+{
+    int a = 5;
+    float b = (float)(a);
+    int c = (int)(b + 0.8);
+
+    println("Entier initial : " , a);
+    println("Converti en flottant : " , b);
+    println("Flottant converti en entier après ajout : " , c);
+}

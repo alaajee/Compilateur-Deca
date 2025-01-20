@@ -1,0 +1,10 @@
+
+// Sortie
+
+{
+    float num = 3.7;
+    int rounded = (int)(num + 0.5);
+
+    println("Flottant initial : " , num);
+    println("Arrondi à l'entier le plus proche : " , rounded);
+}

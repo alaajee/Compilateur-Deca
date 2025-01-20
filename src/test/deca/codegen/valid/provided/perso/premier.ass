@@ -17,36 +17,36 @@ Tables.DES.Methodes:
 	BGE else_block_1
 body_1:
 	LOAD #0, R3
-	LOAD #0, R4
-	STORE R4, 4(GB)
+	LOAD #0, R5
+	STORE R5, 4(GB)
 	BRA end_if_1
 else_block_1:
 condition_2:
-	LOAD 5(GB), R4
-	MUL 5(GB), R4
-	LOAD R4, R5
-	CMP 3(GB), R5
-	SLE R5
+	LOAD 5(GB), R5
+	MUL 5(GB), R5
+	LOAD R5, R6
+	CMP 3(GB), R6
+	SLE R6
 	BGT end_while_2
 	LOAD 4(GB), R1
 	CMP #0, R1
 	BEQ end_while_2
 body_2:
-	LOAD 3(GB), R6
-	REM 5(GB), R6
-	LOAD R6, R6
-	CMP #0, R6
-	SEQ R6
+	LOAD 3(GB), R7
+	REM 5(GB), R7
+	LOAD R7, R8
+	CMP #0, R8
+	SEQ R8
 	BNE else_block_3
 body_3:
-	LOAD #0, R6
-	LOAD #0, R7
-	STORE R7, 4(GB)
+	LOAD #0, R8
+	LOAD #0, R10
+	STORE R10, 4(GB)
 	BRA end_if_3
 else_block_3:
-	LOAD 5(GB), R7
-	ADD #1, R7
-	STORE R7, 5(GB)
+	LOAD 5(GB), R10
+	ADD #1, R10
+	STORE R10, 5(GB)
 end_if_3:
 	BRA condition_2
 end_while_2:

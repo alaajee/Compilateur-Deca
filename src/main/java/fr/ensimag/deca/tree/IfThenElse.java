@@ -60,31 +60,6 @@ public class IfThenElse extends AbstractInst {
         Label bodyLabel = new Label("body_" + ID);
 
         DVal result = condition.codeGenInstrCond(compiler,elseLabel,bodyLabel);
-       // DVal result2 = condition.codeGenInstrCond(compiler,elseLabel,endIfLabel);
-        // Génération de code pour comparaison
-
-
-//        // Choisir l'opérateur de comparaison en fonction du type de la condition (supérieur, inférieur, égal, etc.)
-//        if (compiler.notGreater) {
-//            compiler.addInstruction(new BGE(elseLabel != null ? elseLabel : endIfLabel));
-//        } else if (compiler.notGreaterStric){
-//            compiler.addInstruction(new BGT(elseLabel != null ? elseLabel : endIfLabel));
-//        }
-//        else if (compiler.greater) {
-//            compiler.addInstruction(new BLE(elseLabel != null ? elseLabel : endIfLabel));
-//        } else if (compiler.greaterStric){
-//            compiler.addInstruction(new BLT(elseLabel != null ? elseLabel : endIfLabel));
-//        }
-//        else if (compiler.equals) {
-//            compiler.addInstruction(new BNE(elseLabel != null ? elseLabel : endIfLabel));
-//        }
-//        else if (compiler.notEquals){
-//            compiler.addInstruction(new BEQ(elseLabel != null ? elseLabel : endIfLabel));
-//        }
-//        else {
-//            // Vous pouvez ajouter d'autres cas selon la condition nécessaire
-//            // Par exemple, pour `!=` vous pouvez utiliser BNE
-//        }
         // Bloc "then"
         compiler.addLabel(bodyLabel);
         thenBranch.codeGenListInst(compiler);

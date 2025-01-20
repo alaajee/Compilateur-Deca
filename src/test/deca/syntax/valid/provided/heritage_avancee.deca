@@ -1,0 +1,29 @@
+class Animal {
+    int speak() {
+        return 1; 
+    }
+}
+
+class Mammal extends Animal {
+    int speak() {
+        return 2; 
+    }
+}
+
+class Dog extends Mammal {
+    int speak() {
+        return 3; 
+    }
+}
+
+{
+    Dog dog = new Dog();
+    Mammal mammal = dog;
+    Animal animal = mammal;
+
+    println(dog.speak()); 
+
+    println(mammal.speak()); 
+
+    println(animal.speak()); 
+}

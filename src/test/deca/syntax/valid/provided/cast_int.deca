@@ -1,0 +1,9 @@
+{
+    int a = 7;
+    int b = 2;
+    float result1 = (float)(a / b);
+    int result2 = a / b;
+
+    println("Division réelle : " , result1);
+    println("Division entière : " , result2);
+}

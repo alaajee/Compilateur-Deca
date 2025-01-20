@@ -1,0 +1,28 @@
+	TSTO #3
+	BOV stack_overflow_error
+	ADDSP #8
+; start main program
+Tables.DES.Methodes:
+; Main program
+; Beginning of main instructions:
+	LOAD #5, R2
+	STORE R2, 3(GB)
+	LOAD #0x1.4p1, R2
+	STORE R2, 4(GB)
+	LOAD 3(GB), R2
+	STORE R2, 5(GB)
+	FLOAT 3(GB), R2
+	LOAD R2, R3
+	MUL 4(GB), R3
+	STORE R3, 5(GB)
+	WSTR "Multiplication d'un entier et d'un flottant : "
+	LOAD 5(GB), R1
+	WFLOAT
+	WNL
+	HALT
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

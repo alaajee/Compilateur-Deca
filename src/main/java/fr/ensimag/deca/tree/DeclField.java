@@ -115,8 +115,6 @@ public class DeclField extends AbstractDeclField{
     protected DVal codeGenField(DecacCompiler compiler) {
         compiler.setNbreField();
         RegisterOffset reg = compiler.getRegisterClass();
-       // System.out.println("je suis ici" + reg);
-        // System.out.println(reg);
         FieldDefinition variable = new FieldDefinition(this.type.getDefinition().getType(), this.getLocation(),null,null,0);
         variable.setOperand(reg);
         compiler.setRegisterOffsets(this.fieldName.getName().getName(), reg.getOffset());

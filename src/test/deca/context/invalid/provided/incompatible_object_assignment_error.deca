@@ -1,0 +1,23 @@
+// Description:
+//    Tentative d’assigner un objet d’une classe à une variable d’un type non compatible.
+//
+// Résultats:
+//    incompatible_object_assignment_error.deca:21:15: Type incompatible : attendu A, trouvé B
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int fieldA;
+}
+
+class B {
+    int fieldB;
+}
+
+class Main {
+    void test() {
+        A objA;
+        B objB = new B();
+        objA = objB; 
+    }
+}

@@ -1,0 +1,81 @@
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #9
+; start main program
+Tables.DES.Methodes:
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction de la table des methodes de Counter
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+	LOAD code.Counter.increment, R0
+	STORE R0, 5(GB)
+; Main program
+; Beginning of main instructions:
+	NEW #2, R2
+	BOV Tas_plein
+	LEA 3(GB), R0
+	STORE R0, 0(R2)
+	PUSH R2
+	BSR initCounter
+	POP R2
+	STORE R2, 6(GB)
+	NEW #2, R3
+	BOV Tas_plein
+	LEA 3(GB), R0
+	STORE R0, 0(R3)
+	PUSH R3
+	BSR initCounter
+	POP R3
+	STORE R3, 7(GB)
+	ADDSP #1
+	LOAD 6(GB), R4
+	STORE R4, 0(SP)
+	LOAD 0(SP), R4
+	LOAD 0(R4), R4
+	BSR 2(R4)
+	ADDSP #1
+	LOAD 7(GB), R5
+	STORE R5, 0(SP)
+	LOAD 0(SP), R5
+	LOAD 0(R5), R5
+	BSR 2(R5)
+	LOAD 6(GB), R6
+	STORE R6, 7(GB)
+	LOAD 7(GB), R6
+	LOAD 1(R6), R6
+	LOAD R6, R1
+	WINT
+	WNL
+	HALT
+initCounter:
+	LOAD #0, R0
+	LOAD -2(LB), R1
+	STORE R0, 1(R1)
+	RTS
+code.Counter.increment:
+	PUSH R6
+	PUSH R7
+	LOAD -2(LB), R6
+	LOAD #1, R1
+	LOAD -2(LB), R7
+	LOAD 1(R7), R7
+	ADD R1, R7
+	STORE R7, 1(R6)
+	POP R7
+	POP R6
+	RTS
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+Tas_plein:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

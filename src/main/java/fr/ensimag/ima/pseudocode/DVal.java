@@ -11,13 +11,14 @@ public abstract class DVal extends Operand {
     public boolean isOffSet;
     public boolean isVar;
     public boolean isNull;
-    public boolean continuePush = false;
+    public String name = "not float";
 
     public void DVal() {
         isRegistre = false;
         isOffSet = false;
         isVar = false;
         isNull = false;
+        name = "not float";
     }
 
 }

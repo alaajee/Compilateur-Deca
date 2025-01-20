@@ -18,7 +18,6 @@ public class DecacMain {
     
     public static void main(String[] args) {
         // example log4j message.
-        LOG.info("Decac compiler started");
         boolean error = false;
         final CompilerOptions options = new CompilerOptions();
         try {
@@ -50,10 +49,7 @@ public class DecacMain {
 
 
         if (options.getParallel()) {
-            // A FAIRE : instancier DecacCompiler pour chaque fichier à
-            // compiler, et lancer l'exécution des méthodes compile() de chaque
-            // instance en parallèle. Il est conseillé d'utiliser
-            // java.util.concurrent de la bibliothèque standard Java.
+            
             if (options.getParallel()) {
                 // Utilisation d'un thread pool pour exécuter les compilations en parallèle
                 ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());

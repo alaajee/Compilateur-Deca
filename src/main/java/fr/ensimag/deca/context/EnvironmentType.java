@@ -35,7 +35,9 @@ public class EnvironmentType {
         Symbol booleanSymb = compiler.createSymbol("boolean");
         BOOLEAN = new BooleanType(booleanSymb);
         envTypes.put(booleanSymb, new TypeDefinition(BOOLEAN, Location.BUILTIN));
-
+        Symbol nullSym=compiler.createSymbol("null");
+        NULL =new NullType(nullSym);
+        envTypes.put(nullSym, new TypeDefinition(NULL, Location.BUILTIN));
         Symbol objectSymb = compiler.createSymbol("Object");
         OBJECT=new ClassType(objectSymb,Location.BUILTIN,null);
         envTypes.put(objectSymb, new TypeDefinition(OBJECT, Location.BUILTIN));
@@ -65,5 +67,6 @@ public class EnvironmentType {
     public final StringType  STRING;
     public final BooleanType BOOLEAN;
     public final ClassType OBJECT;
+    public final NullType NULL;
 
 }

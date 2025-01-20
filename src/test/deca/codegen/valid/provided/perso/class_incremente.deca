@@ -1,0 +1,19 @@
+// Sortie 1
+
+class Counter {
+    int count;
+
+    void increment() {
+        count=count+1;
+    }
+}
+
+{
+    Counter c1 = new Counter();
+    Counter c2 = new Counter();
+
+    c1.increment();
+    c2.increment();
+
+    println(c1.count);
+}

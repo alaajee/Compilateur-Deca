@@ -1,0 +1,20 @@
+// Description:
+//    Tentative de calcul de modulo avec un boolean.
+//
+// Résultats:
+//    ModuloWithBoolean_error.deca:13:21: Modulo operation failed: both operands should be of type int
+//
+// Historique:
+//    créé le 19/01/2025
+{
+    int divisor = 5;
+    boolean isActive = false;
+    int result;
+    result = divisor % isActive;
+    print("Résultat du modulo : ", result);
+    if (result == 0) {
+        print("Modulo réussi.");
+    } else {
+        print("Modulo non nul.");
+    }
+}

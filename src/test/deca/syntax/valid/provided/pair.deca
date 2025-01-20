@@ -1,0 +1,12 @@
+{
+    int x = -15; // Changez cette valeur pour tester
+    if (x > 0 && x % 2 == 0) {
+        println("x est un nombre positif pair.");
+    } else if (x < 0 && x % 2 == 0) {
+        println("x est un nombre négatif pair.");
+    } else if (x > 0) {
+        println("x est un nombre positif impair.");
+    } else {
+        println("x est un nombre négatif impair.");
+    }
+}

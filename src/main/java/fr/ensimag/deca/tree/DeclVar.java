@@ -57,7 +57,9 @@ public class DeclVar extends AbstractDeclVar {
     @Override
     public void decompile(IndentPrintStream s) {
         this.type.decompile(s);
+        s.print(" ");
         this.varName.decompile(s);
+        s.print(" ");
         if (this.initialization instanceof Initialization)
         {
             s.print(" = ");
@@ -95,7 +97,9 @@ public class DeclVar extends AbstractDeclVar {
         compiler.addNameVal(this.getLocation(),this.varName.getName().toString());
         compiler.addRegUn(this.varName.getName().toString(),adresse);
         compiler.nbrVar++;
-       // System.out.println(this.type.getType().toString());
+
+        compiler.typeAssign = this.type.getType().toString();
+       //System.out.println("iciiiiiiiiiiiiiiiii"+this.type.getType().toString());
         if (this.initialization.initialization()) {
             // Générer le code pour initialiser la variable
             // La normalement on a tout initialisé

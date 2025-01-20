@@ -66,12 +66,7 @@ public class CompilerOptions {
 
     
     public void parseArgs(String[] args) throws CLIException {
-        // A FAIRE : parcourir args pour positionner les options correctement.
         Logger logger = Logger.getRootLogger();
-        // map command-line debug option to log4j's level.
-
-
-
         for (int i = 0 ;i< args.length; i++ )
         {
             switch(args[i])

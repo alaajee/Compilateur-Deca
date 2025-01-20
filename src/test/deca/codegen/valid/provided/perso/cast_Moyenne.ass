@@ -1,0 +1,32 @@
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #6
+; start main program
+Tables.DES.Methodes:
+; Main program
+; Beginning of main instructions:
+	LOAD #0x1.d9999ap1, R2
+	STORE R2, 3(GB)
+	LOAD 3(GB), R3
+	STORE R3, 4(GB)
+	LOAD 3(GB), R3
+	ADD #0x1.0p-1, R3
+	LOAD R3, R2
+	STORE R3, 4(GB)
+	INT R2, R2
+	STORE R2, 4(GB)
+	WSTR "Flottant initial : "
+	LOAD 3(GB), R1
+	WFLOAT
+	WNL
+	WSTR "Arrondi à l'entier le plus proche : "
+	LOAD 4(GB), R1
+	WINT
+	WNL
+	HALT
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

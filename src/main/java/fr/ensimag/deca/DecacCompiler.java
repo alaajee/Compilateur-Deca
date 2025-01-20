@@ -65,7 +65,6 @@ public class DecacCompiler {
     public int adresseReg;
     public boolean isVar;
     private int adressVar;
-    private int Overflow;
     private Map<String, VariableDefinition> varTab = new HashMap<>();
     private Map<Location,String> nameVal = new HashMap<>();
     private Map<String ,DAddr> regUn = new HashMap<>();
@@ -125,13 +124,13 @@ public class DecacCompiler {
     public boolean Print = false;
     public int LabelFinWhile = 2;
     public int debut = 0;
+    public boolean etatDivide = false;
 
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.Offset = false;
-        // Initialisation de symbolTable
         this.symbolTable = new SymbolTable();
         this.environmentType = new EnvironmentType(this);
         this.envTypes = environmentType.getEnvtypes();
@@ -151,7 +150,6 @@ public class DecacCompiler {
         }
         DVal reg = Register.getR(this.OverflowVal);
         reg.isOffSet = true;
-        this.Overflow = 3;
         this.adressVar = 2;
         this.adresseReg = 2;
         this.isVar = false;

@@ -1,0 +1,11 @@
+; start main program
+Tables.DES.Methodes:
+; Main program
+	WSTR "Il manque le main"
+	HALT
+code.Object.equals:
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR

@@ -1,0 +1,48 @@
+class Account {
+    float balance;
+
+    void deposit(float amount) {
+        balance =balance +  amount;
+    }
+}
+
+class SavingsAccount extends Account {
+    float interestRate;
+
+    void addInterest() {
+        balance = balance + (balance * interestRate);
+    }
+}
+
+class CheckingAccount extends Account {
+    float overdraftLimit;
+
+    boolean withdraw(float amount) {
+        if (balance - amount >= -overdraftLimit) {
+            balance =balance - amount;
+            return true;
+        }
+        return false;
+    }
+}
+
+{
+    SavingsAccount sa = new SavingsAccount();
+
+    CheckingAccount ca = new CheckingAccount();
+    sa.balance = 1000;
+    sa.interestRate = 0.05;   
+    sa.addInterest();
+    ca.balance = 500;
+    ca.overdraftLimit = 200;
+    println("Savings Account Balance: " , sa.balance);
+    if (!ca.withdraw(600.65))
+    {
+        println("Withdraw 600: " ,"faux" );
+    }
+    else{
+        println("Withdraw 600: " ,"vrai" );
+     
+    }
+    println("Checking Account Balance: " , ca.balance);
+}

@@ -33,14 +33,10 @@ public class Main extends AbstractMain {
 
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
-        LOG.debug("verify Main: start");
-        // A FAIRE: Appeler méthodes "verify*" de ListDeclVarSet et ListInst.
-        // Vous avez le droit de changer le profil fourni pour ces méthodes
-        // (mais ce n'est à priori pas nécessaire).
+       
         EnvironmentExp envExp = new EnvironmentExp(null);
         this.declVariables.verifyListDeclVariable(compiler,envExp,null);
         this.insts.verifyListInst(compiler,envExp,null,null);
-        LOG.debug("verify Main: end");
     }
 
 
@@ -56,9 +52,8 @@ public class Main extends AbstractMain {
         if (!compiler.getCompilerOptions().getNoCHeck()){
             compiler.addFirst(new BOV(stackOverflowLabel));
         }
-       // compiler.addFirst(new BOV(stackOverflowLabel)); // Saut si débordement détecté.
         compiler.addFirst(new TSTO(compiler.getMaxTsto()+compiler.nbrVar));
-        //whileGeneration(compiler);
+
     }
 
     @Override
@@ -71,12 +66,6 @@ public class Main extends AbstractMain {
         declVariables.codeGenARM(compiler);
         insts.codeGenListInstARM(compiler);
     }
-
-    // protected void whileGeneration(DecacCompiler compiler) {
-    //     if (!compiler.weAreinWhile){
-    //         compiler.addLabel(compiler.endIfLabel);
-    //     }
-    // }
 
     @Override
     public void decompile(IndentPrintStream s) {

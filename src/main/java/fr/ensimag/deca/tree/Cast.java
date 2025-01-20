@@ -126,6 +126,10 @@ public class Cast extends AbstractExpr {
         GPRegister register = compiler.associerReg();
         DVal dval = expr.codeGenExpr(compiler);
         compiler.addInstruction(new LOAD(dval,register));
+
+        if ((compiler.isAssign || compiler.init) && (!compiler.etatDivide)){
+            compiler.addInstruction(new STORE((GPRegister)dval,compiler.getCurrentAdresse()));
+        }
        if (type.isInt()){
            compiler.addInstruction(new INT(register,register));
             if (compiler.init){
@@ -133,6 +137,7 @@ public class Cast extends AbstractExpr {
                 compiler.init = false;
             }
        }
+
        return register;
     }
 

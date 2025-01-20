@@ -1,0 +1,19 @@
+// Description:
+//    Une méthode redéfinie ne respecte pas la signature de la classe parent.
+//
+// Résultats:
+//    polymorphic_method_signature_error.deca:16:9: La signature des paramètres de la méthode display n'est pas compatible avec celle de la méthode redéfinie.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void display(int value) {
+        print("Valeur : ", value);
+    }
+}
+
+class B extends A {
+    void display(float value) { 
+        print("Valeur (float) : ", value);
+    }
+}

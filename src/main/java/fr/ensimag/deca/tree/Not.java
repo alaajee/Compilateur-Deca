@@ -54,7 +54,6 @@ public class Not extends AbstractUnaryExpr {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler){
-        return;
     }
 
     public DVal codeGenInstrCond(DecacCompiler compiler, Label endLabel, Label bodyLabel){

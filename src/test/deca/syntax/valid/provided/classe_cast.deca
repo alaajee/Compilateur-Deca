@@ -1,0 +1,19 @@
+class Shape {
+    float area() {
+        return 0.0;
+    }
+}
+
+class Circle extends Shape {
+    float radius;
+
+    float area() {
+        return 3.14 * radius * radius;
+    }
+}
+
+{
+    Shape s = new Circle();
+    ((Circle)(s)).radius = 5.0;
+    println(s.area());
+}

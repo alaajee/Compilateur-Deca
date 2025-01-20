@@ -52,9 +52,15 @@ public class Assign extends AbstractBinaryExpr {
     public DVal codeGenExpr(DecacCompiler compiler) {
         compiler.isAssign = true;
         compiler.typeAssign = getLeftOperand().getType().toString();
+        compiler.needToPush = true;
         DVal resultat = getLeftOperand().codeGenExpr(compiler);
         DVal val = getRightOperand().codeGenExpr(compiler);
-        //DVal resultat = getLeftOperand().codeGenExpr(compiler);
+        GPRegister register = compiler.associerReg();
+        System.out.println(getLeftOperand().getType().toString());
+        if (getLeftOperand().getType().isClass()){
+            compiler.addInstruction(new LOAD(val,register));
+            compiler.addInstruction(new STORE(register,(DAddr) resultat));
+        }
         if (val instanceof GPRegister){
             compiler.addInstruction(new STORE((GPRegister)val,(DAddr )resultat));
             compiler.libererReg(((GPRegister) val).getNumber());
@@ -71,8 +77,19 @@ public class Assign extends AbstractBinaryExpr {
             return reg;
         }
 
+
     }
 
+    @Override
+    protected DVal codeGenInstClass(DecacCompiler compiler, LinkedList<Instruction> lines){
+        GPRegister reg = compiler.associerReg();
+        if (!compiler.registeres.contains(reg)) {
+            compiler.registeres.add(reg);
+        }
+        RegisterOffset registerOffset = new RegisterOffset(-2,Register.LB);
+        lines.add(new LOAD(registerOffset, reg));
+        DVal register = getLeftOperand().codeGenInstClass(compiler, lines,reg);
+        DVal resultat = getRightOperand().codeGenInstClass(compiler, lines,reg);
 
 
 

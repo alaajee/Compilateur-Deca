@@ -245,21 +245,25 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenExpr(DecacCompiler compiler){
         String name = getName().toString();
         DAddr reg = compiler.getRegUn(name);
-        System.out.println(reg);
+        compiler.etatDivide = true;
+        // System.out.println(reg);
+
         if (compiler.isVar){
             GPRegister register = compiler.associerReg();
             compiler.addInstruction(new LOAD(reg,register));
-            if (this.isParam){
-                System.out.println(name);
-            }
+
             compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
             compiler.isVar = false;
             compiler.libererReg(register.getNumber());
         }
         if (this.getExpDefinition().isField()){
             GPRegister register = compiler.associerReg();
-            compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
-            compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
+            System.out.println(compiler.needToPush);
+            if (!compiler.needToPush){
+                compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
+                compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
+
+            }
             if (compiler.Print){
                 compiler.addInstruction(new LOAD(register,Register.R1));
                 compiler.addInstruction(new WINT());
@@ -268,7 +272,9 @@ public class Identifier extends AbstractIdentifier {
                 compiler.addInstruction(new STORE(register,compiler.getCurrentAdresse()));
             }
             compiler.libererReg(register.getNumber());
+            return new RegisterOffset(compiler.getTableNombreField(name),register);
         }
+
         return reg;
 
     }
@@ -287,12 +293,12 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
         String name = getName().toString();
         DAddr register = compiler.getRegUn(name);
-        System.out.println(name);
         compiler.addInstruction(new LOAD(register, Register.R1));
-        if (getType().isInt()){
+        String nameType = this.getType().getName().getName();
+        if (nameType.equals("int")) {
             compiler.addInstruction(new WINT());
         }
-        else if (getType().isFloat()){
+        else if (nameType.equals("float")) {
             compiler.addInstruction(new WFLOAT());
         }
     }
@@ -351,11 +357,18 @@ public class Identifier extends AbstractIdentifier {
         compiler.addInstruction(new LOAD(register, Register.R1));
 
         // Compare R1 avec 0
-        compiler.addInstruction(new CMP(0, Register.R1));  // Comparer R1 à 0
+        if (this.getType().isInt()){
+            compiler.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
+        }
+        else if (this.getType().isFloat()) {
+            compiler.addInstruction(new CMP(new ImmediateFloat(0), Register.R1));
+        }
+        else {
+            compiler.addInstruction(new CMP(0, Register.R1));
+        }
 
         if (compiler.notCond){
             compiler.addInstruction(new BNE(endLabel));  // Si res == 0, saute à endLabel
-            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
             compiler.notCond = false;
         }// Si res == 1, sauter à bodyLabel, sinon sauter à endLabel
 
@@ -378,7 +391,6 @@ public class Identifier extends AbstractIdentifier {
             else {
                 compiler.addInstruction(new BEQ(endLabel));  // Si res == 0, saute à endLabel
             }
-            //compiler.addInstruction(new BRA(bodyLabel));  // Sinon, saute à bodyLabel
         }
         return register;
     }

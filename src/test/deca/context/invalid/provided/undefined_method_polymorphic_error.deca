@@ -1,0 +1,30 @@
+// Description:
+//    Une méthode est appelée sur un objet sans être définie dans la classe parent.
+//
+// Résultats:
+//    undefined_method_polymorphic_error.deca:28:12: Method specificMethod is not defined in class A
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    void display() {
+        print("Affichage.");
+    }
+}
+
+class B extends A {
+    void specificMethod() {
+        print("Méthode spécifique à B.");
+    }
+}
+
+class C extends B {}
+
+class D extends C {}
+
+class E {
+    void test() {
+        A obj = new D();
+        obj.specificMethod();
+    }
+}

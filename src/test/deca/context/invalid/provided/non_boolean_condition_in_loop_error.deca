@@ -1,0 +1,21 @@
+// Description:
+//    Une boucle utilise un champ non booléen comme condition.
+//
+// Résultats:
+//    non_boolean_condition_in_loop_error.deca:16:15: The type of the condition must be boolean
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int value = 5;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        while (obj.value) { 
+            print("Valeur : ", obj.value);
+            obj.value=obj.value-1;
+        }
+    }
+}

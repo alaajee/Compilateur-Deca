@@ -19,7 +19,7 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
     @Override
     public void decompile(IndentPrintStream s) {
         for (AbstractDeclVar declVar : this.getList()) {
-            declVar.decompile(s);  // Décompiler chaque déclaration de variable
+            declVar.decompile(s);  
         }
     }
     
@@ -43,7 +43,7 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
         Iterator<AbstractDeclVar> iterator = this.iterator(); 
 
         while (iterator.hasNext()) {
-            AbstractDeclVar declVar = iterator.next(); // Récupère l'élément suivant
+            AbstractDeclVar declVar = iterator.next(); 
             declVar.verifyDeclVar(compiler,localEnv,currentClass);
         }
     }

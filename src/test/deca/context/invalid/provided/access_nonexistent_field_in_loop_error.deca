@@ -1,0 +1,20 @@
+// Description:
+//    Une boucle tente d’accéder à un champ inexistant.
+//
+// Résultats:
+//   access_nonexistent_field_in_loop_error.deca:16:19: The member 'nonexistentField' is not defined in class 'A' or its superclasses.
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field = 10;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        while (obj.nonexistentField > 0) { // Erreur : champ inexistant
+            print("Valeur : ", obj.nonexistentField);
+        }
+    }
+}

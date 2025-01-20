@@ -1,0 +1,18 @@
+class Node {
+    int value;
+    Node next;
+}
+
+{
+    Node head = new Node();
+    Node second = new Node();
+
+    head.value = 1;
+
+    second.value = 2;
+
+    head.next = second;
+
+    println(head.value);
+    println(head.next.value);
+}

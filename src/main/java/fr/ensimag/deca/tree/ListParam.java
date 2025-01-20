@@ -19,10 +19,14 @@ public class ListParam extends TreeList<AbstractParam> {
 
     @Override
     public void decompile(IndentPrintStream s) {
+        boolean first = true; 
         for (AbstractParam param : this.getList()) {
-            param.decompile(s); 
-            System.out.println(" , ");
-        }    
+            if (!first) {
+                s.print(", "); 
+            }
+            param.decompile(s);
+            first = false;
+        }
     }
 
     public Signature verifyListParam(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {

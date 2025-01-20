@@ -1,0 +1,96 @@
+// Classe de base représentant un animal
+class Animal {
+    int name; // Représente l'identifiant de l'animal
+
+    void eat() {
+        println(name , " mange.");
+    }
+
+    void sleep() {
+        println(name , " dort.");
+    }
+
+    int sound() {
+        return 0; // 0 représente un son générique
+    }
+}
+
+// Classe représentant un mammifère
+class Mammal extends Animal {
+    void nurse() {
+        println(name , " allaite ses petits.");
+    }
+
+     int sound() {
+        return 1; // 1 représente un son de mammifère
+    }
+}
+
+// Classe représentant un oiseau
+class Bird extends Animal {
+    void fly() {
+        println(name , " vole haut dans le ciel.");
+    }
+
+     int sound() {
+        return 2; // 2 représente un chant mélodieux
+    }
+}
+
+// Classe représentant un reptile
+class Reptile extends Animal {
+     int sound() {
+        return 3; // 3 représente un sifflement menaçant
+    }
+}
+
+// Classe représentant un lion (mammifère spécifique)
+class Lion extends Mammal {
+     int sound() {
+        return 4; // 4 représente un rugissement
+    }
+
+    void roar() {
+        println(name , " rugit puissamment !");
+    }
+}
+
+// Classe représentant un perroquet (oiseau spécifique)
+class Parrot extends Bird {
+    int learnedWord; // Un entier représentant le mot appris
+
+    void teach(int word) {
+        learnedWord = word;
+    }
+
+     int sound() {
+        return learnedWord; // Retourne le mot appris comme "son"
+    }
+}
+
+// Classe principale pour tester les interactions
+{
+    Lion simba = new Lion();
+    Parrot polly = new Parrot();
+    Reptile snake = new Reptile();
+    Bird genericBird = polly; // Polymorphisme avec Bird
+    Mammal genericMammal = simba; // Polymorphisme avec Mammal
+
+    simba.name = 101; // "Simba" est représenté par l'entier 101
+    simba.eat();
+    simba.sleep();
+    simba.roar();
+    println("Son (code) : " , simba.sound());
+
+    polly.name = 102; // "Polly" est représenté par l'entier 102
+    polly.fly();
+    polly.teach(42); // "42" représente un mot appris
+    println("Son (code) : " , polly.sound());
+
+    snake.name = 103; // "Kaa" est représenté par l'entier 103
+    println("Son (code) : " , snake.sound());
+
+    println(genericBird.name , " est un oiseau et fait le son (code) : " , genericBird.sound());
+
+    println(genericMammal.name , " est un mammifère et fait le son (code) : " , genericMammal.sound());
+}

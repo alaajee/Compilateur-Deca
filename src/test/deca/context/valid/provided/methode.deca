@@ -1,0 +1,17 @@
+class Person {
+    protected int age;
+
+    int getAge() {
+        return age;
+    }
+
+    void setAge(int newAge) {
+        age = newAge;
+    }
+}
+
+{
+    Person p = new Person();
+    p.setAge(25);
+    println(p.getAge());
+}

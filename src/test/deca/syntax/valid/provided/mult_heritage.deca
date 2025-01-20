@@ -1,0 +1,24 @@
+class Base {
+    int baseField;
+}
+
+class Intermediate extends Base {
+    int intermediateField;
+}
+
+class Final extends Intermediate {
+    float finalField;
+}
+
+{
+    Base base = new Final();
+    base.baseField = 30;
+    
+    ((Final)(base)).finalField = 10.5;
+    ((Intermediate)(base)).intermediateField = 20;
+    
+
+    println("Base field: " , base.baseField); // 30
+    println("Intermediate field: " , ((Intermediate)(base)).intermediateField); // 20
+    println("Final field: " , ((Final)(base)).finalField); // 10.5
+}

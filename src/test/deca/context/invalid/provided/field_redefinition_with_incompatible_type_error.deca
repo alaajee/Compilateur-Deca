@@ -1,0 +1,15 @@
+// Description:
+//    Une sous-classe redéfinit un champ avec un type non compatible.
+//
+// Résultats:
+//    field_redefinition_with_incompatible_type_error.deca:14:12: Field field already defined in superclass A
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int field = 10;
+}
+
+class B extends A {
+    boolean field = false; 
+}

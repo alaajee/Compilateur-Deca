@@ -1,0 +1,10 @@
+class A {
+ int field = 10;
+}
+
+class B {
+ void test() {
+ Object obj = new A();
+ 
+ }
+}

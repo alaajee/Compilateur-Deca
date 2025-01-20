@@ -1,0 +1,18 @@
+// Description:
+//    Un objet est utilisé comme opérande dans une opération arithmétique.
+//
+// Résultats:
+//    invalid_object_arithmetic_error.deca:16:21: Operation arithmetic: ' + ' failed : one or both of operands is not of type int or float
+//
+// Historique:
+//    créé le 19/01/2025
+class A {
+    int value = 5;
+}
+
+class B {
+    void test() {
+        A obj = new A();
+        int result = obj + 10; // Erreur : opération arithmétique avec un objet
+    }
+}
