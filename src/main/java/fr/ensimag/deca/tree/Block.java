@@ -32,7 +32,6 @@ public class Block extends AbstractBlock {
     @Override
     public void verifyBlock(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,Type type)
             throws ContextualError {
-        System.out.println("moi");
         listVar.verifyListDeclVariable(compiler, localEnv, currentClass);
         instructions.verifyListInst(compiler, localEnv, currentClass,type);
         
