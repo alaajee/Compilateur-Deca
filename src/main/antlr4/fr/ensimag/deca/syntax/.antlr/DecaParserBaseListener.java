@@ -2,6 +2,8 @@
 
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
+    import fr.ensimag.deca.tools.SymbolTable;
+    import fr.ensimag.deca.context.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -368,18 +370,6 @@ public class DecaParserBaseListener implements DecaParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecl_field_set(DecaParser.Decl_field_setContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecl_field_set(DecaParser.Decl_field_setContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterVisibility(DecaParser.VisibilityContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -387,6 +377,18 @@ public class DecaParserBaseListener implements DecaParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVisibility(DecaParser.VisibilityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecl_field_set(DecaParser.Decl_field_setContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecl_field_set(DecaParser.Decl_field_setContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

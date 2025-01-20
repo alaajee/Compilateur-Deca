@@ -1,0 +1,6 @@
+{
+    A m = new A();
+}
+class A {
+    int x;
+}

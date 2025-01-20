@@ -2,6 +2,8 @@
 
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
+    import fr.ensimag.deca.tools.SymbolTable;
+    import fr.ensimag.deca.context.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -301,16 +303,6 @@ public interface DecaParserListener extends ParseTreeListener {
 	 */
 	void exitClass_body(DecaParser.Class_bodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DecaParser#decl_field_set}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecl_field_set(DecaParser.Decl_field_setContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link DecaParser#decl_field_set}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecl_field_set(DecaParser.Decl_field_setContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link DecaParser#visibility}.
 	 * @param ctx the parse tree
 	 */
@@ -320,6 +312,16 @@ public interface DecaParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVisibility(DecaParser.VisibilityContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DecaParser#decl_field_set}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecl_field_set(DecaParser.Decl_field_setContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DecaParser#decl_field_set}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecl_field_set(DecaParser.Decl_field_setContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DecaParser#list_decl_field}.
 	 * @param ctx the parse tree
