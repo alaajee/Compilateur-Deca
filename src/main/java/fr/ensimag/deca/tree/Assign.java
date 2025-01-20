@@ -91,6 +91,10 @@ public class Assign extends AbstractBinaryExpr {
         DVal register = getLeftOperand().codeGenInstClass(compiler, lines,reg);
         DVal resultat = getRightOperand().codeGenInstClass(compiler, lines,reg);
 
+        lines.add(new STORE((GPRegister) resultat , (DAddr )register));
+        compiler.libererReg(reg.getNumber());
+        return reg;
+    }
 
 
     @Override
