@@ -1,0 +1,3 @@
+{
+    int 1variable = 10; // Erreur : identifiant commence par un chiffre
+}
