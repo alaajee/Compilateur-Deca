@@ -73,7 +73,6 @@ public class Param extends AbstractParam{
     @Override
     protected void codeGenParam(DecacCompiler compiler) {
         this.register = compiler.getRegisterParam();
-        System.out.println(register.toString());
         compiler.setRegisterOffsets(this.paramName.getName().toString(),this.register.getOffset());
     }
 

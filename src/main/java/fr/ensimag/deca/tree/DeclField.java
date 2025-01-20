@@ -119,7 +119,6 @@ public class DeclField extends AbstractDeclField{
         variable.setOperand(reg);
         compiler.setRegisterOffsets(this.fieldName.getName().getName(), reg.getOffset());
         // System.out.println(compiler.getRegUn());
-        System.out.println(compiler.getRegisterOffsets());
         RegisterOffset reg2 = new RegisterOffset(-2,Register.LB);
         if (this.initialization.initialization()) {
             // Ici traiter l'initialisation

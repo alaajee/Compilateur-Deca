@@ -90,7 +90,6 @@ public class PointObjet extends AbstractExpr {
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
-        System.out.println("iciiiiiiiiiiii");
        instance.codeGenInst(compiler);
        method.codeGenInst(compiler);
     }

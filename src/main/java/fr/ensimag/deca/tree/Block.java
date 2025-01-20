@@ -9,7 +9,10 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
 
+import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.Instruction;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import org.apache.commons.lang.Validate;
 
 
@@ -31,32 +34,32 @@ public class Block extends AbstractBlock {
             throws ContextualError {
         listVar.verifyListDeclVariable(compiler, localEnv, currentClass);
         instructions.verifyListInst(compiler, localEnv, currentClass,type);
-        
+
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");
-        s.indent(); 
+        s.indent();
         listVar.decompile(s);
-    
+
         instructions.decompile(s);
-    
-        s.unindent(); 
+
+        s.unindent();
         s.println("}");
     }
-    
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         listVar.prettyPrint(s, prefix, false);
-        instructions.prettyPrint(s, prefix, true); 
+        instructions.prettyPrint(s, prefix, true);
     }
-    
+
 
     @Override
     protected void iterChildren(TreeFunction f) {
         listVar.iter(f);
-        instructions.iter(f);   
+        instructions.iter(f);
     }
 
     @Override

@@ -498,7 +498,7 @@ public class DecacCompiler {
     }
 
     public RegisterOffset getRegisterClass(){
-        System.out.println(this.RegisterOffset);
+
         RegisterOffset reg = new RegisterOffset(this.RegisterOffset,Register.R1);
         this.RegisterOffset++;
         //System.out.println(this.RegisterOffset);

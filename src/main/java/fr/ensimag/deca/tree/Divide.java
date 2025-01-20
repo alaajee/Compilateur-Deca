@@ -56,7 +56,7 @@ public class Divide extends AbstractOpArith {
         Type typeRight = getRightOperand().getType();
         //  System.out.print(rightOperand + " * " + leftOperand + " = ");
         if (assign) {
-            System.out.println(compiler.typeAssign);
+
             if (compiler.typeAssign.equals("float")) {
 
                 constructeurDIV constructeurDIV = new constructeurDIV();

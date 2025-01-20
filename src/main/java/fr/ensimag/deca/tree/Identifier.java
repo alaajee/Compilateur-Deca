@@ -256,7 +256,6 @@ public class Identifier extends AbstractIdentifier {
         }
         if (this.getExpDefinition().isField()){
             GPRegister register = compiler.associerReg();
-            System.out.println(compiler.needToPush);
             if (!compiler.needToPush){
                 compiler.addInstruction(new LOAD(compiler.getCurrentAdresse(),register));
                 compiler.addInstruction(new LOAD(new RegisterOffset(compiler.getTableNombreField(name),register),register));
