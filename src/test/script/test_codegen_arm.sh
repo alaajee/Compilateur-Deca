@@ -11,13 +11,13 @@ TEST_DIRS=(
     "src/test/deca/codegen/valid/provided/perso"  # Répertoire 1
 )
 
-DECAC_EXEC="decac"  # Assurez-vous que le chemin vers decac est correct
+DECAC_EXEC="decac -a"  # Assurez-vous que le chemin vers decac est correct
 arm_EXEC="src/test/script/script_arm.sh"  # La commande ima, tu dois t'assurer qu'elle est dans ton PATH ou indiquer le chemin complet
 
 PASSED=0
 FAILED=0
 
-# Définir les outputs attendus pour chaque fichier de test
+# Définir les outputs attendus pour chaque fichier de test  
 declare -A EXPECTED_OUTPUTS
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/cond0.deca"]="ok"
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/ecrit0.deca"]="okok"
@@ -130,7 +130,7 @@ for TEST_DIR in "${TEST_DIRS[@]}"; do
             echo -e "${GREEN}DeCA compilation PASSED${NC} - $TEST_FILE"
 
             # Création du fichier .ass associé
-            ass_file="${TEST_FILE%.deca}.ass"
+            ass_file="${TEST_FILE%.deca}.s"
 
             # Exécution avec arm
             arm_output=$($arm_EXEC "$ass_file" 2>&1)
