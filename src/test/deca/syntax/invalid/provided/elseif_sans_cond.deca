@@ -1,0 +1,12 @@
+{
+    int x = 5;
+    if (x < 0) {
+        print("x est négatif");
+    } else if {
+        if (x == 0) { // Simule un "else if"
+            print("x est zéro");
+        } else {
+            print("x est positif");
+        }
+    }
+}
