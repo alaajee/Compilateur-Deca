@@ -42,6 +42,10 @@ public class ARMRegister extends DVal {
     public static ARMGPRegister getR(int i) {
         return R[i];
     }
+
+    public static ARMGPRegister getS(int i) {
+        return S[i];
+    }
     /**
      * Convenience shortcut for R[0]
      */
@@ -56,6 +60,10 @@ public class ARMRegister extends DVal {
     public static final ARMGPRegister R7 = R[7];
 
     public static final ARMGPRegister S0 = S[0];
+
+    public static final ARMGPRegister S1 = S[1];
+
+    public static final ARMGPRegister S2 = S[2];
 
     public static final ARMGPRegister D0 = D[0];
 

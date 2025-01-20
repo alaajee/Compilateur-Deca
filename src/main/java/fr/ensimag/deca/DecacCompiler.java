@@ -63,6 +63,7 @@ public class DecacCompiler {
     public boolean printfloat = false;
 
     public int adresseReg;
+    public int adresseRegS;
     public boolean isVar;
     private int adressVar;
     private Map<String, VariableDefinition> varTab = new HashMap<>();
@@ -87,6 +88,7 @@ public class DecacCompiler {
     private int nbreField = 0;
     public boolean isHex;
     private Boolean [] RegistersARM;
+    private Boolean [] RegistersARMS;
 
     public boolean and;
     public boolean or;
@@ -147,6 +149,11 @@ public class DecacCompiler {
         this.RegistersARM = new Boolean[OverflowValARM+1];
         for(int i = 0 ; i < OverflowValARM+1 ; i++){
             RegistersARM[i] = false;
+        }
+
+        this.RegistersARMS = new Boolean[32];
+        for(int i = 0 ; i < 32 ; i++){
+            RegistersARMS[i] = false;
         }
         DVal reg = Register.getR(this.OverflowVal);
         reg.isOffSet = true;
@@ -467,6 +474,20 @@ public class DecacCompiler {
 
     }
 
+    public ARMGPRegister associerRegARMS() {
+        for (int i = 2; i < 32; i++) {
+            if (!RegistersARMS[i]) {
+                RegistersARMS[i] = true;
+                this.adresseRegS = i;
+                return ARMRegister.getS(i);
+            } else {
+                continue;
+            }
+        }
+        return associerRegOffsetARMS();
+
+    }
+
     public ARMGPRegister associerRegARM(){
         for (int i = 4; i < OverflowValARM+1; i++){
             if(!RegistersARM[i]){
@@ -488,6 +509,12 @@ public class DecacCompiler {
 
     public ARMGPRegister associerRegOffsetARM(){
         DVal reg = ARMRegister.getR(this.adresseReg);
+        reg.isOffSet = true;
+        return  (ARMGPRegister) reg;
+    }
+
+    public ARMGPRegister associerRegOffsetARMS(){
+        DVal reg = ARMRegister.getS(this.adresseRegS);
         reg.isOffSet = true;
         return  (ARMGPRegister) reg;
     }
