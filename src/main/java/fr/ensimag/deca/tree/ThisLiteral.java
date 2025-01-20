@@ -23,12 +23,11 @@ public class ThisLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        // 'this' renvoie le type de la classe dans laquelle il est utilisé
         if (currentClass == null) {
             throw new ContextualError("Cannot use 'this' outside of a class context.", getLocation());
         }
         this.setType(currentClass.getType());
-        return currentClass.getType();  // Renvoie le type de la classe courante (ex: ClassType)
+        return currentClass.getType(); 
     }
 
     @Override
