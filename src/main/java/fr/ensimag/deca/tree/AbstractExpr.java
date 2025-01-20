@@ -124,6 +124,12 @@ public abstract class AbstractExpr extends AbstractInst {
             if (classTypeExp.isSubClassOf(classExpectedType)) {
                 return this;
             }
+            
+        }
+        
+        if(TypeExp.isNull() && expectedType.isClass()){
+            
+            return this;
         }
 
         // Si aucune vérification n'est valide, on lève une erreur contextuelle
