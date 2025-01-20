@@ -25,15 +25,15 @@ public class Signature {
     }
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true; // Comparaison de référence
-        if (o == null || getClass() != o.getClass()) return false; // Vérification du type
+        if (this == o) return true; 
+        if (o == null || getClass() != o.getClass()) return false; 
         Signature signature = (Signature) o;
-        return args.equals(signature.args); // Comparaison logique des listes
+        return args.equals(signature.args);
     }
 
     @Override
     public int hashCode() {
-        return args.hashCode(); // Délégué au hashCode de la liste
+        return args.hashCode(); 
     }
 
 
