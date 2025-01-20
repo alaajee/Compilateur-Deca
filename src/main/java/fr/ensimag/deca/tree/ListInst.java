@@ -35,7 +35,7 @@ public class ListInst extends TreeList<AbstractInst> {
         Iterator<AbstractInst> iterator = this.iterator(); 
 
         while (iterator.hasNext()) {
-            AbstractInst instruction = iterator.next(); // Récupère l'élément suivant
+            AbstractInst instruction = iterator.next(); 
             instruction.verifyInst(compiler, localEnv, currentClass, returnType);
         }
     }
