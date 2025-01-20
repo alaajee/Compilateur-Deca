@@ -26,6 +26,13 @@ Exécution :
 
 ./src/test/script/test_codegen.sh
 
+3. Tests pour ARM
+
+Le script test_codegen_arm.sh permet de tester la génération de code. Il exécute les fichiers .deca valides présents dans le répertoire test/deca/codegen/valid/provided/perso, génère les fichiers .s, et les exécute avec ima pour vérifier les résultats.
+Exécution :
+
+./src/test/script/test_codegen_arm.sh
+
 Structure des tests
     test/deca/syntax : Contient les tests de vérification syntaxique (partie A).
     test/deca/context : Contient les tests de vérification contextuelle (partie B).
