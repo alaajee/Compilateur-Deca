@@ -50,18 +50,14 @@ public class PointObjet extends AbstractExpr {
 
 
 
-    @Override
+@Override
     public void decompile(IndentPrintStream s) {
-        instance.decompile(s);
-        s.print(".");
+        
         method.decompile(s);
     }
 
     @Override
     public void prettyPrintChildren(PrintStream s, String prefix) {
-        if (instance != null) {
-            instance.prettyPrint(s, prefix, false);
-        }
         if (method != null) {
             method.prettyPrint(s, prefix, true);
         }
@@ -70,14 +66,10 @@ public class PointObjet extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        if (instance != null) {
-            instance.iter(f);
-        }
         if (method != null) {
             method.iter(f);
         }
     }
-
 
     @Override
     protected DVal codeGenExpr(DecacCompiler compiler){
