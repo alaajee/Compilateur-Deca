@@ -12,7 +12,7 @@ TEST_DIRS=(
 )
 
 DECAC_EXEC="decac"  # Assurez-vous que le chemin vers decac est correct
-arm_EXEC="src/test/script.sh"  # La commande ima, tu dois t'assurer qu'elle est dans ton PATH ou indiquer le chemin complet
+arm_EXEC="src/test/script_arm.sh"  # La commande ima, tu dois t'assurer qu'elle est dans ton PATH ou indiquer le chemin complet
 
 PASSED=0
 FAILED=0
