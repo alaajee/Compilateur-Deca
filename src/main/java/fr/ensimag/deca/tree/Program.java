@@ -61,7 +61,7 @@ public class Program extends AbstractProgram {
         compiler.addInstruction(new HALT());
         classes.codeGenMethod(compiler);
         compiler.addLabel(new Label("code.Object.equals"));
-
+        compiler.addInstruction(new HALT());
         compiler.addComment("end main program");
         if (compiler.label && !compiler.getCompilerOptions().getNoCHeck()){
             compiler.addLabel(compiler.labelMap.get("io_error"));
@@ -91,6 +91,13 @@ public class Program extends AbstractProgram {
         if (compiler.tas_plein && !compiler.getCompilerOptions().getNoCHeck()){
             compiler.addLabel(new Label("Tas_plein"));
             compiler.addInstruction(new WSTR(new ImmediateString("Error: Stack Overflow")));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+
+        if (!classes.isEmpty() && !compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addLabel(new Label("dereferencement_null"));
+            compiler.addInstruction(new WSTR(new ImmediateString("Error: Null pointer dereference")));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }

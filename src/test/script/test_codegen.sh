@@ -106,6 +106,15 @@ EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/sommeImpairs.deca"]
 
 EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/floatArrondi.deca"]="Flottantinitial:3.70000e+00Arrondiàl'entierleplusproche:4"
 
+
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/deux_Appels.deca"]="100 200"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/class_Age.deca"]="6"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/calcul2fois.deca"]="8"
+
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/detect_min.deca"]="Le minimum entre 12 et 18 est : 12"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/pgcd.deca"]="Le PGCD des deux nombres est : 14"
+EXPECTED_OUTPUTS["src/test/deca/codegen/valid/provided/perso/puissance.deca"]="3 à la puissance 4 est : 81"
+EXPE
 # Boucle sur chaque répertoire dans TEST_DIRS
 for TEST_DIR in "${TEST_DIRS[@]}"; do
     echo "Scanning directory: $TEST_DIR"

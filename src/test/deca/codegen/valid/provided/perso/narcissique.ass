@@ -53,6 +53,7 @@ else_block_2:
 end_if_2:
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 division_by_zero_error:
 	WSTR "Error: Division by zero"

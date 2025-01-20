@@ -83,7 +83,14 @@ public class PointObjet extends AbstractExpr {
         compiler.addInstruction(new STORE(reg,new RegisterOffset(0,Register.SP)));
         // Il faut s'assurer des arguments ici
         compiler.addInstruction(new LOAD(new RegisterOffset(0,Register.SP),reg));
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addInstruction(new CMP(new NullOperand(),reg));
+            compiler.addInstruction(new BEQ(new Label("dereferencement_null")));
+
+        }
         method.codeGenExpr(compiler,reg);
+        compiler.addInstruction(new SUBSP(new ImmediateInteger(2)));
+
         compiler.libererReg();
         return adresse;
     }

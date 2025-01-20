@@ -1,0 +1,18 @@
+// Sortie 100 200
+
+class BankAccount {
+    int balance;
+
+    void deposit(int amount) {
+        balance = balance + amount;
+        println(balance);
+    }
+}
+
+{
+    BankAccount acc1 = new BankAccount();
+    BankAccount acc2 = new BankAccount();
+
+    acc1.deposit(100);
+    acc2.deposit(200);
+}

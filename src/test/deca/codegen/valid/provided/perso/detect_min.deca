@@ -1,0 +1,12 @@
+// Sortie Le minimum entre 12 et 18 est : 12
+
+{
+    int a = 12; // Modifiez cette valeur pour tester
+    int b = 18; // Modifiez cette valeur pour tester
+
+    if (a < b) {
+        println("Le minimum entre " , a , " et " , b , " est : " , a);
+    } else {
+        println("Le minimum entre " , a , " et " , b , " est : " , b);
+    }
+}

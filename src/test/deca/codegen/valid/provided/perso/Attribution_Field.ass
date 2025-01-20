@@ -45,6 +45,7 @@ code.A.getX:
 	LOAD R5, R0
 	RTS
 code.Object.equals:
+	HALT
 ; end main program
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"
@@ -52,5 +53,9 @@ stack_overflow_error:
 	ERROR
 Tas_plein:
 	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+dereferencement_null:
+	WSTR "Error: Null pointer dereference"
 	WNL
 	ERROR

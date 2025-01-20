@@ -48,6 +48,7 @@ end_while_1:
 	WNL
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 division_by_zero_error:
 	WSTR "Error: Division by zero"

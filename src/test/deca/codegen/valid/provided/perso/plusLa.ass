@@ -31,6 +31,7 @@ end_if_2:
 end_while_1:
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"

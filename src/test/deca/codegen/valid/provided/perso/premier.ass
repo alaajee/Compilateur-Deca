@@ -64,6 +64,7 @@ else_block_4:
 end_if_4:
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"

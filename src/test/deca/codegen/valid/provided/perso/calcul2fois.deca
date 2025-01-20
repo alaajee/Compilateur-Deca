@@ -1,0 +1,17 @@
+// Sortie 8
+
+class Calculator {
+    int value;
+
+    void add(int number) {
+        value = value + number;
+    }
+}
+
+{
+    Calculator calc = new Calculator();
+    calc.add(5);
+    calc.add(3);
+
+    println(calc.value); // Résultat attendu : 8
+}

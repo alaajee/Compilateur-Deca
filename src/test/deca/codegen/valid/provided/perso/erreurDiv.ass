@@ -17,6 +17,7 @@ Tables.DES.Methodes:
 	WINT
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 division_by_zero_error:
 	WSTR "Error: Division by zero"

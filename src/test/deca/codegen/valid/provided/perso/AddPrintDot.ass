@@ -28,10 +28,13 @@ Tables.DES.Methodes:
 	LOAD 6(GB), R3
 	STORE R3, 0(SP)
 	LOAD 0(SP), R3
+	CMP #null, R3
+	BEQ dereferencement_null
 	LOAD #1, R4
 	STORE R4, -1(SP)
 	LOAD 0(R3), R3
 	BSR 2(R3)
+	SUBSP #2
 	WSTR "a.z = "
 	LOAD 6(GB), R5
 	STORE R5, 6(GB)
@@ -59,6 +62,7 @@ code.A.m:
 	POP R5
 	RTS
 code.Object.equals:
+	HALT
 ; end main program
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"
@@ -66,5 +70,9 @@ stack_overflow_error:
 	ERROR
 Tas_plein:
 	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+dereferencement_null:
+	WSTR "Error: Null pointer dereference"
 	WNL
 	ERROR

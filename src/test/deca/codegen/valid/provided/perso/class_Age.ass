@@ -1,68 +1,41 @@
 	TSTO #1
 	BOV stack_overflow_error
-	ADDSP #8
+	ADDSP #6
 ; start main program
 Tables.DES.Methodes:
 	LOAD #null, R0
 	STORE R0, 1(GB)
 	LOAD code.Object.equals, R0
 	STORE R0, 2(GB)
-; Construction de la table des methodes de A
+; Construction de la table des methodes de Person
 	LEA 1(GB), R0
 	STORE R0, 3(GB)
 	LOAD code.Object.equals, R0
 	STORE R0, 4(GB)
-	LOAD code.A.m, R0
-	STORE R0, 5(GB)
-	LOAD code.A.p, R0
-	STORE R0, 6(GB)
 ; Main program
 ; Beginning of main instructions:
-	NEW #4, R2
+	NEW #2, R2
 	BOV Tas_plein
 	LEA 3(GB), R0
 	STORE R0, 0(R2)
 	PUSH R2
-	BSR initA
+	BSR initPerson
 	POP R2
-	STORE R2, 7(GB)
-	ADDSP #1
-	LOAD 7(GB), R3
-	STORE R3, 0(SP)
-	LOAD 0(SP), R3
-	CMP #null, R3
-	BEQ dereferencement_null
-	LOAD 0(R3), R3
-	BSR 2(R3)
-	SUBSP #2
-	ADDSP #1
-	LOAD 7(GB), R4
-	STORE R4, 0(SP)
-	LOAD 0(SP), R4
-	CMP #null, R4
-	BEQ dereferencement_null
-	LOAD 0(R4), R4
-	BSR 3(R4)
-	SUBSP #2
+	STORE R2, 5(GB)
+	LOAD 5(GB), R4
+	STORE R4, 5(GB)
+	STORE R4, 5(GB)
+	LOAD 5(GB), R3
+	LOAD #6, R5
+	STORE R5, 1(R3)
+	LOAD R5, R1
+	WINT
+	WNL
 	HALT
-initA:
+initPerson:
 	LOAD #0, R0
 	LOAD -2(LB), R1
 	STORE R0, 1(R1)
-	LOAD #0, R0
-	LOAD -2(LB), R1
-	STORE R0, 2(R1)
-	LOAD #6, R0
-	LOAD -2(LB), R1
-	STORE R0, 3(R1)
-	RTS
-code.A.m:
-	WSTR "je suis la"
-	WNL
-	RTS
-code.A.p:
-	WSTR "Non je suis la"
-	WNL
 	RTS
 code.Object.equals:
 	HALT

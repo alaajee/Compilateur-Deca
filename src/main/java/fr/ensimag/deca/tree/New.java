@@ -71,7 +71,9 @@ public class New extends AbstractExpr {
         GPRegister reg = compiler.associerReg();
         int i = compiler.getTableFields(this.Identifier.getName().getName())+ 1;
         compiler.addInstruction(new NEW(new ImmediateInteger(i),reg));
-        compiler.addInstruction(new BOV(new Label("Tas_plein")));
+        if (!compiler.getCompilerOptions().getNoCHeck()){
+            compiler.addInstruction(new BOV(new Label("Tas_plein")));
+        }
         String name = this.Identifier.getName().getName();
 
         DAddr adresse = compiler.getTableClassee(name);

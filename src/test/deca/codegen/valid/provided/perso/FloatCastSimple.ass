@@ -16,6 +16,7 @@ Tables.DES.Methodes:
 	WINT
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 stack_overflow_error:
 	WSTR "Error: Stack Overflow"

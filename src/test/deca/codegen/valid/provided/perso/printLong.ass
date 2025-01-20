@@ -36,6 +36,7 @@ Tables.DES.Methodes:
 	WNL
 	HALT
 code.Object.equals:
+	HALT
 ; end main program
 overflow_error:
 	WSTR "Error: Overflow during arithmetic operation"
