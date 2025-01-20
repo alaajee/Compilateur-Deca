@@ -38,7 +38,6 @@ public class Program extends AbstractProgram {
 
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
-        LOG.debug("verify program: start");
 
         try {
             this.classes.verifyListClass(compiler);
@@ -48,10 +47,8 @@ public class Program extends AbstractProgram {
 
 
         } catch (ContextualError e) {
-            System.err.println("erreur dans verifyMain");
             throw e;
         }
-        LOG.debug("verify program: end");
     }
 
 
