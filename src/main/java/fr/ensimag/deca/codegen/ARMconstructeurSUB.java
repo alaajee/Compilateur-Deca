@@ -5,10 +5,10 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.instructions.*;
 
-public class ARMconstructeurADD extends ARMconstructeur{
+public class ARMconstructeurSUB extends ARMconstructeur{
 
     @Override
     public void ARMconstructeur(DecacCompiler compiler, ARMGPRegister op1, ARMGPRegister op2,  ARMGPRegister op3){
-        compiler.addInstruction(new ADD(op1, op2, op3));
+        compiler.addInstruction(new SUB(op1, op2, op3));
     }
 }

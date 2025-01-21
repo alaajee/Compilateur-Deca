@@ -46,7 +46,7 @@ public class Plus extends AbstractOpArith {
     public DVal codeGenExpr(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.PUSH((GPRegister)leftOperand));
             compiler.incrementTsto();
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
@@ -71,33 +71,38 @@ public class Plus extends AbstractOpArith {
     public DVal codeGenExprARM(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
         DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
-        ARMGPRegister regLeft = compiler.associerRegARM();
-        ARMGPRegister regRight = compiler.associerRegARM();
         ARMGPRegister regResult = compiler.associerRegARM();
-        if (leftOperand instanceof DAddr) {
-            compiler.addInstruction(new LDR(regLeft, leftOperand));
-            compiler.addInstruction(new LDR(regLeft, new ARMImmediateString("[R"+regLeft.getNumber()+"]")));
-        } else {
-            compiler.addInstruction(new MOV(regLeft, leftOperand));
-        }
-    
-        if (rightOperand instanceof DAddr) {
-            compiler.addInstruction(new LDR(regRight, rightOperand));
-            compiler.addInstruction(new LDR(regRight, new ARMImmediateString("[R"+regRight.getNumber()+"]")));
-        } else {
-            compiler.addInstruction(new MOV(regRight, rightOperand));
-        }
-        compiler.addInstruction(new fr.ensimag.arm.pseudocode.instructions.ADD(regResult, regLeft, regRight));
-        compiler.libererRegARM(regLeft.getNumber());
-        compiler.libererRegARM(regRight.getNumber());
+        ARMconstructeur constructeur = new ARMconstructeurADD();
+        codeGenARM gen = new codeGenARM();
+        regResult = gen.codeGenARM(leftOperand, rightOperand, regResult, constructeur, compiler);
+        // compiler.libererRegARM(regResult.getNumber());
         return regResult;
+
+
+        // if (leftOperand instanceof DAddr) {
+        //     compiler.addInstruction(new LDR(regLeft, leftOperand));
+        //     compiler.addInstruction(new LDR(regLeft, new ARMImmediateString("[R"+regLeft.getNumber()+"]")));
+        // } else {
+        //     compiler.addInstruction(new MOV(regLeft, leftOperand));
+        // }
+    
+        // if (rightOperand instanceof DAddr) {
+        //     compiler.addInstruction(new LDR(regRight, rightOperand));
+        //     compiler.addInstruction(new LDR(regRight, new ARMImmediateString("[R"+regRight.getNumber()+"]")));
+        // } else {
+        //     compiler.addInstruction(new MOV(regRight, rightOperand));
+        // }
+        // compiler.addInstruction(new fr.ensimag.arm.pseudocode.instructions.ADD(regResult, regLeft, regRight));
+        // compiler.libererRegARM(regLeft.getNumber());
+        // compiler.libererRegARM(regRight.getNumber());
+        // return regResult;
     }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.PUSH((GPRegister)leftOperand));
             compiler.incrementTsto();
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);

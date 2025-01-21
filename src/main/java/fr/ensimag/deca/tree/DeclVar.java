@@ -133,7 +133,7 @@ public class DeclVar extends AbstractDeclVar {
             } else if(this.type.getDefinition().getType().isFloat()){
                 line = "data"+ID+ ": .double " + valeur.toString().substring(1,valeur.toString().length());
                 compiler.addFirstComment(line);
-                line = ".align 2";
+                line = ".align 0";
                 }
             compiler.addFirstComment(line);
         }
@@ -145,7 +145,7 @@ public class DeclVar extends AbstractDeclVar {
             } else if (this.type.getDefinition().getType().isFloat()) {
                 line = "data" + ID + ": .double 0.0"; // Default for floats
                 compiler.addFirstComment(line);
-                line = ".align 2";
+                line = ".align 0";
             }
             compiler.addFirstComment(line);
         }

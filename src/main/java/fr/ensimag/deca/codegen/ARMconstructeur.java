@@ -6,5 +6,5 @@ import fr.ensimag.arm.pseudocode.ARMGPRegister;
 
 public abstract class ARMconstructeur {
     public ARMconstructeur(){}
-    public abstract void ARMconstructeur(DecacCompiler compiler, ARMGPRegister op1, DVal op2,  DVal op3);
+    public abstract void ARMconstructeur(DecacCompiler compiler, ARMGPRegister op1, ARMGPRegister op2,  ARMGPRegister op3);
 }

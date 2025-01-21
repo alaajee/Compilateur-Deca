@@ -501,6 +501,16 @@ public class DecacCompiler {
         return associerRegOffsetARM();
     }
 
+    public boolean hasAvailableregARM(){
+        for (int i = 4; i < OverflowValARM+1; i++){
+            if(!RegistersARM[i]){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     public GPRegister associerRegOffset(){
         DVal reg = Register.getR(this.adresseReg);
         reg.isOffSet = true;
