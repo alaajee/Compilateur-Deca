@@ -77,25 +77,6 @@ public class Plus extends AbstractOpArith {
         regResult = gen.codeGenARM(leftOperand, rightOperand, regResult, constructeur, compiler);
         // compiler.libererRegARM(regResult.getNumber());
         return regResult;
-
-
-        // if (leftOperand instanceof DAddr) {
-        //     compiler.addInstruction(new LDR(regLeft, leftOperand));
-        //     compiler.addInstruction(new LDR(regLeft, new ARMImmediateString("[R"+regLeft.getNumber()+"]")));
-        // } else {
-        //     compiler.addInstruction(new MOV(regLeft, leftOperand));
-        // }
-    
-        // if (rightOperand instanceof DAddr) {
-        //     compiler.addInstruction(new LDR(regRight, rightOperand));
-        //     compiler.addInstruction(new LDR(regRight, new ARMImmediateString("[R"+regRight.getNumber()+"]")));
-        // } else {
-        //     compiler.addInstruction(new MOV(regRight, rightOperand));
-        // }
-        // compiler.addInstruction(new fr.ensimag.arm.pseudocode.instructions.ADD(regResult, regLeft, regRight));
-        // compiler.libererRegARM(regLeft.getNumber());
-        // compiler.libererRegARM(regRight.getNumber());
-        // return regResult;
     }
 
     @Override
@@ -117,6 +98,34 @@ public class Plus extends AbstractOpArith {
         else {
             compiler.addInstruction(new WINT());
         }
+    }
+
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
+        DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
+        ARMGPRegister regResult = ARMRegister.R1;
+        ARMconstructeur constructeur = new ARMconstructeurADD();
+        codeGenARM gen = new codeGenARM();
+        regResult = gen.codeGenARM(leftOperand, rightOperand, regResult, constructeur, compiler);
+        if (getLeftOperand().getType().isFloat() || getRightOperand().getType().isFloat()){
+            if(!compiler.printfloat){
+                String line = "formatfloat" + ": .asciz " + "\"%f\"";
+                compiler.addFirstComment(line);
+                compiler.printfloat = true;
+            };
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+            compiler.addInstruction(new VLDRF64(ARMRegister.D0, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, ARMRegister.D0));
+        } else{
+            if(!compiler.printint){
+                String line = "formatint" + ": .asciz " + "\"%d\"";
+                compiler.addFirstComment(line);
+                compiler.printint = true;
+            }
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
+        }
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }
 
     public DVal codeGenInit(DecacCompiler compiler){

@@ -5,7 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
-
+import fr.ensimag.deca.codegen.ARMconstructeurMUL;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.instructions.*;
 
@@ -92,6 +92,34 @@ public class Multiply extends AbstractOpArith {
         else {
             compiler.addInstruction(new WINT());
         }
+    }
+
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
+        DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
+        ARMGPRegister regResult = ARMRegister.R1;
+        ARMconstructeur constructeur = new ARMconstructeurMUL();
+        codeGenARM gen = new codeGenARM();
+        regResult = gen.codeGenARM(leftOperand, rightOperand, regResult, constructeur, compiler);
+        if (getLeftOperand().getType().isFloat() || getRightOperand().getType().isFloat()){
+            if(!compiler.printfloat){
+                String line = "formatfloat" + ": .asciz " + "\"%f\"";
+                compiler.addFirstComment(line);
+                compiler.printfloat = true;
+            };
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+            compiler.addInstruction(new VLDRF64(ARMRegister.D0, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, ARMRegister.D0));
+        } else{
+            if(!compiler.printint){
+                String line = "formatint" + ": .asciz " + "\"%d\"";
+                compiler.addFirstComment(line);
+                compiler.printint = true;
+            }
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
+        }
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }
 
 
