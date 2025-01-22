@@ -2,13 +2,7 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.codegen.ARMconstructeur;
-import fr.ensimag.deca.codegen.ARMconstructeurADD;
-import fr.ensimag.deca.codegen.codeGen;
-import fr.ensimag.deca.codegen.codeGenARM;
-import fr.ensimag.deca.codegen.constructeur;
-import fr.ensimag.deca.codegen.constructeurADD;
-import fr.ensimag.deca.codegen.constructeurMUL;
+import fr.ensimag.deca.codegen.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import fr.ensimag.arm.pseudocode.*;
@@ -71,11 +65,22 @@ public class Plus extends AbstractOpArith {
     public DVal codeGenExprARM(DecacCompiler compiler){
         DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
         DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
-        ARMGPRegister regResult = compiler.associerRegARM();
-        ARMconstructeur constructeur = new ARMconstructeurADD();
-        codeGenARM gen = new codeGenARM();
-        regResult = gen.codeGenARM(leftOperand, rightOperand, regResult, constructeur, compiler);
-        // compiler.libererRegARM(regResult.getNumber());
+        ARMGPRegister regResult;
+        if (getLeftOperand().getType().isFloat() || getRightOperand().getType().isFloat()){
+            System.out.println(getLeftOperand().getType().isFloat());
+            System.out.println(getRightOperand().getType().isFloat());
+            
+            regResult = compiler.associerRegARMD();
+            ARMconstructeur constructeur = new ARMconstructeurVADD();
+            codeGenARM gen = new codeGenARM();
+            regResult = gen.codeGenARMFloat(leftOperand, rightOperand, regResult, constructeur, compiler, getLeftOperand().getType().isFloat(), getRightOperand().getType().isFloat());
+        }
+        else {
+            regResult = compiler.associerRegARM();
+            ARMconstructeur constructeur = new ARMconstructeurADD();
+            codeGenARM gen = new codeGenARM();
+            regResult = gen.codeGenARM(leftOperand, rightOperand, regResult, constructeur, compiler);
+            }
         return regResult;
     }
 

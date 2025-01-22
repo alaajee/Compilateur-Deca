@@ -77,6 +77,51 @@ public class codeGenARM {
         return reg;
     }
 
+    public ARMGPRegister codeGenARMFloat(DVal op1, DVal op2, ARMGPRegister reg, ARMconstructeur constructeur , DecacCompiler compiler, boolean op1float, boolean op2float){
+        if(op1float){
+            if (op1 instanceof DAddr) {
+                compiler.addInstruction(new LDR(ARMRegister.R1, op1));
+                compiler.addInstruction(new VLDRF64(ARMRegister.D0, new ARMImmediateString("[R1]")));
+            } else {
+                compiler.addInstruction(new VMOVF64(ARMRegister.D0, op1));
+            }
+        }else{
+            if(op1 instanceof DAddr){
+                compiler.addInstruction(new LDR(ARMRegister.R1, op1));
+                compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+                compiler.addInstruction(new VMOV(ARMRegister.S0, ARMRegister.R1));
+                compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
+            } else{
+                System.out.println("im here");
+                compiler.addInstruction(new VMOVF64(ARMRegister.D0, op1));
+            }
+        }
+
+        if(op2float){
+            if (op2 instanceof DAddr) {
+                compiler.addInstruction(new LDR(ARMRegister.R1, op2));
+                compiler.addInstruction(new VLDRF64(ARMRegister.D1, new ARMImmediateString("[R1]")));
+            } else {
+                compiler.addInstruction(new VMOVF64(ARMRegister.D1, op2));
+            }
+        }else{
+            if(op2 instanceof DAddr){
+                compiler.addInstruction(new LDR(ARMRegister.R1, op2));
+                compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+                compiler.addInstruction(new VMOV(ARMRegister.S0, ARMRegister.R1));
+                compiler.addInstruction(new VCVTF64S32(ARMRegister.D1, ARMRegister.S0));
+            } else{
+                System.out.println("im here");
+                compiler.addInstruction(new VMOVF64(ARMRegister.D1, op2));
+            }
+        }
+        
+        constructeur.ARMconstructeur(compiler, reg, ARMGPRegister.D0, ARMGPRegister.D1);
+        
+        
+        return reg;
+    }
+
 }
 
 

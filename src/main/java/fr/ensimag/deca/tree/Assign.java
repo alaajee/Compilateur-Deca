@@ -104,9 +104,15 @@ public class Assign extends AbstractBinaryExpr {
         DAddr addr = (DAddr) getLeftOperand().codeGenExprARM(compiler);
         System.out.println(addr);
         if (val instanceof ARMGPRegister) {
-            compiler.addInstruction(new LDR(ARMRegister.R1, addr));
-            compiler.addInstruction(new STR((ARMGPRegister) val, new ARMImmediateString("[R1]")));
+            if(compiler.typeAssign.equals("int") ){
+                compiler.addInstruction(new LDR(ARMRegister.R1, addr));
+                compiler.addInstruction(new STR((ARMGPRegister) val, new ARMImmediateString("[R1]")));
+            }else if(compiler.typeAssign.equals("float")){
+                compiler.addInstruction(new LDR(ARMRegister.R1, addr));
+                compiler.addInstruction(new VSTR((ARMGPRegister) val, new ARMImmediateString("[R1]")));
+            }
             return addr;
+            
         } else {
             ARMGPRegister reg = compiler.associerRegARM();
             if (compiler.typeAssign.equals("int")) {

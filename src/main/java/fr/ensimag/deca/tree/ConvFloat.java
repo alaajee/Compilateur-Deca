@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -12,6 +13,7 @@ import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
 import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
@@ -91,9 +93,29 @@ public class ConvFloat extends AbstractUnaryExpr {
     }
 
     @Override
-    protected DVal codeGenExprARM(DecacCompiler compiler){
-        ARMGPRegister reg = compiler.associerRegARM();
-        compiler.typeAssign = "float";
+    protected DVal codeGenExprARM(DecacCompiler compiler) {
+        // Associer un registre pour le résultat
+        ARMGPRegister reg = compiler.associerRegARMD();
+        DVal operand = this.getOperand().codeGenExprARM(compiler);
+
+        
+        if (operand instanceof DAddr) {
+            compiler.addInstruction(new LDR(ARMRegister.R1, operand));
+            compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+            compiler.addInstruction(new VMOV(ARMRegister.S0, ARMRegister.R1));
+            compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
+        } else if (operand instanceof ARMImmediateInteger) {
+            compiler.addInstruction(new VMOV(ARMRegister.S0, operand));
+            compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
+        } else if (operand instanceof ARMImmediateFloat) {
+            compiler.addInstruction(new VMOV(ARMRegister.D0, operand));
+        } else if (operand instanceof ARMGPRegister) {
+            compiler.addInstruction(new VMOV(ARMRegister.S0, operand));
+            compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
+        }
+
+        compiler.addInstruction(new VMOVF64(reg, ARMRegister.D0));
+
         return reg;
     }
 

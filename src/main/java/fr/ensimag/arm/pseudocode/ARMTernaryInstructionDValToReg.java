@@ -10,5 +10,9 @@ public class ARMTernaryInstructionDValToReg extends ARMTernaryInstruction {
     public ARMTernaryInstructionDValToReg(ARMGPRegister op1, DVal op2,  DVal op3) {
         super(op1, op2, op3);
     }
+
+    public ARMTernaryInstructionDValToReg(DVal op1, DVal op2) {
+        super(op1, op2);
+    }
 }
 

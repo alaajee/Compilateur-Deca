@@ -9,4 +9,7 @@ public class VMOV extends ARMTernaryInstructionDValToReg {
     public VMOV(DVal op1, DVal op2, ARMGPRegister op3) {
         super(op1, op2, op3);
     }
+    public VMOV(DVal op1, DVal op2){
+        super(op1, op2);
+    }
 }
