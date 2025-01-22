@@ -357,13 +357,13 @@ public class Identifier extends AbstractIdentifier {
 
         // Compare R1 avec 0
         if (this.getType().isInt()){
-            compiler.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.CMP(new ImmediateInteger(0), Register.R1));
         }
         else if (this.getType().isFloat()) {
-            compiler.addInstruction(new CMP(new ImmediateFloat(0), Register.R1));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.CMP(new ImmediateFloat(0), Register.R1));
         }
         else {
-            compiler.addInstruction(new CMP(0, Register.R1));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.CMP(0, Register.R1));
         }
 
         if (compiler.notCond){

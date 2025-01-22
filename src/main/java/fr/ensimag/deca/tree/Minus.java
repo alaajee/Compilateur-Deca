@@ -124,7 +124,7 @@ public class Minus extends AbstractOpArith {
                 compiler.printint = true;
             }
             compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));    
-            compiler.addInstruction(new LDR(ARMRegister.R1, regResult));
+            compiler.addInstruction(new MOV(ARMRegister.R1, regResult));
         }
         compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }

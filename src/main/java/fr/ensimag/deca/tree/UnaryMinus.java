@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -57,7 +59,36 @@ public class UnaryMinus extends AbstractUnaryExpr {
 
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler){
-        return null;
+        DVal operand = this.getOperand().codeGenExprARM(compiler);
+        if(getOperand().getType().isFloat()){
+            if(operand instanceof ARMGPRegister){
+                compiler.addInstruction(new VNEGF64(operand, operand));
+                return operand;
+            }else{
+                ARMGPRegister reg = compiler.associerRegARMD();
+                compiler.addInstruction(new VMOVF64(reg, operand));
+                compiler.addInstruction(new VNEGF64(reg, reg));
+                if(operand instanceof DAddr){
+                    compiler.addInstruction(new LDR(ARMRegister.R1, operand));
+                    compiler.addInstruction(new VSTR(reg, new ARMImmediateString("[R1]")));
+                }
+                return reg;
+            }
+        }else{
+            if(operand instanceof ARMGPRegister){
+                compiler.addInstruction(new NEG(operand, operand));
+                return operand;
+            }else{
+                ARMGPRegister reg = compiler.associerRegARM();
+                compiler.addInstruction(new MOV(reg, operand));
+                compiler.addInstruction(new NEG(reg, reg));
+                if(operand instanceof DAddr){
+                    compiler.addInstruction(new LDR(ARMRegister.R1, operand));
+                    compiler.addInstruction(new STR(reg, new ARMImmediateString("[R1]")));
+                }
+                return reg;
+            }
+        }
     }
 
 }

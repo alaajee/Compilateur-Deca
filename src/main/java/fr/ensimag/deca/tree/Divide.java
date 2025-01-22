@@ -1,12 +1,14 @@
 package fr.ensimag.deca.tree;
 
 
-
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.*;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 import java.util.LinkedList;
 
@@ -37,7 +39,7 @@ public class Divide extends AbstractOpArith {
         GPRegister reg = compiler.associerReg();
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.PUSH((GPRegister)leftOperand));
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         if (getRightOperand().getType().isInt()){
@@ -104,15 +106,41 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
-    protected DVal codeGenExprARM(DecacCompiler compiler){
-        return null;
+    public DVal codeGenExprARM(DecacCompiler compiler){
+        DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
+        DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
+        ARMGPRegister regResult;
+        if (getLeftOperand().getType().isFloat() || getRightOperand().getType().isFloat()){
+            regResult = compiler.associerRegARMD();
+            ARMconstructeur constructeur = new ARMconstructeurVDIV();
+            codeGenARM gen = new codeGenARM();
+            regResult = gen.codeGenARMFloat(leftOperand, rightOperand, regResult, constructeur, compiler, getLeftOperand().getType().isFloat(), getRightOperand().getType().isFloat());
+        }
+        else {
+            if (leftOperand instanceof DAddr) {
+                compiler.addInstruction(new LDR(ARMRegister.R0, leftOperand));
+                compiler.addInstruction(new LDR(ARMRegister.R0, new ARMImmediateString("[R0]")));
+            } else  {
+                compiler.addInstruction(new MOV(ARMRegister.R0, leftOperand));
+            }
+            if (rightOperand instanceof DAddr) {
+                compiler.addInstruction(new LDR(ARMRegister.R1, rightOperand));
+                compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+            } else  {
+                compiler.addInstruction(new MOV(ARMRegister.R1, leftOperand));
+            }
+            regResult = compiler.associerRegARM();
+            compiler.addInstruction(new BL(new ARMImmediateString("__aeabi_idiv")));
+            compiler.addInstruction(new MOV(regResult, ARMRegister.R0));
+        }
+        return regResult;
     }
     
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         DVal leftOperand = getLeftOperand().codeGenExpr(compiler);
         if (leftOperand.isOffSet){
-            compiler.addInstruction(new PUSH((GPRegister)leftOperand));
+            compiler.addInstruction(new fr.ensimag.ima.pseudocode.instructions.PUSH((GPRegister)leftOperand));
         }
         DVal rightOperand = getRightOperand().codeGenExpr(compiler);
         GPRegister reg = compiler.associerReg();
@@ -136,6 +164,53 @@ public class Divide extends AbstractOpArith {
         }
 
 
+    }
+
+    @Override
+    protected void codeGenPrintARM(DecacCompiler compiler){
+        compiler.print = true;
+        DVal leftOperand = getLeftOperand().codeGenExprARM(compiler);
+        DVal rightOperand = getRightOperand().codeGenExprARM(compiler);
+        ARMGPRegister regResult;
+
+        if (getLeftOperand().getType().isFloat() || getRightOperand().getType().isFloat()){
+            regResult = compiler.associerRegARMD();
+            ARMconstructeur constructeur = new ARMconstructeurVDIV();
+            codeGenARM gen = new codeGenARM();
+            regResult = gen.codeGenARMFloat(leftOperand, rightOperand, regResult, constructeur, compiler, getLeftOperand().getType().isFloat(), getRightOperand().getType().isFloat());
+            if(!compiler.printfloat){
+                String line = "formatfloat" + ": .asciz " + "\"%f\"";
+                compiler.addFirstComment(line);
+                compiler.printfloat = true;
+            };
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+            compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, regResult));
+        }
+        else {
+            if (leftOperand instanceof DAddr) {
+                compiler.addInstruction(new LDR(ARMRegister.R0, leftOperand));
+                compiler.addInstruction(new LDR(ARMRegister.R0, new ARMImmediateString("[R0]")));
+            } else  {
+                compiler.addInstruction(new MOV(ARMRegister.R0, leftOperand));
+            }
+            if (rightOperand instanceof DAddr) {
+                compiler.addInstruction(new LDR(ARMRegister.R1, rightOperand));
+                compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("[R1]")));
+            } else  {
+                compiler.addInstruction(new MOV(ARMRegister.R1, rightOperand));
+            }
+            regResult = compiler.associerRegARM();
+            compiler.addInstruction(new BL(new ARMImmediateString("__aeabi_idiv")));
+            compiler.addInstruction(new MOV(regResult, ARMRegister.R0));
+            if(!compiler.printint){
+                String line = "formatint" + ": .asciz " + "\"%d\"";
+                compiler.addFirstComment(line);
+                compiler.printint = true;
+            }
+            compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));    
+            compiler.addInstruction(new MOV(ARMRegister.R1, regResult));
+        }
+        compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }
 
 
