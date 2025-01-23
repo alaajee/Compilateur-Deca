@@ -80,10 +80,6 @@ public class ReadInt extends AbstractReadExpr {
         compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data"+ID)));
         compiler.addInstruction(new LDR(reg, new ARMImmediateString("[R1]")));
         return reg;
-
-
-
-
     }
 
 }
