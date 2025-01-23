@@ -61,6 +61,7 @@ public class DecacCompiler {
     public boolean println = false;
     public boolean printint = false;
     public boolean printfloat = false;
+    public boolean zeroARM = false;
 
     public int adresseReg;
     public int adresseRegS;
