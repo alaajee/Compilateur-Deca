@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.arm.pseudocode.instructions.*;
+import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -13,7 +15,6 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
-import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
@@ -63,7 +64,26 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExprARM(DecacCompiler compiler){
-        return null;
+        ARMGPRegister reg = compiler.associerRegARM();
+        if(!compiler.printint){
+            String line = "formatint" + ": .asciz " + "\"%d\"";
+            compiler.addFirstComment(line);
+            compiler.printint = true;
+        }
+        int ID = compiler.getUniqueDataID();
+        String line = "data" + ID + ": .word 0";
+        compiler.addFirstComment(line);
+
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatint")));
+        compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data"+ID)));
+        compiler.addInstruction(new BL(new ARMImmediateString("scanf")));
+        compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data"+ID)));
+        compiler.addInstruction(new LDR(reg, new ARMImmediateString("[R1]")));
+        return reg;
+
+
+
+
     }
 
 }

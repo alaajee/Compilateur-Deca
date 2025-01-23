@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import java.io.PrintStream;
 
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -65,6 +67,23 @@ public class ReadFloat extends AbstractReadExpr {
 
     @Override
     protected DVal codeGenExprARM(DecacCompiler compiler){
-        return null;
+        ARMGPRegister reg = compiler.associerRegARMD();
+        if(!compiler.printfloat){
+            String line = "formatfloat" + ": .asciz " + "\"%f\"";
+            compiler.addFirstComment(line);
+            compiler.printfloat = true;
+        }
+        int ID = compiler.getUniqueDataID();
+        String line = "data" + ID + ": .double 0.0";
+        compiler.addFirstComment(line);
+        line = ".align 0";
+        compiler.addFirstComment(line);
+
+        compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
+        compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data"+ID)));
+        compiler.addInstruction(new BL(new ARMImmediateString("scanf")));
+        compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data"+ID)));
+        compiler.addInstruction(new VLDRF64(reg, new ARMImmediateString("[R1]")));
+        return reg;
     }
 }
