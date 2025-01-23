@@ -96,7 +96,6 @@ public class FloatLiteral extends AbstractExpr {
 
     @Override
     public DVal codeGenExprARM(DecacCompiler compiler) {
-        System.out.println("");
         DVal res = new ARMImmediateFloat(value);
         if(compiler.isVar){
             DAddr adresse = compiler.associerAdresseARM();

@@ -92,7 +92,6 @@ public class codeGenARM {
                 compiler.addInstruction(new VMOV(ARMRegister.S0, ARMRegister.R1));
                 compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
             } else{
-                System.out.println("im here");
                 compiler.addInstruction(new VMOVF64(ARMRegister.D0, op1));
             }
         }
@@ -111,7 +110,6 @@ public class codeGenARM {
                 compiler.addInstruction(new VMOV(ARMRegister.S0, ARMRegister.R1));
                 compiler.addInstruction(new VCVTF64S32(ARMRegister.D1, ARMRegister.S0));
             } else{
-                System.out.println("im here");
                 compiler.addInstruction(new VMOVF64(ARMRegister.D1, op2));
             }
         }

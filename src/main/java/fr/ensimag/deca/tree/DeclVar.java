@@ -14,6 +14,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.instructions.*;
 
 /**
  * @author gl02
@@ -128,14 +129,31 @@ public class DeclVar extends AbstractDeclVar {
             DVal valeur = this.initialization.codeGenExprARM(compiler);
             int ID = compiler.getUniqueDataID();
             String line ="";
-            if(this.type.getDefinition().getType().isInt()){
-                line = "data"+ID+ ": .word " + valeur.toString().substring(1,valeur.toString().length());
-            } else if(this.type.getDefinition().getType().isFloat()){
-                line = "data"+ID+ ": .double " + valeur.toString().substring(1,valeur.toString().length());
-                compiler.addFirstComment(line);
-                line = ".align 0";
+            if(valeur instanceof ARMGPRegister){
+                if (this.type.getDefinition().getType().isInt()) {
+                    line = "data" + ID + ": .word 0"; // Default for integers
+                    compiler.addFirstComment(line);
+                    compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data" + ID)));
+                    compiler.addInstruction(new STR(valeur, new ARMImmediateString("[R1]")));
+                } else if (this.type.getDefinition().getType().isFloat()) {
+                    line = "data" + ID + ": .double 0.0"; // Default for floats
+                    compiler.addFirstComment(line);
+                    line = ".align 0";
+                    compiler.addFirstComment(line);
+                    compiler.addInstruction(new LDR(ARMRegister.R1, new ARMImmediateString("=data" + ID)));
+                    compiler.addInstruction(new VSTR(valeur, new ARMImmediateString("[R1]")));
                 }
-            compiler.addFirstComment(line);
+            }else{
+                if(this.type.getDefinition().getType().isInt()){
+                    line = "data"+ID+ ": .word " + valeur.toString().substring(1,valeur.toString().length());
+                } else if(this.type.getDefinition().getType().isFloat()){
+                    line = "data"+ID+ ": .double " + valeur.toString().substring(1,valeur.toString().length());
+                    compiler.addFirstComment(line);
+                    line = ".align 0";
+                    }
+                compiler.addFirstComment(line);
+            }
+            
         }
         else{
             int ID = compiler.getUniqueDataID();
