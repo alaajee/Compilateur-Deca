@@ -1,0 +1,14 @@
+// Description:
+//    Declaration Multiple
+//
+// Resultats:
+// 1.000000
+//
+// Historique:
+//    cree le 01/01/2025
+
+{
+   float y = 5;
+   y = y / 5;
+   print(y);
+}

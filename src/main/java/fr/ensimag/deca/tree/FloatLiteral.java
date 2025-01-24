@@ -128,7 +128,7 @@ public class FloatLiteral extends AbstractExpr {
         }
         compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
         compiler.addInstruction(new VMOVF64(ARMRegister.D0, new ARMImmediateFloat(value)));
-        compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, ARMRegister.D0));
+        compiler.addInstruction(new VMOV(ARMRegister.R2,ARMRegister.R3, ARMRegister.D0));
         compiler.addInstruction(new BL(new ARMImmediateString("printf")));
     }
 

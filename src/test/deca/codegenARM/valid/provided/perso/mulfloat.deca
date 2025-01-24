@@ -1,0 +1,7 @@
+{
+    float x = 2.5;
+    float y = 3.5;
+    float z;
+    z = x * y;
+    print(z);
+}

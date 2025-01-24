@@ -118,7 +118,7 @@ public class Multiply extends AbstractOpArith {
                 compiler.printfloat = true;
             };
             compiler.addInstruction(new LDR(ARMRegister.R0,new ARMImmediateString("="+"formatfloat")));
-            compiler.addInstruction(new VMOV(ARMRegister.R3,ARMRegister.R3, regResult));
+            compiler.addInstruction(new VMOV(ARMRegister.R2,ARMRegister.R3, regResult));
         }
         else {
             regResult = compiler.associerRegARM();

@@ -59,6 +59,8 @@ public class ARMRegister extends DVal {
      */
     public static final ARMGPRegister R1 = R[1];
 
+    public static final ARMGPRegister R2 = R[2];
+
     public static final ARMGPRegister R3 = R[3];
 
     public static final ARMGPRegister R7 = R[7];

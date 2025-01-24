@@ -106,8 +106,7 @@ public class ConvFloat extends AbstractUnaryExpr {
             compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
         } else if (operand instanceof ARMImmediateInteger) {
             if(!operand.toString().equals("#0")){
-                compiler.addInstruction(new VMOV(ARMRegister.S0, operand));
-                compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
+                compiler.addInstruction(new VMOVF64(ARMRegister.D0, operand));
             }else{
                 if(!compiler.zeroARM){
                     String line = "zero: .double 0.0";
@@ -125,8 +124,7 @@ public class ConvFloat extends AbstractUnaryExpr {
         } else if (operand instanceof ARMImmediateFloat) {
             compiler.addInstruction(new VMOV(ARMRegister.D0, operand));
         } else if (operand instanceof ARMGPRegister) {
-            compiler.addInstruction(new VMOV(ARMRegister.S0, operand));
-            compiler.addInstruction(new VCVTF64S32(ARMRegister.D0, ARMRegister.S0));
+            compiler.addInstruction(new VMOVF64(ARMRegister.D0, operand));
         }
 
         compiler.addInstruction(new VMOVF64(reg, ARMRegister.D0));
