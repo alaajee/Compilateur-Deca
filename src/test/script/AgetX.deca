@@ -1,0 +1,17 @@
+public class A {
+    // Déclaration du champ x avec un accès protégé
+    protected int x;
+
+    // Méthode pour obtenir la valeur de x
+    int getX() {
+        return x;
+    }
+
+    public static void main(String[] args) {
+        // Création d'une instance de A
+        A a = new A();
+
+        // Affichage de la valeur de x via la méthode getX
+        System.out.println("a.getX() = " + a.getX()); // Devrait afficher "a.getX() = 0"
+    }
+}

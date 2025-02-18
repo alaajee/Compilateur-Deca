@@ -1,0 +1,6 @@
+{
+    int x = 0 ;
+    int y = 6 ;
+    x = y / x ;
+    print(x);
+}

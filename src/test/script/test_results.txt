@@ -1,0 +1,20 @@
+Test results for Deca Compiler
+=============================
+Testing AgetX.deca...
+=============================
+Running powerstat and time for AgetX.deca...
+Execution time for AgetX.deca: 0m0.003s
+Energy consumption for AgetX.deca:  Watts
+
+Testing AddPrintDot.deca...
+=============================
+Running powerstat and time for AddPrintDot.deca...
+Execution time for AddPrintDot.deca: 0m0.001s
+Energy consumption for AddPrintDot.deca:  Watts
+
+Testing EstGrand.deca...
+=============================
+Running powerstat and time for EstGrand.deca...
+Execution time for EstGrand.deca: 0m0.001s
+Energy consumption for EstGrand.deca:  Watts
+
